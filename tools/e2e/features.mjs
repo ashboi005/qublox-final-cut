@@ -87,6 +87,55 @@ await page.evaluate(() => { const s = window.__qublox.scene.getScene('game'); s.
 R.cooldownBeforeCan = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.avatar.member.abilityReadyAt > s.time.now; });
 await tp(26, 13); await wait(400);
 R.cooldownAfterCan = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.avatar.member.abilityReadyAt > s.time.now; });
+// Sayam's BHAI, LISTEN (hold J): cycles Philosopher → Hype → Roast → Empath.
+await page.evaluate(() => { const s = window.__qublox.scene.getScene('game'); s.swap(s.avatar.members.findIndex(m => m.def.id === 'sayam')); }); await wait(500); await skipDialogue();
+R.busyBeforeSayam = await g(() => { const s = window.__qublox.scene.getScene('game'); return { cutscene: !!s.cutscene, finished: !!s.finished, leaving: !!s.leaving }; });
+R.sayamActive = await g(() => window.__qublox.scene.getScene('game').avatar.def.id);
+R.personalities = [];
+for (let k = 0; k < 4; k++) {
+  await page.evaluate(k => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.destroy(); s.spawnEnemy('stock-intern', s.avatar.x + 60, s.avatar.y); s.personalityIdx = k; s.specialReadyAt = {}; for (const m of s.avatar.members) m.hp = Math.max(1, m.hp - 20); }, k);
+  await wait(150);
+  const before = await g(() => window.__qublox.scene.getScene('game').avatar.members.reduce((n, m) => n + m.hp, 0));
+  await page.keyboard.down('j'); await wait(800); await page.keyboard.up('j'); await wait(200);
+  R.personalities.push(await page.evaluate(before => { const s = window.__qublox.scene.getScene('game'), now = s.time.now, e = s.liveEnemies()[0];
+    return { listening: !!e && e.hackedUntil > now, hype: s.avatar.delegationUntil > now, marked: !!e && e.markedUntil > now, healed: s.avatar.members.reduce((n, m) => n + m.hp, 0) - before }; }, before));
+}
+// Mansukh: STAN MODE (hold J) doubles his damage; tagging in RAGEBAITs nearby enemies.
+await page.goto(BASE + '/?level=ep0-r03&party=sayam,mansukh', { waitUntil: 'networkidle0' });
+await wait(1800); await skipDialogue();
+await tp(22, 13); await wait(300);
+const swing = () => page.evaluate(async () => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.destroy(); s.spawnEnemy('stock-intern', s.avatar.x + 20 * s.avatar.facing, s.avatar.y); });
+await swing();
+await page.evaluate(() => { const s = window.__qublox.scene.getScene('game'); s.swap(s.avatar.members.findIndex(m => m.def.id === 'mansukh')); }); await wait(400); await skipDialogue();
+R.ragebait = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.liveEnemies().some(e => e.markedUntil > s.time.now); });
+await page.keyboard.down('j'); await wait(800); await page.keyboard.up('j'); await wait(300);
+R.stan = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.avatar.stanUntil > s.time.now; });
+await page.screenshot({ path: (process.env.SHOT ?? '/tmp/qublox-sayam.png').replace('.png', '-stan.png') });
+// Brahmansh: UNHINGED (hold J) jump-cuts through nearby enemies; two quick hits make him ANNOYED.
+await page.goto(BASE + '/?level=ep0-r03&party=brahmansh,sayam', { waitUntil: 'networkidle0' });
+await wait(1800); await skipDialogue();
+await tp(22, 13); await wait(300);
+await page.evaluate(() => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.destroy(); for (const dx of [-90, 60, 120]) s.spawnEnemy('stock-intern', s.avatar.x + dx, s.avatar.y); });
+await wait(200);
+const hpB = await g(() => window.__qublox.scene.getScene('game').liveEnemies().reduce((n, e) => n + e.hp, 0));
+await page.keyboard.down('j'); await wait(800); await page.keyboard.up('j'); await wait(1400);
+R.unhingedDamage = hpB - await g(() => window.__qublox.scene.getScene('game').liveEnemies().reduce((n, e) => n + e.hp, 0));
+R.annoyed = await page.evaluate(async () => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.destroy();
+  for (let k = 0; k < 2; k++) { s.avatar.invulnUntil = 0; s.hurtPlayer(1, s.avatar.x - 10, null); await new Promise(r => setTimeout(r, 120)); }
+  return s.annoyedUntil > s.time.now; });
+// Mishthi: MASTERPIECE (K) freezes the nearest enemy into a standable art piece; AS IF I CARE? (hold J) = invulnerable.
+await page.goto(BASE + '/?level=ep0-r03&party=mishthi,sayam', { waitUntil: 'networkidle0' });
+await wait(1800); await skipDialogue();
+await tp(22, 13); await wait(300);
+await page.evaluate(() => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.destroy(); s.spawnEnemy('stock-intern', s.avatar.x + 50, s.avatar.y); });
+await wait(200);
+const pens0 = await g(() => window.__qublox.scene.getScene('game').pens.getLength());
+await page.keyboard.press('k'); await wait(400);
+R.masterpiece = await g(() => { const s = window.__qublox.scene.getScene('game'), e = s.liveEnemies()[0]; return { frozen: !!e && e.frozenUntil > s.time.now }; });
+R.masterpiece.ledge = (await g(() => window.__qublox.scene.getScene('game').pens.getLength())) > pens0;
+await page.keyboard.down('j'); await wait(800); await page.keyboard.up('j'); await wait(200);
+R.indifferent = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.avatar.invulnUntil > s.time.now + 1000; });
+await page.screenshot({ path: process.env.SHOT ?? '/tmp/qublox-sayam.png' });
 console.log(JSON.stringify(R, null, 1));
 console.log(logs.length ? logs.join('\n') : 'no errors');
 await browser.close();

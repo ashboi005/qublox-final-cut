@@ -187,6 +187,17 @@
       "repeat": 1,
       "cutoff": 5000
     },
+    "ability-mind": {
+      "wave": "sine",
+      "freq": [
+        260,
+        1040
+      ],
+      "duration": 0.15,
+      "volume": 0.13,
+      "repeat": 3,
+      "cutoff": 4200
+    },
     "boss-roar": {
       "wave": "sawtooth",
       "freq": [

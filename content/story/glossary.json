@@ -1,0 +1,156 @@
+{
+  "intro": "CONFIDENTIAL PERSONNEL FILE // QUBLOX ENTERTAINMENT HR. Unauthorized viewing will be billed to your department expense account.",
+  "crew": {
+    "ashwath": {
+      "title": "Principal Distributed Systems Architect",
+      "tagline": "Every distributed system is just Minecraft blocks with higher latency.",
+      "bio": "Senior developer who speaks at 2× human playback speed. Sustains operations on a strict 3 AM regimen of hot tea, Sprite, and distributed consensus algorithms. Won Hackerwrath 3.0 in 24 hours and has personally mentored 300 juniors without losing patience, though cosmic existential dread occasionally causes him to stare into space during standup.",
+      "catchphrases": [
+        "Khel khtm.",
+        "Ghee khtm.",
+        "ts pmo sm gng icl fr",
+        "Oyeee pagaalllll!",
+        "Abeeee yaarrr!",
+        "Diagnosis: skill issue."
+      ],
+      "facts": [
+        "Has maintained an active Reddit streak for over 800 days.",
+        "Ex-Valorant Brimstone main; possesses lineups for real-world smoke vents.",
+        "Can learn an entire backend framework in 72 hours out of pure spite.",
+        "Frequently laments that human lifespans are too short to explore the cosmos.",
+        "Drinks Sprite exclusively from the real can; rejects generic substitutes."
+      ],
+      "threat": "Threat level: Catastrophic at 3:14 AM"
+    },
+    "sayam": {
+      "title": "Chief Executive Officer & Drip Officer",
+      "tagline": "Bhai, what if profitability is just collective faith with better marketing?",
+      "bio": "Studio CEO containing approximately ten distinct personalities within a single leather jacket. Seamlessly pivots between Gen-Z streetwear slang, existential philosophy, and delegating operational panic to contractors. Solves high-stress fiscal crises by literally hurling corporate cash at the nearest structural obstacle.",
+      "catchphrases": [
+        "Le re.",
+        "Chuda lag gya hai.",
+        "Get a load of this guy.",
+        "Bhai. Bhai. BHAI. Listen."
+      ],
+      "facts": [
+        "Has never worn a suit; considers leather jackets formal board attire.",
+        "Refuses to jump across chasms when financial consultants can be hired.",
+        "Spams 'bhai' an average of 42 times prior to making major strategic decisions.",
+        "Known weakness: Unskippable quarterly tax audits."
+      ],
+      "threat": "Threat level: Hostile takeover in progress"
+    },
+    "tushar": {
+      "title": "Director of Photography & Cinema Auteur",
+      "tagline": "If it's not shot on anamorphic glass in golden hour, it doesn't exist.",
+      "bio": "Visionary director and cinematographer who treats everyday reality like an unreleased film festival entry. Demands strict adherence to the rule of thirds and freezes time whenever blocking deteriorates. Experiences severe, uncontrolled nervous breakdowns in the presence of simian primates.",
+      "catchphrases": [
+        "I hate monkeys."
+      ],
+      "facts": [
+        "Has filed 12 HR complaints against ambient fluorescent lighting.",
+        "Calls 'CUT!' involuntarily during awkward studio silences.",
+        "Trauma trigger: Macaques, baboons, infinite monkeys, and monkey emojis.",
+        "Refuses to shoot coverage if the aspect ratio is not 2.39:1."
+      ],
+      "threat": "Threat level: High until a monkey appears"
+    },
+    "sehaj": {
+      "title": "Lead Timeline Editor & Temporal Tank",
+      "tagline": "Ctrl+Z on reality. Heavy sets, clean form, zero dropped frames.",
+      "bio": "Quiet observer of few words who delivers surgical, perfectly-timed comedic mic drops. Dedicated gym enthusiast, cinephile, and gamer who relentlessly promotes positivity despite reality frequently failing his standards. Devoted entirely to Manvi ('Maana'); responds to major physical obstacles by ripping his shirt and hurling boulders.",
+      "catchphrases": [
+        "Vajj!",
+        "Fir khende bohota galla kad da"
+      ],
+      "facts": [
+        "Spends 40% of his working life waiting on video exports to render.",
+        "Can deadlift a server rack if Manvi is trapped on the other side.",
+        "Maintains immaculate squat form even while engaging rogue AI drones.",
+        "Average words spoken per business quarter: seventeen."
+      ],
+      "threat": "Threat level: Maximum PR in BEAST MODE"
+    },
+    "manvi": {
+      "title": "Head of Psychological Operations",
+      "tagline": "Yippieeee! Time to psychoanalyze your defense mechanisms!",
+      "bio": "Psychology student and creative specialist radiating cheerful chaos, playful mischief, and warmth. Inflicts severe existential confusion upon hostile forces through mid-combat psychological evaluations. Performs synchronized romantic team attacks with boyfriend Sehaj that cause catastrophic nausea among cynical bystanders.",
+      "catchphrases": [
+        "Yippieeee!",
+        "Whatcha doin?",
+        "Hawwww!",
+        "Dhumtanana!"
+      ],
+      "facts": [
+        "Enemies under her MIND GAMES frequently reconsider their career choices.",
+        "Weaponizes Bollywood couple choreography for area-of-effect healing.",
+        "Incapable of remaining gloomy for longer than four consecutive seconds.",
+        "Files formal HR inquiries whenever someone responds with 'k'."
+      ],
+      "threat": "Threat level: Weaponized optimism"
+    },
+    "mansukh": {
+      "title": "VP of Unfinished Prototypes & Stan Ops",
+      "tagline": "Babymonnsterrr! 15 tabs open, Asa bias locked, always baiting 💔",
+      "bio": "Multitasking designer and game developer who spends 90% of development cycles tweaking jump velocity and kerning. Perpetually operates with headphones blasting at maximum volume and three concurrent unfinished side projects. Gains invincible fighting spirit from BABYMONSTER tracks while affectionately ragebaiting everyone in the lobby.",
+      "catchphrases": [
+        "Babymonnsterrr!"
+      ],
+      "facts": [
+        "Dual-wields a digital styling pencil and a devil-horn lightstick.",
+        "Will abandon active boss encounters to prototype a cozy fishing minigame.",
+        "Has ratioed three Fortune 500 corporate brand accounts for terrible fonts.",
+        "Physical allergy to client feedback requesting logos to 'pop'."
+      ],
+      "threat": "Threat level: S-Tier in STAN MODE"
+    },
+    "manya": {
+      "title": "Chief Chromatic Officer",
+      "tagline": "A single drop of corporate beige is an act of war against human creativity.",
+      "bio": "Radical colorist and graphic designer who treats greyscale palettes like a contagious biohazard. Patrols studio corridors armed with pressurized primary paint cannons, repainting corporate architecture in blinding neon magenta and bouncy yellow. Dreams of launching all desaturated linen smocks into deep orbit.",
+      "catchphrases": [],
+      "facts": [
+        "Carries emergency swatches of hot pink into executive meetings.",
+        "Classifies corporate #F5F5DC beige as a class-four hazardous material.",
+        "Can navigate pitch-black soundstages by chromatic resonance alone.",
+        "Known weakness: Uncalibrated sRGB office monitors."
+      ],
+      "threat": "Threat level: Splat hazard"
+    },
+    "brahmansh": {
+      "title": "Principal Timeline Surgeon & Chaos Lead",
+      "tagline": "Spots that one bad frame from across the office; unhinged at the after-party.",
+      "bio": "Detail-obsessed video editor operating at a permanent 120 FPS who becomes visibly agitated by bad continuity and dropped keyframes. Highly accepting and extroverted until subjected to slow pacing or two consecutive interruptions. Known to trigger screen-shaking chaos during post-production celebrations on zero sleep.",
+      "catchphrases": [
+        "GG thaa 🔫",
+        "Parlaug bire",
+        "Kutti jaat lubaane",
+        "House of shakes"
+      ],
+      "facts": [
+        "Can detect a single duplicated video frame from thirty feet away.",
+        "Banned from office chair races for Jump Cutting through the reception desk.",
+        "Becomes 30% more destructive when mildly annoyed by slow rendering.",
+        "Single-handedly turned the Neo-Amritsar wrap party into the House of Shakes."
+      ],
+      "threat": "Threat level: UNHINGED at 120 FPS"
+    },
+    "mishthi": {
+      "title": "Chief Props Curator & Dramatic Lead",
+      "tagline": "As if I care? Turns random corporate trash into high art; secretly cares too much.",
+      "bio": "Curious, emotional, and theatrically dramatic artist who copes with corporate absurdity through deadpan existential sighing. Possesses an uncanny genius for improvising high art installations out of discarded studio props and office junk. Fiercely denies harboring any affection for the crew while quietly healing everyone and demanding they drink water.",
+      "catchphrases": [
+        "Oh my god wtf bhai",
+        "Dam bhai",
+        "As if I care?"
+      ],
+      "facts": [
+        "Can turn three paperclips and a broken fairy light into a gallery centerpiece.",
+        "Files weekly HR incident reports regarding the studio's lack of dramatic aura.",
+        "Known weakness: Admitting she actually cares about anyone on the team.",
+        "Once held invulnerable indifference for so long that a sentry turret cried."
+      ],
+      "threat": "Threat level: Dramatic sigh hazard"
+    }
+  }
+}

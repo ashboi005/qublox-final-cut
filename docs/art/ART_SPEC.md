@@ -79,7 +79,7 @@ Astra owns the *look* (`docs/art/ART_BIBLE.md`, palette, every pixel). This file
 }
 ```
 
-- Keys are lowercase kebab-case. ✔ Crew keys are exactly: `ashwath`, `sayam`, `mansukh`, `manya`, `sehaj`, `brahmansh`, `tushar`.
+- Keys are lowercase kebab-case. ✔ Crew keys are exactly: `ashwath`, `sayam`, `mansukh`, `manya`, `sehaj`, `brahmansh`, `tushar`, `manvi`. Signature rows on top of the standard set: `sehaj` beast · `ashwath` info, cosmic · `sayam` bhai · `sehaj`/`manvi` heart.
 - ✔ Every `file` must exist. Paths are relative to `apps/game/public/assets/`.
 - ✔ A portrait sheet is one row of `size×size` frames, in the order of `emotions`.
 

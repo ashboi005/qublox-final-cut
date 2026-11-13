@@ -2,9 +2,10 @@
 // Online: create a room, read the 4-letter code to your friend, they join, you both pick and ready up.
 import { useEffect, useRef, useState } from 'react';
 import { CREW_IDS, type CrewId } from '@qublox/shared';
-import { MOVESETS, type LobbyPlayer } from '@qublox/shared/fight';
+import { MOVESETS, moveList, type LobbyPlayer } from '@qublox/shared/fight';
 import { bus } from '@/game/bus';
 import { CREW, hex } from '@/game/crew';
+import { speak } from '@/game/voice';
 import type { Portraits } from './DialogueBox';
 
 type Mode = 'cpu' | 'local' | 'online';
@@ -13,7 +14,7 @@ type Match = { crews: [CrewId, CrewId]; names: [string, string]; seed: number };
 
 const loadName = () => { try { return localStorage.getItem('qublox-name') ?? ''; } catch { return ''; } };
 
-export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: () => void }) {
+export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portraits; winLines?: Partial<Record<CrewId, string[]>>; onBack: () => void }) {
   const [step, setStep] = useState<'menu' | 'select' | 'fight' | 'result'>('menu');
   const [mode, setMode] = useState<Mode>('cpu');
   const [name, setName] = useState(loadName);
@@ -23,6 +24,8 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
   const [cursor, setCursor] = useState<[number, number]>([0, 1]);
   const [lobby, setLobby] = useState<Lobby | null>(null);
   const [match, setMatch] = useState<Match | null>(null);
+  const matchRef = useRef<Match | null>(null);
+  matchRef.current = match;
   const [winner, setWinner] = useState<0 | 1 | null>(null);
   const sock = useRef<import('@/fight/net').VersusSocket | null>(null);
 
@@ -70,7 +73,7 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
   }, [step, mode, cursor]);
   useEffect(() => { if (step === 'select' && mode !== 'online' && picks[0] && picks[1]) { const t = setTimeout(() => go([picks[0]!, picks[1]!]), 600); return () => clearTimeout(t); } }, [picks, step, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => bus.on('versusEnd', ({ winner: w, reason }) => { setWinner(w); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug; tell Claude.'); setStep('result'); }), []);
+  useEffect(() => bus.on('versusEnd', ({ winner: w, reason }) => { setWinner(w); if (w !== null && matchRef.current) speak(matchRef.current.crews[w], 'win'); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug; tell Claude.'); setStep('result'); }), []);
 
   const face = (id: CrewId) => {
     const p = portraits[id];
@@ -88,6 +91,7 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
         <div className="studio-eyebrow">VERSUS · FINAL CUT</div>
         <h2>{w === null ? 'Draw.' : `${match.names[w]} wins`}</h2>
         {w !== null && <p className="versus-sub">as <b style={{ color: hex(CREW[match.crews[w]].color) }}>{CREW[match.crews[w]].name}</b></p>}
+        {w !== null && (winLines[match.crews[w]]?.length ?? 0) > 0 && <p className="versus-quote">“{winLines[match.crews[w]]![match.seed % winLines[match.crews[w]]!.length]}”</p>}
         {msg && <p className="versus-msg">{msg}</p>}
         <div className="studio-actions">
           <button type="button" onClick={() => { if (mode === 'online') { sock.current?.send({ t: 'rematch' }); setStep('select'); } else go(match.crews); }}>Rematch</button>
@@ -99,6 +103,7 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
   }
 
   if (step === 'select') {
+    const focus: CrewId = (mode === 'online' ? lobby?.players[lobby.you]?.crew : picks[0] && mode !== 'local' ? picks[0] : CREW_IDS[cursor[0]]) ?? CREW_IDS[cursor[0]]!;
     const mine = mode === 'online' && lobby ? lobby.players[lobby.you] : null;
     const theirs = mode === 'online' && lobby ? lobby.players[lobby.you === 0 ? 1 : 0] : null;
     const chosen: (CrewId | null)[] = mode === 'online' && lobby ? [lobby.players[0]?.crew ?? null, lobby.players[1]?.crew ?? null] : picks;
@@ -116,6 +121,7 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
             const cur = mode !== 'online' && (cursor[0] === i || (mode === 'local' && cursor[1] === i));
             return (
               <button key={id} type="button" className={`studio-card${p1 || p2 ? ' is-on' : ''}${cur ? ' is-cursor' : ''}`} style={{ ['--crew' as string]: hex(c.color) }}
+                onMouseEnter={() => setCursor(c => [i, c[1]])}
                 onClick={() => {
                   if (mode === 'online') sock.current?.send({ t: 'pick', crew: id });
                   else if (!picks[0] || mode === 'cpu') setPicks(p => [id, p[1]]);
@@ -130,6 +136,7 @@ export function Versus({ portraits, onBack }: { portraits: Portraits; onBack: ()
             );
           })}
         </div>
+        <MoveList crew={focus} />
         <div className="studio-foot">
           <p className="studio-quote">{msg ?? (mode === 'online' ? `${mine?.name ?? me}: ${mine?.crew ? CREW[mine.crew].name : '—'}${mine?.ready ? ' ✔' : ''}  ·  ${theirs ? `${theirs.name}: ${theirs.crew ? CREW[theirs.crew].name : '—'}${theirs.ready ? ' ✔' : ''}` : 'waiting for a challenger…'}` : '')}</p>
           <div className="studio-actions">
@@ -178,5 +185,40 @@ function FightHost({ match, mode, you, sock, onDesync }: { match: Match; mode: M
     })();
     return () => { cancelled = true; game?.destroy(true); };
   }, [match]); // eslint-disable-line react-hooks/exhaustive-deps
-  return <div ref={host} className="canvas-host" />;
+  const [list, setList] = useState(false);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      e.preventDefault();
+      setList(v => {
+        const g = (window as unknown as { __versus?: { scene: { pause: (k: string) => void; resume: (k: string) => void } } }).__versus;
+        if (mode !== 'online') { if (!v) g?.scene.pause('fight'); else g?.scene.resume('fight'); }   // online can't pause
+        return !v;
+      });
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mode]);
+  return (
+    <>
+      <div ref={host} className="canvas-host" />
+      {list && (
+        <div className="versus-movelist-overlay">
+          <div className="studio-eyebrow">MOVE LIST · TAB to close{mode === 'online' ? ' · the fight keeps going online!' : ' · paused'}</div>
+          <div className="versus-movelist-pair">{match.crews.map((c, i) => <MoveList key={i} crew={c} title={`${match.names[i]} · ${CREW[c].name}`} />)}</div>
+        </div>
+      )}
+      <div className="versus-strip"><span><kbd>A</kbd><kbd>D</kbd> move</span><span><kbd>W</kbd> jump</span><span><kbd>S</kbd> crouch</span><span><kbd>J</kbd> light</span><span><kbd>K</kbd> heavy</span><span><kbd>L</kbd> special</span><span><kbd>I</kbd> super</span><span><kbd>U</kbd> block / parry</span><span><kbd>Tab</kbd> move list</span>{mode === 'local' && <span>P2: arrows · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>0</kbd> · <kbd>4</kbd> block</span>}</div>
+    </>
+  );
+}
+
+/** One fighter's move list (select screen + Tab overlay). */
+function MoveList({ crew, title }: { crew: CrewId; title?: string }) {
+  return (
+    <div className="versus-movelist" style={{ ['--crew' as string]: hex(CREW[crew].color) }}>
+      <div className="versus-movelist-head">{title ?? `${CREW[crew].name} · moves`}</div>
+      <ul>{moveList(crew).map(m => <li key={m.input + m.name}><kbd>{m.input}</kbd><b>{m.name}</b><span>{m.note}</span></li>)}</ul>
+    </div>
+  );
 }

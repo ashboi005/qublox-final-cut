@@ -1,12 +1,15 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { CrewId, Dialogue } from '@qublox/shared';
+import { GlossarySchema, type CrewId, type Dialogue } from '@qublox/shared';
 import { bus, type HudState, type RunResult } from '@/game/bus';
 import { synth } from '@/game/audio/synth';
 import { Hud } from './Hud';
 import { DialogueBox, type Portraits } from './DialogueBox';
 import { Results } from './Results';
 import { Versus } from './Versus';
+import { Glossary, type SpriteSheets } from './Glossary';
+import { Story } from './Story';
+import { markCleared } from '@/game/progress';
 import { Title, type Episode } from './Title';
 import { Leaderboard } from './Leaderboard';
 import { PauseMenu } from './PauseMenu';
@@ -14,17 +17,17 @@ import { Studio } from './Studio';
 import { Credits, type CreditLine } from './Credits';
 import { Achievements, type AchievementText, type TapeText } from './Achievements';
 
-type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }> };
-type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] } }; barks: Record<string, { barks?: Record<string, string[]> }> };
-type Screen = { kind: 'title' } | { kind: 'versus' } | { kind: 'board' } | { kind: 'achievements' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
+type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }>; sprites?: SpriteSheets };
+type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] }; versus?: { crew?: Partial<Record<CrewId, { win?: string[] }>> }; glossary?: unknown }; barks: Record<string, { barks?: Record<string, string[]> }> };
+type Screen = { kind: 'title' } | { kind: 'story' } | { kind: 'versus' } | { kind: 'glossary' } | { kind: 'board' } | { kind: 'achievements' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
 
 // pool = who you can cast; pick = how many you choose; joiners = who joins during the episode (story).
 const EPISODES: Episode[] = [
   { n: 0, name: 'Cold Open', place: 'Qublox HQ', start: 'ep0-r01' },
   { n: 1, name: 'Render Farm', place: 'The Server Towers', start: 'ep1-r01', pool: ['ashwath', 'sayam', 'tushar'], pick: 2, required: ['ashwath'], joiners: ['sehaj', 'manvi'] },
-  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi'], pick: 1, joiners: ['mansukh', 'manya'] },
-  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya'], pick: 2, joiners: ['brahmansh'] },
-  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'brahmansh'], pick: 3, joiners: [] },
+  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mishthi'], pick: 1, joiners: ['mansukh', 'manya'] },
+  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'mishthi'], pick: 2, joiners: ['brahmansh'] },
+  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'brahmansh', 'mishthi'], pick: 3, joiners: [] },
 ];
 
 /** `direct` = the URL named a level, so skip the title (handy for dev and for agents testing). */
@@ -51,6 +54,8 @@ export default function GameShell({ level, party, direct }: { level: string; par
     if (screen.kind !== 'play' && content?.songs?.title) synth.play(content.songs.title);
   }, [screen.kind, content]);
 
+  const episodes = useMemo(() => EPISODES.map(e => ({ ...e, locked: !content?.levels[e.start] })), [content]);
+  const glossary = useMemo(() => { const g = GlossarySchema.safeParse(content?.story.glossary); return g.success ? g.data : undefined; }, [content]);
   const img = (key: string) => (manifest.images?.[key] ? `/assets/${manifest.images[key]!.file}` : null);
 
   return (
@@ -69,27 +74,33 @@ export default function GameShell({ level, party, direct }: { level: string; par
             portraits={manifest.portraits ?? {}}
             selectLines={Object.fromEntries(Object.entries(content?.barks ?? {}).map(([id, b]) => [id, b.barks?.select ?? []]))}
             onGo={party => setScreen({ kind: 'play', level: screen.ep.start, party, run: 0 })}
-            onBack={() => setScreen({ kind: 'title' })}
+            onBack={() => setScreen({ kind: 'story' })}
           />
         ) : screen.kind === 'achievements' ? (
           <Achievements list={content?.story.achievements?.achievements ?? []} tapes={content?.story.footage?.tapes ?? []} onBack={() => setScreen({ kind: 'title' })} />
         ) : screen.kind === 'versus' ? (
-          <Versus portraits={manifest.portraits ?? {}} onBack={() => setScreen({ kind: 'title' })} />
+          <Versus portraits={manifest.portraits ?? {}} winLines={Object.fromEntries(Object.entries(content?.story.versus?.crew ?? {}).map(([k, v]) => [k, v?.win ?? []]))} onBack={() => setScreen({ kind: 'title' })} />
+        ) : screen.kind === 'story' ? (
+          <Story episodes={episodes} onBack={() => setScreen({ kind: 'title' })}
+            onPlay={ep => setScreen(ep.pick ? { kind: 'studio', ep } : { kind: 'play', level: ep.start, party: [], run: 0 })} />
+        ) : screen.kind === 'glossary' ? (
+          <Glossary text={glossary} sheets={manifest.sprites ?? {}} portraits={manifest.portraits ?? {}} stamp={img('glossary-stamp')} onBack={() => setScreen({ kind: 'title' })} />
         ) : screen.kind === 'board' ? (
           <Leaderboard episodes={EPISODES} onBack={() => setScreen({ kind: 'title' })} />
         ) : (
           <Title
             logo={img('logo')} background={img('title-bg')}
             taglines={content?.story.quips?.taglines ?? []}
-            episodes={EPISODES.map(e => ({ ...e, locked: !content?.levels[e.start] }))}
-            onPlay={ep => setScreen(ep.pick ? { kind: 'studio', ep } : { kind: 'play', level: ep.start, party: [], run: 0 })}
+            episodes={episodes}
+            onStory={() => setScreen({ kind: 'story' })}
             onBoard={() => setScreen({ kind: 'board' })}
             onAchievements={() => setScreen({ kind: 'achievements' })}
             onVersus={() => setScreen({ kind: 'versus' })}
+            onCrew={() => setScreen({ kind: 'glossary' })}
           />
         )}
       </div>
-      <footer className="legend">
+      {screen.kind !== 'versus' && screen.kind !== 'glossary' && <footer className="legend">
         <span><kbd>A</kbd><kbd>D</kbd> move</span>
         <span><kbd>Space</kbd> jump</span>
         <span><kbd>J</kbd> attack</span>
@@ -99,7 +110,7 @@ export default function GameShell({ level, party, direct }: { level: string; par
         <span><kbd>Esc</kbd> pause</span>
         <span><kbd>M</kbd> mute</span>
         <span><kbd>F2</kbd> sprite viewer</span>
-      </footer>
+      </footer>}
     </main>
   );
 }
@@ -143,7 +154,7 @@ function Play({ level, party, portraits, credits, creditsSong, logo, paper, head
     const offs = [
       bus.on('hud', setHud),
       bus.on('dialogueStart', setDialogue),
-      bus.on('levelComplete', r => { setResult(r); if (r.episode === 4) { setRolling(true); if (creditsSongRef.current) synth.play(creditsSongRef.current); } }),
+      bus.on('levelComplete', r => { setResult(r); markCleared(r.episode); if (r.episode === 4) { setRolling(true); if (creditsSongRef.current) synth.play(creditsSongRef.current); } }),
       bus.on('viewer', ({ open }) => setViewer(open)),
       bus.on('beige', ({ amount }) => setBeige(amount)),
       bus.on('achievement', ({ id }) => {

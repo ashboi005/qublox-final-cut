@@ -20,6 +20,7 @@ DATA=[
 ('ability-ctrlz','triangle',1400,240,.26,.16,2,3000),
 ('ability-jumpcut','noise',1600,300,.055,.16,1,4200),
 ('ability-cut','noise',1800,110,.045,.24,1,5000),
+('ability-mind','sine',260,1040,.15,.13,3,4200),
 ('boss-roar','sawtooth',150,38,.42,.18,2,700),
 ('checkpoint','triangle',523.25,1046.5,.12,.16,3,3200),
 ('style-rankup','square',783.99,1567.98,.075,.10,4,2400)]

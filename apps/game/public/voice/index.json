@@ -1,0 +1,41 @@
+{
+  "brahmansh": {
+    "parlaug-bire": {
+      "file": "/voice/brahmansh/parlaug-bire.mp3",
+      "label": "parlaug bire",
+      "ms": 1689
+    },
+    "house-of-shakes": {
+      "file": "/voice/brahmansh/house-of-shakes.mp3",
+      "label": "house of shakes",
+      "ms": 1968
+    },
+    "gg-thaa": {
+      "file": "/voice/brahmansh/gg-thaa.mp3",
+      "label": "gg thaa 🔫",
+      "ms": 1666
+    },
+    "kutti-jaat-lubaane": {
+      "file": "/voice/brahmansh/kutti-jaat-lubaane.mp3",
+      "label": "kutti jaat lubaane",
+      "ms": 1182
+    }
+  },
+  "sehaj": {
+    "ferr-khende-bohota-galla-kad-da": {
+      "file": "/voice/sehaj/ferr-khende-bohota-galla-kad-da.mp3",
+      "label": "ferr khende bohota galla kad da",
+      "ms": 1962
+    },
+    "vajj": {
+      "file": "/voice/sehaj/vajj.mp3",
+      "label": "vajj",
+      "ms": 1143
+    },
+    "random-weird-laugh": {
+      "file": "/voice/sehaj/random-weird-laugh.mp3",
+      "label": "random weird laugh",
+      "ms": 953
+    }
+  }
+}

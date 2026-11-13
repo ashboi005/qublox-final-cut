@@ -4,13 +4,14 @@ import { synth } from '../audio/synth';
 import { achievements } from '../achievements';
 import { animKey, TILE } from '../assets/art';
 import { bus, type HudState } from '../bus';
-import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, partnerOf } from '../crew';
+import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_WORDS, MISHTHI_PROPS, partnerOf, STAN_MS } from '../crew';
 import { Avatar } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
 import { bark, FONT, fx, hitstop, shake, sparks, wordPop } from '../fx/juice';
 import { emptyFrame, LocalInput } from '../input/InputSource';
 import { StyleMeter } from '../style';
+import { loadVoices, preloadCrew, speak, type VoiceCue } from '../voice';
 import { ceilingAbove, parseLevel, tileData, type Level, type Trigger } from '../world/level';
 
 export type GameContent = {
@@ -103,7 +104,7 @@ export class GameScene extends Phaser.Scene {
   private lastBark = 0;
   private coupleReadyAt = 0;
   private nightOwl = false;
-  private stillSince = 0; private cosmicDone = false;
+  private stillSince = 0; private cosmicDone = false; private personalityIdx = Math.floor(Math.random() * 4); private swings = 0; private songId = ''; private annoyedUntil = 0; private recentHits: number[] = [];
   /** MENTOR'S AURA: with Ashwath (conscious) in the party, everyone learns faster: abilities recharge 10% sooner. NIGHT OWL: Ashwath's own recharge −25% at 1–4 AM. */
   private cooldownScale(id: string) {
     const mentor = this.avatar.members.some(m => m.def.id === 'ashwath' && !m.ko) ? 0.9 : 1;
@@ -270,6 +271,7 @@ export class GameScene extends Phaser.Scene {
     bus.emit('toast', { text: `${this.level.name}` });
     this.coupleHint();
     this.time.delayedCall(2500, () => this.specialHint());
+    void loadVoices().then(() => { for (const m of this.avatar.members) preloadCrew(m.def.id); });
     this.nightOwl = isNightOwlHour();
     if (this.nightOwl && this.avatar.members.some(m => m.def.id === 'ashwath') && !nightOwlToasted) {
       nightOwlToasted = true;
@@ -309,7 +311,7 @@ export class GameScene extends Phaser.Scene {
       const sp = this.avatar.def.special;
       if (sp && !this.holdFired && time - this.holdStart > 550) {
         this.holdFired = true;
-        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else this.infoDump(); }
+        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else if (sp.kind === 'personality') this.personality(); else if (sp.kind === 'stan') this.stanMode(); else if (sp.kind === 'unhinged') this.unhinged(); else if (sp.kind === 'indifferent') this.asIfICare(); else this.infoDump(); }
         else wordPop(this, this.avatar.x, this.avatar.y - 50, 'STILL SORE');
       }
     } else { this.holdStart = 0; this.holdFired = false; }
@@ -378,6 +380,8 @@ export class GameScene extends Phaser.Scene {
       if (id === 'tushar' && d < 70) this.freezeTarget(e, 700);
     }
     if (id === 'tushar') this.cameras.main.flash(80, 255, 255, 255);
+    if (id === 'mansukh') this.ragebait(now);
+    if (id === 'mishthi') this.secretlyCaring(prev);
     this.style.gain(`${id}:tagin`, hits ? 12 : 4, now);
   }
 
@@ -386,16 +390,29 @@ export class GameScene extends Phaser.Scene {
     const a = this.avatar, m = a.member, def = m.def, now = this.time.now;
     if (now < m.attackReadyAt || now < a.hurtUntil) return;
     m.attackReadyAt = now + def.attackCooldownMs;
-    const dmgMult = (now < a.delegationUntil ? 1.3 : 1) * (def.id === 'ashwath' && this.nightOwl ? 1.25 : 1);
-    const atk = def.attack;
+    const stan = def.id === 'mansukh' && now < a.stanUntil;
+    const dmgMult = (now < a.delegationUntil ? 1.3 : 1) * (def.id === 'ashwath' && this.nightOwl ? 1.25 : 1) * (stan ? 2 : 1)
+      * (def.id === 'brahmansh' && now < this.annoyedUntil ? 1.3 : 1);
+    let atk = def.attack;
+    if (def.id === 'mansukh' && atk.type === 'melee') {
+      const word = stan ? (this.swings % 2 ? 'ASA BIAS' : 'MONSTER!') : MANSUKH_WORDS[this.swings % MANSUKH_WORDS.length]!;
+      this.swings++;
+      atk = { ...atk, word, range: atk.range + (stan ? 16 : 0), height: atk.height + (stan ? 10 : 0) };
+    }
     a.doAction('attack', Math.min(def.attackCooldownMs, a.animMs('attack', 220)));
     if (atk.type === 'melee') {
+      const mel = atk;
       this.time.delayedCall(a.hitDelay(70), () => {
+        const atk = mel;
         const x0 = a.facing > 0 ? a.x : a.x - atk.range;
         const zone = new Phaser.Geom.Rectangle(x0, a.y - 30, atk.range, atk.height + 8);
+        if (stan) sparks(this, a.x + a.facing * atk.range * 0.7, a.y - 22, 4);
         for (const e of this.targets()) {
           if (!Phaser.Geom.Intersects.RectangleToRectangle(zone, e.getBounds())) continue;
-          if (e.hit(atk.damage * dmgMult, a.x)) this.onHit(e, atk.word, `${def.id}:attack`, atk.damage * dmgMult);
+          // Brahmansh's ATTENTION TO DETAIL: catch an enemy mid wind-up and it's a FRAME PERFECT double hit.
+          const fp = def.id === 'brahmansh' && e instanceof Enemy && e.mode === 'telegraph';
+          const dmg = atk.damage * dmgMult * (fp ? 2 : 1);
+          if (e.hit(dmg, a.x)) { this.onHit(e, fp ? 'FRAME PERFECT' : atk.word, `${def.id}:attack`, dmg); if (fp) { this.style.gain('brahmansh:frame', 6, this.time.now); if (Math.random() < 0.4) this.say('frame'); } }
           else this.overloadShield(e, `${def.id}:attack`);
         }
         for (const m of this.mirrors) if (m.hp > 0 && Phaser.Geom.Intersects.RectangleToRectangle(zone, m.spr.getBounds())) this.hitMirror(m, atk.damage * dmgMult);
@@ -403,7 +420,8 @@ export class GameScene extends Phaser.Scene {
     } else {
       const tex = atk.texture === 'paint' && this.textures.exists('paint-glob') ? 'paint-glob' : atk.texture;
       const s = this.shots.create(a.x + a.facing * 10, a.y - 24, tex) as Phaser.Physics.Arcade.Sprite;
-      s.setData({ owner: def.id, damage: atk.damage * dmgMult, word: atk.word, kind: atk.texture }).setDepth(15);
+      const word = def.id === 'mishthi' ? MISHTHI_PROPS[this.swings++ % MISHTHI_PROPS.length]! : atk.word;
+      s.setData({ owner: def.id, damage: atk.damage * dmgMult, word, kind: atk.texture }).setDepth(15);
       const body = s.body as Phaser.Physics.Arcade.Body;
       body.setAllowGravity(atk.gravity > 0).setGravityY(atk.gravity - this.physics.world.gravity.y);
       body.setVelocity(a.facing * atk.speed, atk.gravity > 0 ? -170 : 0);
@@ -434,7 +452,12 @@ export class GameScene extends Phaser.Scene {
     wordPop(this, e.x + Phaser.Math.Between(-6, 6), e.y - e.displayHeight * 0.5, word);
     this.style.gain(source, 8, this.time.now);
     this.style.addScore(damage * 10);
-    if (!e.alive) { this.style.addScore(e instanceof BossBase ? 5000 : 250); if (Math.random() < 0.4) this.say(this.avatar.def.id === 'ashwath' && Math.random() < 0.5 ? 'crit' : 'kill'); }
+    if (!e.alive) {
+      this.style.addScore(e instanceof BossBase ? 5000 : 250);
+      const cleared = e instanceof BossBase || (this.liveEnemies().length === 0 && !this.boss?.alive);
+      if (cleared && this.voice('clear')) { /* the real line said it */ }
+      else if (Math.random() < 0.4) this.say(this.avatar.def.id === 'ashwath' && Math.random() < 0.5 ? 'crit' : 'kill');
+    }
     if (!e.alive && e instanceof Enemy && e.kind === 'pop-up-ad' && this.level.popupsSpawn) {
       if (source === 'brahmansh:jumpcut') { wordPop(this, e.x, e.y - 20, 'AD SKIPPED'); this.style.addScore(300); achievements.unlock('ad-skipped'); }
       else {
@@ -461,6 +484,7 @@ export class GameScene extends Phaser.Scene {
     shake(this, 2); hitstop(this, 40);
     const monkey = source?.kind === 'infinite-monkey' || from === 'infinite-monkey';
     if (monkey && m.def.id === 'tushar') { a.panicUntil = now + 2000; this.say('monkey', true); achievements.unlock('monkey-business'); }
+    else if (m.def.id === 'brahmansh' && this.easilyAnnoyed(now)) { /* handled */ }
     else if (Math.random() < 0.35) this.say('hit');
     if (m.hp > 0) return;
     m.ko = true; this.kos++;
@@ -498,11 +522,12 @@ export class GameScene extends Phaser.Scene {
     const used = ({
       hack: () => this.hack(), bribe: () => this.bribe(), penTool: () => this.penTool(), fillBucket: () => this.fill(),
       ctrlZ: () => this.ctrlZ(), jumpCut: () => this.jumpCut(), cut: () => this.cut(), mindGames: () => this.mindGames(),
+      masterpiece: () => this.masterpiece(),
     } as const)[m.def.ability]();
     if (!used) { m.abilityReadyAt = now + 400; return; }
     m.abilityReadyAt = now + m.def.abilityCooldownMs * this.cooldownScale(m.def.id);
     a.doAction('ability', Math.min(450, a.animMs('ability', 300)));
-    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut', mindGames: 'mind' } as const)[m.def.ability]}`);
+    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut', mindGames: 'mind', masterpiece: 'pen' } as const)[m.def.ability]}`);
     synth.sfx('ability');
     this.style.gain(`${m.def.id}:ability`, 10, now);
     this.say('ability');
@@ -535,7 +560,7 @@ export class GameScene extends Phaser.Scene {
     const a = this.avatar, now = this.time.now;
     a.doAction(this.anims.exists(animKey('sehaj', 'beast')) ? 'beast' : 'ability', 420);
     wordPop(this, a.x, a.y - 60, 'BEAST MODE', true);
-    this.say('beast', true);
+    if (!this.voice('special')) this.say('beast', true);
     a.setScale(1.18); this.tweens.add({ targets: a, scale: 1, delay: 380, duration: 160 });
     shake(this, 2); synth.sfx('boss-roar');
     this.style.gain('sehaj:beast', 14, now);
@@ -586,12 +611,174 @@ export class GameScene extends Phaser.Scene {
       }
     });
   }
+  /** Sayam: ten personalities in one guy. Each use rolls the next one (they cycle, so all four show up). */
+  private personality() {
+    const a = this.avatar, now = this.time.now;
+    const k = this.personalityIdx++ % 4;
+    a.doAction(this.anims.exists(animKey('sayam', 'bhai')) ? 'bhai' : 'ability', 500);
+    wordPop(this, a.x, a.y - 76, `PERSONALITY #${[3, 7, 1, 9][k]} OF 10`);
+    this.style.gain('sayam:personality', 12, now);
+    if (k === 0) {
+      // THE PHILOSOPHER: a deep discussion breaks out. Everything nearby stops to listen.
+      wordPop(this, a.x, a.y - 58, 'THE PHILOSOPHER', true);
+      this.say('philosophy', true);
+      for (const e of this.liveEnemies()) if (Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) < 180) { e.hackedUntil = now + 4000; e.restoreTint(); wordPop(this, e.x, e.y - 24, '…deep'); }
+    } else if (k === 1) {
+      // HYPE BHAI: the whole party hits 30% harder for 6s (same buff as his delegation passive).
+      wordPop(this, a.x, a.y - 58, 'BHAI. BHAI. BHAI.', true);
+      this.say('hype', true);
+      a.delegationUntil = now + 6000;
+      fx(this, 'heal-sparkle', a.x, a.y - 20, 30);
+    } else if (k === 2) {
+      // THE ROAST: "get a load of this guy". The nearest enemy (or boss) is marked and takes 50% more damage.
+      const t = this.nearest(this.targets(), x => x, 280);
+      wordPop(this, a.x, a.y - 58, 'GET A LOAD OF THIS GUY', true);
+      this.say('roast', true);
+      if (t) { t.markedUntil = now + 6000; t.restoreTint(); if (t.hit(8, a.x)) this.onHit(t, 'ROASTED', 'sayam:personality', 8); }
+    } else {
+      // THE EMPATH: "bhai, you good?" Patches up the whole party.
+      wordPop(this, a.x, a.y - 58, 'BHAI, YOU GOOD?', true);
+      this.say('empath', true);
+      for (const m of a.members) if (!m.ko) m.hp = Math.min(m.def.maxHp, m.hp + 15);
+      fx(this, 'heal-sparkle', a.x, a.y - 20, 30);
+      synth.sfx('pickup');
+    }
+  }
+  /** Mansukh: the BABYMONSTER playlist comes on in his headphones. Lightstick out: double damage, longer reach, faster feet. */
+  private stanMode() {
+    const a = this.avatar, now = this.time.now;
+    a.stanUntil = now + STAN_MS;
+    a.doAction(this.anims.exists(animKey('mansukh', 'stan')) ? 'stan' : 'ability', 600);
+    wordPop(this, a.x, a.y - 64, 'STAN MODE', true);
+    this.say('stan', true);
+    this.style.gain('mansukh:stan', 14, now);
+    shake(this, 2); this.cameras.main.flash(90, 255, 60, 90);
+    if (this.content.songs?.['stan-mode']) synth.stinger(this.content.songs['stan-mode'], this.songId ? this.content.songs[this.songId] : undefined);
+    else synth.sfx('pickup');
+    const glow = this.time.addEvent({ delay: 220, repeat: Math.floor(STAN_MS / 220) - 1, callback: () => {
+      if (!a.active || a.def.id !== 'mansukh') return;
+      fx(this, 'heal-sparkle', a.x + Phaser.Math.Between(-10, 10), a.y - 30, 30);
+    } });
+    this.time.delayedCall(STAN_MS, () => { glow.remove(); if (a.active && a.def.id === 'mansukh') wordPop(this, a.x, a.y - 50, 'PLAYLIST ENDED'); });
+  }
+  /** Mansukh tags in already ragebaiting: nearby enemies lose their cool (marked, +50% damage taken) for 3s. */
+  private ragebait(now: number) {
+    let n = 0;
+    for (const e of this.targets()) {
+      if (Phaser.Math.Distance.Between(e.x, e.y, this.avatar.x, this.avatar.y) > 200) continue;
+      e.markedUntil = Math.max(e.markedUntil, now + 3000); e.restoreTint(); n++;
+    }
+    if (n) { wordPop(this, this.avatar.x, this.avatar.y - 56, 'RAGEBAITED'); this.say('ragebait', true); }
+  }
+  /** Brahmansh, UNHINGED (the after-party version of him): a chain of jump cuts through everything nearby, and the
+   *  whole screen goes HOUSE OF SHAKES. */
+  private unhinged() {
+    const a = this.avatar, now = this.time.now;
+    if (!this.voice('special')) this.say('unhinged', true);
+    a.doAction(this.anims.exists(animKey('brahmansh', 'unhinged')) ? 'unhinged' : 'ability', 900);
+    wordPop(this, a.x, a.y - 64, 'UNHINGED', true);
+    this.style.gain('brahmansh:unhinged', 14, now);
+    const cam = this.cameras.main;
+    this.tweens.add({ targets: cam, rotation: { from: -0.025, to: 0.025 }, yoyo: true, repeat: 5, duration: 90, onComplete: () => cam.setRotation(0) });
+    a.invulnUntil = Math.max(a.invulnUntil, now + 1300);
+    const victims = this.targets().filter(e => Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) < 230).slice(0, 6);
+    const hops = victims.length ? victims : [null, null, null];
+    hops.forEach((e, k) => this.time.delayedCall(k * 170, () => {
+      if (!a.active) return;
+      const ghost = this.add.image(a.x, a.y, a.texture.key, a.frame.name).setOrigin(0.5, 1).setAlpha(0.6).setFlipX(a.flipX).setTint(0xe8242c);
+      this.tweens.add({ targets: ghost, alpha: 0, duration: 260, onComplete: () => ghost.destroy() });
+      if (e && e.alive) {
+        const side = k % 2 ? -1 : 1, nx = e.x + side * 22;
+        if (!this.blockedAt(nx, a.y)) a.setX(nx);
+        a.facing = (e.x > a.x ? 1 : -1); a.setFlipX(a.facing < 0);
+        if (e.hit(12, a.x)) this.onHit(e, k === hops.length - 1 ? 'PARLAUG BIRE' : 'SNIP', 'brahmansh:unhinged', 12);
+      } else {
+        const nx = a.x + (k % 2 ? -1 : 1) * 28;
+        if (!this.blockedAt(nx, a.y)) a.setX(nx);
+        wordPop(this, a.x, a.y - 40, ['HIC', 'WAIT', 'WHO'][k % 3]!);
+      }
+      shake(this, 3); synth.sfx('ability-jumpcut');
+    }));
+  }
+  /** Brahmansh is EASILY ANNOYED: two hits within 4s and he gets annoyed: +30% damage for 5s. */
+  private easilyAnnoyed(now: number): boolean {
+    this.recentHits = this.recentHits.filter(t => now - t < 4000); this.recentHits.push(now);
+    if (this.recentHits.length < 2 || now < this.annoyedUntil) return false;
+    this.annoyedUntil = now + 5000; this.recentHits = [];
+    wordPop(this, this.avatar.x, this.avatar.y - 56, 'ANNOYED', true);
+    if (!this.voice('annoyed')) this.say('annoyed', true);
+    this.avatar.setTint(0xff6a6a); this.time.delayedCall(5000, () => this.avatar.active && this.avatar.clearTint());
+    return true;
+  }
+  /** The real recorded line for this moment, if the active crew member recorded one. Shows it as a bark too. */
+  private voice(cue: VoiceCue): boolean {
+    const clip = speak(this.avatar.def.id, cue);
+    if (!clip) return false;
+    this.lastBark = this.time.now;
+    bark(this, this.avatar, clip.label);
+    return true;
+  }
+  /** Mishthi turns whatever's nearest into art: an enemy is frozen into a framed installation you can stand on (6s).
+   *  Bosses can't be framed, so they get CRITIQUED instead (+50% damage taken). */
+  private masterpiece(): boolean {
+    const a = this.avatar, now = this.time.now;
+    const e = this.nearest(this.liveEnemies(), x => x, 150);
+    if (e) {
+      e.frozenUntil = now + 6000; e.restoreTint(); e.setTint(0xe8c26a);
+      const w = Math.max(20, e.displayWidth * 0.9), top = e.y - e.displayHeight + 4;
+      const ledge = this.add.tileSprite(e.x, top, w, 4, this.textures.exists('art-frame') ? 'art-frame' : 'pen-line').setDepth(7).setTint(0xe8c26a);
+      this.pens.add(ledge);
+      const body = ledge.body as Phaser.Physics.Arcade.StaticBody;
+      body.checkCollision.down = false; body.checkCollision.left = false; body.checkCollision.right = false;
+      const frame = this.add.rectangle(e.x, e.y - e.displayHeight / 2 + 2, e.displayWidth + 8, e.displayHeight + 4).setStrokeStyle(2, 0xe8c26a).setDepth(6);
+      wordPop(this, e.x, e.y - e.displayHeight - 14, 'MASTERPIECE', true);
+      this.style.gain('mishthi:masterpiece', 10, now);
+      this.time.delayedCall(5000, () => this.tweens.add({ targets: [ledge, frame], alpha: 0.3, yoyo: true, repeat: 4, duration: 100 }));
+      this.time.delayedCall(6000, () => { this.pens.remove(ledge, true, true); frame.destroy(); if (e.alive) e.restoreTint(); });
+      return true;
+    }
+    if (this.boss?.alive && Phaser.Math.Distance.Between(this.boss.x, this.boss.y, a.x, a.y) < 220) {
+      this.boss.markedUntil = now + 4000; this.boss.restoreTint();
+      wordPop(this, this.boss.x, this.boss.y - 40, 'CRITIQUED', true);
+      return true;
+    }
+    wordPop(this, a.x, a.y - 50, 'NO MUSE');
+    return false;
+  }
+  /** Mishthi, AS IF I CARE?: 3.5s of total indifference. Nothing hurts her; whatever touches her gets demoralised
+   *  (confused). Then the drama hits: "dam bhai". */
+  private asIfICare() {
+    const a = this.avatar, now = this.time.now;
+    a.invulnUntil = Math.max(a.invulnUntil, now + 3500);
+    a.doAction(this.anims.exists(animKey('mishthi', 'indifferent')) ? 'indifferent' : 'ability', 700);
+    wordPop(this, a.x, a.y - 64, 'AS IF I CARE?', true);
+    if (!this.voice('special')) this.say('indifferent', true);
+    this.style.gain('mishthi:indifferent', 12, now);
+    a.setAlpha(0.75);
+    const tick = this.time.addEvent({ delay: 150, repeat: Math.floor(3500 / 150) - 1, callback: () => {
+      for (const e of this.liveEnemies()) {
+        if (e.confusedUntil > this.time.now || Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) > 34) continue;
+        e.confusedUntil = this.time.now + 3000; e.restoreTint();
+        bark(this, e, '…she doesn’t care?');
+      }
+    } });
+    this.time.delayedCall(3500, () => { tick.remove(); if (a.active) { a.setAlpha(1); if (a.def.id === 'mishthi') wordPop(this, a.x, a.y - 50, 'DAM BHAI'); } });
+  }
+  /** Mishthi is SECRETLY CARING: tag her in and the crew member who tagged out gets patched up (+8 HP). */
+  private secretlyCaring(prev: CrewId) {
+    const m = this.avatar.members.find(x => x.def.id === prev);
+    if (!m || m.ko || m.hp >= m.def.maxHp) return;
+    m.hp = Math.min(m.def.maxHp, m.hp + 8);
+    wordPop(this, this.avatar.x, this.avatar.y - 56, `${m.def.name.toUpperCase()}, DRINK WATER`);
+  }
   /** Ashwath's hidden stat, COSMIC EXISTENTIALIST: stand still long enough and he starts staring at the sky. */
   private updateCosmic(now: number) {
     const a = this.avatar;
     const moving = Math.abs(a.pbody.velocity.x) > 5 || !a.grounded;
-    if (moving || this.cutscene || a.def.id !== 'ashwath') { this.stillSince = now; this.cosmicDone = false; return; }
-    if (!this.cosmicDone && now - this.stillSince > 7000) { this.cosmicDone = true; this.say('cosmic', true); }
+    // Mansukh's IDEAL PROCRASTINATION: stand still and he opens a new project instead of finishing this one.
+    const cat = ({ ashwath: 'cosmic', mansukh: 'newproject', mishthi: 'sigh' } as Record<string, string>)[a.def.id];
+    if (moving || this.cutscene || !cat) { this.stillSince = now; this.cosmicDone = false; return; }
+    if (!this.cosmicDone && now - this.stillSince > 7000) { this.cosmicDone = true; this.say(cat, true); if (cat === 'newproject') wordPop(this, a.x, a.y - 56, `TAB ${15 + Math.floor(now / 1000) % 9} OPENED`); }
   }
   private addSprite(x: number, y: number) {
     const can = this.physics.add.staticSprite(x, y - 8, 'sprite-can').setDepth(5);
@@ -612,7 +799,15 @@ export class GameScene extends Phaser.Scene {
     const sp = this.avatar.def.special;
     if (!sp || specialHinted.has(this.avatar.def.id)) return;
     specialHinted.add(this.avatar.def.id);
-    bus.emit('toast', { text: sp.kind === 'boulder' ? `HOLD J · ${sp.name}: ${this.avatar.def.name} throws a boulder (smashes cracked walls)` : `HOLD J · ${sp.name}: ${this.avatar.def.name} explains distributed systems at 2× speed. Enemies nearby take psychic damage and back off.` });
+    const what: Record<string, string> = {
+      boulder: 'throws a boulder (smashes cracked walls)',
+      infoDump: 'explains distributed systems at 2× speed. Enemies nearby take psychic damage and back off.',
+      indifferent: 'stops caring for 3.5s: nothing hurts her, and whatever touches her gets demoralised',
+      unhinged: 'goes UNHINGED: a chain of jump cuts through everything nearby. HOUSE OF SHAKES.',
+      personality: 'becomes his next of 10 personalities: Philosopher (enemies stop to listen) · Hype · Roast · Empath',
+      stan: 'puts on BABYMONSTER: lightstick out, double damage and faster feet for 8s',
+    };
+    bus.emit('toast', { text: `HOLD J · ${sp.name}: ${this.avatar.def.name} ${what[sp.kind]}` });
   }
 
   /** Manvi (psychology student): KO'd crew get a pep talk and come back; nearby enemies get confused and bonk each other. */
@@ -643,6 +838,7 @@ export class GameScene extends Phaser.Scene {
   private coupleMove(out: CrewId, inn: CrewId) {
     const a = this.avatar, now = this.time.now;
     this.coupleReadyAt = now + COUPLE_COOLDOWN_MS;
+    this.voice('couple');
     const ghost = this.add.sprite(a.x + a.facing * 18, a.y, out).setOrigin(0.5, 1).setDepth(a.depth - 1).setFlipX(a.facing > 0);
     if (this.anims.exists(animKey(out, 'idle'))) ghost.play(animKey(out, 'idle'));
     this.tweens.add({ targets: ghost, alpha: 0, delay: 800, duration: 300, onComplete: () => ghost.destroy() });
@@ -1404,6 +1600,7 @@ export class GameScene extends Phaser.Scene {
     this.playSong(this.level.music ?? `ep${this.level.episode}`);
   }
   private playSong(id: string) {
+    this.songId = id;
     const song = SongSchema.safeParse(this.content.songs?.[id]);
     if (song.success) synth.play(song.data);
   }
@@ -1431,6 +1628,8 @@ export class GameScene extends Phaser.Scene {
   private say(category: string, force = false) {
     const now = this.time.now;
     if (!force && now - this.lastBark < 1400) return;
+    const cue = ({ tagin: 'tagin', kill: 'kill', crit: 'kill', ko: 'ko', hit: 'hurt', start: 'intro' } as Record<string, VoiceCue>)[category];
+    if (cue && this.voice(cue)) return;
     const def = this.avatar.def;
     const raw = this.content.barks[def.id] as { barks?: Record<string, unknown> } | undefined;
     const fromContent = raw?.barks?.[category];

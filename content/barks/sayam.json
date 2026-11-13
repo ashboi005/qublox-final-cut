@@ -3,50 +3,87 @@
   "barks": {
     "tagin": [
       "Le re!",
-      "I have arrived.",
-      "Who authorized this?",
-      "Put it on my tab."
+      "Bhai, hold my leather jacket.",
+      "CEO in the building. Let's cook.",
+      "Put the property damage on my tab."
     ],
     "ability": [
-      "Take the cash!",
-      "Bribe deployed!",
-      "Invoice approved!",
-      "Keep the change!"
+      "Le re! Take the cash!",
+      "Bhai, take a stack and leave.",
+      "Throwing capital at the issue!",
+      "Keep the change, bhai."
     ],
     "hit": [
-      "Watch the suit!",
-      "My dry cleaning!",
-      "That's coming out of pay!",
-      "Unacceptable expense!"
+      "Bhai! Mind the leather jacket!",
+      "Ow! Uncalled for, bro.",
+      "Bruh, my drip!",
+      "Bhai, you really wanna test me?"
     ],
     "ko": [
-      "Liquidating assets...",
-      "Filing for bankruptcy...",
-      "Call my accountant...",
-      "Delegating my death..."
+      "Chuda lag gya hai...",
+      "Bhai... my vibe is offline...",
+      "Liquidating the aura...",
+      "Delegating my respawn..."
     ],
     "kill": [
-      "Hostile takeover!",
-      "Account closed!",
-      "Contract terminated!",
-      "Value extracted."
+      "Le re! Out of my face.",
+      "Get a load of this guy.",
+      "Hostile takeover complete.",
+      "Skill gap, bhai. Clean."
     ],
     "idle": [
-      "Time is money, boys.",
-      "I delegate this wait.",
-      "Who forgot the chai?",
-      "Send me the deck."
+      "Bhai, what if consciousness is a loop?",
+      "Are we idling or building suspense?",
+      "I delegate this standing around.",
+      "Who's ordering chai? I'm buying."
     ],
     "select": [
-      "Fine. But I'm not carrying anyone.",
-      "My retainer fee just doubled.",
-      "I'll manage the high-level strategy.",
-      "Put the travel expenses on my tab."
+      "Bhai, pick me. The drip alone wins.",
+      "I'll manage the vibes and the strategy.",
+      "Fine, but you're paying for chai.",
+      "Leather jacket's on. Let's roll."
     ],
     "results": [
-      "Under budget and ahead of schedule.",
-      "My investments always pay off.",
-      "That's how a real CEO closes a deal."
+      "Le re! Profit, aura, and vibes.",
+      "Bhai, we cooked. S-tier synergy.",
+      "Delegated, delivered, and cashed out."
+    ],
+    "philosophy": [
+      "Bhai, what even is money?",
+      "Bhai, is value just collective faith?",
+      "Do enemies feel pain or just keyframes?",
+      "What if the simulation is buffering?",
+      "Bhai, we are just dust with wifi."
+    ],
+    "hype": [
+      "Bhai. Bhai. BHAI! Let's GOOO!",
+      "Bhai listen, we're unstoppable!",
+      "BHAI! Feel the aura in this room!",
+      "Bhai, we're about to run this place!"
+    ],
+    "roast": [
+      "Get a load of this guy.",
+      "Bhai, look at your fit. Tragic.",
+      "Who invited this clown to the lobby?",
+      "Bhai, your DPS is an embarrassment."
+    ],
+    "empath": [
+      "Bhai, you good? Take a breather.",
+      "I got you, bhai. We ride together.",
+      "Drink some chai, bhai. You're safe.",
+      "Hey. I'm proud of you, bhai."
+    ],
+    "low": [
+      "Chuda lag gya hai.",
+      "Bhai, chuda lag gya hai fr.",
+      "Okay, we are cooked. Pull up!",
+      "Bhai, pop heals, this is redline!"
+    ],
+    "start": [
+      "Bhai, look at the size of this guy.",
+      "Le re! Big boss, bigger buyout.",
+      "Bhai listen: hit him where it hurts.",
+      "Get a load of this boss. Cute."
     ]
   }
 }

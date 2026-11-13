@@ -1,0 +1,61 @@
+{
+  "id": "stan-mode",
+  "bpm": 120,
+  "stepsPerBeat": 4,
+  "swing": 0.06,
+  "instruments": {
+    "lead": {
+      "wave": "square",
+      "volume": 0.11,
+      "attack": 0.003,
+      "decay": 0.08,
+      "sustain": 0.25,
+      "release": 0.05,
+      "cutoff": 2700
+    },
+    "bass": {
+      "wave": "triangle",
+      "volume": 0.22,
+      "attack": 0.003,
+      "decay": 0.08,
+      "sustain": 0.6,
+      "release": 0.04
+    },
+    "stab": {
+      "wave": "sawtooth",
+      "volume": 0.045,
+      "attack": 0.008,
+      "decay": 0.1,
+      "sustain": 0.15,
+      "release": 0.06,
+      "cutoff": 1400
+    },
+    "kick": {
+      "wave": "kick",
+      "volume": 0.3
+    },
+    "snare": {
+      "wave": "snare",
+      "volume": 0.16
+    },
+    "hat": {
+      "wave": "hat",
+      "volume": 0.055
+    }
+  },
+  "patterns": {
+    "hype": {
+      "lead": "E5 . . . G5 . A5 . . . E5 . . . B5 . A5 . . . G5 . . . D5 . E5 . . . . . C6 . . . B5 . G5 . . . A5 . . . E5 . G5 . A5 . B5 . . . E6 . - - . . . .",
+      "bass": "E2 . . . E2 . . . . . E3 . D3 . . . C2 . . . C3 . . . . . C3 . D3 . . . A2 . . . A2 . . . . . A3 . G3 . . . B2 . . . B2 . D3 . E2 . - - . . . .",
+      "stab": ". . . . B4 . . . . . . . G4 . . . . . . . E4 . . . . . . . G4 . . . . . . . E5 . . . . . . . C5 . . . D5 . . . . . B4 . E5 . - - . . . .",
+      "kick": "x . . . . . . . x . . . x . . . x . . . . . x . . . . . x . . . x . . . . . . . x . . . x . . . x . . . x . . . x . . . . . . .",
+      "snare": ". . . . x . . . . . . . x . . . . . . . x . . . . . . . x . . . . . . . x . . . . . . . x . . . . . . . x . . . x5 . x7 . x . . .",
+      "hat": "x5 . x3 . x5 . x3 . x5 . x3 . x7 . x3 . x5 . x3 . x5 . x3 . x7 . x3 . x5 . x3 . x5 . x3 . x5 . x3 . x5 . x3 . x7 . x3 . x5 . x5 . x7 . x5 . x . . . . . . ."
+    }
+  },
+  "order": [
+    "hype"
+  ],
+  "loopFrom": 0,
+  "loop": false
+}

@@ -4,6 +4,15 @@ from PIL import Image,ImageDraw
 import json
 EMOTIONS=['neutral','smug','panic','angry','deadpan','happy','sad','shocked']
 def portrait(who,emotion):
+    if who == 'mishthi':
+        from mishthi import portrait as mishthi_portrait
+        return mishthi_portrait(who,emotion)
+    if who in ('mansukh','brahmansh'):
+        from editor_likeness import portrait as editor_portrait
+        return editor_portrait(who,emotion)
+    if who in ('manvi','sehaj','ashwath','sayam'):
+        from likeness import portrait as likeness_portrait
+        return likeness_portrait(who,emotion)
     im=Image.new('RGBA',(64,64)); d=ImageDraw.Draw(im)
     def r(b,c,o=None): d.rectangle(b,fill=C[c],outline=C[o] if o is not None else None)
     def p(points,c): d.polygon(points,fill=C[c],outline=C[0])
@@ -79,7 +88,7 @@ def portrait(who,emotion):
         l([(47,60),(56,47)],6,3)
     return im
 p=A/'manifest.json'; m=json.loads(p.read_text()); (A/'portraits').mkdir(exist_ok=True)
-for who in ['ashwath','sayam','tushar','sehaj','mansukh','manya','brahmansh']:
+for who in ['ashwath','sayam','tushar','sehaj','mansukh','manya','brahmansh','manvi','mishthi']:
     sheet=Image.new('RGBA',(512,64))
     for i,emotion in enumerate(EMOTIONS): sheet.paste(portrait(who,emotion),(i*64,0))
     file=f'portraits/{who}.png'; sheet.save(A/file); m['portraits'][who]=dict(file=file,size=64,emotions=EMOTIONS)

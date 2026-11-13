@@ -5,7 +5,7 @@ import { join, relative } from 'node:path';
 import type { z } from '../packages/shared/src/index.ts';
 import {
   BarksSchema, CastSchema, CREW_IDS, CREW_REQUIRED_ANIMS, CrewVoicesSchema, DialogueSchema,
-  ENEMY_REQUIRED_ANIMS, FlavorSchema, ManifestSchema, QuipsSchema, SfxSchema, SongSchema, AchievementsSchema, FootageSchema,
+  ENEMY_REQUIRED_ANIMS, FlavorSchema, ManifestSchema, QuipsSchema, SfxSchema, SongSchema, AchievementsSchema, FootageSchema, VersusLinesSchema, GlossarySchema,
 } from '../packages/shared/src/index.ts';
 
 const ROOT = join(import.meta.dir, '..');
@@ -126,6 +126,10 @@ const quipsPath = join(CONTENT, 'story/quips.json');
 if (existsSync(quipsPath)) check(QuipsSchema, quipsPath);
 const footagePath = join(CONTENT, 'story/footage.json');
 if (existsSync(footagePath)) check(FootageSchema, footagePath);
+const versusPath = join(CONTENT, 'story/versus.json');
+if (existsSync(versusPath)) check(VersusLinesSchema, versusPath);
+const glossaryPath = join(CONTENT, 'story/glossary.json');
+if (existsSync(glossaryPath)) check(GlossarySchema, glossaryPath);
 
 const dialogueIds = new Map<string, string>();
 for (const p of listJson(join(CONTENT, 'dialogue'))) {

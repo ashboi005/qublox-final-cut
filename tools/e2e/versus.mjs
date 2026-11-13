@@ -20,15 +20,20 @@ const b1 = await launch();
 const a = await open(b1, 'A');
 await clickText(a, 'button', 'Versus'); await wait(300);
 await clickText(a, 'button', 'Vs CPU'); await wait(300);
-await clickText(a, '.studio-card', 'Sehaj'); await wait(2500);
+await clickText(a, '.studio-card', 'Sehaj');
+for (let k = 0; k < 40 && !(await state(a)); k++) await wait(250);
 R.cpuStart = await state(a);
 await a.keyboard.down('d'); for (let k = 0; k < 20; k++) { await a.keyboard.press('j'); await wait(120); } await a.keyboard.up('d');
 await a.keyboard.press('l'); await wait(600);
 R.cpuMid = await state(a);
 await a.screenshot({ path: 'tools/e2e/shots/versus-cpu.png' });
 // speed to a result: KO the CPU twice
-for (let r = 0; r < 2; r++) { await a.evaluate(() => { window.__fight.driver.state.fighters[1].hp = 1; }); await a.keyboard.press('j'); await wait(400); await a.keyboard.press('k'); await wait(4200); }
-await wait(2500);
+for (let r = 0; r < 2; r++) {
+  for (let k = 0; k < 40 && (await state(a))?.phase !== 'fight'; k++) await wait(250);
+  await a.evaluate(() => { window.__fight.driver.state.fighters[1].hp = 0; });
+  for (let k = 0; k < 40 && (await state(a))?.wins[0] <= r; k++) await wait(250);
+}
+for (let k = 0; k < 40 && !(await a.evaluate(() => !!document.querySelector('.versus-result'))); k++) await wait(250);
 R.cpuResult = await a.evaluate(() => document.querySelector('.versus-result h2')?.textContent ?? null);
 await b1.close();
 

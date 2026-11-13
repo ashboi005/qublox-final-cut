@@ -8,14 +8,18 @@ export function cpuInput(s: FightState, i: 0 | 1, level: 1 | 2 | 3 = 2): number 
   const dist = Math.abs(o.x - f.x) / SUB;
   let b = 0;
   // Block when the opponent is mid-attack and close (more often at higher levels).
-  if (o.mode === 'attack' && dist < 110 && r < 25 * level) return away;
+  // Defend: block (crouch-block sweeps) when the opponent swings nearby, more reliably at higher levels.
+  if (o.mode === 'attack' && dist < 110 && r < 25 * level) return BTN.BLOCK | (o.move === 'sweep' ? BTN.DOWN : 0);
+  if (f.mode === 'block' && r < 20) return BTN.LIGHT | BTN.HEAVY;   // tech: throw back out of block pressure
   if (dist > 70) b |= toward; else if (r < 10) b |= away;
   if (r > 95) b |= BTN.UP;
   const attackEvery = level === 3 ? 6 : level === 2 ? 9 : 14;
   if (s.frame % attackEvery === 0) {
     if (f.meter >= METER_MAX && r < 40) b |= BTN.SUPER;
-    else if (dist < 60) b |= r < 55 ? BTN.LIGHT : BTN.HEAVY;
+    else if (dist < 50 && r < 12) b |= BTN.LIGHT | BTN.HEAVY;                       // throw
+    else if (dist < 60) b |= r < 45 ? BTN.LIGHT : r < 60 ? BTN.HEAVY : r < 75 ? BTN.DOWN | BTN.HEAVY : toward | BTN.HEAVY;
     else if (r < 35) b |= BTN.SPECIAL;
   }
+  if (f.mode === 'attack' && s.frame % 5 === 0 && r < 45 * level / 3) b |= BTN.LIGHT;   // finish strings
   return b;
 }

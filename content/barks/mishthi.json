@@ -1,0 +1,78 @@
+{
+  "id": "mishthi",
+  "barks": {
+    "tagin": [
+      "Go sit down. Drink water.",
+      "As if I care? But take a breather.",
+      "Move. I'll fix this aesthetic disaster.",
+      "You're benched. Go drink some water."
+    ],
+    "ability": [
+      "MASTERPIECE! Don't ruin my gallery.",
+      "It's called 'Intern, Startled'.",
+      "A framed installation. Pure art.",
+      "Stay still. You're an art piece now."
+    ],
+    "hit": [
+      "Oh my god wtf bhai!",
+      "Excuse you, this corset is vintage.",
+      "Ow! Totally unprovoked drama.",
+      "Ruined my mood board. Rude."
+    ],
+    "ko": [
+      "The void claims me... dramatically.",
+      "Oh my god wtf bhai... goodnight.",
+      "Fade to black. Curtain closes.",
+      "Tell my props I loved them..."
+    ],
+    "kill": [
+      "Dam bhai! Look at that splatter.",
+      "Turned into avant-garde confetti.",
+      "Decommissioned and curated.",
+      "Your aesthetic was offensive anyway."
+    ],
+    "idle": [
+      "The ambient lighting is so depressing.",
+      "Standing around in beige. Tragic.",
+      "Can I redecorate this hallway?",
+      "I'm holding fairy lights for nothing."
+    ],
+    "select": [
+      "As if I care? Fine, I'll carry.",
+      "Ready to turn corporate junk into art.",
+      "Oh my god wtf bhai, let's just go.",
+      "Curating the battlefield. Selected."
+    ],
+    "results": [
+      "Dam bhai, that was actually gorgeous.",
+      "Exhibition closed. Five stars.",
+      "As if I cared? Okay, that was art.",
+      "Gallery wrapped. Perfect installation."
+    ],
+    "low": [
+      "Oh my god wtf bhai, I'm at 20%!",
+      "This is getting uncomfortably real.",
+      "Dam bhai, my health bar is fading.",
+      "Okay, this drama is not fun anymore."
+    ],
+    "start": [
+      "Oh my god wtf bhai, look at him.",
+      "Dam bhai, what an ugly boss design.",
+      "Time to turn this monstrosity into art.",
+      "As if I care about your phase two?"
+    ],
+    "indifferent": [
+      "As if I care?",
+      "Literally nothing you do hurts me.",
+      "Total indifference. Try harder.",
+      "I do not care. Not even a little.",
+      "Can't touch this aesthetic, bhai."
+    ],
+    "sigh": [
+      "*Dramatic sigh* The void is beige.",
+      "Why must existence lack contrast?",
+      "Sigh. The existential dread is back.",
+      "Another dramatic sigh for the room."
+    ]
+  }
+}

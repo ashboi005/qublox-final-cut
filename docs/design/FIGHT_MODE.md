@@ -22,28 +22,33 @@ The crew's request: a Tekken / Mortal Kombat-style 1v1. You create a room, get a
 | | Online / P1 | Local P2 |
 |---|---|---|
 | move / jump / crouch | `A` `D` / `W` / `S` (or arrows) | arrows |
-| block | hold **back** (away from the opponent) | hold back |
+| block (hold) / parry (tap just before a hit) | `U` or hold **back** | `4` or hold back |
 | light / heavy | `J` / `K` | `1` / `2` (numpad or row) |
 | special | `L` | `3` |
 | super (needs a full meter) | `I` | `0` |
+| move list (pauses offline) | `Tab` | |
 
 ## Rules
 
 - 2 rounds to win, 99-second timer (most HP wins on time-out). Each fighter has 1000 HP.
 - The **meter** fills when you land hits (and a little when you take them). Super costs a full meter.
-- Light: fast and safe. Heavy: slow, with big knockback. Blocking takes 10% chip damage.
+- **Fundamentals (everyone):** `J J J` 3-hit string (the 3rd knocks down) · `K` heavy · `↓+K` **sweep** (LOW, knocks down) · `→+K` **overhead** · air `J`/`K` (overheads) · `J+K` up close = **throw** (unblockable, knocks down, beats blocking).
+- **Combos:** a light/heavy that connects (hit or block) can cancel into the next string hit, or into your special or super. Presses are buffered for 6 frames.
+- **Blocking:** hold `U` or back. **Lows** must be crouch-blocked (hold ↓ too) and **overheads** stand-blocked; a hit that gets through a wrong-height block pops "LOW!"/"OVERHEAD!". Blocking takes 10% chip and drains a **guard bar**; empty guard = **GUARD BREAK** (dizzy ~1s). Tap `U` within 6 frames of a hit = **PARRY**: no chip, melee attackers stagger, +meter.
+- **Knockdowns:** strings, sweeps, throws, launchers and supers knock you down; while down you're invulnerable, then you get up.
 
 ## Movesets (from each person's real job and persona)
 
 | Crew | Special (`L`) | Super / finisher (`I`) |
 |---|---|---|
 | Ashwath | **INFO DUMP**: a close-range psychic multi-hit (3 ticks) | **SHIP IN 36 HOURS**: a hackathon countdown, then a full-screen deploy blast |
-| Sayam | **LE RE**: throws a fast wad of cash | **HOSTILE TAKEOVER**: cash rains on the opponent |
+| Sayam | **LE RE**: throws a fast wad of cash (hit words: BHAI · CHUDA LAG GYA on the sweep) | **HOSTILE TAKEOVER**: cash rains on the opponent |
 | Tushar | **CUT!**: freezes the opponent (short) if they're on screen | **THAT'S A WRAP**: a camera-flash dash strike |
 | Sehaj | **BEAST MODE**: a slow, heavy boulder | **CTRL+Z**: rewinds himself 1.5s (position and HP) |
 | Manvi | **MIND GAMES**: inverts the opponent's controls for 2s (needs mid-range) | **DHUMTANANA**: a heart shockwave across the stage, and heals her |
-| Mansukh | **PEN TOOL**: draws a vector wall that blocks projectiles and movement | **MAKE THE LOGO BIGGER**: becomes giant and stomps |
+| Mansukh | **PEN TOOL**: draws a vector wall that blocks projectiles and movement | **STAN MODE**: BABYMONSTER comes on in his headphones; a lightstick swing (knocks down), then 6s of +50% damage and +50% walk speed |
 | Manya | **SPLAT**: a paint arc; the puddle slows whoever stands in it | **FILL: YELLOW**: the floor turns bouncy and launches the opponent |
+| Mishthi | **IMPROVISE**: lobs a random prop in an arc | **AS IF I CARE?**: 3s of total indifference: she takes no damage and melee attackers get IGNORED (staggered) |
 | Brahmansh | **JUMP CUT**: teleports behind the opponent and strikes | **MONTAGE**: 6 rapid jump-cut strikes |
 
 Balance numbers live in `packages/shared/src/fight/moves.ts`.

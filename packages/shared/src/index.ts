@@ -2,7 +2,7 @@
 // The human-readable versions live in docs/art/ART_SPEC.md and docs/narrative/BRIEF.md.
 import { z } from 'zod';
 
-export const CREW_IDS = ['ashwath', 'sayam', 'mansukh', 'manya', 'sehaj', 'brahmansh', 'tushar', 'manvi'] as const;
+export const CREW_IDS = ['ashwath', 'sayam', 'mansukh', 'manya', 'sehaj', 'brahmansh', 'tushar', 'manvi', 'mishthi'] as const;
 export type CrewId = (typeof CREW_IDS)[number];
 export const isCrewId = (s: string): s is CrewId => (CREW_IDS as readonly string[]).includes(s);
 
@@ -126,6 +126,24 @@ export const FootageSchema = z.object({
   tapes: z.array(z.object({ id: z.enum(TAPE_IDS), title: z.string().max(32), caption: z.string().max(90) })),
 });
 export type Footage = z.infer<typeof FootageSchema>;
+
+/** VERSUS (fight mode) lines per crew: pre-fight taunts and win quotes. Gemini writes; story/versus.json. */
+export const VersusLinesSchema = z.object({
+  crew: z.partialRecord(z.enum(CREW_IDS), z.object({ intro: z.array(z.string().max(40)).default([]), win: z.array(z.string().max(70)).default([]) })),
+});
+/** Crew Glossary (title → The Crew): Gemini's sarcastic dossier per crew member. Mechanics come from code, not from here. story/glossary.json. */
+export const GlossarySchema = z.object({
+  intro: z.string().max(140).optional(),
+  crew: z.partialRecord(z.enum(CREW_IDS), z.object({
+    title: z.string().max(40),
+    tagline: z.string().max(90),
+    bio: z.string().max(360),
+    catchphrases: z.array(z.string().max(40)).max(6).default([]),
+    facts: z.array(z.string().max(80)).max(6).default([]),
+    threat: z.string().max(48).optional(),
+  })),
+});
+export type Glossary = z.infer<typeof GlossarySchema>;
 export const AchievementsSchema = z.object({
   achievements: z.array(z.object({ id: z.enum(ACHIEVEMENT_IDS), name: z.string().max(32), desc: z.string().max(80) })),
 });

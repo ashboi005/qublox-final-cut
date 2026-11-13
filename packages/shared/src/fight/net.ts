@@ -13,7 +13,7 @@ export const ClientMsg = z.discriminatedUnion('t', [
   z.object({ t: z.literal('pick'), crew }),
   z.object({ t: z.literal('ready'), ready: z.boolean() }),
   /** Inputs for frames [from, from + bits.length). Sent every frame with a short redundant tail. */
-  z.object({ t: z.literal('input'), from: z.number().int().min(0), bits: z.array(z.number().int().min(0).max(255)).min(1).max(16) }),
+  z.object({ t: z.literal('input'), from: z.number().int().min(0), bits: z.array(z.number().int().min(0).max(1023)).min(1).max(16) }),
   z.object({ t: z.literal('sync'), frame: z.number().int().min(0), sum: z.number().int().min(0) }),
   z.object({ t: z.literal('rematch') }),
   z.object({ t: z.literal('ping'), at: z.number() }),

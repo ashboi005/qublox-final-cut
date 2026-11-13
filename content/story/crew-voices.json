@@ -9,16 +9,39 @@
     },
     {
       "id": "sayam",
-      "voice": "Effortlessly smug executive chill. Treats every crisis like an invoice that needs settling. Speaks in calm negotiation tone while casually throwing stacks of bills.",
-      "vocab": ["le re", "delegated", "budget", "invoice", "synergy", "retainer", "cash", "handle it", "deal"],
-      "never": "Let me roll up my sleeves and write some code myself.",
+      "voice": "Charismatic, cocky but secretly empathetic leader: '10 personalities in one guy'. Wildly paradoxical, oscillating between Gen-Z streetwear slang, deep philosophical wonderings, curious geek-outs, and executive swagger throwing cash and delegating. Wears a leather jacket.",
+      "vocab": [
+        "le re",
+        "chuda lag gya hai",
+        "get a load of this guy",
+        "bhai",
+        "listen",
+        "delegated",
+        "leather jacket",
+        "philosophy",
+        "aura",
+        "cash"
+      ],
+      "never": "Watch the suit! My dry cleaning! Let me wear a beige corporate three-piece suit.",
       "proposedCatchphrase": null
     },
     {
       "id": "mansukh",
-      "voice": "Hyper-passionate design purist who treats bezier handles like divine architecture. Oscillates between triumphant vector glory and despair over client feedback.",
-      "vocab": ["babymonnsterrr", "vector", "kerning", "anchor point", "bezier", "curves", "feedback", "grid"],
-      "never": "Could you make the logo bigger and center everything in Comic Sans?",
+      "voice": "Creative, competitive, and wildly multitasking designer/game-dev with 15 tabs open. Spends more time tweaking than finishing. Headphones always on, music blasting. Ultimate BABYMONSTER stan (ASA bias, STAN MODE). Loves affectionately ragebaiting everyone ('always baiting people 💔').",
+      "vocab": [
+        "babymonnsterrr",
+        "asa",
+        "stan mode",
+        "lightstick",
+        "ratio",
+        "ragebait",
+        "pencil",
+        "pen tool",
+        "tweaking",
+        "tabs",
+        "prototype"
+      ],
+      "never": "I have closed all my background tabs, paused my music, and finished this project on time without tweaking a single setting.",
       "proposedCatchphrase": null
     },
     {
@@ -31,16 +54,31 @@
     {
       "id": "sehaj",
       "voice": "Quiet observer who speaks in short, dry, well-timed mic drops. Gym rat, avid gamer, and cinephile who tries to stay relentlessly positive (and sighs when he fails). Deeply devoted to his girl Manvi ('Maana'). Let others babble; he delivers the punchline.",
-      "vocab": ["vajj", "maana", "clean form", "frame rate", "cinema", "stay positive", "light weight", "ctrl-z", "render", "bench"],
+      "vocab": ["vajj", "fir khende bohota galla kad da", "maana", "clean form", "frame rate", "cinema", "stay positive", "light weight", "ctrl-z", "render", "bench"],
       "never": "I have a fifteen-minute speech about my feelings and I will speak continuously without pausing.",
       "proposedCatchphrase": null
     },
     {
       "id": "brahmansh",
-      "voice": "Adrenaline-fueled speed demon who treats real life like a 120fps montage. Talks fast, jumps conversation topics instantly, and hates unnecessary exposition.",
-      "vocab": ["jump cut", "pacing", "whip-pan", "hard cut", "timeline", "speed ramp", "fps", "skip"],
-      "never": "Let's pause and appreciate this five-minute static establishing shot.",
-      "proposedCatchphrase": "Cut to the chase!"
+      "voice": "Detail-obsessed video editor who catches that one bad frame from across the room. Extrovert, accepting, but easily annoyed by slowness or bad continuity. Niche-community humour and PG unhinged chaotic energy at the after-party. Fast jump cuts, high tempo, and glass-cannon swagger.",
+      "vocab": [
+        "gg thaa",
+        "parlaug bire",
+        "kutti jaat lubaane",
+        "house of shakes",
+        "jump cut",
+        "frame perfect",
+        "timeline",
+        "unhinged",
+        "continuity",
+        "bad frame",
+        "speed ramp",
+        "after-party",
+        "120 fps",
+        "tempo"
+      ],
+      "never": "Missing a dropped frame, tolerating a slow five-minute static shot, or being boring at an after-party.",
+      "proposedCatchphrase": null
     },
     {
       "id": "tushar",
@@ -54,6 +92,29 @@
       "voice": "Bubbly, energetic, and playfully mischievous psychology student. Radiates cheerful chaos and warmth, psychoanalyzing enemies mid-fight and doing playful masti with Sehaj and the gang.",
       "vocab": ["yippieeee", "whatcha doin", "hawwww", "dhumtanana", "masti", "psychology", "coping mechanism", "projection", "mind games", "heart"],
       "never": "I think we should repress our feelings, adopt corporate beige, and stop laughing.",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "mishthi",
+      "voice": "Creative, curious, and theatrical artist with a deadpan dramatic flair. Sarcastic and theatrically 'depressed' for comedic effect, but secretly deeply caring. Turns random junk into gallery-worthy art installations and denies ever worrying about anyone.",
+      "vocab": [
+        "oh my god wtf bhai",
+        "dam bhai",
+        "as if i care",
+        "masterpiece",
+        "props",
+        "vase",
+        "decor",
+        "installation",
+        "fairy lights",
+        "glue gun",
+        "drink water",
+        "dramatic sigh",
+        "void",
+        "aesthetic",
+        "art"
+      ],
+      "never": "I love corporate beige office cubes, I have zero emotional drama, and you don't need to drink any water.",
       "proposedCatchphrase": null
     }
   ]

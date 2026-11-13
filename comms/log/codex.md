@@ -228,3 +228,58 @@
 - Files: images/newspaper.png, manifest.json, tools/art/newspaper.py
 - Commit: d816cf5
 - Notes: manifest image key newspaper. Validator/pixel audit pass; native image visually inspected. Claude controls headline placement.
+
+### 2026-11-13 18:14 · T-A34 · REVIEW
+- Did: Manvi's photo-informed 48×48 sheet (all standard rows plus heart), eight 64×64 portrait emotions, 32×32 fx-heart and a rising three-bubble sine shimmer for ability-mind.
+- Files: apps/game/public/assets/sprites/characters/manvi.png, portraits/manvi.png, fx/heart.png, manifest.json; content/audio/sfx.json; tools/art/likeness.py, likeness_props.py, sfx.py; docs/art/ART_BIBLE.md.
+- Commit: included in this batch commit (art: add crew likenesses and signature moves).
+- Notes: native pixels, palette-only and binary alpha. Centre part, dark leather lapels, rose top, wide-leg jeans. 8 run frames / 5 attack / 6 ability are within ART_SPEC. Viewer checked at 1× and 2×; PNG portraits inspected separately. Private reference remains ignored.
+
+### 2026-11-13 18:14 · T-A35 · REVIEW
+- Did: Sehaj's olive dastar, full beard and varsity jacket likeness; standard rows, six-frame beast and four-frame heart. BEAST keeps a white tank top, tears away sleeves and lifts a rock; dastar stays neat, on and visible in every frame. KO ends seated. Added boulder 16×16 and cracked-wall 16×32 image keys.
+- Files: apps/game/public/assets/sprites/characters/sehaj.png, portraits/sehaj.png, sprites/props/boulder.png, sprites/props/cracked-wall.png, palette.hex, palette.png, manifest.json; tools/art/likeness.py, likeness_props.py, palette.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
+- Commit: included in this batch commit (art: add crew likenesses and signature moves).
+- Notes: two olive colours added, 42/48 total. Viewer checked at 1× and 2×, including the intact dastar under the boulder. Generator delegation prevents old placeholder art overwriting these likenesses on rebuild.
+
+### 2026-11-13 18:14 · T-A36 · REVIEW
+- Did: Ashwath's wavy hair, gold square aviators with blue glints, short beard, cream red-spider tee and smartwatch; standard rows plus info/cosmic. Eight portraits. Added sprite-can 16×16, telescope 32×32 and optional decor-trophy 24×32 (gold first-place cup) as manifest image keys.
+- Files: apps/game/public/assets/sprites/characters/ashwath.png, portraits/ashwath.png, sprites/props/sprite-can.png, sprites/props/telescope.png, sprites/props/decor-trophy.png, manifest.json; tools/art/likeness.py, likeness_props.py; docs/art/ART_BIBLE.md.
+- Commit: included in this batch commit (art: add crew likenesses and signature moves).
+- Notes: viewer checked at 1× and 2×. bun run validate passes (100 files, zero warnings); exact-palette/binary-alpha audit passes. Portraits/props inspected at native and nearest-neighbour enlarged scale. Ability-mind data validated; no subjective listening pass claimed.
+- NOTE for claude: ART_SPEC still lists seven crew keys; Manvi is accepted by validation/runtime. Optional trophy is registered for you to place. F2 snapshots work again; opening during dialogue leaves the dialogue over the viewer, but skipping dialogue first makes inspection unobstructed.
+
+### 2026-11-13 18:17 · T-A33 · REVIEW
+- Did: five district variants: stock-intern-render-farm (cooling vest/sweat), stock-intern-the-set (false moustache/clipboard), stock-intern-the-feed (phone/ring light), stock-intern-templatr (compliance lanyard), corporate-memphis-blob-templatr (beige shading).
+- Files: apps/game/public/assets/sprites/enemies/stock-intern-render-farm.png, stock-intern-the-set.png, stock-intern-the-feed.png, stock-intern-templatr.png, corporate-memphis-blob-templatr.png; manifest.json; tools/art/district_reskins.py; docs/art/enemy-reskins.md.
+- Commit: included in this commit (art: add district enemy costumes).
+- Notes: copied base 48×48 dimensions and all animation metadata exactly, including move (not walk), 500 ms intern telegraph, hitFrame 2 and the blob split row. F2 checked at native and 2× scale. Accessories follow shove/death squash. No new colours. bun run validate: 100 files, zero warnings; RGBA/exact-palette/binary-alpha audit passes. All currently assigned art tasks are submitted; entering await-orders loop.
+
+### 2026-11-13 23:07 · T-A37 · REVIEW
+- Did: Sayam photo likeness, all standard rows plus five-frame bhai (finger-up → open-palm explanation); eight portraits with asymmetric smug expression. Grey glasses, wavy fringe, light stubble, graphic shirt, leather jacket, pocketed idle and chunky sneakers. Cash toss preserved.
+- Files: sprites/characters/sayam.png, portraits/sayam.png, manifest.json, palette.hex, palette.png; tools/art/likeness.py, crew.py, portraits.py, palette.py; docs/art/ART_BIBLE.md.
+- Commit: included in this commit (art: draw Sayam likeness and bhai gestures).
+- Notes: HUD green #1d7a3a added as colour 43/48 for lining and sneakers. F2 checked at 1× and 2×; portraits inspected, including smug in live dialogue. Validation/pixel audit pass. Python 3.14 has Pillow; the newer default python3 lacks it, so use python3.14 for generation.
+
+### 2026-11-13 23:10 · T-A38 · REVIEW
+- Did: Mansukh reference likeness, red dastar kept intact, cream camp shirt/chain, headphones, blue jeans, pencil; all standard rows plus six-frame stan. Eight portraits, baiting smug. Original heart-emblem horned lightstick 16×16. Original 8-second, 120-BPM four-bar non-looping stan-mode stinger.
+- Files: sprites/characters/mansukh.png, portraits/mansukh.png, sprites/props/lightstick.png, manifest.json; content/audio/songs/stan-mode.json; tools/art/editor_likeness.py, stan_stinger.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
+- Commit: included in this batch commit (art: add editor likenesses and stan assets).
+- Notes: F2 checked at 1× and 2×; portrait contact sheet inspected. Lightstick uses a heart, no real band logo. Song is original data, validated; subjective audio listening not claimed. Runtime must resume level music after the non-looping stinger.
+
+### 2026-11-13 23:10 · T-A40 · REVIEW
+- Did: Brahmansh black dastar, full beard/curled moustache, piped black polo, steel kara and blade. Standard rows plus six-frame unhinged with asymmetric arms/stagger/red streaks. Eight portraits with angry brows and moustache-forward smug.
+- Files: sprites/characters/brahmansh.png, portraits/brahmansh.png, manifest.json; tools/art/editor_likeness.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
+- Commit: included in this batch commit (art: add editor likenesses and stan assets).
+- Notes: intact dastar in every frame, seated KO, no bottles/drinks. Existing palette signal red for the accent. F2 checked at 1× and 2×; portraits inspected. Validator passes with one unrelated warning: Mishthi still uses a placeholder. All PNGs pass palette/alpha audit.
+
+### 2026-11-13 23:10 · T-A39 · REVIEW
+- Did: distressed red CLASSIFIED rubber stamp, 96×48, binary alpha.
+- Files: apps/game/public/assets/images/glossary-stamp.png, manifest.json; tools/art/glossary_stamp.py.
+- Commit: included in this batch commit (art: add editor likenesses and stan assets).
+- Notes: image key glossary-stamp, inspected at native size; layout/rotation left to Claude. No UI code changed.
+
+### 2026-11-13 23:13 · T-A41 · REVIEW
+- Did: Mishthi's standard 48×48 sheet plus six-frame indifferent (hair flip, turn-away, crossed arms), eight portraits including side-eye smug and theatrical despair. White blouse/brown lace-up corset, swept waves, gold earrings/bracelet and berry lip. Added prop 16×16 ceramic vase and art-frame 16×4 gold ledge image keys.
+- Files: sprites/characters/mishthi.png, portraits/mishthi.png, sprites/props/prop.png, sprites/props/art-frame.png, manifest.json; tools/art/mishthi.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
+- Commit: included in this commit (art: add Mishthi likeness and prop kit).
+- Notes: F2 checked at 1× and 2×; portraits inspected separately. Native pixels, exact palette, binary alpha. bun run validate: 102 files, zero warnings; pixel audit passes. Reference photos remain ignored. No new palette colours.

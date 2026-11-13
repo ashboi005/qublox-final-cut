@@ -7,6 +7,15 @@ C = ['#'+x for x in COLORS]
 ANIMS = [('idle',4,6,True),('run',8,12,True),('jump',2,8,False),('fall',2,6,True),('attack',5,14,False),('ability',6,10,False),('hurt',2,9,False),('ko',4,8,False),('tagin',4,12,False)]
 
 def frame(who, anim, f):
+    if who == 'mishthi':
+        from mishthi import frame as mishthi_frame
+        return mishthi_frame(who,anim,f)
+    if who in ('mansukh','brahmansh'):
+        from editor_likeness import frame as editor_frame
+        return editor_frame(who,anim,f)
+    if who in ('manvi','sehaj','ashwath','sayam'):
+        from likeness import frame as likeness_frame
+        return likeness_frame(who,anim,f)
     im=Image.new('RGBA',(48,48)); d=ImageDraw.Draw(im)
     main,shade={'ashwath':(17,16),'sayam':(20,21),'tushar':(22,23),'sehaj':(18,16),'mansukh':(25,24),'manya':(29,27),'brahmansh':(26,34)}[who]
     dy = [0,0,-1,0][f%4] if anim=='idle' else 0
@@ -126,6 +135,15 @@ def frame(who, anim, f):
     return im
 
 def build(who):
+    if who == 'mishthi':
+        from mishthi import build as mishthi_build
+        return mishthi_build(who)
+    if who in ('mansukh','brahmansh'):
+        from editor_likeness import build as editor_build
+        return editor_build(who)
+    if who in ('manvi','sehaj','ashwath','sayam'):
+        from likeness import build as build_likeness
+        return build_likeness(who)
     anims=ANIMS+([('panic',4,12,True)] if who=='tushar' else [])
     sheet=Image.new('RGBA',(384,48*len(anims))); entries={}
     for row,(anim,n,fps,loop) in enumerate(anims):

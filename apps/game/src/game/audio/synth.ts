@@ -70,6 +70,31 @@ class Synth {
     return this.muted;
   }
 
+  // ---------- Voice (the crew's real recorded lines; see game/voice.ts) ----------
+  private clips = new Map<string, Promise<AudioBuffer | null>>();
+  private talking: AudioBufferSourceNode | null = null;
+  /** Warm the decode cache so the first line doesn't lag. */
+  preloadVoice(url: string) { if (this.ctx && !this.clips.has(url)) this.clips.set(url, this.decode(url)); }
+  private async decode(url: string): Promise<AudioBuffer | null> {
+    try { const r = await fetch(url); return r.ok && this.ctx ? await this.ctx.decodeAudioData(await r.arrayBuffer()) : null; } catch { return null; }
+  }
+  /** Play a recorded line over everything, ducking the music. Interrupts the previous line. Resolves false if it can't play. */
+  async speak(url: string): Promise<boolean> {
+    if (!this.ctx || this.muted) return false;
+    if (!this.clips.has(url)) this.clips.set(url, this.decode(url));
+    const buf = await this.clips.get(url)!;
+    if (!buf || !this.ctx) return false;
+    try { this.talking?.stop(); } catch { /* already stopped */ }
+    const src = this.ctx.createBufferSource(); src.buffer = buf;
+    const g = this.ctx.createGain(); g.gain.value = 1.15;
+    src.connect(g).connect(this.master);
+    const t = this.ctx.currentTime;
+    this.musicBus.gain.setTargetAtTime(0.18, t, 0.05);
+    src.onended = () => { if (this.talking === src) { this.talking = null; this.musicBus.gain.setTargetAtTime(0.55, this.ctx!.currentTime, 0.2); } };
+    this.talking = src; src.start();
+    return true;
+  }
+
   setSfxBank(bank: SfxBank['sfx'] | null | undefined) { this.sfxBank = { ...DEFAULT_SFX, ...(bank ?? {}) }; }
 
   // ---------- Music ----------

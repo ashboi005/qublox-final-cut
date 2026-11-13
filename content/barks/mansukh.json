@@ -3,56 +3,77 @@
   "barks": {
     "tagin": [
       "Babymonnsterrr!",
-      "Anchor points ready!",
-      "Line art engaged.",
-      "Vector king is here."
+      "Headphones on. Time to cook.",
+      "Lightstick ready. Let's ragebait.",
+      "New hobby unlocked: beating you up."
     ],
     "ability": [
-      "Pen tool bridge!",
-      "Drawing the line!",
-      "Snap to grid!",
-      "Bezier path active!"
+      "Pen tool bridge! Don't look down.",
+      "Drawing vector paths in mid-air!",
+      "Snap to grid, baby!",
+      "Bezier curve locked! Step on it."
     ],
     "hit": [
-      "Ouch! Off-grid!",
-      "My stroke width!",
-      "Unclosed path!",
-      "My stylus tip broke!"
+      "Hey! Mind the headphones!",
+      "Don't scratch my lightstick!",
+      "Baiting me? You can't bait the master.",
+      "Ouch! My layers are desyncing!"
     ],
     "ko": [
-      "Layer flattened...",
-      "Discarding changes...",
-      "Rasterized forever...",
-      "Can't close path..."
+      "Babymonnsterrr... save me...",
+      "Too many tabs open... crashing...",
+      "Should've finished that roguelike...",
+      "Asa would be disappointed in me..."
     ],
     "kill": [
-      "Vectorized!",
-      "Clean lines only!",
-      "Deleted the layer!",
-      "Export complete!"
+      "Ratio + L + no aura.",
+      "Deleted your layer. EZ.",
+      "Babymonnsterrr! Absolute cinema.",
+      "Clean wipe. Next project!"
     ],
     "idle": [
-      "Need to align pixels.",
-      "Who nudged my margins?",
-      "Curves need tweaking.",
-      "Checking aspect ratio."
+      "Just gonna tweak this jump physics...",
+      "What song is this? Oh, track 4 again.",
+      "Headphones at 100%. Don't bother me.",
+      "15 tabs open and zero regrets."
     ],
     "feedback": [
-      "MAKE IT BIGGER?! NOOO!",
-      "DON'T POP THE LOGO!",
-      "THE KERNING! IT HURTS!",
-      "UNREASONABLE REVISION!"
+      "MAKE THE LOGO BIGGER?! NOOO!",
+      "DON'T POP IT! IT ALREADY POPS!",
+      "UNREASONABLE REVISION! REJECTED!",
+      "THE KERNING! IT PHYSICALLY HURTS!"
     ],
     "select": [
-      "Vectors aligned. Let's make art.",
-      "Nobody ask for logo revisions.",
-      "Babymonnsterrr is locked in!",
-      "Grid is snapped. Point me forward."
+      "Babymonnsterrr! Headphones on, let's go.",
+      "I brought 3 unfinished prototypes.",
+      "Lightstick charged, pencil sharpened.",
+      "I'll carry, but I might tweak settings."
     ],
     "results": [
-      "Every single anchor point was flawless.",
-      "Vectors held! Zero client revisions!",
-      "Babymonnsterrr! Print the posters!"
+      "Babymonnsterrr! Perfect run, no notes.",
+      "Victory shipped! Now back to my game.",
+      "Ratioed the entire district. Clean W."
+    ],
+    "stan": [
+      "STAN MODE! Asa bias activated!",
+      "Babymonnsterrr! The beat just dropped!",
+      "Lightstick blazing! 100% confidence!",
+      "Headphones blast! Unstoppable aura!",
+      "Feel that monster bass! Let's gooo!"
+    ],
+    "ragebait": [
+      "Ratio + L + zero aura.",
+      "Imagine missing attacks in 2084.",
+      "You mad, bro? Always baiting 💔",
+      "Is that your final attack? Skill issue.",
+      "Mad cause bad? Cry about it, bot."
+    ],
+    "newproject": [
+      "What if I made a cozy farming sim?",
+      "Wait... what if this was a roguelike?",
+      "Opening tab 16: Godot tutorial.",
+      "Hear me out: rhythm game boss fight.",
+      "New prototype started. Current one? Meh."
     ]
   }
 }

@@ -15,7 +15,7 @@ const common = (r: Room, name: string, next: string | null) => {
   r.m('@party ashwath,sayam').m('@dialogue ep0-cold-open');
   r.m('@sign 4 4 DELIVERY: 9:00 AM — EXPORT HANGING').m('@sign 30 3 HOTFIX #992 — DO NOT TOUCH');
   r.m(`@hint 3 ${f - 3} A/D walk · SPACE leap · J mechanical slap`).m(`@hint 19 ${f - 6} K = job superpower · 1/2 swap active crew`).m(`@hint 40 ${f - 4} Sayam hurls cash. LE RE! Keep the change.`);
-  r.set(3, f, 'P');
+  r.set(3, f, 'P').pin('decor-trophy', 8);                               // Ashwath's real first-place hackathon cup
   r.fill(14, f - 2, 17, f - 2, '=');
   r.fill(24, f - 1, 27, f, '#').set(25, f - 2, 'h');
   r.fill(19, f - 4, 22, f - 4, '=').m(`@tape 20 ${f - 5} ep0-1`);          // secret ledge off the cubicle block

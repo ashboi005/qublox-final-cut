@@ -2,51 +2,73 @@
   "id": "brahmansh",
   "barks": {
     "tagin": [
-      "Cut to the chase!",
-      "Speed ramp engaged!",
-      "Fast-forwarding!",
-      "No preamble!"
+      "Jump Cut locked. Let's move!",
+      "Zero latency. 120 FPS run!",
+      "Pacing was dragging. I'm in!",
+      "Skipping straight to the action."
     ],
     "ability": [
-      "Jump cut!",
-      "Blink through!",
-      "Hard cut teleport!",
-      "Skip ahead!"
+      "Jump Cut!",
+      "Skipped that frame!",
+      "Hard cut through you!",
+      "Blink and you missed it!"
     ],
     "hit": [
       "Bad transition!",
       "Off beat!",
-      "Oof! Whiplash!",
-      "Fumbled the trim!"
+      "Oof! Who cut that frame?",
+      "Continuity error!"
     ],
     "ko": [
-      "Hard fade out...",
-      "Ran out of timeline...",
-      "Cut down in post...",
-      "Static noise..."
+      "Hard fade to black...",
+      "Dropped all the frames...",
+      "Cut from the final render...",
+      "Static on the timeline..."
     ],
     "kill": [
-      "Left on cutting floor!",
-      "Jump-cut out of reality!",
-      "Zero latency kill!",
-      "Skipped you entirely!"
+      "Parlaug bire!",
+      "Left on the cutting floor!",
+      "Jump-cut out of the timeline!",
+      "Deleted from the raw footage!"
     ],
     "idle": [
-      "Move faster, let's go!",
       "Why are we pacing so slow?",
-      "Skip the boring parts.",
-      "Waiting ruins the rhythm."
+      "Waiting ruins the rhythm, bro.",
+      "I can't sit still at 120 FPS.",
+      "Skip ahead or I'll jump-cut."
     ],
     "select": [
-      "Cut to the chase! Let's move!",
       "Zero latency pick. Let's sprint.",
-      "I'll jump-cut through the boring bits.",
-      "Pacing is locked. No pauses."
+      "I'll jump-cut the boring parts.",
+      "120 FPS tempo locked in. Let's go.",
+      "Editor on the floor. Zero bad frames."
     ],
     "results": [
-      "Cut to the wrap! Flawless pacing!",
-      "Zero filler frames. Pure speed.",
-      "Jump-cut straight to the winner podium."
+      "GG thaa 🔫!",
+      "Zero filler frames. Flawless pacing.",
+      "Jump-cut straight to the wrap party.",
+      "Master edit delivered. Ship it!"
+    ],
+    "unhinged": [
+      "House of shakes!",
+      "Who turned the room sideways?!",
+      "Chaotic jump cuts everywhere!",
+      "After-party tempo activated!",
+      "The camera can't even track me!"
+    ],
+    "annoyed": [
+      "Kutti jaat lubaane!",
+      "Two hits in a row? Now I'm annoyed.",
+      "You messed up my continuity!",
+      "Badly timed attack. That's personal.",
+      "Enough dropped frames. You're done."
+    ],
+    "frame": [
+      "Saw that frame coming.",
+      "Frame perfect! Bad wind-up, bro.",
+      "Telegraphed from five frames away.",
+      "Caught you mid keyframe!",
+      "Editor's eye never misses."
     ]
   }
 }

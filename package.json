@@ -14,7 +14,7 @@
     "typecheck": "(cd packages/shared && tsc --noEmit) && (cd apps/game && tsc --noEmit) && (cd apps/server && tsc --noEmit) && tsc -p tools --noEmit",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
-    "e2e": "for t in ep0 ep1 ep2 ep3 ep4 features; do echo \"== $t\"; node tools/e2e/$t.mjs || exit 1; done"
+    "e2e": "for t in ep0 ep1 ep2 ep3 ep4 features glossary story; do echo \"== $t\"; node tools/e2e/$t.mjs || exit 1; done"
   },
   "devDependencies": {
     "@types/bun": "latest",
