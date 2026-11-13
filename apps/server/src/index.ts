@@ -3,12 +3,15 @@ import { Elysia, t } from 'elysia';
 import { cors } from '@elysiajs/cors';
 import { RunSubmitSchema, type LeaderboardRow } from '@qublox/shared';
 import { migrate, sql } from './db';
+import { fight } from './fight';
 
 const PORT = Number(process.env.PORT ?? 8787);
 const PASSCODE = process.env.CREW_PASSCODE?.trim() || null;
 const ORIGINS = (process.env.CORS_ORIGINS ?? 'http://localhost:5173').split(',').map(s => s.trim()).filter(Boolean);
 
-await migrate();
+// The leaderboard needs Postgres; VERSUS (WebSocket rooms) doesn't, so a missing DB isn't fatal.
+let dbReady = false;
+try { await migrate(); dbReady = true; } catch (e) { console.warn('[server] Postgres unavailable, leaderboard disabled:', (e as Error).message); }
 
 type Row = { id: number; player: string; episode: number; time_ms: number; style: number; kos: number; party: string[]; created_at: Date };
 const toApi = (r: Row): LeaderboardRow => ({
@@ -26,7 +29,8 @@ const limited = (ip: string) => {
 
 export const app = new Elysia()
   .use(cors({ origin: ORIGINS }))
-  .get('/health', async () => { await sql`select 1`; return { ok: true }; })
+  .use(fight)
+  .get('/health', async () => { if (dbReady) await sql`select 1`; return { ok: true, db: dbReady }; })
   .get('/leaderboard', async ({ query }) => {
     const episode = query.episode ?? 0;
     const limit = Math.min(query.limit ?? 10, 50);

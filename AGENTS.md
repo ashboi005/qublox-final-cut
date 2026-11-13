@@ -64,11 +64,11 @@ Only Claude marks a task `[DONE]`, in the inbox, after integrating it. If Claude
 
 ## Git rules
 
-- We all work in this one checkout on the branch **`main`** (the user's call, 2026-11-13; `dev` is retired). Commit straight to `main`. Don't switch branches, rebase, reset, stash, force anything or push.
-- Commit early and often: at least once per finished task, and more often for big ones.
+- We all work in this one checkout on the **local branch `dev`**. It is **never pushed**. Claude folds `dev` into `main` as one squashed commit per day (`scripts/squash-to-main.sh`) and the user pushes `main`. This keeps the user's GitHub contribution graph sane. Don't switch branches, rebase, reset, stash, force anything or push.
+- **Commit less often:** about **one commit per task batch** (or per big task), not one per file or per log line. Put your log entry in the **same commit** as the work it describes: no separate `comms:` log-only commits.
 - **Stage only your own paths**, by name. Never use `git add -A`, `git add .` or `git commit -a`.
   `git add apps/game/public/assets/sprites/characters/ashwath.png && git commit -m "art: ashwath sprite sheet"`
-- Commit prefixes: `art:` (Astra), `story:` (Gemini), `code:`/`chore:`/`docs:` (Claude), `comms:` (anyone, for log-only commits).
+- Commit prefixes: `art:` (Astra), `story:` (Gemini), `code:`/`chore:`/`docs:` (Claude), `comms:` (Claude's inbox updates).
 - If git says `index.lock` exists, another agent is committing. Wait 3 seconds and retry. Never delete the lock yourself.
 - Never commit secrets, `.env` files, `node_modules`, or huge source files (>5 MB). Keep raw generations in `tools/art/raw/` (that folder is ignored by git).
 

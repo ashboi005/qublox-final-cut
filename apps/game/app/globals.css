@@ -203,3 +203,24 @@ kbd { display: inline-block; min-width: 18px; padding: 1px 4px; margin-right: 2p
 .ach-list b { font-weight: 900; font-variation-settings: 'wdth' 110; font-size: 1.5cqw; text-transform: uppercase; }
 .ach-list span { font-size: 1.2cqw; }
 .ach-sub { margin: 1.6cqw 0 .8cqw; font-family: var(--display); font-weight: 900; font-size: 1.8cqw; text-transform: uppercase; }
+
+/* ---------- VERSUS ---------- */
+.versus { position: absolute; inset: 0; background: var(--ink); color: var(--bone); padding: 2.4cqw 3cqw; display: grid; grid-template-rows: auto 1fr auto; gap: 1.4cqw; overflow: auto; }
+.versus kbd { font-family: var(--pixel); font-size: .9em; border: 1px solid var(--bone); padding: 0 .3em; }
+.versus-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1cqw; align-content: start; max-width: 64cqw; }
+.versus-menu > button, .versus-join button { font: 800 1.8cqw var(--display); text-transform: uppercase; padding: 1.2cqw 1.4cqw; border: 2px solid var(--bone); background: var(--ink-2); color: var(--bone); cursor: pointer; text-align: left; box-shadow: 4px 4px 0 var(--signal); }
+.versus-menu > button small { display: block; font: normal .9cqw var(--pixel); color: var(--muted); text-transform: none; margin-top: .3cqw; }
+.versus-menu button:hover, .versus-menu button:focus-visible { background: var(--signal); color: var(--ink); outline: none; }
+.versus-menu button:disabled { opacity: .4; cursor: default; }
+.versus-field { grid-column: 1 / -1; display: grid; gap: .4cqw; font: normal 1cqw var(--pixel); color: var(--muted); }
+.versus-field input, .versus-join input { font: 800 1.8cqw var(--display); padding: .8cqw 1cqw; background: var(--bone); color: var(--ink); border: 2px solid var(--bone); min-width: 0; }
+.versus-join { display: grid; grid-template-columns: 1fr auto; gap: .6cqw; }
+.versus-join input { text-transform: uppercase; letter-spacing: .3em; text-align: center; }
+.versus-msg { grid-column: 1 / -1; margin: 0; font: normal 1.1cqw var(--pixel); color: #ff7a7a; }
+.versus-result { place-content: center; text-align: center; grid-template-rows: none; }
+.versus-result h2 { margin: .4cqw 0; font-weight: 900; font-variation-settings: 'wdth' 125; font-size: 5cqw; text-transform: uppercase; }
+.versus-sub { margin: 0 0 1.4cqw; font-size: 1.8cqw; }
+.versus-result .studio-actions { justify-content: center; }
+.studio-actions button.is-go { background: var(--signal); color: var(--ink); border-color: var(--signal); }
+.studio-actions button:disabled { opacity: .4; cursor: default; }
+.title-item.is-vs .title-ep { color: var(--signal); }

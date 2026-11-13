@@ -21,7 +21,7 @@ export class BootScene extends Phaser.Scene {
     const content = (this.cache.json.get('content') as GameContent | undefined) ?? { levels: {}, dialogue: {}, barks: {}, story: {}, errors: [] };
     if (content.errors.length) console.warn('[boot] content files with invalid JSON:', content.errors);
     this.registry.set('content', content);
-    const start = () => { buildArt(this); this.scene.start('game', this.registry.get('boot') as BootData); };
+    const start = () => { buildArt(this); this.scene.start((this.registry.get('next') as string | undefined) ?? 'game', this.registry.get('boot') as BootData); };
     if (queueManifestFiles(this)) { this.load.once('complete', start); this.load.start(); }
     else start();
   }

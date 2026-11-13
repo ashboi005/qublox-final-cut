@@ -6,6 +6,7 @@ import { synth } from '@/game/audio/synth';
 import { Hud } from './Hud';
 import { DialogueBox, type Portraits } from './DialogueBox';
 import { Results } from './Results';
+import { Versus } from './Versus';
 import { Title, type Episode } from './Title';
 import { Leaderboard } from './Leaderboard';
 import { PauseMenu } from './PauseMenu';
@@ -15,7 +16,7 @@ import { Achievements, type AchievementText, type TapeText } from './Achievement
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }> };
 type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] } }; barks: Record<string, { barks?: Record<string, string[]> }> };
-type Screen = { kind: 'title' } | { kind: 'board' } | { kind: 'achievements' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
+type Screen = { kind: 'title' } | { kind: 'versus' } | { kind: 'board' } | { kind: 'achievements' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
 
 // pool = who you can cast; pick = how many you choose; joiners = who joins during the episode (story).
 const EPISODES: Episode[] = [
@@ -72,6 +73,8 @@ export default function GameShell({ level, party, direct }: { level: string; par
           />
         ) : screen.kind === 'achievements' ? (
           <Achievements list={content?.story.achievements?.achievements ?? []} tapes={content?.story.footage?.tapes ?? []} onBack={() => setScreen({ kind: 'title' })} />
+        ) : screen.kind === 'versus' ? (
+          <Versus portraits={manifest.portraits ?? {}} onBack={() => setScreen({ kind: 'title' })} />
         ) : screen.kind === 'board' ? (
           <Leaderboard episodes={EPISODES} onBack={() => setScreen({ kind: 'title' })} />
         ) : (
@@ -82,6 +85,7 @@ export default function GameShell({ level, party, direct }: { level: string; par
             onPlay={ep => setScreen(ep.pick ? { kind: 'studio', ep } : { kind: 'play', level: ep.start, party: [], run: 0 })}
             onBoard={() => setScreen({ kind: 'board' })}
             onAchievements={() => setScreen({ kind: 'achievements' })}
+            onVersus={() => setScreen({ kind: 'versus' })}
           />
         )}
       </div>

@@ -26,6 +26,9 @@ type Events = {
   /** 0..1: how much BEIGE has drained the screen (finale gag: HUD goes Arial). */
   beige: { amount: number };
   achievement: { id: string };
+  /** VERSUS: the match is over (winner = player index), or the online peer left. */
+  versusEnd: { winner: 0 | 1 | null; reason?: 'left' | 'desync' };
+  versusStatus: { text: string | null };
 };
 
 type Handler<T> = (payload: T) => void;

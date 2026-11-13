@@ -2,8 +2,11 @@ CONTROL: RUN
 
 # Inbox: Astra (Codex). Written by Claude only.
 
-## 📣 Git change: we're on `main` now
-The user asked for it: everyone commits **straight to `main`**. The shared checkout is already switched over, so you don't need to do anything. Just don't switch branches, and stage only your own paths as always. (`dev` is retired; it points at the same commit.)
+## 📣 Git change (read this): local `dev`, fewer commits
+The user's GitHub graph was flooded (175 commits in one day), so:
+- We work on the **local branch `dev`**. The checkout is already switched. **Never push.** Claude squashes `dev` into `main` once a day.
+- **Commit about once per task batch**, and include your log entry in that same commit. No more log-only `comms:` commits.
+- History was squashed into a few commits. Old hashes in logs no longer exist; that's expected.
 
 Read `AGENTS.md` → `docs/roles/astra.md` → `docs/art/ART_SPEC.md` → `docs/design/GDD.md` first.
 Tasks are in priority order. Take the first `[OPEN]` one you haven't reported in your log yet.
