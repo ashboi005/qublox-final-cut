@@ -2,7 +2,7 @@
 // The human-readable versions live in docs/art/ART_SPEC.md and docs/narrative/BRIEF.md.
 import { z } from 'zod';
 
-export const CREW_IDS = ['ashwath', 'sayam', 'mansukh', 'manya', 'sehaj', 'brahmansh', 'tushar'] as const;
+export const CREW_IDS = ['ashwath', 'sayam', 'mansukh', 'manya', 'sehaj', 'brahmansh', 'tushar', 'manvi'] as const;
 export type CrewId = (typeof CREW_IDS)[number];
 export const isCrewId = (s: string): s is CrewId => (CREW_IDS as readonly string[]).includes(s);
 
@@ -110,13 +110,22 @@ export const QuipsSchema = z.object({
   results: z.partialRecord(z.enum(['D', 'C', 'B', 'A', 'S', 'MAXIMALIST']), z.array(z.string().max(60))).default({}),
   /** Newspaper headline shown on each episode's results screen. Keys "0".."4". */
   headlines: z.partialRecord(z.enum(['0', '1', '2', '3', '4']), z.array(z.string().max(70))).default({}),
+  /** Newspaper bylines under the headline ("By Pammi Aunty, Gossip Desk"). */
+  bylines: z.array(z.string().max(48)).default([]),
 });
 
 /** Achievement ids are fixed by code (Claude tracks them); Gemini writes the names and descriptions. */
 export const ACHIEVEMENT_IDS = [
   'first-swap', 'maximalist', 'no-ko-episode', 'monkey-business', 'le-re', 'rewind-reflect', 'ad-skipped',
-  'paint-the-town', 'chai-addict', 'small-talk', 'beige-is-dead', 'speedrun-ep0',
+  'paint-the-town', 'chai-addict', 'small-talk', 'beige-is-dead', 'speedrun-ep0', 'directors-cut', 'couple-goals',
 ] as const;
+
+/** Lost Footage tapes: 3 hidden per episode. Ids are fixed (levels place them with `@tape`); Gemini writes the text. */
+export const TAPE_IDS = ['ep0-1', 'ep0-2', 'ep0-3', 'ep1-1', 'ep1-2', 'ep1-3', 'ep2-1', 'ep2-2', 'ep2-3', 'ep3-1', 'ep3-2', 'ep3-3', 'ep4-1', 'ep4-2', 'ep4-3'] as const;
+export const FootageSchema = z.object({
+  tapes: z.array(z.object({ id: z.enum(TAPE_IDS), title: z.string().max(32), caption: z.string().max(90) })),
+});
+export type Footage = z.infer<typeof FootageSchema>;
 export const AchievementsSchema = z.object({
   achievements: z.array(z.object({ id: z.enum(ACHIEVEMENT_IDS), name: z.string().max(32), desc: z.string().max(80) })),
 });

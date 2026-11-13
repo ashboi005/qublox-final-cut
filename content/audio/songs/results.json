@@ -64,5 +64,6 @@
   "order": [
     "stinger"
   ],
-  "loopFrom": 0
+  "loopFrom": 0,
+  "loop": false
 }

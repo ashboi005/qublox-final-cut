@@ -59,6 +59,16 @@
       "id": "speedrun-ep0",
       "name": "Delivery at 8:59 AM",
       "desc": "Clear Episode 0 in under 4 minutes. Not even time for a chai break."
+    },
+    {
+      "id": "directors-cut",
+      "name": "The Director's Cut",
+      "desc": "Recover all 15 Lost Footage tapes. The studio's outtakes are saved forever."
+    },
+    {
+      "id": "couple-goals",
+      "name": "Couple Goals",
+      "desc": "Trigger a Couple Move with Sehaj and Manvi. Dhumtanana love shockwave deployed!"
     }
   ]
 }

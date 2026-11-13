@@ -8,7 +8,7 @@
       "text": "The Feed Spire. Two hundred stories of upward scrolling, automated clickbait, and rage."
     },
     {
-      "speaker": "sehaj",
+      "speaker": "ashwath",
       "emotion": "panic",
       "text": "The floor is actively scrolling upward! Stand still and you fall into the void!"
     },
@@ -21,6 +21,11 @@
       "speaker": "tushar",
       "emotion": "angry",
       "text": "Our video editor Brahmansh climbed this spire alone. Let's find him!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Leg day. Stay positive."
     }
   ]
 }

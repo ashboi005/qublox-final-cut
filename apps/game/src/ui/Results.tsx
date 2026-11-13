@@ -7,7 +7,7 @@ import { fmtTime } from './Hud';
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787';
 const NAME_KEY = 'qublox-player-name';
 
-export function Results({ result, headline, onRetry, onQuit }: { result: RunResult; headline: string | null; onRetry: () => void; onQuit: () => void }) {
+export function Results({ result, headline, byline, paper, onRetry, onQuit }: { result: RunResult; headline: string | null; byline?: string | null; paper?: string | null; onRetry: () => void; onQuit: () => void }) {
   const [name, setName] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [error, setError] = useState('');
@@ -46,7 +46,11 @@ export function Results({ result, headline, onRetry, onQuit }: { result: RunResu
     <div className="results" role="dialog" aria-label="Episode complete">
       <div className="results-card">
         <div className="results-eyebrow">EPISODE {result.episode} · THAT&apos;S A WRAP</div>
-        {headline && <div className="results-paper"><span>THE NEO-AMRITSAR TIMES</span><b>{headline}</b></div>}
+        {headline && (paper
+          // Astra's masthead strip (200×60); the headline sits in its blank band (y 31–52).
+          ? <div className="results-paper has-art" style={{ backgroundImage: `url(${paper})` }}><b>{headline}</b></div>
+          : <div className="results-paper"><span>THE NEO-AMRITSAR TIMES</span><b>{headline}</b></div>)}
+        {headline && byline && <i className="results-byline">{byline}</i>}
         <dl className="results-stats">
           <div><dt>Time</dt><dd>{fmtTime(result.timeMs)}</dd></div>
           <div><dt>Style</dt><dd>{result.style.toLocaleString()}</dd></div>

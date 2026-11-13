@@ -6,7 +6,7 @@ const CPS = 55; // typewriter characters per second
 
 export type Portraits = Record<string, { file: string; size: number; emotions: string[] }>;
 
-export function DialogueBox({ dialogue, portraits, onDone }: { dialogue: Dialogue & { names?: Record<string, string> }; portraits: Portraits; onDone: () => void }) {
+export function DialogueBox({ dialogue, portraits, onDone }: { dialogue: Dialogue & { names?: Record<string, string>; present?: string[] }; portraits: Portraits; onDone: () => void }) {
   const [i, setI] = useState(0);
   const [shown, setShown] = useState(0);
   const line = dialogue.lines[i]!;
@@ -42,6 +42,7 @@ export function DialogueBox({ dialogue, portraits, onDone }: { dialogue: Dialogu
   const crew = isCrewId(line.speaker) ? CREW[line.speaker] : null;
   const name = crew?.name ?? (line.speaker === 'narrator' ? '' : dialogue.names?.[line.speaker] ?? line.speaker.replace(/-/g, ' ').toUpperCase());
   const color = crew ? hex(crew.color) : '#8a8b94';
+  const comms = !!crew && !!dialogue.present && !dialogue.present.includes(line.speaker);
   const sheet = portraits[line.speaker];
   const frames = sheet?.emotions.length ?? 1;
   const frame = Math.max(0, sheet?.emotions.indexOf(line.emotion ?? 'neutral') ?? 0);
@@ -54,13 +55,13 @@ export function DialogueBox({ dialogue, portraits, onDone }: { dialogue: Dialogu
   return (
     <div className={`dialogue${line.speaker === 'narrator' ? ' is-narrator' : ''}`} onClick={advance} role="dialog" aria-live="polite">
       {line.speaker !== 'narrator' && (
-        <div className={`dialogue-portrait${art ? ' has-art' : ''}`} style={art ?? { background: color }}>
+        <div className={`dialogue-portrait${art ? ' has-art' : ''}${comms ? ' is-comms' : ''}`} style={art ?? { background: color }}>
           {!art && <span>{(crew?.name ?? line.speaker)[0]?.toUpperCase()}</span>}
           {line.emotion && !art && <em>{line.emotion}</em>}
         </div>
       )}
       <div className="dialogue-body">
-        {name && <div className="dialogue-name">{name}</div>}
+        {name && <div className="dialogue-name">{name}{comms && <small className="dialogue-comms">ON COMMS</small>}</div>}
         <p className="dialogue-text">{line.text.slice(0, shown)}</p>
         <div className="dialogue-next">{full ? (i + 1 < dialogue.lines.length ? '▶ ENTER' : '■ ENTER') : ''} <span>ESC skip</span></div>
       </div>

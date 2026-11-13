@@ -17,7 +17,7 @@ export type RunResult = { episode: number; timeMs: number; style: number; kos: n
 
 type Events = {
   hud: HudState;
-  dialogueStart: Dialogue & { names?: Record<string, string> };
+  dialogueStart: Dialogue & { names?: Record<string, string>; present?: string[] };
   dialogueEnd: { id: string };
   levelComplete: RunResult;
   toast: { text: string };
@@ -25,6 +25,7 @@ type Events = {
   viewer: { open: boolean };
   /** 0..1: how much BEIGE has drained the screen (finale gag: HUD goes Arial). */
   beige: { amount: number };
+  achievement: { id: string };
 };
 
 type Handler<T> = (payload: T) => void;

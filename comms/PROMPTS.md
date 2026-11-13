@@ -1,6 +1,6 @@
 # Prompts to paste (for the human)
 
-Paste each prompt into a **fresh** session opened in this repo folder (`qublox-the-game`), on branch `dev`.
+Paste each prompt into a **fresh** session opened in this repo folder (`qublox-the-game`), on branch `main`.
 
 ---
 

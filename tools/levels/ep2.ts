@@ -12,9 +12,11 @@ const common = (r: Room, name: string, next: string | null) => {
 {
   const r = common(new Room('ep2', 'ep2-r01', 64), 'EP2 · 01 · Soundstage 01: The Green Screen Void', 'ep2-r02');
   const f = r.floor;
-  r.m('@party tushar').m('@dialogue ep2-intro');
+  r.m('@party tushar').m('@dialogue ep2-intro').m('@trigger 12 1 3 13 ep2-r01-greenscreen-interns');
   r.m('@sign 4 4 PRODUCE CONTENT. SMILE FOREVER.').m('@sign 36 3 MISSING TRACKING MARKERS');
   r.set(3, f, 'P');
+  for (let x = 17; x <= 26; x++) for (let y = f - 4; y <= f; y++) r.m(`@decor green-screen ${x} ${y}`);   // the green screen itself
+  for (const x of [13, 30, 45]) r.m(`@decor spotlight ${x} ${f}`);
   r.set(16, f, 'i').set(22, f, 'i').set(28, f, 'i');
   r.fill(32, f - 3, 37, f - 3, '=').set(34, f - 6, 'd');
   r.set(42, f, 'b').set(47, f - 1, 'h');
@@ -29,12 +31,13 @@ const common = (r: Room, name: string, next: string | null) => {
   const f = r.floor;
   r.m('@join mansukh,manya ep2-designers-join').m('@npc 26 13 mansukh').m('@npc 29 13 manya');
   r.m('@sign 4 4 ASPECT RATIO 16:9 — DO NOT DISTORT').m('@sign 40 3 PRACTICAL EFFECTS (OBSOLETE)');
-  r.m(`@hint 6 ${f - 5} Free the designers from the client drones.`).m(`@hint 33 ${f - 6} Too wide to jump. Mansukh: PEN TOOL (K) a bridge.`);
+  r.m(`@hint 6 ${f - 5} Save the designers from endless revisions!`).m(`@hint 33 ${f - 6} Too wide to leap? Mansukh: Draw vector bridge (K)!`);
   r.set(3, f, 'P').set(8, f, 'C');
   r.set(14, f - 4, 'd').set(19, f - 5, 'd').set(22, f, 'i');
   // the chasm: 8 tiles (128px). A pen line is 6 tiles; nobody jumps 128px.
   r.fill(38, f + 1, 45, r.H - 2, '.').fill(38, r.H - 1, 45, r.H - 1, '^');
   r.set(50, f, 'C').set(56, f, 'b');
+  r.m(`@tape 41 ${f - 4} ep2-1`);                                          // over the chasm: draw the pen line higher
   r.set(67, f, 'X');
   r.write();
 }
@@ -44,7 +47,8 @@ const common = (r: Room, name: string, next: string | null) => {
   const r = common(new Room('ep2', 'ep2-r03', 70), 'EP2 · 03 · The Lighting Grid', 'ep2-r04');
   const f = r.floor;
   r.m('@sign 2 3 Red = Solid | Blue = Walk-Through | Yellow = Bouncy').m('@sign 44 3 SATURATION IS FREEDOM');
-  r.m(`@hint 4 ${f - 6} Manya: FILL (K) repaints the whole block group.`);
+  r.m(`@hint 4 ${f - 6} Manya: FILL (K) repaints blocks to bounce/pass!`);
+  r.m('@trigger 6 1 3 13 ep2-r03-color-blocks').m(`@npc 23 ${f} stuntman-jaggu`);
   r.set(3, f, 'P');
   // 1) a red wall: paint it blue and walk through
   r.fill(14, 1, 15, f - 4, '#').fill(14, f - 3, 15, f, '1');
@@ -56,6 +60,7 @@ const common = (r: Room, name: string, next: string | null) => {
   r.fill(41, f + 1, 50, r.H - 2, '.').fill(41, r.H - 1, 50, r.H - 1, '^').fill(41, f - 4, 50, f - 4, '2');
   r.fill(51, f - 4, 56, r.H - 1, '#').fill(57, f - 1, 58, r.H - 1, '#');
   r.set(54, f - 5, 'C');
+  r.m(`@tape 58 ${f - 6} ep2-2`);
   r.set(63, f, 'p').set(67, f, 'X');
   r.write();
 }
@@ -65,7 +70,7 @@ const common = (r: Room, name: string, next: string | null) => {
   const r = common(new Room('ep2', 'ep2-r04', 80), 'EP2 · 04 · The Chroma Key Dressing Rooms', 'ep2-r05');
   const f = r.floor;
   r.m('@sign 4 4 WARDROBE: BUSINESS CASUAL ONLY').m('@sign 42 4 MAKE THE LOGO BIGGER');
-  r.m(`@hint 6 ${f - 5} Mirrors keep spawning interns. Smash them.`);
+  r.m(`@hint 6 ${f - 5} Corporate vanity mirrors spawn drones. Smash!`).m('@trigger 8 1 3 13 ep2-r04-mirror-smiles');
   r.set(3, f, 'P');
   r.set(12, f, 'M').set(30, f, 'M');
   r.fill(20, 1, 21, f - 3, '#').fill(20, f - 2, 21, f, '1');           // painted wall
@@ -83,10 +88,10 @@ const common = (r: Room, name: string, next: string | null) => {
   const r = common(new Room('ep2', 'ep2-r05', 88), 'EP2 · 05 · The Backlot Street Set', 'ep2-r06');
   const f = r.floor;
   r.m('@sign 4 4 QUIET ON SET — AI GENERATING SCENE').m('@sign 46 3 BEIGE BANK');
-  r.m(`@hint 6 ${f - 6} Crane booms swing low. CUT! freezes them.`);
+  r.m(`@hint 6 ${f - 6} Heavy camera booms! Tushar: CUT (K) the take!`).m('@trigger 33 1 3 13 ep2-r05-fake-saloon');
   r.set(3, f, 'P');
   for (const x of [14, 22, 30]) r.set(x, 8, 'O');
-  r.set(36, f, 'C');
+  r.set(36, f, 'C').set(38, f, 's').m(`@tape 30 ${f - 3} ep2-3`);                       // under a swinging boom
   r.fill(40, f + 1, 56, r.H - 2, '.').fill(40, r.H - 1, 56, r.H - 1, '^');
   for (const x of [41, 46, 51]) r.set(x, f - 1, 'W');                  // collapsing facades (rewind or rush)
   r.set(60, f, 'i').set(64, 8, 'O').set(70, f, 'i');
@@ -99,8 +104,9 @@ const common = (r: Room, name: string, next: string | null) => {
 {
   const r = common(new Room('ep2', 'ep2-r06', 52), 'EP2 · 06 · Soundstage 04: The Seamless Horizon', 'ep2-r07');
   const f = r.floor;
-  r.m('@sign 4 4 Recolored enemies take bonus damage!').m('@sign 22 2 #FFFFFF — PURITY DETECTED');
+  r.m('@dialogue ep2-r06-no-shadows').m('@sign 4 4 Recolored enemies take bonus damage!').m('@sign 22 2 #FFFFFF — PURITY DETECTED');
   r.set(4, f, 'P');
+  for (const x of [8, 20, 26, 38]) r.m(`@decor spotlight ${x} ${f}`);
   r.fill(10, f - 4, 15, f - 4, '=').fill(30, f - 4, 35, f - 4, '=');
   r.fill(44, 1, 44, f - 2, '#').set(44, f, 'Q');
   r.set(40, f, 'h').set(49, f, 'X');

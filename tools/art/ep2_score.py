@@ -12,7 +12,7 @@ for id in ['ep2','ep2-boss']:
 # Reuse the proven tracker schema, but give each stinger a finite order with no repeated entries.
 base=json.loads((OUT/'title.json').read_text())
 for id,bpm,roots in [('results',132,[60,65,67,60,64,65,67,60]),('gameover',84,[57,53,52,45])]:
- song=dict(id=id,bpm=bpm,stepsPerBeat=4,swing=0,instruments=base['instruments'].copy(),patterns={},order=['stinger'],loopFrom=0)
+ song=dict(id=id,bpm=bpm,stepsPerBeat=4,swing=0,instruments=base['instruments'].copy(),patterns={},order=['stinger'],loopFrom=0,loop=False)
  tracks={key:[] for key in song['instruments']}
  if id=='gameover':
   song['instruments']['lead']=dict(wave='sawtooth',volume=.12,attack=.035,decay=.07,sustain=.5,release=.18,cutoff=1100,vibrato=dict(rate=4,depth=20))

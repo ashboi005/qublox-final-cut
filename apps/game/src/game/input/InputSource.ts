@@ -6,7 +6,7 @@ import * as Phaser from 'phaser';
 export type InputFrame = {
   left: boolean; right: boolean; up: boolean; down: boolean;
   jumpHeld: boolean; jumpPressed: boolean;
-  attackPressed: boolean; abilityPressed: boolean;
+  attackPressed: boolean; attackHeld: boolean; abilityPressed: boolean;
   swapTo: 0 | 1 | 2 | null; swapNext: boolean; swapPrev: boolean;
   confirmPressed: boolean;
 };
@@ -18,7 +18,7 @@ export interface InputSource {
 
 export const emptyFrame = (): InputFrame => ({
   left: false, right: false, up: false, down: false, jumpHeld: false, jumpPressed: false,
-  attackPressed: false, abilityPressed: false, swapTo: null, swapNext: false, swapPrev: false, confirmPressed: false,
+  attackPressed: false, attackHeld: false, abilityPressed: false, swapTo: null, swapNext: false, swapPrev: false, confirmPressed: false,
 });
 
 /** Keyboard + first connected gamepad (standard mapping). */
@@ -51,6 +51,7 @@ export class LocalInput implements InputSource {
     f.jumpHeld = down('jump') || f.up;
     f.jumpPressed = tap('jump') || tap('up') || tap('aUp');
     f.attackPressed = tap('attack') || tap('attack2');
+    f.attackHeld = down('attack') || down('attack2');
     f.abilityPressed = tap('ability') || tap('ability2');
     f.swapTo = tap('one') ? 0 : tap('two') ? 1 : tap('three') ? 2 : null;
     f.swapNext = tap('next');
@@ -70,6 +71,7 @@ export class LocalInput implements InputSource {
       f.jumpHeld ||= held.has(0);
       f.jumpPressed ||= pressed(0);
       f.attackPressed ||= pressed(2);
+      f.attackHeld ||= held.has(2);
       f.abilityPressed ||= pressed(1) || pressed(3);
       f.swapNext ||= pressed(5);
       f.swapPrev ||= pressed(4);

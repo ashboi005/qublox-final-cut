@@ -1151,6 +1151,604 @@
           "loop": false
         }
       }
+    },
+    "color-block": {
+      "file": "sprites/props/color-block.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "red": {
+          "row": 0,
+          "frames": 1,
+          "fps": 6,
+          "loop": true
+        },
+        "blue": {
+          "row": 1,
+          "frames": 1,
+          "fps": 6,
+          "loop": true
+        },
+        "yellow": {
+          "row": 2,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "spotlight": {
+      "file": "sprites/props/spotlight.png",
+      "frameWidth": 32,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 7,
+          "loop": true
+        }
+      }
+    },
+    "boom-mic": {
+      "file": "sprites/props/boom-mic.png",
+      "frameWidth": 32,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 7,
+          "loop": true
+        }
+      }
+    },
+    "the-algorithm": {
+      "file": "sprites/bosses/the-algorithm.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack-clickbait": {
+          "row": 2,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-mortar": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-autoplay": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-lunge": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "stunned": {
+          "row": 6,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "hurt": {
+          "row": 7,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 8,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "echo": {
+      "file": "sprites/props/echo.png",
+      "frameWidth": 16,
+      "frameHeight": 24,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "rage-vent": {
+      "file": "sprites/props/rage-vent.png",
+      "frameWidth": 24,
+      "frameHeight": 10,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "rage": {
+      "file": "sprites/props/rage.png",
+      "frameWidth": 12,
+      "frameHeight": 12,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "clickbait": {
+      "file": "sprites/props/clickbait.png",
+      "frameWidth": 14,
+      "frameHeight": 10,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "deleted-posts": {
+      "file": "sprites/props/deleted-posts.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "beige-core": {
+      "file": "sprites/bosses/beige-core.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "phase1": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "phase2": {
+          "row": 2,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "phase3": {
+          "row": 3,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 4,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "hurt": {
+          "row": 5,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "die": {
+          "row": 6,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        }
+      }
+    },
+    "chad-frictionless": {
+      "file": "sprites/npcs/chad-frictionless.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "rebel-intern-simran": {
+      "file": "sprites/npcs/rebel-intern-simran.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "sysadmin-karan": {
+      "file": "sprites/npcs/sysadmin-karan.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "stuntman-jaggu": {
+      "file": "sprites/npcs/stuntman-jaggu.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "influencer-roxy": {
+      "file": "sprites/npcs/influencer-roxy.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "tape": {
+      "file": "sprites/props/tape.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "decor-water-cooler": {
+      "file": "sprites/decor/water-cooler.png",
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-chai-crate": {
+      "file": "sprites/decor/chai-crate.png",
+      "frameWidth": 32,
+      "frameHeight": 24,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-mood-board": {
+      "file": "sprites/decor/mood-board.png",
+      "frameWidth": 48,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-beanbag": {
+      "file": "sprites/decor/beanbag.png",
+      "frameWidth": 32,
+      "frameHeight": 24,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-server-rack": {
+      "file": "sprites/decor/server-rack.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-cable-spaghetti": {
+      "file": "sprites/decor/cable-spaghetti.png",
+      "frameWidth": 48,
+      "frameHeight": 24,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-warning-sign": {
+      "file": "sprites/decor/warning-sign.png",
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-coolant-drum": {
+      "file": "sprites/decor/coolant-drum.png",
+      "frameWidth": 24,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-c-stand": {
+      "file": "sprites/decor/c-stand.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-clapperboard": {
+      "file": "sprites/decor/clapperboard.png",
+      "frameWidth": 24,
+      "frameHeight": 24,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-director-chair": {
+      "file": "sprites/decor/director-chair.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-sandbag": {
+      "file": "sprites/decor/sandbag.png",
+      "frameWidth": 32,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-ring-light": {
+      "file": "sprites/decor/ring-light.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-neon-heart": {
+      "file": "sprites/decor/neon-heart.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-phone-tripod": {
+      "file": "sprites/decor/phone-tripod.png",
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-trending-arrow": {
+      "file": "sprites/decor/trending-arrow.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-plastic-ficus": {
+      "file": "sprites/decor/plastic-ficus.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-motivational-poster": {
+      "file": "sprites/decor/motivational-poster.png",
+      "frameWidth": 32,
+      "frameHeight": 40,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-standing-desk": {
+      "file": "sprites/decor/standing-desk.png",
+      "frameWidth": 48,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-beige-cubicle": {
+      "file": "sprites/decor/beige-cubicle.png",
+      "frameWidth": 48,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
     }
   },
   "tilesets": {
@@ -1168,6 +1766,16 @@
       "file": "tiles/the-set.png",
       "tileSize": 16,
       "notes": "see docs/art/tiles-the-set.md; six columns"
+    },
+    "the-feed": {
+      "file": "tiles/the-feed.png",
+      "tileSize": 16,
+      "notes": "see docs/art/tiles-the-feed.md"
+    },
+    "templatr": {
+      "file": "tiles/templatr.png",
+      "tileSize": 16,
+      "notes": "see docs/art/tiles-templatr.md"
     }
   },
   "images": {
@@ -1305,6 +1913,48 @@
     },
     "bg-the-set-near-saturated": {
       "file": "backgrounds/the-set-near-saturated.png"
+    },
+    "green-screen": {
+      "file": "sprites/props/green-screen.png"
+    },
+    "bg-the-feed-far-drained": {
+      "file": "backgrounds/the-feed-far-drained.png"
+    },
+    "bg-the-feed-far-saturated": {
+      "file": "backgrounds/the-feed-far-saturated.png"
+    },
+    "bg-the-feed-mid-drained": {
+      "file": "backgrounds/the-feed-mid-drained.png"
+    },
+    "bg-the-feed-mid-saturated": {
+      "file": "backgrounds/the-feed-mid-saturated.png"
+    },
+    "bg-the-feed-near-drained": {
+      "file": "backgrounds/the-feed-near-drained.png"
+    },
+    "bg-the-feed-near-saturated": {
+      "file": "backgrounds/the-feed-near-saturated.png"
+    },
+    "bg-templatr-far-drained": {
+      "file": "backgrounds/templatr-far-drained.png"
+    },
+    "bg-templatr-far-saturated": {
+      "file": "backgrounds/templatr-far-saturated.png"
+    },
+    "bg-templatr-mid-drained": {
+      "file": "backgrounds/templatr-mid-drained.png"
+    },
+    "bg-templatr-mid-saturated": {
+      "file": "backgrounds/templatr-mid-saturated.png"
+    },
+    "bg-templatr-near-drained": {
+      "file": "backgrounds/templatr-near-drained.png"
+    },
+    "bg-templatr-near-saturated": {
+      "file": "backgrounds/templatr-near-saturated.png"
+    },
+    "newspaper": {
+      "file": "images/newspaper.png"
     }
   },
   "portraits": {

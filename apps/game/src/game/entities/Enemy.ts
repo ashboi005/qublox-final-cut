@@ -29,32 +29,38 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   private dir = 1;
   frozenUntil = 0;
   hackedUntil = 0;
+  /** Manvi's MIND GAMES: harmless, wanders, bonks other enemies it bumps into. */
+  confusedUntil = 0;
   markedUntil = 0;
   private diveTarget = new Phaser.Math.Vector2();
 
-  constructor(scene: Phaser.Scene, x: number, y: number, readonly kind: EnemyKind, private world: EnemyWorld) {
-    super(scene, x, y, kind);
+  /** Sprite key: the kind, or a district reskin like `stock-intern-templatr` when Astra has drawn one. */
+  readonly skin: string;
+  constructor(scene: Phaser.Scene, x: number, y: number, readonly kind: EnemyKind, private world: EnemyWorld, skin?: string) {
+    const key = skin && scene.textures.exists(skin) && scene.anims.exists(animKey(skin, 'idle')) ? skin : kind;
+    super(scene, x, y, key);
+    this.skin = key;
     this.stats = STATS[kind];
     this.hp = this.stats.hp;
     this.home = new Phaser.Math.Vector2(x, y);
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    const size = SPRITES[kind]?.frameWidth ?? 32;
+    const size = SPRITES[key]?.frameWidth ?? SPRITES[kind]?.frameWidth ?? 32;
     const [bw, bh] = this.stats.body;
     this.setOrigin(0.5, 1).setDepth(10);
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.setSize(bw, bh).setOffset((size - bw) / 2, size - bh);
     body.setAllowGravity(!this.stats.flying);
-    this.play(animKey(kind, 'idle'));
+    this.play(animKey(key, 'idle'));
   }
 
   get alive() { return this.mode !== 'dead'; }
-  get dangerous() { const n = this.scene.time.now; return this.alive && n >= this.frozenUntil && n >= this.hackedUntil && this.mode !== 'hurt'; }
+  get dangerous() { const n = this.scene.time.now; return this.alive && n >= this.frozenUntil && n >= this.hackedUntil && n >= this.confusedUntil && this.mode !== 'hurt'; }
 
   private go(state: State, ms: number, anim = state === 'recover' ? 'idle' : state) {
     this.mode = state;
     this.stateUntil = this.scene.time.now + ms;
-    const key = animKey(this.kind, anim);
+    const key = animKey(this.skin, anim);
     if (this.scene.anims.exists(key)) this.play(key, true);
   }
 
@@ -78,7 +84,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.mode = 'dead';
     const body = this.body as Phaser.Physics.Arcade.Body;
     body.enable = false;
-    const key = animKey(this.kind, 'die');
+    const key = animKey(this.skin, 'die');
     wordPop(this.scene, this.x, this.y - 20, 'POW', true);
     if (this.scene.anims.exists(key)) this.play(key);
     this.scene.tweens.add({ targets: this, alpha: 0, delay: 300, duration: 250, onComplete: () => this.destroy() });
@@ -89,6 +95,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.setTintMode(Phaser.TintModes.MULTIPLY);
     if (now < this.frozenUntil) this.setTint(0x8fa8ff);
     else if (now < this.hackedUntil) this.setTint(0x6aff8a);
+    else if (now < this.confusedUntil) this.setTint(0xffa3c4);
     else if (now < this.markedUntil) this.setTint(0xff7ac0);
     else this.clearTint();
   }
@@ -101,6 +108,13 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (!this.stats.flying) body.setAllowGravity(true);
     if (this.anims.isPaused) { this.anims.resume(); this.restoreTint(); }
     if (time < this.hackedUntil) { body.setVelocityX(0); if (this.stats.flying) body.setVelocityY(0); return; }
+    if (time < this.confusedUntil) {
+      // Dazed: drift back and forth, flipping every ~0.6s.
+      const dir = Math.floor(time / 600 + this.home.x) % 2 === 0 ? 1 : -1;
+      body.setVelocityX(dir * 35); this.setFlipX(dir < 0);
+      if (this.stats.flying) body.setVelocityY(Math.sin(time / 200) * 20);
+      return;
+    }
 
     const p = this.world.playerPos();
     const lure = this.world.lure();

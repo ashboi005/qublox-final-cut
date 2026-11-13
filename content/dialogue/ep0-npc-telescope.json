@@ -1,0 +1,45 @@
+{
+  "id": "ep0-npc-telescope",
+  "episode": 0,
+  "trigger": "Interacting with the balcony telescope in EP0 Room 4.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Through the brass lens, millions of distant galaxies swirl in silent, uncaring majesty."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "Look at that, bro. Andromeda is 2.5 million light-years away."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "sad",
+      "text": "There are quadrillions of planets out there. Aliens having their own hackathons."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "sad",
+      "text": "And we only get eighty years? We don't even get to see Alpha Centauri, bro."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "Human lifespans are basically a timeout error on a cosmic scale. We're so small."
+    },
+    {
+      "speaker": "narrator",
+      "text": "A vast, profound silence hangs over the balcony for five full seconds."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "That's deep, Ashwath. Truly. Now fix the production server before 9:00 AM."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Abeeee yaarrr! Can I not have one existential moment without a sprint deadline?!"
+    }
+  ]
+}

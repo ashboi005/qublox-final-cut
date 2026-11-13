@@ -90,6 +90,13 @@
       "kind": "npc",
       "bio": "Junior UX intern inside Templatr Corp secretly smuggling saturated RGB markers and sabotaging the company's beige design system guidelines.",
       "voice": "Fierce, conspiratorial stage whisper, darting eyes checking for surveillance cameras, radiating underground artistic defiance."
+    },
+    {
+      "id": "telescope",
+      "name": "Balcony Telescope",
+      "kind": "other",
+      "bio": "A heavy brass astronomical telescope mounted on the 3rd-floor maglev balcony, pointed past the urban haze toward distant star clusters.",
+      "voice": "Silent, optical monument to cosmic infinity and human insignificance."
     }
   ]
 }

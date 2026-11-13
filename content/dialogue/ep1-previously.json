@@ -1,0 +1,22 @@
+{
+  "id": "ep1-previously",
+  "episode": 1,
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "PREVIOUSLY ON QUBLOX: A corporate virus bleached Neo-Amritsar of all saturated joy."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Sayam threw an entire expense account at a turnstile. It actually worked."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Ashwath hacked a rogue Reply-All mothership, but the render farm is still frozen!"
+    },
+    {
+      "speaker": "tushar",
+      "text": "And my timeline hasn't finished exporting since yesterday morning. Move!"
+    }
+  ]
+}

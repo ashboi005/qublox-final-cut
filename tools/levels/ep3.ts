@@ -23,6 +23,7 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   r.m(`@sign 14 ${f - 2} INFINITE SCROLL ENGAGED — KEEP SCROLLING`).m('@sign 3 4 TRENDING: BEIGE IS THE NEW NEON (PROMOTED)');
   r.set(4, f, 'P').set(8, f, 'C');
   zigzag(r, f - 2, 6, 2, [6, 18], [21, 33]);
+  r.m(`@tape 35 ${f - 6} ep3-1`);                                          // jump off the right end of a platform
   r.set(12, f - 4, 'm').set(27, f - 6, 'm').set(14, f - 10, 'm').set(25, f - 14, 'p');
   r.fill(1, 5, 38, 5, '#').fill(17, 5, 22, 5, '=');
   r.set(34, 4, 'X').set(6, 4, 'h');
@@ -35,7 +36,7 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   const f = r.floor;
   r.m('@scroll 22 3500').m(`@trigger 1 ${f - 4} 28 5 ep3-r02-infinite-scroll`);
   r.m(`@sign 9 ${f - 3} FALL HAZARD: ALGORITHMIC PURGE`).m('@sign 3 20 YOU WON\'T BELIEVE WHAT HAPPENS NEXT');
-  r.m(`@hint 3 ${f - 6} The floor is scrolling up. MOVE.`);
+  r.m(`@hint 3 ${f - 6} Infinite scroll is ascending! RUN OR GET PURGED!`);
   r.set(4, f, 'P');
   zigzag(r, f - 2, 6, 2, [3, 14], [15, 26]);
   r.set(20, f - 12, 'p').set(8, f - 24, 'p').set(20, f - 36, 'p').set(10, f - 46, 'p');
@@ -50,12 +51,12 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   const f = r.floor;
   r.m('@join brahmansh ep3-brahmansh-joins').m('@npc 30 13 brahmansh');
   r.m('@sign 20 3 PAYWALL: SUBSCRIBE FOR 99.99/MO TO PASS').m('@sign 46 4 P-A-C-I-N-G IS EVERYTHING');
-  r.m(`@hint 4 ${f - 5} Clear the lobby. Someone's waiting behind the paywall.`).m(`@hint 33 ${f - 6} Brahmansh: JUMP CUT (K) straight through.`);
+  r.m(`@hint 4 ${f - 5} Clear the mob! A rogue editor waits past paywall.`).m(`@hint 33 ${f - 6} Titanium paywall? Brahmansh: JUMP CUT (K) past!`);
   r.set(3, f, 'P').set(7, f, 'C');
   r.set(12, f, 'i').set(16, f - 4, 'd').set(20, f, 'm');
   r.set(26, f, 'L');                         // Brahmansh is behind this one; he cuts through to you
   r.set(36, f, 'L').set(44, f, 'i').set(48, f, 'L');
-  r.set(53, f, 'C').set(57, f - 1, 'h');
+  r.set(53, f, 'C').set(57, f - 1, 'h').m(`@tape 55 ${f - 5} ep3-2`);
   r.set(61, f, 'X');
   r.write();
 }
@@ -64,9 +65,9 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
 {
   const r = common(new Room('ep3', 'ep3-r04', 60), 'EP3 · 04 · The Echo Chamber', 'ep3-r05');
   const f = r.floor;
-  r.m('@trigger 10 1 3 13 ep3-r04-echo-drones');
+  r.m('@trigger 10 1 3 13 ep3-r04-echo-drones').m(`@npc 7 ${f} influencer-roxy`);
   r.m('@sign 4 4 CONSENSUS DETECTED').m('@sign 30 3 NO DISSENTING OPINIONS PERMITTED');
-  r.m(`@hint 4 ${f - 6} Rings shove you around. Cut through them.`);
+  r.m(`@hint 4 ${f - 6} Echo sonic rings push you. Jump Cut through!`);
   r.set(3, f, 'P');
   r.set(15, f, 'E').set(30, f, 'E').set(45, f, 'E');
   r.fill(19, f - 4, 25, f - 4, '=').fill(34, f - 4, 40, f - 4, '=');
@@ -82,11 +83,11 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   const f = r.floor;
   r.m('@trigger 12 1 3 13 ep3-r05-fake-close-btn');
   r.m('@sign 4 4 [X] CLOSE (SPAWNS 4 MONKEYS)').m('@sign 50 3 SKIP AD IN 5... 4... 3... (NEVER)');
-  r.m(`@hint 4 ${f - 6} Closing ads is a trap. JUMP CUT through = skip.`);
+  r.m(`@hint 4 ${f - 6} Close buttons are traps! JUMP CUT (K) to skip ad!`);
   r.set(3, f, 'P');
   r.set(14, f - 3, 'p').set(22, f - 5, 'p');
   r.fill(28, f + 1, 33, r.H - 2, '.').fill(28, r.H - 1, 33, r.H - 1, '^');      // 6-tile gap: double jump or pen
-  r.set(38, f, 'C');
+  r.set(38, f, 'C').set(36, f, 's');
   for (const x of [44, 49, 54]) r.set(x, f - 1, 'W');
   r.fill(43, f + 1, 57, r.H - 2, '.').fill(43, r.H - 1, 57, r.H - 1, '^');
   r.set(62, f - 4, 'p').set(66, f, 'i');
@@ -106,6 +107,7 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   r.set(3, f, 'P');
   for (const x of [14, 22, 30, 38]) r.set(x, 1, '!');
   r.fill(16, f - 4, 21, f - 4, '=').fill(31, f - 4, 36, f - 4, '=');
+  r.m(`@tape 26 ${f - 5} ep3-3`);
   r.fill(46, 1, 46, f - 2, '#').set(46, f, 'Q');
   r.set(42, f, 'h').set(52, f, 'X');
   r.m(`@wave 1 18 ${f} m`).m(`@wave 1 24 ${f} m`).m(`@wave 1 30 ${f} i`).m(`@wave 1 20 ${f - 6} p`);

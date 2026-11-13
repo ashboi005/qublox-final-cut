@@ -1,0 +1,32 @@
+{
+  "id": "ep1-manvi-joins",
+  "episode": 1,
+  "trigger": "Plays when the party clears Room 6 and frees Manvi from behind the 99% Gateway door.",
+  "lines": [
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Yippieeee! Sehaj! You actually came! And you brought the whole chaotic crew!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "happy",
+      "text": "Vajj. Hey, Maana."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "smug",
+      "text": "Whatcha doin standing around? Dhumtanana time! Let's hit 'em with a couple move!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Oyeee pagaalllll, save the Bollywood romance for after we delete this firewall!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "I'm billing the studio credit card for emotional damages caused by this cuteness."
+    }
+  ]
+}

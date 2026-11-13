@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CrewId, Dialogue } from '@qublox/shared';
 import { bus, type HudState, type RunResult } from '@/game/bus';
 import { synth } from '@/game/audio/synth';
@@ -11,18 +11,19 @@ import { Leaderboard } from './Leaderboard';
 import { PauseMenu } from './PauseMenu';
 import { Studio } from './Studio';
 import { Credits, type CreditLine } from './Credits';
+import { Achievements, type AchievementText, type TapeText } from './Achievements';
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }> };
-type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]> }; credits?: { roll?: CreditLine[] } }; barks: Record<string, { barks?: Record<string, string[]> }> };
-type Screen = { kind: 'title' } | { kind: 'board' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
+type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] } }; barks: Record<string, { barks?: Record<string, string[]> }> };
+type Screen = { kind: 'title' } | { kind: 'board' } | { kind: 'achievements' } | { kind: 'studio'; ep: Episode } | { kind: 'play'; level: string; party: CrewId[]; run: number };
 
 // pool = who you can cast; pick = how many you choose; joiners = who joins during the episode (story).
 const EPISODES: Episode[] = [
   { n: 0, name: 'Cold Open', place: 'Qublox HQ', start: 'ep0-r01' },
-  { n: 1, name: 'Render Farm', place: 'The Server Towers', start: 'ep1-r01', pool: ['ashwath', 'sayam', 'tushar'], pick: 2, joiners: ['sehaj'] },
-  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj'], pick: 1, joiners: ['mansukh', 'manya'] },
-  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'mansukh', 'manya'], pick: 2, joiners: ['brahmansh'] },
-  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'mansukh', 'manya', 'brahmansh'], pick: 3, joiners: [] },
+  { n: 1, name: 'Render Farm', place: 'The Server Towers', start: 'ep1-r01', pool: ['ashwath', 'sayam', 'tushar'], pick: 2, required: ['ashwath'], joiners: ['sehaj', 'manvi'] },
+  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi'], pick: 1, joiners: ['mansukh', 'manya'] },
+  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya'], pick: 2, joiners: ['brahmansh'] },
+  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'brahmansh'], pick: 3, joiners: [] },
 ];
 
 /** `direct` = the URL named a level, so skip the title (handy for dev and for agents testing). */
@@ -56,18 +57,21 @@ export default function GameShell({ level, party, direct }: { level: string; par
       <div className="screen">
         {screen.kind === 'play' ? (
           <Play key={`${screen.level}|${screen.party.join(',')}|${screen.run}`} level={screen.level} party={screen.party} portraits={manifest.portraits ?? {}}
-            credits={content?.story.credits?.roll ?? []} creditsSong={content?.songs?.credits} logo={img('logo')}
-            headlines={content?.story.quips?.headlines ?? {}}
+            credits={content?.story.credits?.roll ?? []} creditsSong={content?.songs?.credits} logo={img('logo')} paper={img('newspaper')}
+            headlines={content?.story.quips?.headlines ?? {}} bylines={content?.story.quips?.bylines ?? []}
+            achievementText={content?.story.achievements?.achievements ?? []}
             onQuit={() => setScreen({ kind: 'title' })}
             onReplay={() => setScreen({ ...screen, run: screen.run + 1 })} />
         ) : screen.kind === 'studio' ? (
           <Studio
-            episode={screen.ep} pool={screen.ep.pool ?? []} pick={screen.ep.pick ?? 3} joiners={screen.ep.joiners ?? []}
+            episode={screen.ep} pool={screen.ep.pool ?? []} pick={screen.ep.pick ?? 3} required={screen.ep.required ?? []} joiners={screen.ep.joiners ?? []}
             portraits={manifest.portraits ?? {}}
             selectLines={Object.fromEntries(Object.entries(content?.barks ?? {}).map(([id, b]) => [id, b.barks?.select ?? []]))}
             onGo={party => setScreen({ kind: 'play', level: screen.ep.start, party, run: 0 })}
             onBack={() => setScreen({ kind: 'title' })}
           />
+        ) : screen.kind === 'achievements' ? (
+          <Achievements list={content?.story.achievements?.achievements ?? []} tapes={content?.story.footage?.tapes ?? []} onBack={() => setScreen({ kind: 'title' })} />
         ) : screen.kind === 'board' ? (
           <Leaderboard episodes={EPISODES} onBack={() => setScreen({ kind: 'title' })} />
         ) : (
@@ -77,6 +81,7 @@ export default function GameShell({ level, party, direct }: { level: string; par
             episodes={EPISODES.map(e => ({ ...e, locked: !content?.levels[e.start] }))}
             onPlay={ep => setScreen(ep.pick ? { kind: 'studio', ep } : { kind: 'play', level: ep.start, party: [], run: 0 })}
             onBoard={() => setScreen({ kind: 'board' })}
+            onAchievements={() => setScreen({ kind: 'achievements' })}
           />
         )}
       </div>
@@ -95,24 +100,35 @@ export default function GameShell({ level, party, direct }: { level: string; par
   );
 }
 
+const pick = <T,>(l: T[]): T | null => (l.length ? l[Math.floor(Math.random() * l.length)]! : null);
+/** Gemini's bylines from docs/narrative/newspaper.md, used until quips.json has "bylines". */
+const FALLBACK_BYLINES = ['By Pammi Aunty, Gossip Desk', 'By Happy Sodhi, Special Crime Beat', 'By Goldy \'Hotfix\' Gill, Wire Services', 'By Dolly Chawla, Opinion & Outrage', 'By Bunty Sandhu, Chai Stall Source'];
 const pickHeadline = (h: Record<string, string[]>, ep: number) => { const l = h[String(ep)] ?? []; return l.length ? l[Math.floor(Math.random() * l.length)]! : null; };
 
 type GameHandle = { destroy(removeCanvas: boolean): void; scene: { pause(k: string): void; resume(k: string): void } };
 
-function Play({ level, party, portraits, credits, creditsSong, logo, headlines, onQuit, onReplay }: {
-  level: string; party: CrewId[]; portraits: Portraits; credits: CreditLine[]; creditsSong: unknown; logo: string | null;
-  headlines: Record<string, string[]>; onQuit: () => void; onReplay: () => void;
+function Play({ level, party, portraits, credits, creditsSong, logo, paper, headlines, bylines, achievementText, onQuit, onReplay }: {
+  level: string; party: CrewId[]; portraits: Portraits; credits: CreditLine[]; creditsSong: unknown; logo: string | null; paper: string | null;
+  headlines: Record<string, string[]>; bylines: string[]; achievementText: AchievementText[]; onQuit: () => void; onReplay: () => void;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const game = useRef<GameHandle | null>(null);
   const [hud, setHud] = useState<HudState | null>(null);
   const [dialogue, setDialogue] = useState<(Dialogue & { names?: Record<string, string> }) | null>(null);
   const [result, setResult] = useState<RunResult | null>(null);
+  // Picked once per result (not per render, or it reshuffles while you type your name).
+  const press = useMemo(() => result && {
+    headline: pickHeadline(headlines, result.episode),
+    byline: pick(bylines.length ? bylines : FALLBACK_BYLINES),
+  }, [result, headlines, bylines]);
   const [toast, setToast] = useState<string | null>(null);
   const [viewer, setViewer] = useState(false);
   const [paused, setPaused] = useState(false);
   const [beige, setBeige] = useState(0);
   const [rolling, setRolling] = useState(false);
+  const [unlocked, setUnlocked] = useState<AchievementText | null>(null);
+  const achText = useRef(achievementText);
+  achText.current = achievementText;
   const creditsSongRef = useRef(creditsSong);
   creditsSongRef.current = creditsSong;
   // Mashing Esc to skip dialogue shouldn't spill over into the pause menu.
@@ -126,7 +142,12 @@ function Play({ level, party, portraits, credits, creditsSong, logo, headlines, 
       bus.on('levelComplete', r => { setResult(r); if (r.episode === 4) { setRolling(true); if (creditsSongRef.current) synth.play(creditsSongRef.current); } }),
       bus.on('viewer', ({ open }) => setViewer(open)),
       bus.on('beige', ({ amount }) => setBeige(amount)),
-      bus.on('toast', ({ text }) => { setToast(text); window.setTimeout(() => setToast(t => (t === text ? null : t)), 2600); }),
+      bus.on('achievement', ({ id }) => {
+        const a = achText.current.find(x => x.id === id) ?? { id, name: id.replace(/-/g, ' '), desc: '' };
+        setUnlocked(a);
+        window.setTimeout(() => setUnlocked(u => (u?.id === id ? null : u)), 4200);
+      }),
+      bus.on('toast', ({ text }) => { setToast(text); window.setTimeout(() => setToast(t => (t === text ? null : t)), Math.max(2600, text.length * 55)); }),
     ];
     (async () => {
       // Phaser draws text with the pixel font, so it must be ready before the first frame.
@@ -159,6 +180,7 @@ function Play({ level, party, portraits, credits, creditsSong, logo, headlines, 
       <div ref={host} className="canvas-host" />
       {hud && !viewer && <Hud state={hud} beige={beige} />}
       {toast && !viewer && <div className="toast">{toast}</div>}
+      {unlocked && !viewer && <div className="unlock" role="status"><span>ACHIEVEMENT UNLOCKED</span><b>{unlocked.name}</b><em>{unlocked.desc}</em></div>}
       {dialogue && (
         <DialogueBox key={dialogue.id} dialogue={dialogue} portraits={portraits} onDone={() => {
           // Clear first: ending one scene can synchronously start the next one.
@@ -177,7 +199,7 @@ function Play({ level, party, portraits, credits, creditsSong, logo, headlines, 
         />
       )}
       {result && rolling && <Credits roll={credits} logo={logo} onDone={() => setRolling(false)} />}
-      {result && !rolling && <Results result={result} headline={pickHeadline(headlines, result.episode)} onRetry={onReplay} onQuit={onQuit} />}
+      {result && !rolling && <Results result={result} paper={paper} headline={press?.headline ?? null} byline={press?.byline ?? null} onRetry={onReplay} onQuit={onQuit} />}
     </>
   );
 }

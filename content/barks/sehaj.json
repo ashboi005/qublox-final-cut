@@ -2,57 +2,64 @@
   "id": "sehaj",
   "barks": {
     "tagin": [
-      "Vajjj!",
-      "Timeline loaded.",
-      "Scrubbing through.",
-      "Ready on the edit."
+      "Vajj!",
+      "I'm in.",
+      "Clean form.",
+      "Roll tape."
     ],
     "ability": [
-      "Ctrl+Z!",
-      "Rewind three seconds!",
-      "Undo that damage!",
-      "Reset to keyframe!"
+      "Ctrl+Z.",
+      "Rewind.",
+      "Never happened.",
+      "Clean edit."
     ],
     "hit": [
-      "Dropped frame!",
-      "Playback stutter!",
-      "My cache disk!",
-      "Corrupt timeline!"
+      "Flinched.",
+      "Form broke.",
+      "Bad angle.",
+      "Stay positive… ow."
     ],
     "ko": [
-      "Export crashed...",
-      "Error compiling movie...",
-      "Render bar died...",
-      "Timeline frozen..."
+      "Dropped frames…",
+      "Failed the set…",
+      "Maana… bench me…",
+      "Rerouting…"
     ],
     "kill": [
-      "Sliced and diced!",
-      "Ripped from edit!",
-      "Ripple deleted!",
-      "Cut to black!"
+      "Vajj.",
+      "Cut.",
+      "Light weight.",
+      "Post-credits."
     ],
     "idle": [
-      "Playback is smooth.",
-      "Checking dropped frames.",
-      "Waiting on render...",
-      "Need more scratch disk."
+      "Good lighting.",
+      "Stay positive. We got this.",
+      "Where's Maana?",
+      "Quiet set. Good."
     ],
-    "render": [
-      "Still rendering...",
-      "Stuck at 99%...",
-      "Cooldown is rendering!",
-      "Buffer underflow, wait!"
+    "beast": [
+      "LIGHT WEIGHT!",
+      "Shirt's gone. Boulder out.",
+      "PR ATTEMPT!",
+      "Pure cinema. MOVE.",
+      "Vajj! Boulder inbound!"
+    ],
+    "couple": [
+      "Dhumtanana. Got you, Maana.",
+      "Best scene in the film.",
+      "Stay positive, Maana's here.",
+      "Dhumtanana! Sync up."
     ],
     "select": [
-      "Render bar is at 100%. I'm in.",
-      "Ready to scrub through the timeline.",
-      "If we mess up, I'll just Ctrl+Z.",
-      "Vajjj. Let's make the final edit."
+      "Vajj. Ready.",
+      "I don't miss sets. Let's lift.",
+      "Good cinema takes work.",
+      "Maana's coming, right?"
     ],
     "results": [
-      "Render bar reached 100%. Beautiful.",
-      "Not a single frame dropped in post.",
-      "Vajjj! That's the real final cut."
+      "Clean cut. Masterpiece.",
+      "Good session. We hit PR.",
+      "Vajj! Stayed positive."
     ]
   }
 }

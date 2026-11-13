@@ -1,0 +1,79 @@
+{
+  "tapes": [
+    {
+      "id": "ep0-1",
+      "title": "Sayam's First Invoice",
+      "caption": "Uncut footage of Sayam billing ₹40,000 for 'strategic font vibes'. Ashwath approved it."
+    },
+    {
+      "id": "ep0-2",
+      "title": "Ashwath's Stunt Reel",
+      "caption": "Test footage of Ashwath jumping off the HQ balcony screaming 'Cinematic realism!'"
+    },
+    {
+      "id": "ep0-3",
+      "title": "The Rigging Debacle",
+      "caption": "Tushar duct-taping a ₹2 lakh cinema rig to a rusted pipe while humming Diljit Dosanjh."
+    },
+    {
+      "id": "ep1-1",
+      "title": "Thermal Chai Experiment",
+      "caption": "Sehaj trying to boil green tea directly over a 4090 GPU exhaust vent. It melted the mug."
+    },
+    {
+      "id": "ep1-2",
+      "title": "Deleted Scene 44B",
+      "caption": "A 4-minute unbroken take of Karan restarting the render queue while quietly weeping."
+    },
+    {
+      "id": "ep1-3",
+      "title": "Wind Machine Mayhem",
+      "caption": "Mansukh trying to film a hair-flip slow-mo shot. The turbine blew the wig to Jalandhar."
+    },
+    {
+      "id": "ep2-1",
+      "title": "Plywood Bank Robbery",
+      "caption": "Outtake from the canceled western where Jaggu punched clean through the cardboard vault."
+    },
+    {
+      "id": "ep2-2",
+      "title": "Color Calibration War",
+      "caption": "Manya and Brahmansh screaming at each other over hex code #F7D51D for forty-five minutes."
+    },
+    {
+      "id": "ep2-3",
+      "title": "Boom Mic Incident",
+      "caption": "The exact moment the sound intern knocked Ashwath's coffee directly into the lens kit."
+    },
+    {
+      "id": "ep3-1",
+      "title": "The 3 AM Algorithm Pitch",
+      "caption": "Sayam presenting a whiteboard covered in red yarn labeled 'engagement loops that bite'."
+    },
+    {
+      "id": "ep3-2",
+      "title": "Microtransaction Outtake",
+      "caption": "Unreleased pilot where every sip of Chacha's chai required two ad watches and a survey."
+    },
+    {
+      "id": "ep3-3",
+      "title": "Flame War Origin Tape",
+      "caption": "Rare archive of Roxy reading comments live before realizing the camera was still on."
+    },
+    {
+      "id": "ep4-1",
+      "title": "Beige Onboarding Video",
+      "caption": "Corporate orientation tape: 'Creativity is friction. Uniform beige is peak throughput.'"
+    },
+    {
+      "id": "ep4-2",
+      "title": "The Rejected Logo Drafts",
+      "caption": "Simran smuggling 30 vibrant color swatches past the corporate sanitization turnstiles."
+    },
+    {
+      "id": "ep4-3",
+      "title": "Chad's Rehearsal Fails",
+      "caption": "Secret rehearsal footage of Chad practicing the turtleneck pause twenty-seven times."
+    }
+  ]
+}

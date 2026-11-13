@@ -205,3 +205,57 @@
 - Commit: 22d3b27
 - Notes: Prepared clean replacements with comedic context; ready for Claude to paste or integrate into level files whenever convenient.
 
+### 2026-11-13 13:21 · T-G35 · REVIEW
+- Did: created content/story/footage.json containing all 15 Lost Footage VHS tapes with titles (<=32) and captions (<=90) covering studio lore, production outtakes, and location-specific gags
+- Files: content/story/footage.json
+- Commit: 364d6cf
+- Notes: Covers all 15 fixed IDs (ep0-1..3 through ep4-1..3) matching room locations and affectionately roasting real studio habits.
+
+### 2026-11-13 13:21 · T-G36 · REVIEW
+- Did: added directors-cut achievement to content/story/achievements.json with funny name (<=32) and description (<=80)
+- Files: content/story/achievements.json
+- Commit: ddd4db5
+- Notes: Rewards finding all 15 hidden VHS tapes with title 'The Director's Cut'.
+
+### 2026-11-13 13:22 · T-G37 · REVIEW
+- Did: added 3 loading tips (all <=70 chars) to content/story/quips.json covering tag hop mid-air boost, glinting Lost Footage VHS tapes, and unselected crew radioing in on comms
+- Files: content/story/quips.json
+- Commit: 1806bd0
+- Notes: Brings total loading tips to 28, keeping gameplay mechanics clear and funny.
+
+### 2026-11-13 13:42 · T-G38 · REVIEW
+- Did: created docs/narrative/newspaper.md providing 10 satirical Neo-Amritsar Times reporter names, beats, and bylines (plus ready-to-drop JSON strings <=48 chars) for the results screen masthead
+- Files: docs/narrative/newspaper.md
+- Commit: b15a599
+- Notes: Features local characters like Pammi Aunty (Gossip Desk), Happy Sodhi (Crime Beat), Goldy Gill (Wire Services), and Dolly Chawla (Opinion & Outrage).
+
+### 2026-11-13 13:44 · T-G39 · REVIEW
+- Did: added bylines array to content/story/quips.json containing 10 PG-clean satirical reporter byline strings (all <=48 chars) for results screen mastheads
+- Files: content/story/quips.json
+- Commit: d51aa82
+- Notes: Ready for consumption by the results screen under the Neo-Amritsar Times masthead and headlines.
+
+### 2026-11-13 13:46 · T-G40 · REVIEW
+- Did: created content/dialogue/ep1-previously.json, ep2-previously.json, ep3-previously.json, ep4-previously.json containing dramatic, gleefully over-the-top 'Previously on QUBLOX...' narrator recaps with crew button lines (all lines <=90 chars)
+- Files: content/dialogue/ep1-previously.json, content/dialogue/ep2-previously.json, content/dialogue/ep3-previously.json, content/dialogue/ep4-previously.json
+- Commit: 6c117b5
+- Notes: Validated and tested; recaps prior episode climaxes and transitions into the next district's intro.
+
+
+### 2026-11-13 14:55 · T-G41 · REVIEW
+- Did: Added 8th crew member Manvi to narrative suite — voice profile in crew-voices.json, full barks suite in barks/manvi.json (including MIND GAMES enemy "thoughts" and "couple" categories), added "couple" category to barks/sehaj.json, created ep1-manvi-joins.json dialogue scene at 99% Gateway door, and added "couple-goals" achievement.
+- Files: content/story/crew-voices.json, content/barks/manvi.json, content/barks/sehaj.json, content/dialogue/ep1-manvi-joins.json, content/story/achievements.json
+- Commit: 22c0787
+- Notes: Validated with `bun run validate` (0 errors) and `bun run typecheck`. All canon catchphrases ("Yippieeee!", "Whatcha doin?", "Hawwww!", "Dhumtanana!") integrated.
+
+### 2026-11-13 15:02 · T-G42 · REVIEW
+- Did: Real persona voice pass for Sehaj — rewrote voice profile in crew-voices.json (quiet observer, gym rat, gamer, cinephile, trying to stay positive, devoted to Maana); updated barks in barks/sehaj.json with dry 1-word/short lines, new "beast" category (PR ATTEMPT, boulder throw), and "couple" category calling Manvi "Maana"; audited and trimmed all 15 dialogue scenes where Sehaj appears, handing off panicky exposition lines to Ashwath/others and leaving Sehaj with crisp, dry mic-drop deliveries ("Vajj.", "Ctrl+Z. Fixed.", "Leg day. Stay positive.").
+- Files: content/story/crew-voices.json, content/barks/sehaj.json, content/dialogue/ep1-boss-intro.json, content/dialogue/ep1-boss-outro.json, content/dialogue/ep1-manvi-joins.json, content/dialogue/ep1-r04-turbine-interns.json, content/dialogue/ep1-r05-cache-disk.json, content/dialogue/ep1-r06-door-stuck.json, content/dialogue/ep1-sehaj-joins.json, content/dialogue/ep2-intro.json, content/dialogue/ep2-r01-greenscreen-interns.json, content/dialogue/ep3-brahmansh-joins.json, content/dialogue/ep3-intro.json, content/dialogue/ep3-r02-infinite-scroll.json, content/dialogue/ep3-r06-rage-refinery.json, content/dialogue/ep4-beige-phase2.json, content/dialogue/ep4-r03-alignment-token.json
+- Commit: b89b281, db5b8e8
+- Notes: Validated with `bun run validate` and `bun run typecheck`. 0 errors. All dialogue ≤ 90 chars, all barks ≤ 40 chars. Corrected catchphrase in ep1-manvi-joins.json so Ashwath uses "Oyee pagalll" and Sehaj has a compact quiet-observer line.
+
+### 2026-11-13 15:16 · T-G43 · REVIEW
+- Did: Real persona voice pass for Ashwath — updated crew-voices.json (fast-talking mentor, Minecraft brain, night owl on tea & Spryte, distributed systems info-dumps, Brimstone smokes, cosmic existentialism); updated barks/ashwath.json with canon situational catchphrases ("Khel khtm." start, "Ghee khtm." low, "ts pmo sm gng icl fr" crit, night owl 1-4 AM buff, info dump, 12 float jargon terms ≤22 chars, and 7 cosmic idle sky-gazing lines); wrote ep0-npc-telescope.json secret existential rant at EP0 balcony telescope with Sayam grounding him; audited all dialogue lines to fix catchphrase context (reserving "Oyeee pagaalllll!" for truly insane events and adding mentor "Diagnosis: skill issue" energy for juniors Bunty and Simran). Added telescope to cast.json.
+- Files: content/story/cast.json, content/story/crew-voices.json, content/barks/ashwath.json, content/dialogue/ep0-npc-telescope.json, content/dialogue/ep0-boss-intro.json, content/dialogue/ep0-cold-open.json, content/dialogue/ep0-r02-blob.json, content/dialogue/ep0-r06-bunty.json, content/dialogue/ep1-intro.json, content/dialogue/ep1-manvi-joins.json, content/dialogue/ep2-r04-mirror-smiles.json, content/dialogue/ep4-npc-rebel-intern-simran.json
+- Commit: aad6a1c, 3bb65b1
+- Notes: Validated with `bun run validate` (0 errors) and `bun run typecheck`. All dialogue lines ≤ 90 chars, jargon terms ≤ 22 chars, barks ≤ 40 chars. Corrected all occurrences to Sprite (the real drink; no Spryte, no spite).

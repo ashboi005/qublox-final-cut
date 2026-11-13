@@ -1,13 +1,14 @@
 import * as Phaser from 'phaser';
-import { DialogueSchema, isCrewId, SfxSchema, SongSchema, type CrewId } from '@qublox/shared';
+import { DialogueSchema, isCrewId, SfxSchema, SongSchema, TAPE_IDS, type CrewId } from '@qublox/shared';
 import { synth } from '../audio/synth';
+import { achievements } from '../achievements';
 import { animKey, TILE } from '../assets/art';
 import { bus, type HudState } from '../bus';
-import { CREW, DEFAULT_PARTY, hex } from '../crew';
+import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, partnerOf } from '../crew';
 import { Avatar } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
-import { bark, FONT, fx, hitstop, shake, wordPop } from '../fx/juice';
+import { bark, FONT, fx, hitstop, shake, sparks, wordPop } from '../fx/juice';
 import { emptyFrame, LocalInput } from '../input/InputSource';
 import { StyleMeter } from '../style';
 import { ceilingAbove, parseLevel, tileData, type Level, type Trigger } from '../world/level';
@@ -31,7 +32,7 @@ type Vent = { spr: Phaser.GameObjects.Sprite; x: number; y: number; phase: numbe
 type Crumbly = { spr: Phaser.Physics.Arcade.Sprite; kind: 'catwalk' | 'cache'; state: 'intact' | 'crumbling' | 'broken'; at: number; w: number };
 type Wind = { spr: Phaser.GameObjects.Sprite; dir: 1 | -1; frozenUntil: number };
 type BlockColor = 'red' | 'blue' | 'yellow';
-type ColorBlock = { spr: Phaser.Physics.Arcade.Image; tx: number; ty: number; color: BlockColor };
+type ColorBlock = { spr: Phaser.Physics.Arcade.Sprite; tx: number; ty: number; color: BlockColor };
 type Mirror = { spr: Phaser.GameObjects.Image; hp: number; next: number; spawned: Enemy[] };
 type Echo = { spr: Phaser.GameObjects.Image; next: number; rings: { g: Phaser.GameObjects.Arc; born: number; hit: boolean }[] };
 type Mortar = { x: number; y: number; next: number };
@@ -41,6 +42,12 @@ const T = 16;
 const SOLID = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 const ONEWAY = new Set<number>([TILE.ONEWAY_L, TILE.ONEWAY_M, TILE.ONEWAY_R]);
 const ENEMY_CHARS: Record<string, EnemyKind> = { i: 'stock-intern', d: 'reply-all-drone', m: 'infinite-monkey', b: 'corporate-memphis-blob', p: 'pop-up-ad', w: 'buffering-wheel-minion' };
+
+/** Episode recaps already shown this session (restarts don't replay them). */
+const seenRecaps = new Set<string>();
+let coupleHinted = false;
+let nightOwlToasted = false;
+const specialHinted = new Set<string>();
 
 export class GameScene extends Phaser.Scene {
   private content!: GameContent;
@@ -58,6 +65,9 @@ export class GameScene extends Phaser.Scene {
   private blockers!: Phaser.Physics.Arcade.StaticGroup;
   private switches: Switchable[] = [];
   private terminals: Terminal[] = [];
+  private cracked: Phaser.Physics.Arcade.Image[] = [];
+  private holdStart = 0; private holdFired = false;
+  private specialReadyAt: Record<string, number> = {};
   private fans: Fan[] = [];
   private npcs: Npc[] = [];
   private triggers: (Trigger & { fired: boolean })[] = [];
@@ -91,6 +101,14 @@ export class GameScene extends Phaser.Scene {
   private kos = 0;
   private lastHud = 0;
   private lastBark = 0;
+  private coupleReadyAt = 0;
+  private nightOwl = false;
+  private stillSince = 0; private cosmicDone = false;
+  /** MENTOR'S AURA: with Ashwath (conscious) in the party, everyone learns faster: abilities recharge 10% sooner. NIGHT OWL: Ashwath's own recharge −25% at 1–4 AM. */
+  private cooldownScale(id: string) {
+    const mentor = this.avatar.members.some(m => m.def.id === 'ashwath' && !m.ko) ? 0.9 : 1;
+    return mentor * (id === 'ashwath' && this.nightOwl ? 0.75 : 1);
+  }
   private frame = emptyFrame();
   private dialogueQueue: { id: string; then?: () => void }[] = [];
   private dialogueThen: (() => void) | undefined;
@@ -103,6 +121,7 @@ export class GameScene extends Phaser.Scene {
     this.explicitParty = data.party?.length ? data.party : null;
     if (data.party?.length) this.party = data.party;
     this.carry = data.carry ?? null;
+    this.cracked = []; this.specialReadyAt = {}; this.holdStart = 0;
     this.switches = []; this.terminals = []; this.fans = []; this.npcs = []; this.triggers = [];
     this.vents = []; this.crumbly = []; this.winds = []; this.wave = 0; this.waveTimer = null;
     this.blocks = []; this.mirrors = []; this.booms = []; this.echoes = []; this.mortars = []; this.scrollY = Infinity; this.scrollRect = null;
@@ -155,6 +174,7 @@ export class GameScene extends Phaser.Scene {
         case 'P': spawn = p; break;
         case 'B': bossSpawn = p; break;
         case 'D': this.addSwitch('door', p.x, p.y); break;
+        case 'Z': this.cracked.push((this.blockers.create(p.x, p.y, 'cracked-wall') as Phaser.Physics.Arcade.Image).setOrigin(0.5, 1).setDepth(4).refreshBody()); break;
         case 'G': this.addSwitch('gate', p.x, p.y); break;
         case 'L': this.addLaser(e.tx, e.ty); break;
         case 'T': this.terminals.push({ img: this.add.image(p.x, p.y, 'terminal', 'off').setOrigin(0.5, 1).setDepth(5), on: false, target: null }); break;
@@ -162,6 +182,7 @@ export class GameScene extends Phaser.Scene {
         case 'C': this.addCheckpoint(p.x, p.y); break;
         case 'X': this.addExit(p.x, p.y); break;
         case 'h': this.addChai(p.x, p.y); break;
+        case 's': this.addSprite(p.x, p.y); break;
         case 'V': this.addVent(p.x, p.y); break;
         case 'W': this.addCrumbly('catwalk', e.tx * T, e.ty * T, 3); break;
         case 'K': this.addCrumbly('cache', e.tx * T, e.ty * T, 1); break;
@@ -185,6 +206,12 @@ export class GameScene extends Phaser.Scene {
     }
     for (const s of this.level.signs) this.addSign(s.tx, s.ty, s.text);
     for (const n of this.level.npcs) this.addNpc(n.tx, n.ty, n.id);
+    for (const t of this.level.tapes) this.addTape(t.tx, t.ty, t.id);
+    for (const d of this.level.decor) {
+      if (!this.textures.exists(d.id)) continue;
+      const spr = this.add.sprite(d.tx * T + T / 2, d.ty * T + T, d.id).setOrigin(0.5, 1).setDepth(0.5);
+      for (const a of ['idle', 'loop', 'flicker']) if (this.anims.exists(animKey(d.id, a))) { spr.play(animKey(d.id, a)); break; }
+    }
     this.triggers = this.level.triggers.map(t => ({ ...t, fired: false }));
 
     // Player
@@ -193,6 +220,7 @@ export class GameScene extends Phaser.Scene {
     if (this.carry) this.avatar.restore(this.carry.members, this.carry.slot);
     this.controls = new LocalInput(this);
     this.avatar.on('jump', () => synth.sfx('jump'));
+    this.avatar.on('taghop', () => { synth.sfx('jump'); fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 10, 19); this.style.gain('taghop', 6, this.time.now); });
     this.avatar.on('land', (speed: number) => { synth.sfx('land'); if (speed > 260) fx(this, 'dust-puff', this.avatar.x, this.avatar.y - 6, 9); });
     this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12, 0, 20).setDeadzone(40, 30).setRoundPixels(true);
     this.cameras.main.fadeIn(250, 15, 16, 20);
@@ -240,12 +268,23 @@ export class GameScene extends Phaser.Scene {
 
     this.startAudio();
     bus.emit('toast', { text: `${this.level.name}` });
+    this.coupleHint();
+    this.time.delayedCall(2500, () => this.specialHint());
+    this.nightOwl = isNightOwlHour();
+    if (this.nightOwl && this.avatar.members.some(m => m.def.id === 'ashwath') && !nightOwlToasted) {
+      nightOwlToasted = true;
+      this.time.delayedCall(4000, () => { bus.emit('toast', { text: '🦉 NIGHT OWL: it\'s between 1 and 4 AM. Ashwath hits 25% harder and recharges 25% faster.' }); this.say('nightowl', true); });
+    }
+    // "Previously on QUBLOX…": once per session, on an episode's first room.
+    const prev = `ep${this.level.episode}-previously`;
+    if (this.levelKey.endsWith('-r01') && !seenRecaps.has(prev)) { seenRecaps.add(prev); this.queueDialogue(prev); }
     if (this.level.dialogue) this.queueDialogue(this.level.dialogue);
     if (this.level.waves.length) this.queueDialogue('', () => this.nextWave());
     if (this.boss && this.level.boss) {
       const boss = this.boss;
       this.queueDialogue(this.level.boss.intro ?? '', () => {
         boss.start();
+        this.say('start', true);
         if (boss instanceof BeigeCore && this.content.songs?.beige) { this.playSong('beige'); synth.section('A'); }
         else this.playSong(`${this.level.music ?? `ep${this.level.episode}`}-boss`);
       });
@@ -264,6 +303,16 @@ export class GameScene extends Phaser.Scene {
     else if (f.swapNext) this.swap(this.avatar.nextAlive(1));
     else if (f.swapPrev) this.swap(this.avatar.nextAlive(-1));
     if (f.attackPressed) this.attack();
+    // Hold attack → the member's special (Sehaj: BEAST MODE).
+    if (f.attackHeld) {
+      if (!this.holdStart) this.holdStart = time;
+      const sp = this.avatar.def.special;
+      if (sp && !this.holdFired && time - this.holdStart > 550) {
+        this.holdFired = true;
+        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else this.infoDump(); }
+        else wordPop(this, this.avatar.x, this.avatar.y - 50, 'STILL SORE');
+      }
+    } else { this.holdStart = 0; this.holdFired = false; }
     if (f.abilityPressed) this.ability();
     this.avatar.step(f, time);
 
@@ -295,6 +344,8 @@ export class GameScene extends Phaser.Scene {
       if (sw.kind === 'laser' && !sw.open && Math.abs(this.avatar.x - sw.x) < 8 && this.avatar.y > sw.y - (sw.obj as Phaser.GameObjects.TileSprite).height && this.avatar.y - 30 < sw.y) this.hurtPlayer(18, sw.x, null);
     }
     this.updateHazards(time, delta);
+    this.updateConfusion(time);
+    this.updateCosmic(time);
     this.updateSet(time, delta);
     this.updateFeed(time, delta);
     if (!busy) this.checkTriggers();
@@ -303,16 +354,21 @@ export class GameScene extends Phaser.Scene {
     if (this.avatar.y > this.level.height * T + 60) { this.hurtPlayer(20, this.avatar.x, null); this.toCheckpoint(); }
 
     this.style.tick(time, delta);
+    if (this.style.rank.name === 'MAXIMALIST') achievements.unlock('maximalist');
     this.updateBackdrop(delta);
     if (time - this.lastHud > 100) { this.lastHud = time; bus.emit('hud', this.hud()); }
   }
 
   // ---------- Party ----------
   private swap(i: number) {
+    const prev = this.avatar.def.id;
     if (i < 0 || !this.avatar.swapTo(i)) return;
     const id = this.avatar.def.id, now = this.time.now;
+    this.specialHint();
+    if (partnerOf(prev) === id && now >= this.coupleReadyAt) { this.coupleMove(prev, id); return; }
     fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 22, 19);
     synth.sfx('swap');
+    achievements.unlock('first-swap');
     this.say('tagin');
     // Tag-in attack: a small hit around the entrance. Tushar's camera flash stuns.
     let hits = 0;
@@ -330,7 +386,7 @@ export class GameScene extends Phaser.Scene {
     const a = this.avatar, m = a.member, def = m.def, now = this.time.now;
     if (now < m.attackReadyAt || now < a.hurtUntil) return;
     m.attackReadyAt = now + def.attackCooldownMs;
-    const dmgMult = now < a.delegationUntil ? 1.3 : 1;
+    const dmgMult = (now < a.delegationUntil ? 1.3 : 1) * (def.id === 'ashwath' && this.nightOwl ? 1.25 : 1);
     const atk = def.attack;
     a.doAction('attack', Math.min(def.attackCooldownMs, a.animMs('attack', 220)));
     if (atk.type === 'melee') {
@@ -378,9 +434,9 @@ export class GameScene extends Phaser.Scene {
     wordPop(this, e.x + Phaser.Math.Between(-6, 6), e.y - e.displayHeight * 0.5, word);
     this.style.gain(source, 8, this.time.now);
     this.style.addScore(damage * 10);
-    if (!e.alive) { this.style.addScore(e instanceof BossBase ? 5000 : 250); if (Math.random() < 0.4) this.say('kill'); }
+    if (!e.alive) { this.style.addScore(e instanceof BossBase ? 5000 : 250); if (Math.random() < 0.4) this.say(this.avatar.def.id === 'ashwath' && Math.random() < 0.5 ? 'crit' : 'kill'); }
     if (!e.alive && e instanceof Enemy && e.kind === 'pop-up-ad' && this.level.popupsSpawn) {
-      if (source === 'brahmansh:jumpcut') { wordPop(this, e.x, e.y - 20, 'AD SKIPPED'); this.style.addScore(300); }
+      if (source === 'brahmansh:jumpcut') { wordPop(this, e.x, e.y - 20, 'AD SKIPPED'); this.style.addScore(300); achievements.unlock('ad-skipped'); }
       else {
         wordPop(this, e.x, e.y - 20, '[X] CLOSED?!', true);
         const kind = ENEMY_CHARS[this.level.popupsSpawn] ?? 'infinite-monkey';
@@ -393,7 +449,9 @@ export class GameScene extends Phaser.Scene {
     const a = this.avatar, now = this.time.now;
     if (now < a.invulnUntil || this.finished || this.leaving) return;
     const m = a.member;
+    const wasOk = m.hp >= m.def.maxHp * 0.3;
     m.hp = Math.max(0, m.hp - amount);
+    if (wasOk && m.hp > 0 && m.hp < m.def.maxHp * 0.3) this.say('low', true);
     a.invulnUntil = now + 900;
     a.hurtUntil = now + 260;
     a.pbody.setVelocityX((Math.sign(a.x - fromX) || -a.facing) * 140);
@@ -402,7 +460,7 @@ export class GameScene extends Phaser.Scene {
     synth.sfx('hurt');
     shake(this, 2); hitstop(this, 40);
     const monkey = source?.kind === 'infinite-monkey' || from === 'infinite-monkey';
-    if (monkey && m.def.id === 'tushar') { a.panicUntil = now + 2000; this.say('monkey', true); }
+    if (monkey && m.def.id === 'tushar') { a.panicUntil = now + 2000; this.say('monkey', true); achievements.unlock('monkey-business'); }
     else if (Math.random() < 0.35) this.say('hit');
     if (m.hp > 0) return;
     m.ko = true; this.kos++;
@@ -439,12 +497,12 @@ export class GameScene extends Phaser.Scene {
     if (now < m.abilityReadyAt) { wordPop(this, a.x, a.y - 50, m.def.id === 'sehaj' ? 'RENDERING…' : 'COOLDOWN'); if (m.def.id === 'sehaj') this.say('render'); return; }
     const used = ({
       hack: () => this.hack(), bribe: () => this.bribe(), penTool: () => this.penTool(), fillBucket: () => this.fill(),
-      ctrlZ: () => this.ctrlZ(), jumpCut: () => this.jumpCut(), cut: () => this.cut(),
+      ctrlZ: () => this.ctrlZ(), jumpCut: () => this.jumpCut(), cut: () => this.cut(), mindGames: () => this.mindGames(),
     } as const)[m.def.ability]();
     if (!used) { m.abilityReadyAt = now + 400; return; }
-    m.abilityReadyAt = now + m.def.abilityCooldownMs;
+    m.abilityReadyAt = now + m.def.abilityCooldownMs * this.cooldownScale(m.def.id);
     a.doAction('ability', Math.min(450, a.animMs('ability', 300)));
-    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut' } as const)[m.def.ability]}`);
+    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut', mindGames: 'mind' } as const)[m.def.ability]}`);
     synth.sfx('ability');
     this.style.gain(`${m.def.id}:ability`, 10, now);
     this.say('ability');
@@ -457,17 +515,164 @@ export class GameScene extends Phaser.Scene {
       if (term) { term.img.setFrame('on'); this.time.delayedCall(1500, () => term.img.setFrame('off')); }
       return this.boss.dropShield();
     }
-    if (term) {
-      term.on = !term.on;
-      term.img.setFrame(term.on ? 'on' : 'off');
-      if (term.target) this.setSwitch(term.target, term.on);
-      wordPop(this, term.img.x, term.img.y - 20, 'BZZT');
+    // Terminals latch ON: a door/laser stays open once hacked, and a spent terminal never steals a hack meant for an enemy.
+    const fresh = term && !term.on ? term : this.nearest(this.terminals.filter(t => !t.on), t => t.img, 110);
+    if (fresh) {
+      fresh.on = true;
+      fresh.img.setFrame('on');
+      if (fresh.target) this.setSwitch(fresh.target, true);
+      wordPop(this, fresh.img.x, fresh.img.y - 20, fresh.target?.kind === 'laser' ? 'LASER OFF' : 'ACCESS GRANTED');
       return true;
     }
     const e = this.nearest(this.liveEnemies(), x => x, 110);
     if (e) { e.hackedUntil = now + 5000; e.restoreTint(); wordPop(this, e.x, e.y - 24, 'PWNED'); return true; }
     wordPop(this, a.x, a.y - 50, 'NO SIGNAL');
     return false;
+  }
+
+  /** Sehaj (gym rat): the shirt goes, a boulder comes up, a boulder goes out. Big damage; the only thing that smashes cracked walls. */
+  private beastMode() {
+    const a = this.avatar, now = this.time.now;
+    a.doAction(this.anims.exists(animKey('sehaj', 'beast')) ? 'beast' : 'ability', 420);
+    wordPop(this, a.x, a.y - 60, 'BEAST MODE', true);
+    this.say('beast', true);
+    a.setScale(1.18); this.tweens.add({ targets: a, scale: 1, delay: 380, duration: 160 });
+    shake(this, 2); synth.sfx('boss-roar');
+    this.style.gain('sehaj:beast', 14, now);
+    this.time.delayedCall(300, () => {
+      const rock = this.physics.add.image(a.x + a.facing * 10, a.y - 20, 'boulder').setDepth(12);
+      rock.setVelocity(a.facing * 300, -80).setAngularVelocity(a.facing * 540);
+      (rock.body as Phaser.Physics.Arcade.Body).setGravityY(500 - this.physics.world.gravity.y);
+      const hit = new Set<unknown>();
+      const smash = () => { if (!rock.active) return; sparks(this, rock.x, rock.y, 14); synth.sfx('hit'); shake(this, 2); rock.destroy(); };
+      this.physics.add.collider(rock, this.layer, () => { if ((rock.body as Phaser.Physics.Arcade.Body).blocked.down) this.time.delayedCall(250, smash); });
+      for (const w of this.cracked) this.physics.add.overlap(rock, w, () => {
+        if (!w.active) return;
+        wordPop(this, w.x, w.y - 36, 'CRUNCH', true); sparks(this, w.x, w.y - 16, 20);
+        w.destroy(); this.cracked = this.cracked.filter(x => x !== w); smash();
+      });
+      this.physics.add.collider(rock, this.blockers);
+      this.physics.add.overlap(rock, this.enemies, (_r, e) => {
+        const en = e as Enemy;
+        if (hit.has(en) || !en.alive) return;
+        hit.add(en);
+        if (en.hit(30, rock.x)) this.onHit(en, 'VAJJJ!', 'sehaj:beast', 30);
+      });
+      if (this.boss) this.physics.add.overlap(rock, this.boss, () => {
+        if (hit.has(this.boss) || !this.boss?.alive) return;
+        hit.add(this.boss);
+        if (this.boss.hit(20, rock.x)) this.onHit(this.boss, 'VAJJJ!', 'sehaj:beast', 20);
+        smash();
+      });
+      this.time.delayedCall(2500, smash);
+    });
+  }
+  /** Ashwath: talks at 2× speed about distributed systems. Everything nearby takes psychic damage in ticks and backs away. */
+  private infoDump() {
+    const a = this.avatar;
+    a.doAction(this.anims.exists(animKey('ashwath', 'info')) ? 'info' : 'ability', 600);
+    this.say('info', true);
+    const raw = (this.content.barks.ashwath as { barks?: Record<string, unknown> } | undefined)?.barks?.jargon;
+    const words = Array.isArray(raw) && raw.length ? raw as string[] : ['CAP THEOREM', 'EVENTUAL CONSISTENCY', 'JUST SHARD IT', 'KAFKA??', 'IT\'S ALL BLOCKS', 'IDEMPOTENT!', 'RACE CONDITION'];
+    this.style.gain('ashwath:info', 14, this.time.now);
+    for (let k = 0; k < 6; k++) this.time.delayedCall(k * 260, () => {
+      if (!a.active) return;
+      const w = words[(k + Math.floor(this.time.now / 97)) % words.length]!;
+      wordPop(this, a.x + Phaser.Math.Between(-50, 50), a.y - 40 - Phaser.Math.Between(0, 30), w);
+      for (const e of this.targets()) {
+        if (Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) > 150) continue;
+        if (e.hit(4, a.x)) this.onHit(e, '?!', 'ashwath:info', 4);
+        if (e instanceof Enemy && e.alive) (e.body as Phaser.Physics.Arcade.Body).setVelocityX(Math.sign(e.x - a.x || 1) * 160);
+      }
+    });
+  }
+  /** Ashwath's hidden stat, COSMIC EXISTENTIALIST: stand still long enough and he starts staring at the sky. */
+  private updateCosmic(now: number) {
+    const a = this.avatar;
+    const moving = Math.abs(a.pbody.velocity.x) > 5 || !a.grounded;
+    if (moving || this.cutscene || a.def.id !== 'ashwath') { this.stillSince = now; this.cosmicDone = false; return; }
+    if (!this.cosmicDone && now - this.stillSince > 7000) { this.cosmicDone = true; this.say('cosmic', true); }
+  }
+  private addSprite(x: number, y: number) {
+    const can = this.physics.add.staticSprite(x, y - 8, 'sprite-can').setDepth(5);
+    this.tweens.add({ targets: can, y: y - 11, yoyo: true, repeat: -1, duration: 500, ease: 'Sine.InOut' });
+    this.time.delayedCall(0, () => this.physics.add.overlap(this.avatar, can, () => {
+      const m = this.avatar.member;
+      if (m.abilityReadyAt <= this.time.now) return; // save it for when you need it
+      m.abilityReadyAt = this.time.now;
+      wordPop(this, can.x, can.y - 12, 'FIZZ! RECHARGED', true);
+      fx(this, 'heal-sparkle', this.avatar.x, this.avatar.y - 20, 30);
+      synth.sfx('pickup');
+      can.destroy();
+    }));
+  }
+
+  /** First time Sehaj is on screen (per session): teach BEAST MODE. */
+  private specialHint() {
+    const sp = this.avatar.def.special;
+    if (!sp || specialHinted.has(this.avatar.def.id)) return;
+    specialHinted.add(this.avatar.def.id);
+    bus.emit('toast', { text: sp.kind === 'boulder' ? `HOLD J · ${sp.name}: ${this.avatar.def.name} throws a boulder (smashes cracked walls)` : `HOLD J · ${sp.name}: ${this.avatar.def.name} explains distributed systems at 2× speed. Enemies nearby take psychic damage and back off.` });
+  }
+
+  /** Manvi (psychology student): KO'd crew get a pep talk and come back; nearby enemies get confused and bonk each other. */
+  private mindGames(): boolean {
+    const a = this.avatar, now = this.time.now;
+    let did = false;
+    const down = a.members.find(m => m.ko);
+    if (down) {
+      down.ko = false; down.hp = Math.round(down.def.maxHp * 0.4);
+      fx(this, 'heal-sparkle', a.x, a.y - 20, 30);
+      wordPop(this, a.x, a.y - 56, `PEP TALK! ${down.def.name.toUpperCase()} IS BACK`, true);
+      did = true;
+    }
+    const thoughts = this.content.barks.manvi as { barks?: Record<string, unknown> } | undefined;
+    const lines = (Array.isArray(thoughts?.barks?.thoughts) ? thoughts!.barks!.thoughts as string[] : null)
+      ?? ['do I even like my job?', 'is this… joy?', 'I should call my mom', 'wait, who am I?', 'beige is… sad?'];
+    const near = this.liveEnemies().filter(e => Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) < 150);
+    near.forEach((e, k) => {
+      e.confusedUntil = now + 4500; e.restoreTint();
+      if (k < 3) this.time.delayedCall(k * 140, () => e.alive && bark(this, e, lines[(k + Math.floor(now)) % lines.length]!));
+    });
+    if (near.length) { wordPop(this, a.x, a.y - 44, 'WHATCHA DOIN?'); did = true; }
+    if (!did) wordPop(this, a.x, a.y - 50, 'NOBODY TO READ');
+    return did;
+  }
+
+  /** Couples (crew.ts COUPLES): swap straight from one partner to the other → both strike a heart pose, a heart shockwave hits everything nearby and heals the party. */
+  private coupleMove(out: CrewId, inn: CrewId) {
+    const a = this.avatar, now = this.time.now;
+    this.coupleReadyAt = now + COUPLE_COOLDOWN_MS;
+    const ghost = this.add.sprite(a.x + a.facing * 18, a.y, out).setOrigin(0.5, 1).setDepth(a.depth - 1).setFlipX(a.facing > 0);
+    if (this.anims.exists(animKey(out, 'idle'))) ghost.play(animKey(out, 'idle'));
+    this.tweens.add({ targets: ghost, alpha: 0, delay: 800, duration: 300, onComplete: () => ghost.destroy() });
+    hitstop(this, 140); shake(this, 3);
+    this.cameras.main.flash(140, 255, 120, 170);
+    const cx = a.x + a.facing * 9, cy = a.y - 44;
+    const heart = this.add.image(cx, cy, 'fx-heart').setDepth(30).setScale(0.4);
+    this.tweens.add({ targets: heart, scale: 1.2, duration: 220, ease: 'Back.Out', yoyo: true, hold: 260, onComplete: () => heart.destroy() });
+    const wave = this.add.image(cx, cy, 'fx-heart').setDepth(29).setScale(0.8).setAlpha(0.9);
+    this.tweens.add({ targets: wave, scale: 9, alpha: 0, delay: 300, duration: 650, ease: 'Cubic.Out', onComplete: () => wave.destroy() });
+    wordPop(this, a.x, a.y - 72, 'DHUMTANANA!', true);
+    synth.sfx('style-rankup'); synth.sfx('ability');
+    this.time.delayedCall(320, () => {
+      for (const e of this.targets()) {
+        if (Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) < 230 && e.hit(25, a.x)) this.onHit(e, 'LOVE BOMB', 'couple', 25);
+      }
+      for (const m of a.members) if (!m.ko) m.hp = Math.min(m.def.maxHp, m.hp + 20);
+    });
+    this.style.gain(`couple:${inn}`, 30, now);
+    this.style.addScore(1500);
+    achievements.unlock('couple-goals');
+    this.say('couple', true);
+  }
+  /** First time both halves of a couple are in the party (per session): explain the couple move. */
+  private coupleHint() {
+    const ids = this.avatar.members.map(m => m.def.id);
+    const pair = ids.find(id => { const p = partnerOf(id); return p && ids.includes(p); });
+    if (!pair || coupleHinted) return;
+    coupleHinted = true;
+    this.time.delayedCall(1200, () => bus.emit('toast', { text: `💞 ${CREW[pair].name} + ${CREW[partnerOf(pair)!].name} are both here: swap straight from one to the other for a COUPLE MOVE` }));
   }
 
   private bribe(): boolean {
@@ -480,6 +685,7 @@ export class GameScene extends Phaser.Scene {
     this.lureBag = bag;
     this.lureUntil = this.time.now + 4000;
     wordPop(this, bag.x, bag.y - 10, 'LE RE', true);
+    achievements.count('bribes');
     return true;
   }
   private activeLure() {
@@ -522,6 +728,7 @@ export class GameScene extends Phaser.Scene {
       const next = order[(order.indexOf(blk.color) + 1) % 3]!;
       const group = this.floodBlocks(blk);
       group.forEach((b, i) => this.time.delayedCall(i * 25, () => this.paintBlock(b, next)));
+      achievements.count('painted', group.length);
       wordPop(this, blk.spr.x, blk.spr.y - 16, next === 'red' ? 'RED = SOLID' : next === 'blue' ? 'BLUE = THROUGH' : 'YELLOW = BOING');
       this.style.gain('manya:fill', 10, now);
       return true;
@@ -542,6 +749,7 @@ export class GameScene extends Phaser.Scene {
     const shots = (this.foeShots.getChildren() as Phaser.Physics.Arcade.Image[]).filter(s => Phaser.Math.Distance.Between(s.x, s.y, a.x, a.y - 16) < 140);
     if (broken.length || shots.length) {
       for (const c of broken) this.setCrumbly(c, 'intact', now);
+      if (shots.length) achievements.unlock('rewind-reflect');
       for (const s of shots) {
         const b = s.body as Phaser.Physics.Arcade.Body;
         const back = this.shots.create(s.x, s.y, s.texture.key) as Phaser.Physics.Arcade.Sprite;
@@ -613,7 +821,7 @@ export class GameScene extends Phaser.Scene {
       playerPos: () => new Phaser.Math.Vector2(this.avatar.x, this.avatar.y - 16),
       lure: () => this.activeLure(),
       shoot: (sx, sy, vx, vy, tex) => this.foeShot(sx, sy, vx, vy, tex, 8, kind, 420),
-    });
+    }, this.level.tileset ? `${kind}-${this.level.tileset}` : undefined);
     if (kind === 'buffering-wheel-minion') (e.body as Phaser.Physics.Arcade.Body).setSize(12, 12).setOffset(2, 4);
     this.enemies.add(e);
     return e;
@@ -742,8 +950,29 @@ export class GameScene extends Phaser.Scene {
       m.hp = Math.min(m.def.maxHp, m.hp + 35);
       fx(this, 'heal-sparkle', this.avatar.x, this.avatar.y - 20, 30);
       wordPop(this, cup.x, cup.y - 12, '+CHAI');
+      achievements.count('chai');
       synth.sfx('pickup');
       cup.destroy();
+    }));
+  }
+  /** Lost Footage: a hidden tape. Collected ones show as a ghost (already in the archive). */
+  private addTape(tx: number, ty: number, id: string) {
+    const x = tx * T + T / 2, y = ty * T + T;
+    const had = achievements.has('tapes', id);
+    const tape = this.physics.add.staticSprite(x, y - 8, 'tape').setDepth(5).setAlpha(had ? 0.35 : 1);
+    if (this.anims.exists('tape:idle')) tape.play('tape:idle');
+    this.tweens.add({ targets: tape, y: y - 12, angle: { from: -8, to: 8 }, yoyo: true, repeat: -1, duration: 700, ease: 'Sine.InOut' });
+    this.time.delayedCall(0, () => this.physics.add.overlap(this.avatar, tape, () => {
+      tape.destroy();
+      synth.sfx('pickup');
+      fx(this, 'heal-sparkle', x, y - 16, 30);
+      if (had) { wordPop(this, x, y - 20, 'ALREADY ARCHIVED'); return; }
+      wordPop(this, x, y - 20, 'LOST FOOTAGE!');
+      this.style.addScore(1000);
+      const all = (this.content.story.footage as { tapes?: { id: string; title: string; caption: string }[] } | undefined)?.tapes ?? [];
+      const t = all.find(f => f.id === id);
+      achievements.collect('tapes', id, [...TAPE_IDS], 'directors-cut');
+      bus.emit('toast', { text: t ? `📼 ${t.title}: ${t.caption}` : `📼 Lost Footage ${id} recovered (${achievements.found('tapes').length}/${TAPE_IDS.length})` });
     }));
   }
   private addSign(tx: number, ty: number, text: string) {
@@ -757,17 +986,29 @@ export class GameScene extends Phaser.Scene {
     const x = tx * T + T / 2, y = (ty + 1) * T;
     const spr = this.add.sprite(x, y, this.textures.exists(id) ? id : 'stock-intern').setOrigin(0.5, 1).setDepth(6);
     if (this.anims.exists(animKey(id, 'idle'))) spr.play(animKey(id, 'idle'));
-    else spr.setTint(0xfecb56);
+    else if (!this.textures.exists(id)) spr.setTint(0xfecb56);
     const cast = (this.content.story.cast as { cast?: { id: string; name: string }[] } | undefined)?.cast;
     this.npcs.push({ spr, id, name: cast?.find(c => c.id === id)?.name ?? id });
   }
+  /** Standing by an unhacked terminal: say exactly what to press (and who can do it). */
+  private terminalHint(): string | null {
+    if (this.boss) return null;
+    const t = this.nearest(this.terminals.filter(t => !t.on && t.target), t => t.img, 56);
+    if (!t) return null;
+    const what = t.target!.kind === 'laser' ? 'kill the laser' : 'open the door';
+    if (this.avatar.def.ability === 'hack') return `K · HACK the terminal to ${what}`;
+    const i = this.avatar.members.findIndex(m => m.def.ability === 'hack' && !m.ko);
+    return i >= 0 ? `Swap to ${this.avatar.members[i]!.def.name} (${i + 1}), then K to HACK · ${what}` : `Terminal locked: only a hacker can ${what}`;
+  }
   private updateNpcHint(interact: boolean) {
     const near = this.nearest(this.npcs, n => n.spr, 40);
-    this.hint = near ? `ENTER / F · talk to ${near.name}` : null;
+    this.hint = near ? (near.id === 'telescope' ? 'ENTER / F · look through the telescope' : `ENTER / F · talk to ${near.name}`) : this.terminalHint();
     if (near) near.spr.setFlipX(this.avatar.x < near.spr.x);
     if (!near || !interact) return;
     const talk = animKey(near.id, 'talk');
     if (this.anims.exists(talk)) near.spr.play(talk);
+    const cast = (this.content.story.cast as { cast?: { id: string; kind: string }[] } | undefined)?.cast ?? [];
+    achievements.collect('npcs', near.id, cast.filter(c => c.kind === 'npc').map(c => c.id), 'small-talk');
     this.queueDialogue(`ep${this.level.episode}-npc-${near.id}`, () => { if (this.anims.exists(animKey(near.id, 'idle'))) near.spr.play(animKey(near.id, 'idle')); });
   }
   private checkTriggers() {
@@ -782,6 +1023,7 @@ export class GameScene extends Phaser.Scene {
     const j = this.level.join;
     const crews = j?.crew.filter(isCrewId) ?? [];
     if (!j || this.joined || this.enemyTotal === 0 || this.liveEnemies().length > 0 || !crews.length) return;
+    if (this.switches.some(s => s.kind === 'wave' && !s.open)) return; // wave rooms: after the last wave
     this.joined = true;
     this.time.delayedCall(500, () => this.queueDialogue(j.dialogue, () => crews.forEach(crew => this.join(crew))));
   }
@@ -789,16 +1031,34 @@ export class GameScene extends Phaser.Scene {
     for (const n of this.npcs.filter(n => n.id === crew)) { fx(this, 'tag-in-burst', n.spr.x, n.spr.y - 22, 19); n.spr.destroy(); }
     this.npcs = this.npcs.filter(n => n.id !== crew);
     if (!this.avatar.addMember(crew)) {
-      // Party is full: the newcomer takes the last slot (story beats beat party size).
-      const out = this.avatar.members[this.avatar.members.length - 1]!;
-      this.avatar.members[this.avatar.members.length - 1] = { def: CREW[crew], hp: CREW[crew].maxHp, ko: false, abilityReadyAt: 0, attackReadyAt: 0 };
+      // Party is full: the newcomer replaces someone (story beats beat party size). Never their partner, and never
+      // the hacker if anyone else can go (terminals are Ashwath-only).
+      const ms = this.avatar.members;
+      const order = [...ms.keys()].reverse();
+      const slot = order.find(i => ms[i]!.def.id !== partnerOf(crew) && ms[i]!.def.ability !== 'hack')
+        ?? order.find(i => ms[i]!.def.id !== partnerOf(crew)) ?? ms.length - 1;
+      const out = ms[slot]!;
+      ms[slot] = { def: CREW[crew], hp: CREW[crew].maxHp, ko: false, abilityReadyAt: 0, attackReadyAt: 0 };
       bus.emit('toast', { text: `${out.def.name} heads back to HQ to make room.` });
-      if (this.avatar.slot === this.avatar.members.length - 1) this.avatar.swapTo(0);
+      if (this.avatar.slot === slot) this.avatar.swapTo(slot === 0 ? 1 : 0);
     }
     this.party = this.avatar.members.map(m => m.def.id);
     fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 22, 19);
     synth.sfx('style-rankup'); synth.sfx('pickup');
-    bus.emit('toast', { text: `${CREW[crew].name} joined the party! Press ${this.avatar.members.length} to swap in.` });
+    bus.emit('toast', { text: `${CREW[crew].name} joined the party! Press ${this.avatar.members.findIndex(m => m.def.id === crew) + 1} to swap in.` });
+    this.coupleHint();
+  }
+
+  /** Confused enemies (Manvi) bonk any other enemy they bump into. */
+  private updateConfusion(now: number) {
+    const live = this.liveEnemies();
+    for (const e of live) {
+      if (now >= e.confusedUntil || now < ((e.getData('bonkAt') as number) ?? 0)) continue;
+      const o = live.find(o => o !== e && Phaser.Math.Distance.Between(o.x, o.y, e.x, e.y) < 22);
+      if (!o) continue;
+      e.setData('bonkAt', now + 500);
+      if (o.hit(6, e.x)) this.onHit(o, 'BONK', 'manvi:mind', 6);
+    }
   }
 
   // ---------- Episode 1 hazards ----------
@@ -875,7 +1135,7 @@ export class GameScene extends Phaser.Scene {
 
   // ---------- Episode 2: The Set ----------
   private addBlock(tx: number, ty: number, color: BlockColor) {
-    const spr = this.blockGroup.create(tx * T + T / 2, ty * T + T / 2, `color-block-${color}`) as Phaser.Physics.Arcade.Image;
+    const spr = this.blockGroup.create(tx * T + T / 2, ty * T + T / 2, `color-block-${color}`) as Phaser.Physics.Arcade.Sprite;
     spr.setDepth(4).refreshBody();
     const b: ColorBlock = { spr, tx, ty, color };
     this.blocks.push(b);
@@ -883,7 +1143,10 @@ export class GameScene extends Phaser.Scene {
   }
   private paintBlock(b: ColorBlock, color: BlockColor) {
     b.color = color;
-    b.spr.setTexture(`color-block-${color}`);
+    // Astra's sheet (rows red/blue/yellow, yellow squashes) when it's loaded; the single images otherwise.
+    const anim = `color-block:${color}`;
+    if (this.anims.exists(anim)) b.spr.play(anim);
+    else b.spr.setTexture(`color-block-${color}`);
     const body = b.spr.body as Phaser.Physics.Arcade.StaticBody;
     body.enable = color !== 'blue';
     b.spr.setAlpha(color === 'blue' ? 0.45 : 1);
@@ -1009,6 +1272,7 @@ export class GameScene extends Phaser.Scene {
       this.style.addScore(1500);
       return;
     }
+    this.say('start');
     bus.emit('toast', { text: `WAVE ${this.wave} / ${max}` });
     for (const w of this.level.waves.filter(w => w.n === this.wave)) {
       const kind = ENEMY_CHARS[w.kind];
@@ -1083,6 +1347,9 @@ export class GameScene extends Phaser.Scene {
   private complete() {
     if (this.finished) return;
     this.finished = true;
+    if (this.kos === 0) achievements.unlock('no-ko-episode');
+    if (this.level.episode === 0 && this.elapsed < 240_000) achievements.unlock('speedrun-ep0');
+    if (this.boss instanceof BeigeCore) achievements.unlock('beige-is-dead');
     synth.stinger(this.content.songs?.results);
     synth.sfx('style-rankup');
     wordPop(this, this.avatar.x, this.avatar.y - 50, "THAT'S A WRAP", true);
@@ -1155,7 +1422,9 @@ export class GameScene extends Phaser.Scene {
       this.cutscene = true;
       this.dialogueThen = then;
       const cast = (this.content.story.cast as { cast?: { id: string; name: string }[] } | undefined)?.cast ?? [];
-      bus.emit('dialogueStart', { ...parsed.data, names: Object.fromEntries(cast.map(c => [c.id, c.name])) });
+      // Crew who aren't in the party (or standing in the room as an NPC) speak "on comms" from HQ.
+      const present = [...this.avatar.members.map(m => m.def.id), ...this.npcs.map(n => n.id)];
+      bus.emit('dialogueStart', { ...parsed.data, names: Object.fromEntries(cast.map(c => [c.id, c.name])), present });
     }
   }
 

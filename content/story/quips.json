@@ -38,7 +38,10 @@
     "Tip: Blue paint lets you walk straight through solid barrier doors.",
     "Tip: Three-member tag chains build STYLE faster than solo attacks.",
     "Tip: Fake [X] buttons on popups spawn extra enemies. Smash the ad!",
-    "Tip: Standing still on an infinite-scroll elevator is fatal."
+    "Tip: Standing still on an infinite-scroll elevator is fatal.",
+    "Tip: Tag hop! Swapping crew mid-air gives a vertical boost upward.",
+    "Tip: Glinting VHS tapes hide behind pipes and beams. Grab all 15!",
+    "Tip: Crew not in your active party will still radio in over comms."
   ],
   "gameover": [
     "Creative differences. The whole crew has been KO'd.",
@@ -120,5 +123,17 @@
       "NEO-AMRITSAR RESTORED TO FULL SATURATION; TIE-DYE PANIC AT TEMPLATR",
       "CHAI STALLS ERUPT IN CELEBRATION AS CREW SQUASHES CORPORATE TEMPLATES"
     ]
-  }
+  },
+  "bylines": [
+    "By Pammi Aunty, Gossip Desk",
+    "By Happy Sodhi, Special Crime Beat",
+    "By Nimrat Kaur-Smith, Tech Bureau",
+    "By Goldy 'Hotfix' Gill, Wire Services",
+    "By Manpreet 'Bullet' Brar, Traffic",
+    "By Dolly Chawla, Opinion & Outrage",
+    "By Bunty Sandhu, Chai Stall Source",
+    "By Ricky Oberoi, Style & Culture",
+    "By Hardeep Sahni, Grid Watch",
+    "By Gurpreet Deol, Leaks & Whistleblowers"
+  ]
 }

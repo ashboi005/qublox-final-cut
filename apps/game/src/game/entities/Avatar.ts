@@ -21,6 +21,8 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
   private lastGrounded = 0;
   private jumpBufferedAt = -1;
   private airJumps = 0;
+  /** One tag hop per airtime: swapping in mid-air gives the incoming member a small boost. */
+  private tagHopReady = false;
   invulnUntil = 0;
   actionUntil = 0;
   private actionAnim: string | null = null;
@@ -102,6 +104,11 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
     if (this.def.id === 'sayam') this.delegationUntil = this.scene.time.now + 3000;
     this.slot = i;
     this.applyLook();
+    // Tag hop: the incoming member kicks off the outgoing one, once per airtime (reaches ~4.5-tile ledges).
+    if (!this.grounded && this.tagHopReady) {
+      this.tagHopReady = false;
+      if (this.pbody.velocity.y > -this.def.jumpVelocity * 0.7) { this.launch(-this.def.jumpVelocity * 0.7); this.emit('taghop'); }
+    }
     this.invulnUntil = Math.max(this.invulnUntil, this.scene.time.now + 300);
     this.doAction('tagin', Math.min(400, this.animMs('tagin', 260)));
     return true;
@@ -122,7 +129,7 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
     if (grounded && !this.wasGrounded && body.velocity.y >= 0 && this.fallSpeed > 180) this.emit('land', this.fallSpeed);
     this.wasGrounded = grounded;
     this.fallSpeed = body.velocity.y;
-    if (grounded) { this.lastGrounded = time; this.airJumps = this.def.doubleJump ? 1 : 0; }
+    if (grounded) { this.lastGrounded = time; this.airJumps = this.def.doubleJump ? 1 : 0; this.tagHopReady = true; }
 
     const dir = (f.right ? 1 : 0) - (f.left ? 1 : 0);
     const hurt = time < this.hurtUntil;

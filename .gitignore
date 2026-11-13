@@ -10,3 +10,4 @@ tools/art/raw/
 *.tsbuildinfo
 __pycache__/
 .next/
+tools/e2e/shots/

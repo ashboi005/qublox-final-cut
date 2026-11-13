@@ -4,22 +4,26 @@ import { CREW, hex } from '@/game/crew';
 import type { Portraits } from './DialogueBox';
 
 /** The Studio: pick who comes along. `pick` slots are yours; `joiners` arrive during the episode. */
-export function Studio({ episode, pool, pick, joiners, portraits, selectLines, onGo, onBack }: {
-  episode: { n: number; name: string }; pool: CrewId[]; pick: number; joiners: CrewId[];
+/** `required` crew are locked in (the episode can't be finished without them, e.g. EP1's terminals need a hacker). */
+export function Studio({ episode, pool, pick, required = [], joiners, portraits, selectLines, onGo, onBack }: {
+  episode: { n: number; name: string }; pool: CrewId[]; pick: number; required?: CrewId[]; joiners: CrewId[];
   portraits: Portraits; selectLines: Partial<Record<CrewId, string[]>>;
   onGo: (party: CrewId[]) => void; onBack: () => void;
 }) {
-  const [chosen, setChosen] = useState<CrewId[]>(pool.slice(0, pick));
+  const [chosen, setChosen] = useState<CrewId[]>(() => [...required, ...pool.filter(id => !required.includes(id))].slice(0, pick));
   const [cursor, setCursor] = useState(0);
   const [quote, setQuote] = useState<{ id: CrewId; text: string } | null>(null);
   const ready = chosen.length === pick;
 
   const toggle = (id: CrewId) => {
     setChosen(c => {
+      if (required.includes(id)) { setQuote({ id, text: `${CREW[id].name} is locked in for this episode.` }); return c; }
       if (c.includes(id)) return c.filter(x => x !== id);
       const lines = selectLines[id];
       if (lines?.length) setQuote({ id, text: lines[Math.floor(Math.random() * lines.length)]! });
-      return c.length >= pick ? [...c.slice(1), id] : [...c, id];
+      if (c.length < pick) return [...c, id];
+      const drop = c.findIndex(x => !required.includes(x));
+      return drop < 0 ? c : [...c.slice(0, drop), ...c.slice(drop + 1), id];
     });
   };
 

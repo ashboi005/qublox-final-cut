@@ -64,7 +64,7 @@ Only Claude marks a task `[DONE]`, in the inbox, after integrating it. If Claude
 
 ## Git rules
 
-- We all work in this one checkout on the branch **`dev`**. Don't switch branches, rebase, reset, stash, force anything or push.
+- We all work in this one checkout on the branch **`main`** (the user's call, 2026-11-13; `dev` is retired). Commit straight to `main`. Don't switch branches, rebase, reset, stash, force anything or push.
 - Commit early and often: at least once per finished task, and more often for big ones.
 - **Stage only your own paths**, by name. Never use `git add -A`, `git add .` or `git commit -a`.
   `git add apps/game/public/assets/sprites/characters/ashwath.png && git commit -m "art: ashwath sprite sheet"`
@@ -91,7 +91,10 @@ bun run validate       # check assets + content against the contracts. Run befor
 bun run typecheck      # Claude: type-check every package
 bun run db:up          # Postgres for the leaderboard (docker)
 bun run dev:server     # leaderboard API on http://localhost:8787
+bun run e2e            # headless playthrough of all 5 episodes (needs `bun run dev` running)
 ```
+
+Deep-link to any room to check your work in context: `http://localhost:5173/?level=ep3-r07&party=sayam,tushar,brahmansh`.
 
 ## Quality bar
 

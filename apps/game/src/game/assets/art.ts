@@ -216,6 +216,15 @@ function makeProps(scene: Phaser.Scene) {
     c.fillStyle = INK; c.beginPath(); c.arc(0, 0, 4, 0, Math.PI * 2); c.fill(); c.setTransform(1, 0, 0, 1, 0, 0);
     c.strokeStyle = INK; c.lineWidth = 2; c.beginPath(); c.arc(16, 16, 15, 0, Math.PI * 2); c.stroke();
   });
+  canvasTex(scene, 'fx-heart', 32, 32, c => {
+    const px = ['..XX...XX..', '.XXXX.XXXX.', 'XXXXXXXXXXX', 'XXXXXXXXXXX', 'XXXXXXXXXXX', '.XXXXXXXXX.', '..XXXXXXX..', '...XXXXX...', '....XXX....', '.....X.....'];
+    px.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === 'X') { c.fillStyle = y < 2 && x % 5 === 2 ? '#ffd1e0' : '#ff3d7f'; c.fillRect(x * 3, y * 3 + 1, 3, 3); } }));
+  });
+  canvasTex(scene, 'boulder', 16, 16, c => { c.fillStyle = INK; c.fillRect(2, 3, 12, 11); c.fillRect(4, 1, 8, 14); c.fillStyle = '#8a8478'; c.fillRect(3, 4, 10, 9); c.fillRect(5, 2, 6, 12); c.fillStyle = '#b5ad9c'; c.fillRect(5, 4, 3, 2); c.fillStyle = '#5f5a52'; c.fillRect(9, 9, 3, 3); });
+  canvasTex(scene, 'cracked-wall', 16, 32, c => { c.fillStyle = INK; c.fillRect(0, 0, 16, 32); c.fillStyle = '#7d7466'; c.fillRect(1, 1, 14, 30); c.fillStyle = INK; for (const [x, y, w, h] of [[7, 2, 1, 6], [5, 8, 3, 1], [5, 9, 1, 7], [6, 16, 4, 1], [9, 17, 1, 8], [3, 24, 7, 1], [11, 6, 3, 1]]) c.fillRect(x!, y!, w!, h!); });
+  canvasTex(scene, 'sprite-can', 16, 16, c => { c.fillStyle = INK; c.fillRect(4, 1, 8, 15); c.fillStyle = '#3fbf5a'; c.fillRect(5, 3, 6, 12); c.fillStyle = '#c8f0d0'; c.fillRect(5, 2, 6, 1); c.fillStyle = '#fecb56'; c.fillRect(5, 7, 6, 3); c.fillStyle = BONE; c.fillRect(6, 4, 1, 8); });
+  canvasTex(scene, 'telescope', 32, 32, c => { c.fillStyle = INK; c.fillRect(14, 16, 2, 16); c.fillRect(8, 30, 14, 2); c.save(); c.translate(16, 16); c.rotate(-0.6); c.fillRect(-12, -3, 24, 6); c.fillStyle = '#5a6a8a'; c.fillRect(-11, -2, 22, 4); c.fillStyle = '#fecb56'; c.fillRect(9, -2, 2, 4); c.restore(); });
+  canvasTex(scene, 'tape', 16, 16, c => { c.fillStyle = INK; c.fillRect(1, 3, 14, 10); c.fillStyle = '#ff3b30'; c.fillRect(2, 4, 12, 4); c.fillStyle = BONE; c.fillRect(3, 9, 10, 3); c.fillStyle = INK; c.fillRect(4, 10, 2, 1); c.fillRect(10, 10, 2, 1); c.fillStyle = '#fecb56'; c.fillRect(3, 5, 5, 1); });
   canvasTex(scene, 'chai', 16, 16, c => { c.fillStyle = INK; c.fillRect(4, 5, 8, 10); c.fillStyle = '#c98a4a'; c.fillRect(5, 6, 6, 8); c.fillStyle = BONE; c.fillRect(6, 1, 1, 3); c.fillRect(9, 0, 1, 3); });
   canvasTex(scene, 'lag-spike', 10, 10, c => { c.fillStyle = INK; c.beginPath(); c.arc(5, 5, 5, 0, Math.PI * 2); c.fill(); c.fillStyle = '#ff2f36'; c.beginPath(); c.arc(5, 5, 3, 0, Math.PI * 2); c.fill(); });
   canvasTex(scene, 'pulse', 10, 10, c => { c.strokeStyle = '#8fa8ff'; c.lineWidth = 2; c.beginPath(); c.arc(5, 5, 4, 0, Math.PI * 2); c.stroke(); });

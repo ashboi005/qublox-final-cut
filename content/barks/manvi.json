@@ -1,0 +1,70 @@
+{
+  "id": "manvi",
+  "barks": {
+    "tagin": [
+      "Yippieeee! My turn!",
+      "Whatcha doin? Need a therapist?",
+      "Time for some mind games!",
+      "Hawwww! Did you start without me?"
+    ],
+    "ability": [
+      "MIND GAMES! Unpack your trauma!",
+      "Psychoanalysis in progress!",
+      "Hawwww! Classic projection!",
+      "Let's examine that behavior!"
+    ],
+    "hit": [
+      "Hawwww! That was hostile!",
+      "Unwarranted aggression!",
+      "Ouch! Boundary violation!",
+      "Rude coping mechanism!"
+    ],
+    "ko": [
+      "Need to practice self-care...",
+      "Cognitive overload...",
+      "Session ended early...",
+      "I need a mental health day..."
+    ],
+    "kill": [
+      "Yippieeee! Breakthrough!",
+      "Repressed memory deleted!",
+      "Subconscious cleared!",
+      "Hawwww! Displaced aggression!"
+    ],
+    "idle": [
+      "Whatcha doin? Thinking of beige?",
+      "Who wants a free personality test?",
+      "Sehaj, you're looking cute today!",
+      "Let's do some fun masti!"
+    ],
+    "couple": [
+      "Dhumtanana! Couple power!",
+      "Sehaj + Manvi = unstoppable!",
+      "Aww, look at us! Love shockwave!",
+      "Dhumtanana! Heart blast!"
+    ],
+    "thoughts": [
+      "do I even like my job?",
+      "is this… joy?",
+      "why do I hate color?",
+      "I miss my mom...",
+      "was I a bully in school?",
+      "why am I wearing beige?",
+      "I should call my therapist.",
+      "is corporate life a scam?",
+      "I really need a hug...",
+      "what is my life purpose?"
+    ],
+    "select": [
+      "Yippieeee! Pick me, let's play!",
+      "Whatcha doin? We have minds to fix!",
+      "I'll psychoanalyze BEIGE into tears.",
+      "Ready for maximum chaos and love!"
+    ],
+    "results": [
+      "Yippieeee! Best session ever!",
+      "Diagnosed, treated, and cured!",
+      "Dhumtanana! S-Rank mental health!"
+    ]
+  }
+}

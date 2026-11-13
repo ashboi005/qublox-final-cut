@@ -19,4 +19,10 @@ No rendered audio ships: these are tracker JSON for Claude's WebAudio engine. Pe
 - `results`: one 8-bar `stinger` pattern at 132 BPM (14.545s); ascending major fanfare resolves to high C, with a final breath.
 - `gameover`: one 4-bar `stinger` pattern at 84 BPM (11.429s); filtered saw lead falls chromatically with slow vibrato and ends in a rest.
 
-The schema has no non-looping flag. Stingers contain a single order entry, `stinger`; **Claude must stop playback after the first pass** as requested. `loopFrom: 0` is a required format value, not a request to repeat these cues.
+Stingers contain a single order entry, `stinger`, and `loop: false`; the engine stops them after one pass. `loopFrom: 0` is unused for these one-shot cues.
+
+## Final acts
+
+`ep3` (150 BPM) and `ep3-boss` (164 BPM) chop sixteenth notes out of lead, bass and hats to make the groove impatient. `ep4` (96 BPM) uses a soft sine lead over major-seventh colours and quiet snares: deliberately comfortable, faintly wrong elevator music. `credits` (112 BPM) reprises the title motif in warmer major harmony with a triangle lead.
+
+`beige` has exactly three **12-bar** patterns named **A**, **B**, **C**, at 132 BPM; its default order plays all three (36 bars). A removes the lead and thins hats, B introduces the full motif and syncopation, C adds bright octave stabs and the resolving final phrase. Claude may select the pattern matching boss phases 1/2/3. Each pattern is 192 steps / 21.818 seconds. These are data-only phase hooks; runtime transition logic belongs to Claude.

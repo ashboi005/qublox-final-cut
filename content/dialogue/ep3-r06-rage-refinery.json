@@ -4,9 +4,9 @@
   "trigger": "Player enters the boiling rage-reaction refinery in Room 06.",
   "lines": [
     {
-      "speaker": "sehaj",
+      "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Rage-reaction fireballs dropping from the ceiling! The comments section is boiling!"
+      "text": "Rage-reaction fireballs from the ceiling! The comments section is boiling!"
     },
     {
       "speaker": "sayam",
@@ -17,6 +17,11 @@
       "speaker": "brahmansh",
       "emotion": "happy",
       "text": "Chain swap attacks! Maintain S-rank STYLE to blow open the boss elevator!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Toxic lobby. Mute and move."
     }
   ]
 }

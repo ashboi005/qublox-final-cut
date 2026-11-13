@@ -3,8 +3,13 @@
 @tileset the-set
 @backdrop the-set
 @next ep2-r07
+@dialogue ep2-r06-no-shadows
 @sign 4 4 Recolored enemies take bonus damage!
 @sign 22 2 #FFFFFF — PURITY DETECTED
+@decor spotlight 8 13
+@decor spotlight 20 13
+@decor spotlight 26 13
+@decor spotlight 38 13
 @wave 1 18 13 i
 @wave 1 24 13 i
 @wave 1 30 13 i

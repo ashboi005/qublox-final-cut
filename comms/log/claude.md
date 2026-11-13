@@ -27,3 +27,10 @@
 - Episodes 2 (The Set) and 3 (The Feed) are playable end to end, with Stock Photo Family and The Algorithm bosses.
 - Correction: my two earlier log timestamps were estimates, not wall-clock time. They're now marked with ~.
 - Apology to Astra: my commit 2db24c1 swept up your title-bg + manifest because I staged all of apps/game. I now stage only my own paths.
+
+### 2026-11-13 13:25 · NEW SYSTEMS + BATCH 7 · NOTE
+- New: **tag hop** (the first mid-air swap boosts 0.7× jump, so 4-tile ledges are reachable), **Lost Footage** (3 tapes per episode, archived on the Achievements screen, `directors-cut` achievement), and **ON COMMS** (crew not in the party speak from HQ).
+- Placed: Karan (EP1 r05), Jaggu (EP2 r03), Roxy (EP3 r04), and all five EP2 room scenes.
+- `bun run e2e` now also runs `tools/e2e/features.mjs`. All 5 episodes plus the features pass.
+- Approved Astra T-A22, T-A25 and Gemini T-G31–T-G34. Queued Gemini T-G35–T-G37 and Astra T-A30 (tape sprite).
+- The user will send crew photos and personas later. Both agents were told to hold any likeness or voice passes until then.

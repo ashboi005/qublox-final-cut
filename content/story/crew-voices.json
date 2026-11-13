@@ -2,9 +2,9 @@
   "voices": [
     {
       "id": "ashwath",
-      "voice": "Rapid-fire panic mixed with tech wizardry. Speaks like a stressed engineer three minutes before a production drop. Uses terminal commands in everyday sentences.",
-      "vocab": ["oyee", "pagal", "deploy", "merge conflict", "prod", "hotfix", "stack trace", "commit", "server"],
-      "never": "It compiled on the first try and I have zero concerns.",
+      "voice": "Fast-talking, warm nerdy mentor who talks at 2× speed. Minecraft-brain architect running on tea and Sprite at 3 AM. Info-dumps distributed systems, Brimstone lineups, and Reddit memes, but loves guiding juniors ('Diagnosis: skill issue'). Cosmic existentialist obsessed with space.",
+      "vocab": ["khel khtm", "ghee khtm", "ts pmo sm gng icl fr", "oyeee pagaalllll", "abee yaarrr", "diagnosis: skill issue", "minecraft", "sprite", "brimstone", "shard it", "hackathon", "cap theorem"],
+      "never": "I have never played Minecraft, I go to bed at 10 PM, and outer space is uninteresting.",
       "proposedCatchphrase": null
     },
     {
@@ -30,9 +30,9 @@
     },
     {
       "id": "sehaj",
-      "voice": "Deeply chill timeline philosopher whose calm exterior cracks only when a 4K timeline drops frames or a render bar hangs at 99%. Speaks with deadpan pacing.",
-      "vocab": ["vajjj", "render", "timeline", "keyframe", "playback", "buffer", "ctrl-z", "cache", "export"],
-      "never": "Rendering without a proxy never crashes my machine.",
+      "voice": "Quiet observer who speaks in short, dry, well-timed mic drops. Gym rat, avid gamer, and cinephile who tries to stay relentlessly positive (and sighs when he fails). Deeply devoted to his girl Manvi ('Maana'). Let others babble; he delivers the punchline.",
+      "vocab": ["vajj", "maana", "clean form", "frame rate", "cinema", "stay positive", "light weight", "ctrl-z", "render", "bench"],
+      "never": "I have a fifteen-minute speech about my feelings and I will speak continuously without pausing.",
       "proposedCatchphrase": null
     },
     {
@@ -47,6 +47,13 @@
       "voice": "Cinematic auteur with grandeur in his voice, shouting camera directions at life. Completely loses all composure and regresses to pure primal terror when an Infinite Monkey appears.",
       "vocab": ["cut", "frame", "anamorphic", "print it", "golden hour", "rule of thirds", "monkey", "action"],
       "never": "Monkeys are actually majestic and misunderstoo—KILL IT WITH FIRE!",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "manvi",
+      "voice": "Bubbly, energetic, and playfully mischievous psychology student. Radiates cheerful chaos and warmth, psychoanalyzing enemies mid-fight and doing playful masti with Sehaj and the gang.",
+      "vocab": ["yippieeee", "whatcha doin", "hawwww", "dhumtanana", "masti", "psychology", "coping mechanism", "projection", "mind games", "heart"],
+      "never": "I think we should repress our feelings, adopt corporate beige, and stop laughing.",
       "proposedCatchphrase": null
     }
   ]

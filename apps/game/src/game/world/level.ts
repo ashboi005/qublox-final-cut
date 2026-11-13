@@ -17,11 +17,14 @@
 //   @backdrop <name>                   parallax set: images bg-<name>-{far,mid,near}-{drained,saturated} (default neo-amritsar)
 //   @scroll <px/s> [delay ms]          the floor of deleted posts rises from the bottom (EP3); touching it hurts
 //   @popups-spawn <enemy char>         killing a pop-up ad normally spawns two of these (a JUMP CUT "skips the ad")
+//   @decor <key> <tx> <ty>             background decoration (any manifest image/sprite; plays its first anim), feet at the tile bottom
+//   @tape <tx> <ty> <tape-id>          a hidden Lost Footage tape (ids in @qublox/shared TAPE_IDS; text in story/footage.json)
 //   @wave <n> <tx> <ty> <enemy char>   enemy waves (n = 1, 2, 3…). Wave n+1 spawns when wave n is down; Q doors open after the last
 // Lines starting with ; are comments.
 //
 // Grid legend:
 //   #  solid          =  one-way platform    ^  hazard (sparking cable)
+//   Z  cracked wall (2 tall; only Sehaj's BEAST MODE boulder smashes it; use for optional secrets)
 //   D  door (2 tall, opened by a terminal)   T  terminal (HACK toggles the nearest door/laser)
 //   L  laser grid (vertical beam up to the ceiling; terminal toggles it)
 //   G  toll gate (2 tall; a BRIBE bag landing next to it opens it for good)
@@ -36,7 +39,7 @@
 //   O  boom mic: swings from this ceiling point (hazard at the tip; CUT! freezes it)
 //   E  echo emitter: fires shockwave rings that shove you away
 //   !  rage-bait mortar: drops angry-emoji fireballs from the ceiling
-//   P  spawn   C  checkpoint   X  exit   h  chai (heal)   B  boss spawn
+//   P  spawn   C  checkpoint   X  exit   h  chai (heal)   s  Sprite can (fizzy: instantly recharges the active member's ability)   B  boss spawn
 //   i  stock-intern   d  reply-all-drone   m  infinite-monkey   b  corporate-memphis-blob   p  pop-up-ad   w  buffering-wheel-minion
 
 export type Entity = { kind: string; tx: number; ty: number };
@@ -52,15 +55,15 @@ export type Level = {
   backdrop: string | null; waves: Wave[];
   scroll: { speed: number; delay: number } | null; popupsSpawn: string | null;
   width: number; height: number; grid: string[];
-  entities: Entity[]; hints: Hint[]; signs: Hint[]; npcs: Npc[]; triggers: Trigger[];
+  entities: Entity[]; hints: Hint[]; signs: Hint[]; npcs: Npc[]; triggers: Trigger[]; tapes: Npc[]; decor: Npc[];
 };
 
-const ENTITY_CHARS = new Set(['D', 'T', 'L', 'G', 'F', 'P', 'C', 'X', 'h', 'B', 'V', 'W', 'K', '<', '>', 'Q', '1', '2', '3', 'M', 'O', 'E', '!', 'i', 'd', 'm', 'b', 'p', 'w']);
+const ENTITY_CHARS = new Set(['s', 'Z', 'D', 'T', 'L', 'G', 'F', 'P', 'C', 'X', 'h', 'B', 'V', 'W', 'K', '<', '>', 'Q', '1', '2', '3', 'M', 'O', 'E', '!', 'i', 'd', 'm', 'b', 'p', 'w']);
 
 export function parseLevel(src: string): Level {
   const lvl: Level = {
     name: 'Untitled', episode: 0, dialogue: null, tileset: null, music: null, party: null, next: null, join: null, boss: null, backdrop: null, waves: [], scroll: null, popupsSpawn: null,
-    width: 0, height: 0, grid: [], entities: [], hints: [], signs: [], npcs: [], triggers: [],
+    width: 0, height: 0, grid: [], entities: [], hints: [], signs: [], npcs: [], triggers: [], tapes: [], decor: [],
   };
   for (const raw of src.split(/\r?\n/)) {
     const line = raw.replace(/\s+$/, '');
@@ -79,6 +82,8 @@ export function parseLevel(src: string): Level {
         case 'next': lvl.next = val || null; break;
         case 'hint': lvl.hints.push({ tx: n(0), ty: n(1), text: rest.slice(2).join(' ') }); break;
         case 'sign': lvl.signs.push({ tx: n(0), ty: n(1), text: rest.slice(2).join(' ') }); break;
+        case 'decor': lvl.decor.push({ id: rest[0] ?? '', tx: n(1), ty: n(2) }); break;
+        case 'tape': lvl.tapes.push({ tx: n(0), ty: n(1), id: rest[2] ?? '' }); break;
         case 'npc': lvl.npcs.push({ tx: n(0), ty: n(1), id: rest[2] ?? '' }); break;
         case 'trigger': lvl.triggers.push({ tx: n(0), ty: n(1), w: n(2), h: n(3), dialogue: rest[4] ?? '' }); break;
         case 'join': lvl.join = { crew: (rest[0] ?? '').split(',').filter(Boolean), dialogue: rest[1] ?? '' }; break;

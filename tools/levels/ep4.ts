@@ -19,7 +19,7 @@ const pit = (r: Room, x0: number, x1: number) => r.fill(x0, r.floor + 1, x1, r.H
   r.m('@sign 18 3 FRICTION IS INEFFICIENCY. STYLE IS DEAD.').m('@sign 44 4 WELCOME TO TEMPLATR: STANDARDIZE YOURSELF');
   r.set(3, f, 'P');
   r.set(20, f, 'i').set(26, f, 'i').set(30, f - 5, 'd');
-  r.fill(33, f - 3, 38, f - 3, '=').set(36, f - 4, 'h');
+  r.fill(33, f - 3, 38, f - 3, '=').set(36, f - 4, 'h').m(`@tape 33 ${f - 4} ep4-1`);   // tag hop up
   r.set(42, f, 'b').set(48, f, 'i').set(52, f - 6, 'p');
   r.set(56, f, 'C');
   r.set(65, f, 'X');
@@ -35,9 +35,9 @@ const pit = (r: Room, x0: number, x1: number) => r.fill(x0, r.floor + 1, x1, r.H
   r.set(3, f, 'P');
   pit(r, 16, 18); r.set(22, 8, 'O');
   pit(r, 28, 30); r.set(34, 8, 'O');
-  r.set(38, f, 'C').set(44, f, 'm').set(48, f, 'm');
+  r.set(38, f, 'C').set(46, f, 's').set(44, f, 'm').set(48, f, 'm');
   pit(r, 52, 54); r.set(58, 8, 'O');
-  r.fill(62, f - 2, 67, f - 2, '=').set(64, f - 3, 'h');
+  r.fill(62, f - 2, 67, f - 2, '=').set(64, f - 3, 'h').m(`@tape 66 ${f - 7} ep4-2`);
   r.set(72, f, 'i');
   r.set(77, f, 'X');
   r.write();
@@ -70,7 +70,7 @@ const pit = (r: Room, x0: number, x1: number) => r.fill(x0, r.floor + 1, x1, r.H
   r.set(30, f, 'E').set(36, f, 'b');
   r.set(40, f, 'C');
   for (const x of [46, 50, 54]) r.set(x, f, 'V');
-  r.fill(45, f - 4, 55, f - 4, '=').set(50, f - 5, 'h');
+  r.fill(45, f - 4, 55, f - 4, '=').set(50, f - 5, 'h').fill(41, f - 2, 42, f - 2, '=');   // step up to the vent catwalk
   r.set(62, f, 'E').set(66, f, 'i');
   r.set(73, f, 'X');
   r.write();
@@ -83,7 +83,7 @@ const pit = (r: Room, x0: number, x1: number) => r.fill(x0, r.floor + 1, x1, r.H
   r.m('@dialogue ep4-r05-chad-keynote').m('@npc 46 9 chad-frictionless');
   r.m('@sign 14 2 ONE PLATFORM. ZERO TASTE. INFINITE REVENUE.');
   r.set(3, f, 'P');
-  r.fill(42, f - 3, 52, f - 3, '#');                     // the stage
+  r.fill(42, f - 3, 52, f - 3, '#').m(`@tape 47 ${f - 4} ep4-3`);     // the stage (on top: tag hop)
   for (const x of [14, 22, 30]) r.set(x, 1, '!');
   r.fill(12, f - 4, 17, f - 4, '=').fill(26, f - 4, 31, f - 4, '=');
   r.fill(38, 1, 38, f - 2, '#').set(38, f, 'Q');

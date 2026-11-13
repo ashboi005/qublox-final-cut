@@ -1,7 +1,7 @@
 // Crew mechanics: numbers live here (Claude). Personality and lines live in /content (Gemini).
 import type { CrewId } from '@qublox/shared';
 
-export type AbilityId = 'hack' | 'bribe' | 'penTool' | 'fillBucket' | 'ctrlZ' | 'jumpCut' | 'cut';
+export type AbilityId = 'hack' | 'bribe' | 'penTool' | 'fillBucket' | 'ctrlZ' | 'jumpCut' | 'cut' | 'mindGames';
 export type AttackKind =
   | { type: 'melee'; range: number; height: number; damage: number; hits: number; word: string }
   | { type: 'ranged'; texture: 'cash' | 'paint'; speed: number; gravity: number; damage: number; word: string };
@@ -12,14 +12,17 @@ export type CrewDef = {
   attack: AttackKind; attackCooldownMs: number;
   ability: AbilityId; abilityName: string; abilityCooldownMs: number;
   catchphrase: string;
+  /** Hold-attack special (hold J ~0.55s). */
+  special?: { kind: 'boulder' | 'infoDump'; name: string; cooldownMs: number };
 };
 
 export const CREW: Record<CrewId, CrewDef> = {
   ashwath: {
-    id: 'ashwath', name: 'Ashwath', role: 'Developer', className: 'Hacker', color: 0x3a6ea5,
+    id: 'ashwath', name: 'Ashwath', role: 'Developer', className: 'Backend Architect', color: 0x3a6ea5,
     maxHp: 100, runSpeed: 115, jumpVelocity: 310,
     attack: { type: 'melee', range: 26, height: 22, damage: 9, hits: 1, word: 'CLACK' }, attackCooldownMs: 230,
-    ability: 'hack', abilityName: 'HACK', abilityCooldownMs: 6000, catchphrase: 'Oyee pagalll!',
+    ability: 'hack', abilityName: 'HACK', abilityCooldownMs: 6000, catchphrase: 'Oyeee pagaalllll!',
+    special: { kind: 'infoDump', name: 'INFO DUMP', cooldownMs: 9000 },
   },
   sayam: {
     id: 'sayam', name: 'Sayam', role: 'CEO', className: 'Boss', color: 0x1d7a3a,
@@ -44,6 +47,7 @@ export const CREW: Record<CrewId, CrewDef> = {
     maxHp: 100, runSpeed: 110, jumpVelocity: 300,
     attack: { type: 'melee', range: 32, height: 18, damage: 11, hits: 1, word: 'VAJJJ!' }, attackCooldownMs: 300,
     ability: 'ctrlZ', abilityName: 'CTRL+Z', abilityCooldownMs: 10000, catchphrase: 'Vajjj!',
+    special: { kind: 'boulder', name: 'BEAST MODE', cooldownMs: 8000 },
   },
   brahmansh: {
     id: 'brahmansh', name: 'Brahmansh', role: 'Video Editor', className: 'Rogue', color: 0xe8242c,
@@ -57,7 +61,21 @@ export const CREW: Record<CrewId, CrewDef> = {
     attack: { type: 'melee', range: 28, height: 20, damage: 10, hits: 1, word: 'BONK' }, attackCooldownMs: 320,
     ability: 'cut', abilityName: 'CUT!', abilityCooldownMs: 12000, catchphrase: 'I hate monkeys.',
   },
+  manvi: {
+    id: 'manvi', name: 'Manvi', role: 'Creative + Comms', className: 'Psychologist', color: 0xff5a7a,
+    maxHp: 95, runSpeed: 116, jumpVelocity: 305,
+    attack: { type: 'melee', range: 26, height: 20, damage: 8, hits: 1, word: 'HAWWW' }, attackCooldownMs: 260,
+    ability: 'mindGames', abilityName: 'MIND GAMES', abilityCooldownMs: 9000, catchphrase: 'Yippieeee!',
+  },
 };
+
+/** Couples: tag-swapping directly between the two triggers a COUPLE MOVE (see GameScene.coupleMove). */
+export const COUPLES: [CrewId, CrewId][] = [['sehaj', 'manvi']];
+export const partnerOf = (id: CrewId): CrewId | null => COUPLES.find(c => c.includes(id))?.find(x => x !== id) ?? null;
+export const COUPLE_COOLDOWN_MS = 20000;
+
+/** Ashwath's NIGHT OWL passive: his real commit hours (1–4 AM, local clock) buff him. */
+export const isNightOwlHour = (d = new Date()) => d.getHours() >= 1 && d.getHours() < 4;
 
 export const DEFAULT_PARTY: CrewId[] = ['ashwath', 'sayam', 'tushar'];
 export const hex = (n: number) => '#' + n.toString(16).padStart(6, '0');

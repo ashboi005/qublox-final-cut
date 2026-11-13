@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 
 import type { CrewId } from '@qublox/shared';
 
-export type Episode = { n: number; name: string; place: string; start: string; locked?: boolean; pool?: CrewId[]; pick?: number; joiners?: CrewId[] };
+export type Episode = { n: number; name: string; place: string; start: string; locked?: boolean; pool?: CrewId[]; pick?: number; required?: CrewId[]; joiners?: CrewId[] };
 
-export function Title({ logo, background, taglines, episodes, onPlay, onBoard }: {
+export function Title({ logo, background, taglines, episodes, onPlay, onBoard, onAchievements }: {
   logo: string | null; background: string | null; taglines: string[];
-  episodes: Episode[]; onPlay: (e: Episode) => void; onBoard: () => void;
+  episodes: Episode[]; onPlay: (e: Episode) => void; onBoard: () => void; onAchievements: () => void;
 }) {
   const [tag, setTag] = useState(0);
   const [sel, setSel] = useState(0);
-  const items = [...episodes.map(e => ({ kind: 'ep' as const, e })), { kind: 'board' as const }];
+  const items = [...episodes.map(e => ({ kind: 'ep' as const, e })), { kind: 'board' as const }, { kind: 'ach' as const }];
 
   useEffect(() => {
     if (taglines.length < 2) return;
@@ -27,6 +27,7 @@ export function Title({ logo, background, taglines, episodes, onPlay, onBoard }:
         const it = items[sel];
         if (!it) return;
         if (it.kind === 'board') onBoard();
+        else if (it.kind === 'ach') onAchievements();
         else if (!it.e.locked) onPlay(it.e);
       }
     };
@@ -48,9 +49,13 @@ export function Title({ logo, background, taglines, episodes, onPlay, onBoard }:
             <span className="title-name">{it.e.name}</span>
             <span className="title-place">{it.e.locked ? 'Coming soon' : it.e.place}</span>
           </button>
-        ) : (
+        ) : it.kind === 'board' ? (
           <button key="board" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={onBoard}>
             <span className="title-ep">★</span><span className="title-name">Leaderboard</span><span className="title-place">Fastest · Most stylish</span>
+          </button>
+        ) : (
+          <button key="ach" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={onAchievements}>
+            <span className="title-ep">◆</span><span className="title-name">Achievements</span><span className="title-place">12 to find</span>
           </button>
         ))}
       </nav>

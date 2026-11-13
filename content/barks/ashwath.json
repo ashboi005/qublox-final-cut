@@ -2,51 +2,103 @@
   "id": "ashwath",
   "barks": {
     "tagin": [
-      "Terminal open!",
-      "Deploying hotfix!",
-      "Oyee pagalll!",
-      "Who touched prod?"
+      "Terminal open! I'm in!",
+      "Deploying hotfix to prod!",
+      "Mining blocks, placing logic!",
+      "Brimstone smokes deployed!"
     ],
     "ability": [
-      "Override accepted!",
-      "Hacking mainframe!",
-      "Sudo make it work!",
-      "Port 80 is mine!"
+      "INFO DUMP! Listen and learn!",
+      "Distributed consensus override!",
+      "Sudo make reality work!",
+      "Learned this in a weekend hackathon!"
     ],
     "hit": [
-      "Merge conflict!",
-      "Segmentation fault!",
-      "Ouch! Null pointer!",
-      "My mechanical keys!"
+      "Merge conflict on my spine!",
+      "Ouch! Null pointer exception!",
+      "Diagnosis: skill issue on me!",
+      "Spilled my Sprite!"
     ],
     "ko": [
-      "Fatal exception...",
-      "Server offline...",
-      "Rollback to staging...",
-      "Kernel panic..."
+      "Fatal panic... server down...",
+      "Ran out of tea... and Sprite...",
+      "Dropping inventory...",
+      "Stack overflow... goodnight..."
     ],
     "kill": [
       "Process killed -9!",
-      "Bug squashed!",
       "Closed as resolved!",
-      "Git commit --force!"
+      "Diagnosis: skill issue.",
+      "L + ratio + git revert!"
     ],
     "idle": [
-      "Did I push to main?",
-      "Listening on port 8080.",
-      "Anyone got more chai?",
-      "Just one more hotfix..."
+      "Anyone got cutting chai?",
+      "I could rebuild this in redstone.",
+      "800-day Reddit streak is safe.",
+      "Just need five minutes and a Sprite."
+    ],
+    "start": [
+      "Khel khtm.",
+      "Khel khtm! Deploying scripts!",
+      "Lineups ready. Khel khtm.",
+      "Wave detected. Khel khtm."
+    ],
+    "low": [
+      "Ghee khtm.",
+      "Ghee khtm! Health bar in red!",
+      "Ghee khtm, need chai right now!",
+      "Half a heart left! Ghee khtm!"
+    ],
+    "crit": [
+      "ts pmo sm gng icl fr",
+      "ts pmo sm gng icl fr! One-shotted!",
+      "ts pmo sm gng icl fr, clean headshot."
+    ],
+    "nightowl": [
+      "3 AM! Prime hacking hours!",
+      "Night owl buff active. Full send!",
+      "Running on pure tea and Sprite!",
+      "This is when I do my best commits."
+    ],
+    "info": [
+      "Prepare for distributed systems lore!",
+      "Listen closely, juniors! Lecture time!",
+      "Let me explain the CAP theorem!",
+      "I've mentored 300 students on this!"
+    ],
+    "jargon": [
+      "CAP THEOREM",
+      "JUST SHARD IT",
+      "RAFT CONSENSUS",
+      "EVENTUAL CONSISTENCY",
+      "TWO-PHASE COMMIT",
+      "O(1) COMPLEXITY",
+      "CACHE INVALIDATION",
+      "B-TREE INDEXING",
+      "ACID TRANSACTIONS",
+      "DEADLOCK RESOLVED",
+      "MAPREDUCE PIPELINE",
+      "KUBERNETES INGRESS"
+    ],
+    "cosmic": [
+      "We're so small, bro.",
+      "Andromeda is moving toward us.",
+      "Eighty years isn't enough to explore.",
+      "Aliens are definitely coding out there.",
+      "Look at all those light-years...",
+      "The universe doesn't care about prod.",
+      "We're just stardust debugging bugs."
     ],
     "select": [
-      "Staging branch ready. Let's deploy.",
-      "I packed extra mechanical switches.",
-      "Don't blame me if prod catches fire.",
-      "Let's push this hotfix to main."
+      "Khel khtm. Ready to architect this.",
+      "Got my tea, my Sprite, and my laptop.",
+      "Diagnosis: prod needs saving.",
+      "Let's push straight to production."
     ],
     "results": [
       "PR merged with zero merge conflicts!",
-      "Deployed straight to production. Done.",
-      "We hacked the mainframe and survived!"
+      "Deployed to prod. Zero downtime. GG.",
+      "Khel khtm! S-Rank deployment!"
     ]
   }
 }

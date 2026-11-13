@@ -6,7 +6,7 @@
     {
       "speaker": "sehaj",
       "emotion": "deadpan",
-      "text": "Vajjj. Took you guys long enough. My export has been at 99% for an hour."
+      "text": "Vajj. Took you long enough. Export's at 99%."
     },
     {
       "speaker": "ashwath",
@@ -15,8 +15,8 @@
     },
     {
       "speaker": "sehaj",
-      "emotion": "smug",
-      "text": "No problem. Just hit Ctrl+Z on the physical infrastructure."
+      "emotion": "deadpan",
+      "text": "Ctrl+Z. Fixed."
     },
     {
       "speaker": "tushar",
@@ -30,8 +30,8 @@
     },
     {
       "speaker": "sehaj",
-      "emotion": "neutral",
-      "text": "Let's roll. If this timeline drops one more frame, I'm rioting."
+      "emotion": "deadpan",
+      "text": "Vajj. Let's find Maana."
     }
   ]
 }
