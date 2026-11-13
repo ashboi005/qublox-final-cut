@@ -1,0 +1,67 @@
+{
+  "id": "ep3-boss-taunts",
+  "episode": 3,
+  "trigger": "Combat barks and phase shifts spoken by The Algorithm.",
+  "lines": [
+    {
+      "speaker": "the-algorithm",
+      "emotion": "smug",
+      "text": "Top 10 reasons you'll die! Number 4 will shock you!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "neutral",
+      "text": "Unskippable ad barrier deployed! Watch for 30 seconds!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "shocked",
+      "text": "Shield bypassed?! How did you skip my sponsor segment?!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "angry",
+      "text": "Spawning autoplay rage-bait! Feel the synthetic outrage!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "smug",
+      "text": "Trending now: Your party getting pulverized at 4K 60FPS!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "angry",
+      "text": "Smash that like button or face immediate liquidation!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "neutral",
+      "text": "Notification bell triggered! Incoming mortar volley!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "smug",
+      "text": "Algorithm optimization phase 2: Doubling ad frequency!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "panic",
+      "text": "Core hit?! My engagement numbers are plummeting!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "smug",
+      "text": "Spawning fake [X] buttons! Try closing these popups!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "deadpan",
+      "text": "Your retention rate is zero! Desynchronizing timeline!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "panic",
+      "text": "Fatal demonetization! All monetization privileges lost!"
+    }
+  ]
+}

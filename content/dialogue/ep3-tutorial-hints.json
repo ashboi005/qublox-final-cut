@@ -1,0 +1,27 @@
+{
+  "id": "ep3-tutorial-hints",
+  "episode": 3,
+  "trigger": "In-world CRT terminal monitors across Episode 3 teaching rogue mobility mechanics.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Brahmansh's JUMP CUT teleports through walls!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Jump Cut teleports straight through enemies."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Brahmansh can double-jump for extra height."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Keep moving! Don't let the vertical scroll win."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Teleport behind shielded foes to hit weak points."
+    }
+  ]
+}

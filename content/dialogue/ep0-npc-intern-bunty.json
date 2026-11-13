@@ -1,0 +1,27 @@
+{
+  "id": "ep0-npc-intern-bunty",
+  "episode": 0,
+  "trigger": "Interacting with Bunty the Intern huddled behind the HQ server racks.",
+  "lines": [
+    {
+      "speaker": "intern-bunty",
+      "emotion": "panic",
+      "text": "Sir! Sir! Please don't fire me, I backed up the project on three zip drives!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Good hustle, Bunty. Did you remember to pay the corridor toll gates?"
+    },
+    {
+      "speaker": "intern-bunty",
+      "emotion": "deadpan",
+      "text": "You don't need a keycard, sir. You can just toss a BRIBE money bag at the sensor."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Capitalism as a master skeleton key. Classic Sayam architecture."
+    }
+  ]
+}

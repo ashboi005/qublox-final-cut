@@ -1,0 +1,22 @@
+{
+  "id": "ep3-r06-rage-refinery",
+  "episode": 3,
+  "trigger": "Player enters the boiling rage-reaction refinery in Room 06.",
+  "lines": [
+    {
+      "speaker": "sehaj",
+      "emotion": "panic",
+      "text": "Rage-reaction fireballs dropping from the ceiling! The comments section is boiling!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "Synthetic outrage. High engagement, zero nutritional value."
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "happy",
+      "text": "Chain swap attacks! Maintain S-rank STYLE to blow open the boss elevator!"
+    }
+  ]
+}

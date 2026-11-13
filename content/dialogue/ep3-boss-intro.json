@@ -1,0 +1,32 @@
+{
+  "id": "ep3-boss-intro",
+  "episode": 3,
+  "trigger": "Plays upon reaching the pinnacle glass infinity floor where The Algorithm manifests.",
+  "lines": [
+    {
+      "speaker": "the-algorithm",
+      "emotion": "smug",
+      "text": "YOU WON'T BELIEVE WHAT HAPPENS NEXT: YOUR COMPLETE EXISTENTIAL DEMISE!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "angry",
+      "text": "Disgusting clickbait headline! Your pacing is sloppy and your cuts are weak!"
+    },
+    {
+      "speaker": "the-algorithm",
+      "emotion": "angry",
+      "text": "Spawning unskippable 30-second ad barrier! Engagement metrics: INFINITE!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Its forward shields are completely impenetrable to normal attacks!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Front shields don't matter when you can Jump Cut straight to its blind spot!"
+    }
+  ]
+}

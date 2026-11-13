@@ -1,0 +1,22 @@
+{
+  "name": "qublox-the-game",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "cd apps/game && bun run dev",
+    "build": "bun run validate && cd apps/game && bun run build",
+    "dev:server": "cd apps/server && bun run dev",
+    "validate": "bun run tools/validate.ts",
+    "typecheck": "(cd packages/shared && tsc --noEmit) && (cd apps/game && tsc --noEmit) && (cd apps/server && tsc --noEmit) && tsc -p tools --noEmit",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  }
+}

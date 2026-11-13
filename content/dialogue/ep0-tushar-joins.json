@@ -1,0 +1,42 @@
+{
+  "id": "ep0-tushar-joins",
+  "episode": 0,
+  "trigger": "Triggers when entering the basement gear storage room where Tushar is pinned.",
+  "lines": [
+    {
+      "speaker": "tushar",
+      "emotion": "panic",
+      "text": "KEEP THEM AWAY! THEY'RE SMASHING KEYBOARDS WITH NO STORY STRUCTURE!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "Tushar, calm down. They're just infinite monkeys generating content."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "I HATE MONKEYS! They violate the rule of thirds and disrespect cinema!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "I threw twenty grand at them, but they only accept bananas."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "neutral",
+      "text": "Step aside. I'm calling the shots now. Let's frame this rescue."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Tushar joined the party! Press 3 to swap him in and freeze time!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "Rolling sound, rolling camera... and ACTION!"
+    }
+  ]
+}

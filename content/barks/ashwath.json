@@ -1,0 +1,52 @@
+{
+  "id": "ashwath",
+  "barks": {
+    "tagin": [
+      "Terminal open!",
+      "Deploying hotfix!",
+      "Oyee pagalll!",
+      "Who touched prod?"
+    ],
+    "ability": [
+      "Override accepted!",
+      "Hacking mainframe!",
+      "Sudo make it work!",
+      "Port 80 is mine!"
+    ],
+    "hit": [
+      "Merge conflict!",
+      "Segmentation fault!",
+      "Ouch! Null pointer!",
+      "My mechanical keys!"
+    ],
+    "ko": [
+      "Fatal exception...",
+      "Server offline...",
+      "Rollback to staging...",
+      "Kernel panic..."
+    ],
+    "kill": [
+      "Process killed -9!",
+      "Bug squashed!",
+      "Closed as resolved!",
+      "Git commit --force!"
+    ],
+    "idle": [
+      "Did I push to main?",
+      "Listening on port 8080.",
+      "Anyone got more chai?",
+      "Just one more hotfix..."
+    ],
+    "select": [
+      "Staging branch ready. Let's deploy.",
+      "I packed extra mechanical switches.",
+      "Don't blame me if prod catches fire.",
+      "Let's push this hotfix to main."
+    ],
+    "results": [
+      "PR merged with zero merge conflicts!",
+      "Deployed straight to production. Done.",
+      "We hacked the mainframe and survived!"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ep1-r01-melted-rack",
+  "episode": 1,
+  "trigger": "Player approaches the melting beige server rack in Room 01.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "The entire motherboard has melted into beige fondue!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "And yet the monitor says 'Thermal stability: optimal.' Just like our quarterly reports."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Use CUT! on that steam vent before our camera sensors boil!"
+    }
+  ]
+}

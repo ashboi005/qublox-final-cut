@@ -1,0 +1,26 @@
+{
+  "id": "ep3-intro",
+  "episode": 3,
+  "trigger": "Plays upon entering the lobby base of the Feed Tower.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "The Feed Spire. Two hundred stories of upward scrolling, automated clickbait, and rage."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "panic",
+      "text": "The floor is actively scrolling upward! Stand still and you fall into the void!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Infinite scroll. Invented to harvest attention, repurposed to kill us."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Our video editor Brahmansh climbed this spire alone. Let's find him!"
+    }
+  ]
+}

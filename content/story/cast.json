@@ -1,0 +1,95 @@
+{
+  "cast": [
+    {
+      "id": "beige",
+      "name": "BEIGE™",
+      "kind": "villain",
+      "bio": "Templatr Corp's autonomous aesthetic sanitization engine. Drains saturation, personality, and human soul to output uniform corporate templates.",
+      "voice": "Speaks with soothing, hyper-calm automated corporate support cadence. Every horrific creative destruction is framed as a user convenience."
+    },
+    {
+      "id": "chad-frictionless",
+      "name": "Chad Frictionless",
+      "kind": "villain",
+      "bio": "CEO and founder of Templatr Corp. Wears seamless merino turtlenecks, gives keynote talks with no slides, and describes human thought as 'legacy latency.'",
+      "voice": "Rapid breathless tech-evangelist pitch dialect peppered with words like 'paradigm', 'frictionless', 'de-risk', and 'value capture.'"
+    },
+    {
+      "id": "chacha-chai",
+      "name": "Chacha Chaiwala",
+      "kind": "npc",
+      "bio": "Master brewer operating the 3rd-floor balcony maglev chai stall. His elaichi-ginger concoction is the only reason the studio's hearts still beat.",
+      "voice": "Warm, grandfatherly, deeply unflappable street wisdom. Evaluates catastrophic disasters solely by whether they require cutting chai or full chai."
+    },
+    {
+      "id": "intern-bunty",
+      "name": "Bunty (Intern)",
+      "kind": "npc",
+      "bio": "Third-month unpaid creative intern. Survives on red bull and adrenaline. Holds the emergency backup drive tied to his wrist with an ethernet cord.",
+      "voice": "Trembling, sleep-deprived stammer. Constantly apologizes for things he didn't do and asks if anyone needs more dongles."
+    },
+    {
+      "id": "pixel-cat",
+      "name": "Pixel",
+      "kind": "npc",
+      "bio": "The studio calico cat. Only sits on keyboards currently running mission-critical terminal scripts or warm server exhaust vents.",
+      "voice": "Communicates through judgment-laden purrs, sarcastic meows, and strategically knocking coffee mugs near expensive mixing consoles."
+    },
+    {
+      "id": "reply-all-mothership",
+      "name": "Reply-All Mothership",
+      "kind": "boss",
+      "bio": "The dread command vessel of automated office communications. Blasts apocalyptic CC-storms, uninvited calendar pings, and 'Thanks!' replies.",
+      "voice": "A cacophony of overlapping synthetic notification pings and booming automated speaker announcements reading generic out-of-office autoreplies."
+    },
+    {
+      "id": "buffering-wheel",
+      "name": "The Buffering Wheel",
+      "kind": "boss",
+      "bio": "A multi-dimensional spinning ring of temporal stasis that anchors the server district. Freezes packets at 99% and feeds on developer tears.",
+      "voice": "Hypnotic, dizzying hum that pulses in 60Hz intervals, whispering false promises that playback will resume in just five seconds."
+    },
+    {
+      "id": "stock-photo-family",
+      "name": "The Stock Photo Family",
+      "kind": "boss",
+      "bio": "A terrifyingly idyllic 4-member suburban unit (plus golden retriever) engineered by Templatr to sell insurance, retirement plans, and lawnmowers.",
+      "voice": "Uncanny, synthesized suburban cheerfulness reciting royalty-free commercial slogans through teeth clenched in permanent 100-watt smiles."
+    },
+    {
+      "id": "the-algorithm",
+      "name": "The Algorithm",
+      "kind": "boss",
+      "bio": "The recursive attention-harvesting engine atop the Feed Tower. Feeds on rage, outrage, and 8-second dopamine loops to maximize ad impression metrics.",
+      "voice": "Breathless sensory assault of overlapping TikTok synthetic narration voices, clickbait notifications, and high-frequency alert chimes."
+    },
+    {
+      "id": "sysadmin-karan",
+      "name": "Karan (Sysadmin)",
+      "kind": "npc",
+      "bio": "Senior systems administrator surviving on cold espresso. Has spent four straight days monitoring boiling municipal cooling manifolds.",
+      "voice": "Monotone, soul-crushed technical fatigue. Speaks in Linux command error codes, kernel panics, and heavy defeated sighs."
+    },
+    {
+      "id": "stuntman-jaggu",
+      "name": "Jaggu Ustaad",
+      "kind": "npc",
+      "bio": "Veteran practical cinema stunt coordinator sitting among prop debris. Bitter that corporate AI replaced human stunt falls with flat CGI.",
+      "voice": "Gruff, gravelly Punjabi uncle energy, reminiscing loudly about the golden era of jumping through sugar glass and flaming barricades."
+    },
+    {
+      "id": "influencer-roxy",
+      "name": "Roxy Velvet",
+      "kind": "npc",
+      "bio": "Fashion and lifestyle creator who entered the Feed Tower for an aesthetic selfie and got permanently trapped in the infinite vertical scroll.",
+      "voice": "High-pitch hyperventilating vocal fry, clutching a dead ring light and addressing her imaginary 10 million followers in real time."
+    },
+    {
+      "id": "rebel-intern-simran",
+      "name": "Simran (Rebel)",
+      "kind": "npc",
+      "bio": "Junior UX intern inside Templatr Corp secretly smuggling saturated RGB markers and sabotaging the company's beige design system guidelines.",
+      "voice": "Fierce, conspiratorial stage whisper, darting eyes checking for surveillance cameras, radiating underground artistic defiance."
+    }
+  ]
+}

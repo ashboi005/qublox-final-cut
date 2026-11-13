@@ -1,0 +1,32 @@
+{
+  "id": "ep2-boss-outro",
+  "episode": 2,
+  "trigger": "Plays after defeating the Stock Photo Family.",
+  "lines": [
+    {
+      "speaker": "stock-photo-family",
+      "emotion": "sad",
+      "text": "Model release revoked... Smile muscles failing... Error: 200 OK..."
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Yes! Pure magenta and neon cyan splattered across the white picket fence!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "smug",
+      "text": "Clean vectors restored. Not a single bezier handle out of place."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "The family dropped an elevator pass to the vertical Feed Tower."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "Brahmansh went up there ahead of us. Time to pick up our editor."
+    }
+  ]
+}

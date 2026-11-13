@@ -1,0 +1,22 @@
+{
+  "id": "ep1-r06-door-stuck",
+  "episode": 1,
+  "trigger": "Player reaches the colossal blast door stuck at 99% in Room 06.",
+  "lines": [
+    {
+      "speaker": "sehaj",
+      "emotion": "angry",
+      "text": "Ninety-nine percent! The sacred curse of video editing strikes again!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Hostile drones incoming! The server is protecting its frozen progress bar!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Destroy the background processes! Maximize STYLE to force the override!"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ep2-r04-mirror-smiles",
+  "episode": 2,
+  "trigger": "Player walks past the corporate vanity mirrors in Room 04.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "Oyee pagalll! The mirror gave me a LinkedIn side-part and a blazer!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Honestly, Ashwath, the professional headshot suits you. Keep it."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Smash the vanity lights! I will not allow corporate retouching on my crew!"
+    }
+  ]
+}

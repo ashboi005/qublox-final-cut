@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r01-beige-smocks",
+  "episode": 4,
+  "trigger": "Player enters the grand atrium in Room 01 and encounters the greeter robot.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "The receptionist drone just offered us 'complimentary beige smocks'!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "angry",
+      "text": "I would rather be deleted from memory than wear desaturated linen!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Tell the receptionist our billing rate is 500,000 credits an hour."
+    }
+  ]
+}

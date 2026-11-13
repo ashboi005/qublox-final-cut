@@ -1,0 +1,58 @@
+{
+  "id": "sehaj",
+  "barks": {
+    "tagin": [
+      "Vajjj!",
+      "Timeline loaded.",
+      "Scrubbing through.",
+      "Ready on the edit."
+    ],
+    "ability": [
+      "Ctrl+Z!",
+      "Rewind three seconds!",
+      "Undo that damage!",
+      "Reset to keyframe!"
+    ],
+    "hit": [
+      "Dropped frame!",
+      "Playback stutter!",
+      "My cache disk!",
+      "Corrupt timeline!"
+    ],
+    "ko": [
+      "Export crashed...",
+      "Error compiling movie...",
+      "Render bar died...",
+      "Timeline frozen..."
+    ],
+    "kill": [
+      "Sliced and diced!",
+      "Ripped from edit!",
+      "Ripple deleted!",
+      "Cut to black!"
+    ],
+    "idle": [
+      "Playback is smooth.",
+      "Checking dropped frames.",
+      "Waiting on render...",
+      "Need more scratch disk."
+    ],
+    "render": [
+      "Still rendering...",
+      "Stuck at 99%...",
+      "Cooldown is rendering!",
+      "Buffer underflow, wait!"
+    ],
+    "select": [
+      "Render bar is at 100%. I'm in.",
+      "Ready to scrub through the timeline.",
+      "If we mess up, I'll just Ctrl+Z.",
+      "Vajjj. Let's make the final edit."
+    ],
+    "results": [
+      "Render bar reached 100%. Beautiful.",
+      "Not a single frame dropped in post.",
+      "Vajjj! That's the real final cut."
+    ]
+  }
+}

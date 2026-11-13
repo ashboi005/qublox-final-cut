@@ -1,0 +1,58 @@
+{
+  "id": "tushar",
+  "barks": {
+    "tagin": [
+      "Action!",
+      "And... rolling!",
+      "Quiet on set!",
+      "Camera is rolling."
+    ],
+    "ability": [
+      "CUT!",
+      "Hold that frame!",
+      "Freeze the shot!",
+      "Maintain focus!"
+    ],
+    "hit": [
+      "My anamorphic lens!",
+      "Watch the lighting!",
+      "That ruined the take!",
+      "Costume department!"
+    ],
+    "ko": [
+      "That's a wrap for me...",
+      "Cut... print it...",
+      "Fade to black...",
+      "Pack the cameras..."
+    ],
+    "kill": [
+      "Print it!",
+      "Picture wrap on that!",
+      "Flawless composition!",
+      "In the can!"
+    ],
+    "idle": [
+      "Where is the golden hour?",
+      "Is that a monkey? No. Good.",
+      "Reset the scene.",
+      "Check the monitor."
+    ],
+    "monkey": [
+      "MONKEY! I HATE MONKEYS!",
+      "GET THAT APE OFF MY SET!",
+      "WHY IS IT TYPING?!",
+      "TERRIFYING BEAST!"
+    ],
+    "select": [
+      "Lead camera is rolling. Quiet!",
+      "Promise me there are no monkeys.",
+      "Framing the shot. Action!",
+      "I'm calling the cuts this run."
+    ],
+    "results": [
+      "Picture wrap! Print every take!",
+      "Cinematic perfection. That's a wrap!",
+      "And most importantly: no monkeys!"
+    ]
+  }
+}

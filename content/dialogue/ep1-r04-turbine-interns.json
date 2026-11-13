@@ -1,0 +1,22 @@
+{
+  "id": "ep1-r04-turbine-interns",
+  "episode": 1,
+  "trigger": "Player enters Room 04 and sees interns walking backwards against turbine winds.",
+  "lines": [
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Vajjj. Those stock interns are walking backwards to optimize synergy."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Their smiles are fighting sixty-mile-an-hour head-winds! CUT! Freeze the blades!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "Freeze the fan, then I'll hit Ctrl+Z on the broken catwalk. Move fast."
+    }
+  ]
+}

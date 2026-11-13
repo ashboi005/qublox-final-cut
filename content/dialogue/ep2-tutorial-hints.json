@@ -1,0 +1,27 @@
+{
+  "id": "ep2-tutorial-hints",
+  "episode": 2,
+  "trigger": "In-world CRT terminal monitors across Episode 2 teaching design and color mechanics.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Click two anchor points to draw a vector bridge!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Mansukh can walk on any vector line art."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Red = solid, Blue = passable, Yellow = bouncy."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Recolored enemies take bonus damage from attacks!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Vector bridges dissolve after 6 seconds!"
+    }
+  ]
+}

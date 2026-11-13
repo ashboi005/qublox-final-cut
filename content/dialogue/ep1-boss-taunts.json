@@ -1,0 +1,67 @@
+{
+  "id": "ep1-boss-taunts",
+  "episode": 1,
+  "trigger": "Random mid-fight combat barks and phase shifts for the Buffering Wheel.",
+  "lines": [
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "neutral",
+      "text": "Buffering... 99%... Estimated time: Forever."
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "angry",
+      "text": "Frame dropped! Frame dropped! Zero FPS!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "neutral",
+      "text": "Spawning lag spike! Suffer the temporal delay!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "smug",
+      "text": "Latency shield deployed! Buffering all inputs!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "panic",
+      "text": "Rewind detected?! My timeline has been corrupted!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "deadpan",
+      "text": "Your connection to reality has timed out."
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "neutral",
+      "text": "Playback paused. Please check your bandwidth."
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "smug",
+      "text": "Spinning... spinning... do not look away!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "angry",
+      "text": "Packet loss incoming! Dodge the jitter!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "neutral",
+      "text": "Overheating cooling towers to 150% capacity!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "shocked",
+      "text": "Shield shattered?! Who touched the export bar?!"
+    },
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "panic",
+      "text": "Fatal buffer underflow! Dropping all packets!"
+    }
+  ]
+}

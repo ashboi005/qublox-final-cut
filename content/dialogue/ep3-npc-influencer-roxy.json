@@ -1,0 +1,27 @@
+{
+  "id": "ep3-npc-influencer-roxy",
+  "episode": 3,
+  "trigger": "Interacting with Roxy Velvet clinging to a neon hashtag pillar in the Feed Tower.",
+  "lines": [
+    {
+      "speaker": "influencer-roxy",
+      "emotion": "panic",
+      "text": "Guys! Smash that subscribe button! If I stop posting, the floor dissolves!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "deadpan",
+      "text": "Roxy, put down the ring light. The tower is collapsing upward."
+    },
+    {
+      "speaker": "influencer-roxy",
+      "emotion": "shocked",
+      "text": "Those shielded drones have zero back defense! Jump Cut behind their shields!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "An influencer who understands hitboxes. The world truly is healing."
+    }
+  ]
+}

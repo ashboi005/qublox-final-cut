@@ -1,0 +1,22 @@
+{
+  "id": "ep0-r03-turnstile",
+  "episode": 0,
+  "trigger": "Player approaches the 50,000 CR toll turnstile in Room 03.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "A 50,000 credit toll?! Our building maintenance budget is twelve rupees!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Relax. Capital problems have capital solutions."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "happy",
+      "text": "Stand back, Ashwath. Time to introduce this turnstile to my wallet."
+    }
+  ]
+}

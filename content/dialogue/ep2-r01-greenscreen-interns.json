@@ -1,0 +1,22 @@
+{
+  "id": "ep2-r01-greenscreen-interns",
+  "episode": 2,
+  "trigger": "Player enters Room 01 and sees interns pretending to laugh in front of empty green screen.",
+  "lines": [
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Look at them! Laughing at nothing on a tracking-marker-less green screen!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "They're pantomiming corporate fun. It costs 80% less than genuine joy."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Their keying is terrible. Look at that green spill on their polo collars."
+    }
+  ]
+}

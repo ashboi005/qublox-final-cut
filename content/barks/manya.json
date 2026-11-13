@@ -1,0 +1,58 @@
+{
+  "id": "manya",
+  "barks": {
+    "tagin": [
+      "Needs more saturation!",
+      "Let's splash some color!",
+      "Color wheel don't lie.",
+      "Dropping full gamut!"
+    ],
+    "ability": [
+      "Fill bucket blast!",
+      "Recolored!",
+      "Primary hue swap!",
+      "Max saturation drop!"
+    ],
+    "hit": [
+      "My swatch book!",
+      "Ugh, desaturated!",
+      "That bleached my coat!",
+      "Color bleed alert!"
+    ],
+    "ko": [
+      "Fading to greyscale...",
+      "Color gamut lost...",
+      "Zero saturation...",
+      "Turned... to beige..."
+    ],
+    "kill": [
+      "Painted into corner!",
+      "Total saturation!",
+      "Vibrant victory!",
+      "Wiped from palette!"
+    ],
+    "idle": [
+      "This lighting is so dull.",
+      "Needs more magenta.",
+      "Where is the contrast?",
+      "Palette needs punch."
+    ],
+    "beige": [
+      "EW! DISGUSTING BEIGE!",
+      "BLEACH IT OUT! BLEACH IT!",
+      "#F5F5DC MUST DIE!",
+      "MY EYES! THE DULLNESS!"
+    ],
+    "select": [
+      "Time to bleach the beige away!",
+      "Loaded with pure primary pigments.",
+      "Needs more saturation, always!",
+      "Let's splash some life into this."
+    ],
+    "results": [
+      "The color gamut is fully restored!",
+      "Not a single pixel of beige left!",
+      "Saturation: 100%. Masterpiece."
+    ]
+  }
+}

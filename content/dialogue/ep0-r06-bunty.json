@@ -1,0 +1,22 @@
+{
+  "id": "ep0-r06-bunty",
+  "episode": 0,
+  "trigger": "Player spots Bunty stuck in the ventilation intake grate.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Bunty?! Why are you clamped in the exhaust duct?!"
+    },
+    {
+      "speaker": "intern-bunty",
+      "emotion": "panic",
+      "text": "Mmph! (The backup tape... it was falling... I caught it with my teeth!)"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "Great dedication to practical stuntwork. Hold that pose while we clear the fan!"
+    }
+  ]
+}

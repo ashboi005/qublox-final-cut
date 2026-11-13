@@ -1,0 +1,45 @@
+{
+  "id": "ep4-ending",
+  "episode": 4,
+  "trigger": "Plays immediately after defeating BEIGE™ in the grand finale.",
+  "lines": [
+    {
+      "speaker": "beige",
+      "emotion": "sad",
+      "text": "System error... Aesthetic standard lost... Restoring... saturation..."
+    },
+    {
+      "speaker": "narrator",
+      "text": "8:59 AM. With sixty seconds to spare, Ashwath commits the Final Cut to main."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Production deployed! Zero merge conflicts! The film is live worldwide!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Across Neo-Amritsar, vibrant neon cyan, hot pink, and gold flood through the streets."
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Color has returned! The chai stalls are glowing again!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Chacha, cutting chai for everyone! Invoice Templatr Corp for the bill."
+    },
+    {
+      "speaker": "chad-frictionless",
+      "emotion": "panic",
+      "text": "My turtlenecks! They're turning tie-dye! This violates our seed agreement!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "And that, Chad, is a wrap. Print it. Picture wrap on the universe."
+    }
+  ]
+}

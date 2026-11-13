@@ -1,0 +1,22 @@
+{
+  "id": "ep2-r06-no-shadows",
+  "episode": 2,
+  "trigger": "Player enters the seamless white cyclorama room in Room 06.",
+  "lines": [
+    {
+      "speaker": "mansukh",
+      "emotion": "panic",
+      "text": "BABYMONNSTERRR! My shadow! Where is my dropshadow?!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "shocked",
+      "text": "No cast shadows, no ambient occlusion! The lighting has been completely zeroed!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "angry",
+      "text": "BEIGE anti-aliased our feet into the floor! Splash color before we fade!"
+    }
+  ]
+}

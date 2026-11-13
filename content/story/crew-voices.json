@@ -1,0 +1,53 @@
+{
+  "voices": [
+    {
+      "id": "ashwath",
+      "voice": "Rapid-fire panic mixed with tech wizardry. Speaks like a stressed engineer three minutes before a production drop. Uses terminal commands in everyday sentences.",
+      "vocab": ["oyee", "pagal", "deploy", "merge conflict", "prod", "hotfix", "stack trace", "commit", "server"],
+      "never": "It compiled on the first try and I have zero concerns.",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "sayam",
+      "voice": "Effortlessly smug executive chill. Treats every crisis like an invoice that needs settling. Speaks in calm negotiation tone while casually throwing stacks of bills.",
+      "vocab": ["le re", "delegated", "budget", "invoice", "synergy", "retainer", "cash", "handle it", "deal"],
+      "never": "Let me roll up my sleeves and write some code myself.",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "mansukh",
+      "voice": "Hyper-passionate design purist who treats bezier handles like divine architecture. Oscillates between triumphant vector glory and despair over client feedback.",
+      "vocab": ["babymonnsterrr", "vector", "kerning", "anchor point", "bezier", "curves", "feedback", "grid"],
+      "never": "Could you make the logo bigger and center everything in Comic Sans?",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "manya",
+      "voice": "Vibrant, sharp-tongued color zealot. Speaks with electric energy and visceral physical disgust toward desaturation, greyscale, and corporate muted tones.",
+      "vocab": ["saturation", "hex", "gradient", "swatch", "tint", "vibrant", "palette", "bleach"],
+      "never": "A muted corporate beige palette actually conveys quiet luxury.",
+      "proposedCatchphrase": "Needs more saturation!"
+    },
+    {
+      "id": "sehaj",
+      "voice": "Deeply chill timeline philosopher whose calm exterior cracks only when a 4K timeline drops frames or a render bar hangs at 99%. Speaks with deadpan pacing.",
+      "vocab": ["vajjj", "render", "timeline", "keyframe", "playback", "buffer", "ctrl-z", "cache", "export"],
+      "never": "Rendering without a proxy never crashes my machine.",
+      "proposedCatchphrase": null
+    },
+    {
+      "id": "brahmansh",
+      "voice": "Adrenaline-fueled speed demon who treats real life like a 120fps montage. Talks fast, jumps conversation topics instantly, and hates unnecessary exposition.",
+      "vocab": ["jump cut", "pacing", "whip-pan", "hard cut", "timeline", "speed ramp", "fps", "skip"],
+      "never": "Let's pause and appreciate this five-minute static establishing shot.",
+      "proposedCatchphrase": "Cut to the chase!"
+    },
+    {
+      "id": "tushar",
+      "voice": "Cinematic auteur with grandeur in his voice, shouting camera directions at life. Completely loses all composure and regresses to pure primal terror when an Infinite Monkey appears.",
+      "vocab": ["cut", "frame", "anamorphic", "print it", "golden hour", "rule of thirds", "monkey", "action"],
+      "never": "Monkeys are actually majestic and misunderstoo—KILL IT WITH FIRE!",
+      "proposedCatchphrase": null
+    }
+  ]
+}

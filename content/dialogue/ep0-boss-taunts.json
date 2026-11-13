@@ -1,0 +1,67 @@
+{
+  "id": "ep0-boss-taunts",
+  "episode": 0,
+  "trigger": "Random mid-fight combat barks and phase shifts for the Reply-All Mothership.",
+  "lines": [
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "smug",
+      "text": "Per my last email, your defeat is mandatory."
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "angry",
+      "text": "Looping in Legal to enforce project termination!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "shocked",
+      "text": "Shield down! Who revoked my executive credentials?!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "neutral",
+      "text": "BZZT! Adding 200 uninvited attendees to your calendar!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "smug",
+      "text": "Friendly reminder: Feedback was due yesterday!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "angry",
+      "text": "You cannot unsubscribe from this meeting!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "neutral",
+      "text": "Urgent: Please acknowledge receipt of these missiles!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "smug",
+      "text": "Looping in HR! Shield integrity at 100%!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "panic",
+      "text": "ERROR: Relay hacked! Firewall compromised!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "deadpan",
+      "text": "Automatic reply: I am currently out of mercy."
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "smug",
+      "text": "Moving this beat to an asynchronous thread!"
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "happy",
+      "text": "Thanks in advance for your total cooperation!"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ep1-boss-outro",
+  "episode": 1,
+  "trigger": "Plays after defeating the Buffering Wheel in the Render Farm core.",
+  "lines": [
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "sad",
+      "text": "Playback failed... Fatal frame loss... Cached buffer cleared..."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "happy",
+      "text": "Export completed. 100%. That's what you get for dropping my bitrate."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Look! Coolant pipelines are glowing neon cyan! Color is flooding back!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "Now that is cinema. Beautiful lighting restoration."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "BEIGE took the Final Cut toward the old film soundstages. Episode 2."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "Mansukh and Manya are over there. Let's go reclaim our graphics."
+    }
+  ]
+}

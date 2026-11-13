@@ -1,0 +1,27 @@
+{
+  "id": "ep4-beige-phase3",
+  "episode": 4,
+  "trigger": "Triggers when BEIGE loses 66% health and enters panic overdrive.",
+  "lines": [
+    {
+      "speaker": "beige",
+      "emotion": "panic",
+      "text": "CRITICAL: Brand identity collapsing! Deploying infinite corporate synergies!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Jump-cutting through its firewall! Ashwath, pull the master power cable!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Sudo rm -rf /beige! Full root override initiated!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "Lead camera rolling! All seven crew in frame! CUT TO THE FINALE!"
+    }
+  ]
+}

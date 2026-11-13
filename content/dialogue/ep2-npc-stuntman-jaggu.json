@@ -1,0 +1,27 @@
+{
+  "id": "ep2-npc-stuntman-jaggu",
+  "episode": 2,
+  "trigger": "Interacting with Jaggu Ustaad sitting on a stunt mattress behind the backlot.",
+  "lines": [
+    {
+      "speaker": "stuntman-jaggu",
+      "emotion": "angry",
+      "text": "Oyee! In my day, an explosion meant real gunpowder and real singed eyebrows!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "happy",
+      "text": "Jaggu Ustaad! The greatest action choreographer in Punjabi cinema history!"
+    },
+    {
+      "speaker": "stuntman-jaggu",
+      "emotion": "smug",
+      "text": "Listen, beta: Manya's yellow paint turns any floor into a trampoline. Use it!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "See?! The stunt coordinator approves of high-velocity bouncy physics!"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "ep4-intro",
+  "episode": 4,
+  "trigger": "Plays upon breaching the sterile white lobby of Templatr HQ.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Templatr HQ. A windowless, soulless beige monolith standing at the center of Neo-Amritsar."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Look at this architecture. Not a single ornamental bracket or personality trait."
+    },
+    {
+      "speaker": "manya",
+      "emotion": "angry",
+      "text": "It's all #F5F5DC! I am going to paint this entire lobby in neon magenta!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "The master render drive is on the 99th floor! It's 8:30 AM! Thirty minutes left!"
+    }
+  ]
+}

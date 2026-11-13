@@ -1,0 +1,27 @@
+{
+  "id": "ep1-tutorial-hints",
+  "episode": 1,
+  "trigger": "In-world CRT terminal monitors across Episode 1 teaching advanced mechanics.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Sehaj's CTRL+Z rewinds broken catwalks."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Tushar's CUT! freezes spinning fans."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Hack a terminal, then swap to attack!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Tag-in attacks extend your airtime."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Swap often to let abilities recharge."
+    }
+  ]
+}

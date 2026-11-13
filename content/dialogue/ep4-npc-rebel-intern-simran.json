@@ -1,0 +1,27 @@
+{
+  "id": "ep4-npc-rebel-intern-simran",
+  "episode": 4,
+  "trigger": "Interacting with Simran hidden behind the department supply closet in Templatr HQ.",
+  "lines": [
+    {
+      "speaker": "rebel-intern-simran",
+      "emotion": "panic",
+      "text": "Shh! Lower your voices! The corporate surveillance blobbies are scanning!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Relax, kid. We're here to liquidate the company."
+    },
+    {
+      "speaker": "rebel-intern-simran",
+      "emotion": "smug",
+      "text": "BEIGE's shields fail if you chain swaps! Rapid tag combos scramble its code!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Three-way swap combos overload the buffer. Beautiful insider intelligence."
+    }
+  ]
+}

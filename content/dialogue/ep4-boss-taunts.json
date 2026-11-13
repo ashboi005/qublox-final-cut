@@ -1,0 +1,67 @@
+{
+  "id": "ep4-boss-taunts",
+  "episode": 4,
+  "trigger": "Combat barks and phase transition lines spoken by BEIGE™ during the final battle.",
+  "lines": [
+    {
+      "speaker": "beige",
+      "emotion": "neutral",
+      "text": "Your artistic intent has been marked as high-friction."
+    },
+    {
+      "speaker": "beige",
+      "emotion": "smug",
+      "text": "Applying rounded corners to your character hitboxes!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "neutral",
+      "text": "Bleaching matrix online! Color saturation: Zero!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "angry",
+      "text": "Warning: Creative unpredictable behavior detected!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "smug",
+      "text": "Standardizing all attacks into harmless corporate beige!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "neutral",
+      "text": "Why express emotion when you can select Template #1?"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "angry",
+      "text": "Recursive diffusion overload! Spawning stock clip art!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "smug",
+      "text": "Shield phase active! All unapproved styles rejected!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "panic",
+      "text": "Vector intrusion detected?! Delete those anchor points!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "shocked",
+      "text": "Timeline rewound?! That violates chronological brand flow!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "angry",
+      "text": "Desaturating! Desaturating! Why won't you turn grey?!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "panic",
+      "text": "Fatal syntax error: Maximum creative style overload!"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ep1-npc-sysadmin-karan",
+  "episode": 1,
+  "trigger": "Interacting with Karan huddled over a smoking terminal in the server corridor.",
+  "lines": [
+    {
+      "speaker": "sysadmin-karan",
+      "emotion": "deadpan",
+      "text": "Don't touch that wire. Or do. Honestly, a blackout would be a mercy."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Karan bhai, the Buffering Wheel is generating 400ms lag spikes!"
+    },
+    {
+      "speaker": "sysadmin-karan",
+      "emotion": "neutral",
+      "text": "Hit Ctrl+Z. Sehaj's rewind doesn't just fix catwalks; it reflects lag pulses."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Practical advice from a broken man. Put a bonus on his next paycheck."
+    }
+  ]
+}

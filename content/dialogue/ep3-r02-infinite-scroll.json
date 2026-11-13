@@ -1,0 +1,22 @@
+{
+  "id": "ep3-r02-infinite-scroll",
+  "episode": 3,
+  "trigger": "Player steps onto the ascending freight platform as the floor starts dissolving upward.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "The floor is rising! The bottom edge of the screen is deleting reality!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Keep jumping upward! The attention economy waits for no one!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "If you lag for two seconds, the algorithm swallows you whole."
+    }
+  ]
+}

@@ -1,0 +1,1455 @@
+{
+  "version": 1,
+  "sprites": {
+    "ashwath": {
+      "file": "sprites/characters/ashwath.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "sayam": {
+      "file": "sprites/characters/sayam.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "cash": {
+      "file": "sprites/props/cash.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "money-bag": {
+      "file": "sprites/props/money-bag.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "tushar": {
+      "file": "sprites/characters/tushar.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        },
+        "panic": {
+          "row": 9,
+          "frames": 4,
+          "fps": 12,
+          "loop": true
+        }
+      }
+    },
+    "reply-all-drone": {
+      "file": "sprites/enemies/reply-all-drone.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "infinite-monkey": {
+      "file": "sprites/enemies/infinite-monkey.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "stock-intern": {
+      "file": "sprites/enemies/stock-intern.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "reply-all-mothership": {
+      "file": "sprites/bosses/reply-all-mothership.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "attack-spray": {
+          "row": 2,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-dive": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "hit-spark": {
+      "file": "fx/hit-spark.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "dust-puff": {
+      "file": "fx/dust-puff.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "tag-in-burst": {
+      "file": "fx/tag-in-burst.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 6,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "heal-sparkle": {
+      "file": "fx/heal-sparkle.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "sehaj": {
+      "file": "sprites/characters/sehaj.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "mansukh": {
+      "file": "sprites/characters/mansukh.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "manya": {
+      "file": "sprites/characters/manya.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "brahmansh": {
+      "file": "sprites/characters/brahmansh.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "run": {
+          "row": 1,
+          "frames": 8,
+          "fps": 12,
+          "loop": true
+        },
+        "jump": {
+          "row": 2,
+          "frames": 2,
+          "fps": 8,
+          "loop": false
+        },
+        "fall": {
+          "row": 3,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        },
+        "attack": {
+          "row": 4,
+          "frames": 5,
+          "fps": 14,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "ability": {
+          "row": 5,
+          "frames": 6,
+          "fps": 10,
+          "loop": false
+        },
+        "hurt": {
+          "row": 6,
+          "frames": 2,
+          "fps": 9,
+          "loop": false
+        },
+        "ko": {
+          "row": 7,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        },
+        "tagin": {
+          "row": 8,
+          "frames": 4,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "corporate-memphis-blob": {
+      "file": "sprites/enemies/corporate-memphis-blob.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "split": {
+          "row": 6,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "pop-up-ad": {
+      "file": "sprites/enemies/pop-up-ad.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "buffering-wheel-minion": {
+      "file": "sprites/enemies/buffering-wheel-minion.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "move": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 2,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "buffering-wheel": {
+      "file": "sprites/bosses/buffering-wheel.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack-lag-spike": {
+          "row": 2,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-freeze-pulse": {
+          "row": 3,
+          "frames": 4,
+          "fps": 10,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "stunned": {
+          "row": 5,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "die": {
+          "row": 6,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "chacha-chai": {
+      "file": "sprites/npcs/chacha-chai.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "intern-bunty": {
+      "file": "sprites/npcs/intern-bunty.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "pixel-cat": {
+      "file": "sprites/npcs/pixel-cat.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        },
+        "talk": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "chai": {
+      "file": "sprites/props/chai.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "checkpoint": {
+      "file": "sprites/props/checkpoint.png",
+      "frameWidth": 16,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "active": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "exit": {
+      "file": "sprites/props/exit.png",
+      "frameWidth": 32,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "open": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        }
+      }
+    },
+    "pen-anchor": {
+      "file": "sprites/props/pen-anchor.png",
+      "frameWidth": 8,
+      "frameHeight": 8,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "paint-glob": {
+      "file": "sprites/props/paint-glob.png",
+      "frameWidth": 8,
+      "frameHeight": 8,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "catwalk": {
+      "file": "sprites/props/catwalk.png",
+      "frameWidth": 48,
+      "frameHeight": 16,
+      "anims": {
+        "intact": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        },
+        "crumble": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "broken": {
+          "row": 2,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "server-crate": {
+      "file": "sprites/props/server-crate.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        },
+        "fall": {
+          "row": 1,
+          "frames": 2,
+          "fps": 10,
+          "loop": true
+        },
+        "smash": {
+          "row": 2,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "steam-vent": {
+      "file": "sprites/props/steam-vent.png",
+      "frameWidth": 16,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 10,
+          "loop": true
+        },
+        "burst": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "big-fan": {
+      "file": "sprites/props/big-fan.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "frozen": {
+          "row": 1,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "stock-photo-family": {
+      "file": "sprites/bosses/stock-photo-family.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        },
+        "telegraph": {
+          "row": 1,
+          "frames": 4,
+          "fps": 6,
+          "loop": false
+        },
+        "attack-thumbs-up": {
+          "row": 2,
+          "frames": 4,
+          "fps": 9,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "attack-handshake": {
+          "row": 3,
+          "frames": 4,
+          "fps": 9,
+          "loop": false,
+          "hitFrame": 2
+        },
+        "hurt": {
+          "row": 4,
+          "frames": 4,
+          "fps": 9,
+          "loop": false
+        },
+        "die": {
+          "row": 5,
+          "frames": 4,
+          "fps": 9,
+          "loop": false
+        }
+      }
+    }
+  },
+  "tilesets": {
+    "hq": {
+      "file": "tiles/hq.png",
+      "tileSize": 16,
+      "notes": "see docs/art/tiles-hq.md; six columns"
+    },
+    "render-farm": {
+      "file": "tiles/render-farm.png",
+      "tileSize": 16,
+      "notes": "see docs/art/tiles-render-farm.md; six columns"
+    },
+    "the-set": {
+      "file": "tiles/the-set.png",
+      "tileSize": 16,
+      "notes": "see docs/art/tiles-the-set.md; six columns"
+    }
+  },
+  "images": {
+    "fx-clack": {
+      "file": "fx/clack.png"
+    },
+    "fx-le-re": {
+      "file": "fx/le-re.png"
+    },
+    "fx-cut": {
+      "file": "fx/cut.png"
+    },
+    "fx-vajjj": {
+      "file": "fx/vajjj.png"
+    },
+    "fx-pow": {
+      "file": "fx/pow.png"
+    },
+    "fx-bonk": {
+      "file": "fx/bonk.png"
+    },
+    "fx-bzzt": {
+      "file": "fx/bzzt.png"
+    },
+    "bg-far-drained": {
+      "file": "backgrounds/neo-amritsar-far-drained.png"
+    },
+    "bg-far-saturated": {
+      "file": "backgrounds/neo-amritsar-far-saturated.png"
+    },
+    "bg-mid-drained": {
+      "file": "backgrounds/neo-amritsar-mid-drained.png"
+    },
+    "bg-mid-saturated": {
+      "file": "backgrounds/neo-amritsar-mid-saturated.png"
+    },
+    "bg-near-drained": {
+      "file": "backgrounds/neo-amritsar-near-drained.png"
+    },
+    "bg-near-saturated": {
+      "file": "backgrounds/neo-amritsar-near-saturated.png"
+    },
+    "color-block-red": {
+      "file": "sprites/props/color-block-red.png"
+    },
+    "color-block-blue": {
+      "file": "sprites/props/color-block-blue.png"
+    },
+    "color-block-yellow": {
+      "file": "sprites/props/color-block-yellow.png"
+    },
+    "pen-line": {
+      "file": "sprites/props/pen-line.png"
+    },
+    "logo": {
+      "file": "logo.png"
+    },
+    "bg-render-farm-far-drained": {
+      "file": "backgrounds/render-farm-far-drained.png"
+    },
+    "bg-render-farm-far-saturated": {
+      "file": "backgrounds/render-farm-far-saturated.png"
+    },
+    "bg-render-farm-mid-drained": {
+      "file": "backgrounds/render-farm-mid-drained.png"
+    },
+    "bg-render-farm-mid-saturated": {
+      "file": "backgrounds/render-farm-mid-saturated.png"
+    },
+    "bg-render-farm-near-drained": {
+      "file": "backgrounds/render-farm-near-drained.png"
+    },
+    "bg-render-farm-near-saturated": {
+      "file": "backgrounds/render-farm-near-saturated.png"
+    },
+    "icon-ashwath": {
+      "file": "icons/ashwath.png"
+    },
+    "icon-sayam": {
+      "file": "icons/sayam.png"
+    },
+    "icon-tushar": {
+      "file": "icons/tushar.png"
+    },
+    "icon-sehaj": {
+      "file": "icons/sehaj.png"
+    },
+    "icon-mansukh": {
+      "file": "icons/mansukh.png"
+    },
+    "icon-manya": {
+      "file": "icons/manya.png"
+    },
+    "icon-brahmansh": {
+      "file": "icons/brahmansh.png"
+    },
+    "icon-ability-hack": {
+      "file": "icons/ability-hack.png"
+    },
+    "icon-ability-bribe": {
+      "file": "icons/ability-bribe.png"
+    },
+    "icon-ability-pen": {
+      "file": "icons/ability-pen.png"
+    },
+    "icon-ability-fill": {
+      "file": "icons/ability-fill.png"
+    },
+    "icon-ability-ctrlz": {
+      "file": "icons/ability-ctrlz.png"
+    },
+    "icon-ability-jumpcut": {
+      "file": "icons/ability-jumpcut.png"
+    },
+    "icon-ability-cut": {
+      "file": "icons/ability-cut.png"
+    },
+    "title-bg": {
+      "file": "backgrounds/title-bg.png"
+    },
+    "bg-the-set-far-drained": {
+      "file": "backgrounds/the-set-far-drained.png"
+    },
+    "bg-the-set-far-saturated": {
+      "file": "backgrounds/the-set-far-saturated.png"
+    },
+    "bg-the-set-mid-drained": {
+      "file": "backgrounds/the-set-mid-drained.png"
+    },
+    "bg-the-set-mid-saturated": {
+      "file": "backgrounds/the-set-mid-saturated.png"
+    },
+    "bg-the-set-near-drained": {
+      "file": "backgrounds/the-set-near-drained.png"
+    },
+    "bg-the-set-near-saturated": {
+      "file": "backgrounds/the-set-near-saturated.png"
+    }
+  },
+  "portraits": {
+    "ashwath": {
+      "file": "portraits/ashwath.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "sayam": {
+      "file": "portraits/sayam.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "tushar": {
+      "file": "portraits/tushar.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "sehaj": {
+      "file": "portraits/sehaj.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "mansukh": {
+      "file": "portraits/mansukh.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "manya": {
+      "file": "portraits/manya.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "brahmansh": {
+      "file": "portraits/brahmansh.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "smug",
+        "panic",
+        "angry",
+        "deadpan",
+        "happy",
+        "sad",
+        "shocked"
+      ]
+    },
+    "beige": {
+      "file": "portraits/beige.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "happy",
+        "shocked"
+      ]
+    },
+    "chad-frictionless": {
+      "file": "portraits/chad-frictionless.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "happy",
+        "shocked"
+      ]
+    },
+    "chacha-chai": {
+      "file": "portraits/chacha-chai.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "happy",
+        "shocked"
+      ]
+    },
+    "intern-bunty": {
+      "file": "portraits/intern-bunty.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "happy",
+        "shocked"
+      ]
+    },
+    "pixel-cat": {
+      "file": "portraits/pixel-cat.png",
+      "size": 64,
+      "emotions": [
+        "neutral",
+        "happy",
+        "shocked"
+      ]
+    }
+  }
+}

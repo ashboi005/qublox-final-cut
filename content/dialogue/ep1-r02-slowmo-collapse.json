@@ -1,0 +1,22 @@
+{
+  "id": "ep1-r02-slowmo-collapse",
+  "episode": 1,
+  "trigger": "Player triggers the tilting server rack falling in slow-motion in Room 02.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Fourteen thousand unhandled exceptions! That tower is tipping over!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Don't panic. Just sprint across before the physics engine catches up."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Hack the coolant level terminal! Quick, before we take a nitrogen bath!"
+    }
+  ]
+}

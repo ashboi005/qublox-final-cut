@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r03-alignment-token",
+  "episode": 4,
+  "trigger": "Player reaches the core elevator shaft requiring alignment tokens in Room 03.",
+  "lines": [
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "The elevator bot refused my cash. It wants 'algorithmic alignment tokens.'"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "We don't need tokens. I'll rewind the elevator cables straight to floor 90."
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "And I'll Jump Cut through the maintenance hatch. Let's ride."
+    }
+  ]
+}

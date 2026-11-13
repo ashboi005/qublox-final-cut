@@ -1,0 +1,23 @@
+{
+  "name": "@qublox/game",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 5173",
+    "build": "next build",
+    "start": "next start --port 5173",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@qublox/shared": "workspace:*",
+    "next": "16.4.6",
+    "phaser": "4.2.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/node": "^24"
+  }
+}

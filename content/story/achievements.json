@@ -1,0 +1,64 @@
+{
+  "achievements": [
+    {
+      "id": "first-swap",
+      "name": "Tag, You're It!",
+      "desc": "Swap crew members for the first time. Physics will preserve your momentum."
+    },
+    {
+      "id": "maximalist",
+      "name": "Pure Maximalism",
+      "desc": "Push the STYLE meter all the way to MAXIMALIST. Beige play is strictly illegal."
+    },
+    {
+      "id": "no-ko-episode",
+      "name": "Zero Casualties, Zero Budget",
+      "desc": "Complete an entire episode without a single crew member getting knocked out."
+    },
+    {
+      "id": "monkey-business",
+      "name": "Auteur Traumatized",
+      "desc": "Let an Infinite Monkey touch Tushar. Enjoy inverted camera controls."
+    },
+    {
+      "id": "le-re",
+      "name": "Expense Account Abuser",
+      "desc": "Deploy Sayam's Bribe 10 times. Accounting will have severe questions on Monday."
+    },
+    {
+      "id": "rewind-reflect",
+      "name": "Return to Sender",
+      "desc": "Use Sehaj's CTRL+Z to reflect a boss projectile straight back into its face."
+    },
+    {
+      "id": "ad-skipped",
+      "name": "Adblocker in Flesh",
+      "desc": "Use Brahmansh's Jump Cut to phase directly through an unskippable pop-up ad."
+    },
+    {
+      "id": "paint-the-town",
+      "name": "Gamut Overlord",
+      "desc": "Recolor 50 blocks with Manya's paint bucket. Take that, corporate greyscale."
+    },
+    {
+      "id": "chai-addict",
+      "name": "High-Octane Elaichi",
+      "desc": "Drink 10 glasses of Chacha's cutting chai. Your resting heart rate is now 240."
+    },
+    {
+      "id": "small-talk",
+      "name": "Lore Inquisitor",
+      "desc": "Talk to every single NPC across all episodes. You heard all the bad advice."
+    },
+    {
+      "id": "beige-is-dead",
+      "name": "Death of the Template",
+      "desc": "Annihilate BEIGE™ Core and restore uncompressed saturation to Neo-Amritsar."
+    },
+    {
+      "id": "speedrun-ep0",
+      "name": "Delivery at 8:59 AM",
+      "desc": "Clear Episode 0 in under 4 minutes. Not even time for a chai break."
+    }
+  ]
+}

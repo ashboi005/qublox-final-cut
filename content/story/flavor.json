@@ -1,0 +1,125 @@
+{
+  "enemies": [
+    {
+      "id": "infinite-monkey",
+      "name": "Infinite Monkey",
+      "desc": "Types randomized gibberish furiously; induces visceral panic in Tushar."
+    },
+    {
+      "id": "stock-photo-intern",
+      "name": "Stock Photo Intern",
+      "desc": "Smiles with artificial perfection while hurling corporate buzzword synergies."
+    },
+    {
+      "id": "reply-all-drone",
+      "name": "Reply-All Drone",
+      "desc": "Floats and bombards victims with deafening CC-all notification shrapnel."
+    },
+    {
+      "id": "corporate-memphis-blob",
+      "name": "Corporate Memphis Blob",
+      "desc": "Rubbery disproportionate purple-limbed figure that flops and slaps clumsily."
+    },
+    {
+      "id": "buffering-wheel",
+      "name": "Buffering Wheel",
+      "desc": "Spinning temporal stasis circle that suspends targets in crippling lag."
+    },
+    {
+      "id": "pop-up-ad",
+      "name": "Pop-up Ad",
+      "desc": "Spawns uncontrollably to obstruct vision with fake close buttons."
+    },
+    {
+      "id": "make-the-logo-bigger",
+      "name": "Make-The-Logo-Bigger Client",
+      "desc": "Shouts impossible revisions that drain Mansukh's movement speed and sanity."
+    }
+  ],
+  "items": [
+    {
+      "id": "cutting-chai",
+      "name": "Chacha's Cutting Chai",
+      "desc": "Restores 50 HP and immediately clears creative burnout."
+    },
+    {
+      "id": "power-bank",
+      "name": "Maglev Power Bank",
+      "desc": "Instantly resets all active party member ability cooldowns."
+    },
+    {
+      "id": "floppy-backup",
+      "name": "Emergency Floppy Drive",
+      "desc": "Grants one free revive at the current checkpoint."
+    },
+    {
+      "id": "stylus-nib",
+      "name": "Titanium Stylus Nib",
+      "desc": "Boosts basic attack damage by 20% for 15 seconds."
+    },
+    {
+      "id": "cash-wad",
+      "name": "Sayam's Cash Roll",
+      "desc": "Increases Sayam's Bribe attraction duration by 3 seconds."
+    }
+  ],
+  "places": [
+    {
+      "id": "qublox-hq",
+      "name": "Qublox Studio HQ",
+      "desc": "The last saturated bastion in Neo-Amritsar. Crammed with monitors, cables, chai glasses, and noisy creative genius."
+    },
+    {
+      "id": "render-farm",
+      "name": "The Render Farm",
+      "desc": "Steaming server towers and boiling coolant conduits where municipal cloud jobs grind against infinite templates."
+    },
+    {
+      "id": "the-set",
+      "name": "The Abandoned Soundstages",
+      "desc": "Decaying practical studio sets converted into hollow green-screen voids overrun by artificial stock actors."
+    },
+    {
+      "id": "the-feed",
+      "name": "The Infinite Feed Tower",
+      "desc": "A terrifying vertical megastructure where floors scroll upwards infinitely into dopamine-farming algorithms."
+    },
+    {
+      "id": "templatr-hq",
+      "name": "Templatr Corporate Monolith",
+      "desc": "A sterile, windowless brutalist ziggurat painted entirely in desaturated BEIGE™ (#F5F5DC)."
+    }
+  ],
+  "signage": [
+    "THINK INSIDE THE BOX",
+    "MAKE IT BEIGE™",
+    "FRICTION IS CANCELLED",
+    "SAYAM PAYS CASH",
+    "OYEE PAGALLL!",
+    "UNIFIED TEMPLATES ONLY",
+    "CHAI > CLOUD COMPUTE",
+    "BEIGE IS PURITY",
+    "VAJJJ! REWIND NOW",
+    "BAN ALL MONKEYS",
+    "CTRL+Z ON REALITY",
+    "SATURATION IS ILLEGAL",
+    "BABYMONNSTERRR!",
+    "STOCK SMILES ONLY",
+    "NEO-AMRITSAR LIVES",
+    "NEED MORE COMIC SANS?",
+    "STANDARDIZE YOUR SOUL",
+    "CLACK CLACK CLACK",
+    "NEVER MERGE TO PROD",
+    "NO MONKEYS ON SET",
+    "BEIGE: IT JUST BLENDS",
+    "CUTTING CHAI 50 CR",
+    "AI REPLACES TASTE",
+    "JUMP CUT THE FEED",
+    "LE RE! TAKE THE MONEY",
+    "MAXIMALIST OR DIE",
+    "RENDER AT 99% FOREVER",
+    "DO NOT HIT REPLY ALL",
+    "QUBLOX NEVER QUITS",
+    "SMOOTH CORNERS ONLY"
+  ]
+}

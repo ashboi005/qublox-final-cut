@@ -1,0 +1,58 @@
+{
+  "id": "mansukh",
+  "barks": {
+    "tagin": [
+      "Babymonnsterrr!",
+      "Anchor points ready!",
+      "Line art engaged.",
+      "Vector king is here."
+    ],
+    "ability": [
+      "Pen tool bridge!",
+      "Drawing the line!",
+      "Snap to grid!",
+      "Bezier path active!"
+    ],
+    "hit": [
+      "Ouch! Off-grid!",
+      "My stroke width!",
+      "Unclosed path!",
+      "My stylus tip broke!"
+    ],
+    "ko": [
+      "Layer flattened...",
+      "Discarding changes...",
+      "Rasterized forever...",
+      "Can't close path..."
+    ],
+    "kill": [
+      "Vectorized!",
+      "Clean lines only!",
+      "Deleted the layer!",
+      "Export complete!"
+    ],
+    "idle": [
+      "Need to align pixels.",
+      "Who nudged my margins?",
+      "Curves need tweaking.",
+      "Checking aspect ratio."
+    ],
+    "feedback": [
+      "MAKE IT BIGGER?! NOOO!",
+      "DON'T POP THE LOGO!",
+      "THE KERNING! IT HURTS!",
+      "UNREASONABLE REVISION!"
+    ],
+    "select": [
+      "Vectors aligned. Let's make art.",
+      "Nobody ask for logo revisions.",
+      "Babymonnsterrr is locked in!",
+      "Grid is snapped. Point me forward."
+    ],
+    "results": [
+      "Every single anchor point was flawless.",
+      "Vectors held! Zero client revisions!",
+      "Babymonnsterrr! Print the posters!"
+    ]
+  }
+}

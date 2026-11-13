@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r06-vault-countdown",
+  "episode": 4,
+  "trigger": "Player reaches the outer door of the master rendering vault in Room 06.",
+  "lines": [
+    {
+      "speaker": "intern-bunty",
+      "emotion": "panic",
+      "text": "Sir! The worldwide broadcast goes live in nine minutes! Do you have the drive?!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "We're right outside the vault, Bunty! Hold the release window open!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Final Cut delivery is at 8:59 AM. We don't miss deadlines."
+    }
+  ]
+}

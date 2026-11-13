@@ -1,0 +1,37 @@
+{
+  "id": "ep0-boss-intro",
+  "episode": 0,
+  "trigger": "Plays when entering the Qublox HQ main server lobby where the Reply-All Mothership descends.",
+  "lines": [
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "neutral",
+      "text": "BZZT. You have 4,812 unread calendar invites. Please acknowledge all."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "Oyee pagalll! It's CC'ing the entire subcontinent on a high-priority ping!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "angry",
+      "text": "Unsubscribe! I said UNSUBSCRIBE! Where is the one-click opt-out?!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "deadpan",
+      "text": "Hold your marks. Its notification spam has a three-second latency rhythm."
+    },
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "smug",
+      "text": "Automated notice: Per my last email, your saturation has been liquidated."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Ashwath, hack its relays. Tushar, call CUT. Time to fire this vendor."
+    }
+  ]
+}

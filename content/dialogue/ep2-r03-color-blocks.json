@@ -1,0 +1,22 @@
+{
+  "id": "ep2-r03-color-blocks",
+  "episode": 2,
+  "trigger": "Player reaches the colored barrier forcefield grid in Room 03.",
+  "lines": [
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Chromatic forcefields! Hit the blue blocks with paint to make them passable!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "shocked",
+      "text": "Wait, what does the yellow one do?!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "smug",
+      "text": "Yellow is bouncy! Jump on it and catapult across the lighting grid!"
+    }
+  ]
+}

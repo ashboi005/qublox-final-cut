@@ -1,0 +1,27 @@
+{
+  "id": "ep0-npc-chacha-chai",
+  "episode": 0,
+  "trigger": "Interacting with Chacha Chaiwala at the Qublox HQ 3rd-floor balcony stall.",
+  "lines": [
+    {
+      "speaker": "chacha-chai",
+      "emotion": "happy",
+      "text": "Arre Ashwath beta! Have a hot cutting chai before you face those corporate dorks."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Chacha, BEIGE stole the Final Cut! We don't have time for chai!"
+    },
+    {
+      "speaker": "chacha-chai",
+      "emotion": "neutral",
+      "text": "Pagal. Chai gives speed. Also, swapping members mid-jump keeps your momentum."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Put two cups on the company expense card, Chacha. We're flying."
+    }
+  ]
+}

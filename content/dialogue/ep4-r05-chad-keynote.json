@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r05-chad-keynote",
+  "episode": 4,
+  "trigger": "Player interrupts Chad Frictionless rehearsing on the minimalist stage in Room 05.",
+  "lines": [
+    {
+      "speaker": "chad-frictionless",
+      "emotion": "smug",
+      "text": "Imagine a world without creative struggle. Seamless. Scalable. Frictionless."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Chad, your pitch deck has zero revenue, three buzzwords, and bad typography."
+    },
+    {
+      "speaker": "chad-frictionless",
+      "emotion": "panic",
+      "text": "Security! Someone mute this non-conforming stakeholder!"
+    }
+  ]
+}

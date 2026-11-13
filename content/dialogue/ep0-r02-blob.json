@@ -1,0 +1,22 @@
+{
+  "id": "ep0-r02-blob",
+  "episode": 0,
+  "trigger": "Player enters Room 02 and sees the Memphis Blob painting the wall beige.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "Look at that rubbery purple monster! It's rolling beige over our mural!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "No elbows. No knees. Pure desaturated corporate compliance."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Oyee pagalll! Hack the shutter terminal before it bleaches the entire hall!"
+    }
+  ]
+}

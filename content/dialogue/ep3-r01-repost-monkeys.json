@@ -1,0 +1,22 @@
+{
+  "id": "ep3-r01-repost-monkeys",
+  "episode": 3,
+  "trigger": "Player enters Room 01 and spots monkeys frantically clicking repost buttons.",
+  "lines": [
+    {
+      "speaker": "tushar",
+      "emotion": "panic",
+      "text": "MONKEYS! AND THEY'RE AUTOMATING RETWEETS WITH ZERO FACT-CHECKING!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Relax, Tushar. They're on mechanical keyboards. Just run past them."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "They've generated four thousand opinion columns in twelve seconds."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ep2-designers-join",
+  "episode": 2,
+  "trigger": "Plays when finding Mansukh and Manya bickering about typography in the prop warehouse.",
+  "lines": [
+    {
+      "speaker": "mansukh",
+      "emotion": "angry",
+      "text": "I told you, Manya! The letter-spacing on 'CINEMA' is two pixels too wide!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "angry",
+      "text": "Who cares about two pixels of kerning when the entire title is BEIGE?!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "shocked",
+      "text": "BABYMONNSTERRR! Bad kerning is a human rights violation!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "deadpan",
+      "text": "Needs more saturation! Look, Ashwath and Sayam survived the render farm!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "happy",
+      "text": "My vector pen is ready. Let's draw bridges across this desaturated mess."
+    },
+    {
+      "speaker": "manya",
+      "emotion": "smug",
+      "text": "And my paint bucket is loaded. Red for solid, yellow for bounce. Let's go."
+    }
+  ]
+}

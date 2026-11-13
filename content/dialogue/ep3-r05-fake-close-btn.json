@@ -1,0 +1,22 @@
+{
+  "id": "ep3-r05-fake-close-btn",
+  "episode": 3,
+  "trigger": "Player clicks a fake close button on a popup ad in Room 05.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "I clicked the tiny X to close the popup and it spawned three more drones!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "angry",
+      "text": "Fake close buttons are the lowest form of dark pattern design!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Use CUT! Freeze the entire popup banner so we can smash through it!"
+    }
+  ]
+}

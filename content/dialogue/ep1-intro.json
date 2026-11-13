@@ -1,0 +1,31 @@
+{
+  "id": "ep1-intro",
+  "episode": 1,
+  "trigger": "Plays upon entering the municipal Render Farm server towers.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "The Render Farm. Megawatts of boiling coolant hum under infinite templating."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Oyee pagalll! Ambient server temperature is 94 degrees Celsius!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "Smells like burned silicon and bad management decisions."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Look at the lighting in here! Flat, fluorescent, uncinematic filth!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "Sehaj's rendering bay is past those exhaust fans. We have to hurry!"
+    }
+  ]
+}

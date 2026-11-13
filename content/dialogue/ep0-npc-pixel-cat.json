@@ -1,0 +1,27 @@
+{
+  "id": "ep0-npc-pixel-cat",
+  "episode": 0,
+  "trigger": "Interacting with Pixel the Cat lounging on the main studio terminal.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Pspspsps. Pixel, get off the emergency terminal, you're sitting on Enter!"
+    },
+    {
+      "speaker": "pixel-cat",
+      "emotion": "neutral",
+      "text": "Mrowww. (Translation: Hacked enemy turrets pump your STYLE meter to S-rank.)"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "deadpan",
+      "text": "Even the studio cat understands high-production combat choreography."
+    },
+    {
+      "speaker": "pixel-cat",
+      "emotion": "smug",
+      "text": "Purrrrrr. (Translation: Don't miss your camera cues, two-legs.)"
+    }
+  ]
+}

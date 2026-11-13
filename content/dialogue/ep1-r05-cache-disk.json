@@ -1,0 +1,22 @@
+{
+  "id": "ep1-r05-cache-disk",
+  "episode": 1,
+  "trigger": "Player steps onto the first vanishing cache block in Room 05.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Zero bytes remaining! The platform dissolved right under my sneakers!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "I threw ten thousand credits at the drive, but it still says disk full."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "Don't buy cloud storage. If a block drops you, swap to me and I'll rewind it."
+    }
+  ]
+}

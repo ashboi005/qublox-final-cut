@@ -1,0 +1,22 @@
+{
+  "id": "ep0-r04-balcony",
+  "episode": 0,
+  "trigger": "Player steps onto the windy 3rd-floor balcony overlooking the high-altitude gap.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "That gap is huge! My developer legs definitely can't jump that far!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "You keep your forward speed when you swap in mid-air, right?"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Right! Jump with one of us, swap mid-air, and carry the velocity across!"
+    }
+  ]
+}

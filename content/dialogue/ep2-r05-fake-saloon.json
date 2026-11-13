@@ -1,0 +1,22 @@
+{
+  "id": "ep2-r05-fake-saloon",
+  "episode": 2,
+  "trigger": "Player discovers the fake Western bank facade propped up by timber in Room 05.",
+  "lines": [
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "A bank! Finally, an institution that respects liquidity. Let me make a deposit."
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "deadpan",
+      "text": "Sayam, that's four sheets of painted plywood held together by two C-clamps."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "Still more structurally sound than most fintech startups."
+    }
+  ]
+}

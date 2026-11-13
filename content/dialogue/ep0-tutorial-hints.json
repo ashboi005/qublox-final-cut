@@ -1,0 +1,31 @@
+{
+  "id": "ep0-tutorial-hints",
+  "episode": 0,
+  "trigger": "In-world CRT terminal monitors across Episode 0 teaching gameplay mechanics.",
+  "lines": [
+    {
+      "speaker": "narrator",
+      "text": "Press 1, 2, 3 to swap crew, even mid-jump!"
+    },
+    {
+      "speaker": "narrator",
+      "text": "Ashwath's HACK toggles doors and turrets."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Sayam's BRIBE distracts guards and pays tolls."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Tushar's CUT! freezes hazards and foes for 3s."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Leap into a solid wall and jump again to climb."
+    },
+    {
+      "speaker": "narrator",
+      "text": "Chain swap attacks to pump STYLE to MAXIMALIST!"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ep2-boss-intro",
+  "episode": 2,
+  "trigger": "Plays when entering the suburban living room set in Soundstage 07.",
+  "lines": [
+    {
+      "speaker": "stock-photo-family",
+      "emotion": "happy",
+      "text": "Hello neighbors! Welcome to our perfectly diverse, smiling suburban home!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "panic",
+      "text": "THEIR TEETH! THEY ARE TOO WHITE! AND THEIR SHIRTS ARE PURE BEIGE!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "angry",
+      "text": "The Dad's jawline was drawn with an auto-trace tool! Despicable!"
+    },
+    {
+      "speaker": "stock-photo-family",
+      "emotion": "smug",
+      "text": "Sign up for comprehensive term life insurance today! Thumbs up, family!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Their blocking is atrocious! Mansukh, build ramps! Manya, splash color!"
+    }
+  ]
+}

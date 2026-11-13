@@ -1,0 +1,32 @@
+{
+  "id": "ep3-boss-outro",
+  "episode": 3,
+  "trigger": "Plays after defeating The Algorithm at the top of the Feed Tower.",
+  "lines": [
+    {
+      "speaker": "the-algorithm",
+      "emotion": "sad",
+      "text": "Error: Retention dropping... Unsubscribing... Views: 0... Comments: Disabled..."
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "happy",
+      "text": "Cut! Spliced! Left on the cutting room floor! Masterful edit!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "The entire vertical spire just flooded with electric violet and gold light!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Look across the skyline. The beige monolith. Templatr Corporate HQ."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "neutral",
+      "text": "The final destination. BEIGE has our Final Cut. Let's take back our film."
+    }
+  ]
+}

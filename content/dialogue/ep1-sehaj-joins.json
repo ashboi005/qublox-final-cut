@@ -1,0 +1,37 @@
+{
+  "id": "ep1-sehaj-joins",
+  "episode": 1,
+  "trigger": "Plays when reaching Sehaj's workstation across the collapsed coolant trench.",
+  "lines": [
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Vajjj. Took you guys long enough. My export has been at 99% for an hour."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "shocked",
+      "text": "Sehaj! The catwalk behind you just dissolved into pure beige foam!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "No problem. Just hit Ctrl+Z on the physical infrastructure."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "happy",
+      "text": "A real-time temporal scrub?! Print it! You're on the A-camera now!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Sehaj joins the payroll. Rewind broken bridges so I don't have to jump."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "neutral",
+      "text": "Let's roll. If this timeline drops one more frame, I'm rioting."
+    }
+  ]
+}

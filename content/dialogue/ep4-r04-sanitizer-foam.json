@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r04-sanitizer-foam",
+  "episode": 4,
+  "trigger": "Player enters the decontamination airlock blasting neutralizing grey foam in Room 04.",
+  "lines": [
+    {
+      "speaker": "manya",
+      "emotion": "panic",
+      "text": "Grey neutralizing foam vents! It's stripping the pigment from the walls!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "CUT! Freeze the nozzles before our color profiles corrupt!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Paint the foam yellow! Turn their sanitizer into trampolines!"
+    }
+  ]
+}

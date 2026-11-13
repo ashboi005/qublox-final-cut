@@ -1,0 +1,22 @@
+{
+  "id": "ep3-r04-echo-drones",
+  "episode": 3,
+  "trigger": "Player enters the resonant echo chamber in Room 04.",
+  "lines": [
+    {
+      "speaker": "brahmansh",
+      "emotion": "deadpan",
+      "text": "Listen to them. 'I agree with my colleague!' in a continuous feedback loop."
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "angry",
+      "text": "It's a digital echo chamber! The sonic resonance is vibrating my stylus!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Double-jump and Jump Cut behind their megaphones. Silence the thread."
+    }
+  ]
+}

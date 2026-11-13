@@ -1,0 +1,22 @@
+{
+  "id": "ep4-r02-deprecated-art",
+  "episode": 4,
+  "trigger": "Player witnesses the automated stamping press targeting classical art in Room 02.",
+  "lines": [
+    {
+      "speaker": "mansukh",
+      "emotion": "shocked",
+      "text": "BABYMONNSTERRR! That hydraulic press just stamped 'DEPRECATED' on the Mona Lisa!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "It's trying to round her smile into an approved corporate emoji!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "angry",
+      "text": "Hack the press, Ashwath! I'm drawing vector barricades over the art!"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ep0-boss-outro",
+  "episode": 0,
+  "trigger": "Plays immediately after defeating the Reply-All Mothership in Qublox HQ.",
+  "lines": [
+    {
+      "speaker": "reply-all-mothership",
+      "emotion": "sad",
+      "text": "ERROR 404: Recipient list truncated... Out of office until... 2099..."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Thread closed! Mark as resolved and blacklist the entire IP range!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "smug",
+      "text": "And that is a wrap on executive communications. Beautiful coverage."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "The mothership dropped a transit token to the municipal Render Farm."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Sehaj is over there rendering our trailers! If BEIGE reaches him..."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Then we move out. Le re! Next episode on the company card."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ep0-r07-arena",
+  "episode": 0,
+  "trigger": "Player steps into the grand server lobby right before the boss triggers.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "The main server vault! But where is the Final Cut drive?!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "deadpan",
+      "text": "The ambient lighting just dipped three stops. Dramatic spotlight incoming."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Look up. Executive leadership has arrived to micromanage us."
+    }
+  ]
+}

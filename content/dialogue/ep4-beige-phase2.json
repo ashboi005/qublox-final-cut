@@ -1,0 +1,27 @@
+{
+  "id": "ep4-beige-phase2",
+  "episode": 4,
+  "trigger": "Triggers when BEIGE loses 33% health and activates the Greyscale Desaturation Shield.",
+  "lines": [
+    {
+      "speaker": "beige",
+      "emotion": "angry",
+      "text": "Anomaly detected! Activating recursive bleaching matrix! Purging color!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Not on my watch! Splashing primary yellow on its core! Mansukh, draw ramps!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "happy",
+      "text": "Babymonnsterrr! Anchor points locked! Vector ramp connected to the pylon!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "smug",
+      "text": "Hit it with everything! If it fires laser grids, I'll rewind time!"
+    }
+  ]
+}

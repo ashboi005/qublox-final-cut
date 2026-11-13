@@ -1,0 +1,32 @@
+{
+  "id": "ep1-boss-intro",
+  "episode": 1,
+  "trigger": "Plays when entering the central server core where the Buffering Wheel hovers.",
+  "lines": [
+    {
+      "speaker": "buffering-wheel",
+      "emotion": "neutral",
+      "text": "Buffering... 99%... Please remain motionless for eternity..."
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "angry",
+      "text": "I KNEW IT! That spinning circle has been haunting my exports for years!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "It's firing high-latency ping spikes! Our controls are desyncing!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "CUT! Freeze the rotating blades so Sehaj can hit the core!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "I'll double your overtime if we kill this loading screen before 3 AM."
+    }
+  ]
+}

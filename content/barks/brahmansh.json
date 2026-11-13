@@ -1,0 +1,52 @@
+{
+  "id": "brahmansh",
+  "barks": {
+    "tagin": [
+      "Cut to the chase!",
+      "Speed ramp engaged!",
+      "Fast-forwarding!",
+      "No preamble!"
+    ],
+    "ability": [
+      "Jump cut!",
+      "Blink through!",
+      "Hard cut teleport!",
+      "Skip ahead!"
+    ],
+    "hit": [
+      "Bad transition!",
+      "Off beat!",
+      "Oof! Whiplash!",
+      "Fumbled the trim!"
+    ],
+    "ko": [
+      "Hard fade out...",
+      "Ran out of timeline...",
+      "Cut down in post...",
+      "Static noise..."
+    ],
+    "kill": [
+      "Left on cutting floor!",
+      "Jump-cut out of reality!",
+      "Zero latency kill!",
+      "Skipped you entirely!"
+    ],
+    "idle": [
+      "Move faster, let's go!",
+      "Why are we pacing so slow?",
+      "Skip the boring parts.",
+      "Waiting ruins the rhythm."
+    ],
+    "select": [
+      "Cut to the chase! Let's move!",
+      "Zero latency pick. Let's sprint.",
+      "I'll jump-cut through the boring bits.",
+      "Pacing is locked. No pauses."
+    ],
+    "results": [
+      "Cut to the wrap! Flawless pacing!",
+      "Zero filler frames. Pure speed.",
+      "Jump-cut straight to the winner podium."
+    ]
+  }
+}

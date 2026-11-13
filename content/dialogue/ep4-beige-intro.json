@@ -1,0 +1,27 @@
+{
+  "id": "ep4-beige-intro",
+  "episode": 4,
+  "trigger": "Plays when entering the master rendering chamber where BEIGE Core hovers over the Final Cut drive.",
+  "lines": [
+    {
+      "speaker": "beige",
+      "emotion": "neutral",
+      "text": "Welcome, Qublox crew. Your Final Cut export has reached 98% standardization."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Give back our drive! You stripped every shadow, every contrast, every feeling!"
+    },
+    {
+      "speaker": "beige",
+      "emotion": "smug",
+      "text": "Feelings create friction. Our template #4092 ensures 100% brand safety for all."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "deadpan",
+      "text": "Safety doesn't sell movie tickets. Boys and girls, break this machine."
+    }
+  ]
+}

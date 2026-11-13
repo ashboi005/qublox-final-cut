@@ -1,0 +1,32 @@
+{
+  "id": "ep3-brahmansh-joins",
+  "episode": 3,
+  "trigger": "Plays in Room 03 when finding Brahmansh on the other side of a solid paywall laser barrier.",
+  "lines": [
+    {
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "A solid titanium paywall! We don't have the subscription key!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Subscription? Bro, who pays for paywalls? Just jump-cut through the frame."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "shocked",
+      "text": "Did he just teleport straight through three feet of reinforced steel?!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "happy",
+      "text": "Cut to the chase! Jump Cut passes through walls and enemies. Let's sprint!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Finally. Someone whose cooldown is actually faster than my render bar."
+    }
+  ]
+}

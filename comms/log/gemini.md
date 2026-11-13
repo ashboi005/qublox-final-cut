@@ -1,0 +1,207 @@
+# Log: Gemini. Append only. Newest at the bottom.
+
+### 2026-11-13 05:08 · T-G01 · REVIEW
+- Did: defined voices, vocabularies, forbidden phrases, and proposed catchphrases for all 7 crew members
+- Files: content/story/crew-voices.json
+- Commit: 6411a17
+- Notes: Proposed "Needs more saturation!" for Manya and "Cut to the chase!" for Brahmansh.
+
+### 2026-11-13 05:09 · T-G02 · REVIEW
+- Did: created story bible with world premise, Templatr/BEIGE lore, 5 episode beat outlines, character arcs, and 5 running gags
+- Files: docs/narrative/STORY_BIBLE.md
+- Commit: db38b72
+- Notes: Laid out narrative foundations for all 5 districts and the monkey-phobia arc.
+
+### 2026-11-13 05:10 · T-G03 · REVIEW
+- Did: created cast list with BEIGE, Templatr CEO (Chad Frictionless), 3 HQ NPCs (Chacha Chaiwala, Bunty Intern, Pixel the Cat), and EP0/EP1 bosses
+- Files: content/story/cast.json
+- Commit: f35f91d
+- Notes: Added Chacha Chaiwala and Bunty as friendly flavor/narrative anchors in Qublox HQ.
+
+### 2026-11-13 05:10 · T-G04 · REVIEW
+- Did: created flavor text for all GDD enemies, 5 items, 5 districts, and 30 punchy signage lines (all <=24 chars)
+- Files: content/story/flavor.json
+- Commit: b9ab478
+- Notes: Packed signage with parody corporate slogans, Punjabi street catchphrases, and studio jokes.
+
+### 2026-11-13 05:11 · T-G05 · REVIEW
+- Did: created full bark sets for Ashwath, Sayam, and Tushar (tagin, ability, hit, ko, kill, idle, plus Tushar's special monkey barks; all <=40 chars)
+- Files: content/barks/ashwath.json, content/barks/sayam.json, content/barks/tushar.json
+- Commit: f09d89d
+- Notes: Ensured punchy onomatopoeia and character quirks are represented in combat lines.
+
+### 2026-11-13 05:11 · T-G06 · REVIEW
+- Did: pitched 10 title options in docs/narrative/titles.md with top 3 marked (QUBLOX: FINAL CUT, QUBLOX: OVERFLOW, NEO-AMRITSAR: CTRL+Z)
+- Files: docs/narrative/titles.md
+- Commit: 9ba07c7
+- Notes: Evaluated narrative weight, comedic resonance, and arcade flavor for each.
+
+### 2026-11-13 05:12 · T-G07 · REVIEW
+- Did: wrote EP0 cold open dialogue scene establishing 11:58 PM deadline, BEIGE theft of the Final Cut, and Ashwath/Sayam/Tushar dynamics
+- Files: content/dialogue/ep0-cold-open.json
+- Commit: ed00876
+- Notes: All lines strictly <=90 chars with validated speaker IDs and emotions.
+
+### 2026-11-13 05:13 · T-G08 · REVIEW
+- Did: wrote full EP0 dialogue pack (ep0-tushar-joins, ep0-boss-intro, ep0-boss-outro, ep0-tutorial-hints)
+- Files: content/dialogue/ep0-tushar-joins.json, content/dialogue/ep0-boss-intro.json, content/dialogue/ep0-boss-outro.json, content/dialogue/ep0-tutorial-hints.json
+- Commit: d445efd
+- Notes: Covered mechanics tutorial on CRT monitors, Tushar's simian trauma, and the Reply-All Mothership encounter.
+
+### 2026-11-13 05:20 · T-G09 · REVIEW
+- Did: completed full bark sets for remaining 4 crew members (Mansukh, Manya, Sehaj, Brahmansh) including special categories (feedback, beige, render)
+- Files: content/barks/mansukh.json, content/barks/manya.json, content/barks/sehaj.json, content/barks/brahmansh.json
+- Commit: 0bd7808
+- Notes: All 7 crew now have complete, validated combat and idle voice lines. Fixed Episode 2 beat numbering in STORY_BIBLE.md.
+
+### 2026-11-13 05:21 · T-G10 · REVIEW
+- Did: wrote all Episode 1 dialogue scenes (ep1-intro, ep1-sehaj-joins, ep1-boss-intro, ep1-boss-outro, ep1-tutorial-hints)
+- Files: content/dialogue/ep1-intro.json, content/dialogue/ep1-sehaj-joins.json, content/dialogue/ep1-boss-intro.json, content/dialogue/ep1-boss-outro.json, content/dialogue/ep1-tutorial-hints.json
+- Commit: efdafda
+- Notes: All 5 tutorial hints strictly <=50 chars for compact CRT displays.
+
+### 2026-11-13 05:22 · T-G11 · REVIEW
+- Did: created HQ NPC dialogue for Chacha Chaiwala, Bunty, and Pixel the Cat with hidden mechanics hints (momentum preservation, bribe toll gates, hacked turret style)
+- Files: content/dialogue/ep0-npc-chacha-chai.json, content/dialogue/ep0-npc-intern-bunty.json, content/dialogue/ep0-npc-pixel-cat.json
+- Commit: bb58ac0
+- Notes: All lines strictly <=90 chars with valid emotions.
+
+### 2026-11-13 05:22 · T-G12 · REVIEW
+- Did: created quips.json with 15 loading tips (<=70 chars), 10 game-over lines (<=60 chars), and 3 results-screen roasts per rank D, C, B, A, S, MAXIMALIST (<=60 chars)
+- Files: content/story/quips.json
+- Commit: 2c7c6ff
+- Notes: Covered comedic character habits, practical swap mechanics, and post-production agency satire.
+
+### 2026-11-13 05:23 · T-G13 · REVIEW
+- Did: created ep0-rooms.md detailing director shot lists for 7 rooms in Episode 0 (Penthouse, Bleaching Corridor, Turnstile, Balcony, Gear Cage, Ventilation Hub, Server Lobby Boss Arena)
+- Files: docs/narrative/ep0-rooms.md
+- Commit: 4a7ae56
+- Notes: Outlined set-piece gags, crew mechanic spotlights, and signage props for Claude's level design.
+
+### 2026-11-13 05:24 · T-G14 · REVIEW
+- Did: created ep1-rooms.md detailing director shot lists for 7 rooms in Episode 1 (Conduit Entrance, Collapsing Server Alley, Timeline Bay, Turbine Trench, Cache Overflow, 99% Gateway, Mainframe Core Boss Arena)
+- Files: docs/narrative/ep1-rooms.md
+- Commit: 7dc04b5
+- Notes: Laid out puzzle chaining for Sehaj's CTRL+Z, Tushar's CUT! on turbines, and Buffering Wheel boss flow.
+
+### 2026-11-13 05:26 · T-G15 · REVIEW
+- Did: created 5 in-room trigger dialogue scenes for EP0 (ep0-r02-blob, ep0-r03-turnstile, ep0-r04-balcony, ep0-r06-bunty, ep0-r07-arena)
+- Files: content/dialogue/ep0-r02-blob.json, content/dialogue/ep0-r03-turnstile.json, content/dialogue/ep0-r04-balcony.json, content/dialogue/ep0-r06-bunty.json, content/dialogue/ep0-r07-arena.json
+- Commit: 8159575
+- Notes: Short, reactive dialogue lines (<=90 chars) that hook directly into the level's interactive gags.
+
+### 2026-11-13 05:27 · T-G16 · REVIEW
+- Did: created boss combat taunts and phase lines for Reply-All Mothership (ep0-boss-taunts) and Buffering Wheel (ep1-boss-taunts), all <=60 chars
+- Files: content/dialogue/ep0-boss-taunts.json, content/dialogue/ep1-boss-taunts.json
+- Commit: cf5e807
+- Notes: Included legal/HR shield states, hacks, buffer underflow, and lag-spike cues.
+
+### 2026-11-13 05:28 · T-G17 · REVIEW
+- Did: created ep2-rooms.md (The Set: vector bridges, chromatic recoloring, Stock Photo Family boss) and ep3-rooms.md (The Feed: vertical infinite scroll, jump-cut paywall bypass, The Algorithm boss)
+- Files: docs/narrative/ep2-rooms.md, docs/narrative/ep3-rooms.md
+- Commit: 3256d75
+- Notes: Detailed room set-pieces, mechanics showcases for Mansukh, Manya, and Brahmansh, and boss battle structures.
+
+### 2026-11-13 05:29 · T-G18 · REVIEW
+- Did: wrote full Episode 2 dialogue pack (ep2-intro, ep2-designers-join with Mansukh & Manya kerning bickering, ep2-boss-intro, ep2-boss-outro for Stock Photo Family, and 5 compact tutorial hints <=50 chars)
+- Files: content/dialogue/ep2-intro.json, content/dialogue/ep2-designers-join.json, content/dialogue/ep2-boss-intro.json, content/dialogue/ep2-boss-outro.json, content/dialogue/ep2-tutorial-hints.json, content/story/cast.json
+- Commit: 30ca908
+- Notes: Added Stock Photo Family and The Algorithm to cast.json.
+
+### 2026-11-13 05:30 · T-G19 · REVIEW
+- Did: created docs/narrative/credits.md with 6 rotating title-screen taglines (all <=40 chars) and a 35-line humorous end-credits roll
+- Files: docs/narrative/credits.md
+- Commit: e79e184
+- Notes: Covered the real crew in their actual roles, studio NPC credits (Chacha, Bunty, Pixel), corporate villains, AI collaborators, and special thanks.
+
+### 2026-11-13 05:37 · T-G20 · REVIEW
+- Did: created 5 in-room trigger reaction scenes for Episode 1 based on ep1-rooms.md gags
+- Files: content/dialogue/ep1-r01-melted-rack.json, content/dialogue/ep1-r02-slowmo-collapse.json, content/dialogue/ep1-r04-turbine-interns.json, content/dialogue/ep1-r05-cache-disk.json, content/dialogue/ep1-r06-door-stuck.json
+- Commit: 4efaa5e
+- Notes: Exact trigger IDs for Claude: ep1-r01-melted-rack (Room 1 melted rack), ep1-r02-slowmo-collapse (Room 2 falling tower), ep1-r04-turbine-interns (Room 4 reverse interns), ep1-r05-cache-disk (Room 5 vanishing blocks), ep1-r06-door-stuck (Room 6 99% blast door).
+
+### 2026-11-13 05:39 · T-G21 · REVIEW
+- Did: added select category to all 7 crew barks files (3-4 lines each, <=40 chars) for character selection on Studio screen
+- Files: content/barks/*.json
+- Commit: 2abfd29
+- Notes: Packed each character's core personality and reluctance/swagger into selection lines.
+
+### 2026-11-13 05:39 · T-G24 · REVIEW
+- Did: added results category to all 7 crew barks files (3 lines each, <=40 chars) for party lead victory lines on score screen
+- Files: content/barks/*.json
+- Commit: 2abfd29
+- Notes: Tailored to each role (Ashwath merge conflict success, Sayam budget surplus, Tushar wrap without monkeys).
+
+### 2026-11-13 05:40 · T-G22 · REVIEW
+- Did: created full Episode 3 scene pack (ep3-intro, ep3-brahmansh-joins, ep3-boss-intro, ep3-boss-outro, ep3-tutorial-hints with hints <=50 chars, and ep3-boss-taunts for The Algorithm with lines <=60 chars)
+- Files: content/dialogue/ep3-*.json
+- Commit: 3abced4
+- Notes: Showcased Brahmansh's Jump Cut rogue abilities and satirical attention-economy / engagement farming boss dialogue.
+
+### 2026-11-13 05:41 · T-G23 · REVIEW
+- Did: created full Episode 4 finale suite: ep4-rooms.md director beats (7 rooms through Templatr HQ), ep4-intro, ep4-beige-intro, ep4-beige-phase2, ep4-beige-phase3, ep4-ending (8:59 AM release and Chad Frictionless tie-dye stinger), and ep4-boss-taunts
+- Files: docs/narrative/ep4-rooms.md, content/dialogue/ep4-*.json
+- Commit: 7797887
+- Notes: Resolved the central narrative arc across all 7 crew members, defeating BEIGE and restoring maximalist saturation to Neo-Amritsar.
+
+### 2026-11-13 05:42 · T-G25 · REVIEW
+- Did: populated taglines array in content/story/quips.json with 12 rotating title-screen taglines (all <=40 chars)
+- Files: content/story/quips.json
+- Commit: fa3aae2
+- Notes: Ready for the title screen to consume on load.
+
+### 2026-11-13 05:51 · T-G26 · REVIEW
+- Did: created 5 in-room trigger reaction scenes for Episode 2 based on ep2-rooms.md gags
+- Files: content/dialogue/ep2-r01-greenscreen-interns.json, content/dialogue/ep2-r03-color-blocks.json, content/dialogue/ep2-r04-mirror-smiles.json, content/dialogue/ep2-r05-fake-saloon.json, content/dialogue/ep2-r06-no-shadows.json
+- Commit: a1e7809
+- Notes: Exact trigger IDs: ep2-r01-greenscreen-interns (Room 1 green screen void), ep2-r03-color-blocks (Room 3 lighting grid blocks), ep2-r04-mirror-smiles (Room 4 corporate vanity mirrors), ep2-r05-fake-saloon (Room 5 plywood bank), ep2-r06-no-shadows (Room 6 cyclorama shadowless void).
+
+### 2026-11-13 05:53 · T-G27 · REVIEW
+- Did: created 11 in-room trigger reaction scenes for Episode 3 and Episode 4 based on ep3-rooms.md and ep4-rooms.md
+- Files: content/dialogue/ep3-r0*.json, content/dialogue/ep4-r0*.json
+- Commit: 4703452
+- Notes: Exact trigger IDs:
+  - EP3: ep3-r01-repost-monkeys (Room 1 repost monkeys), ep3-r02-infinite-scroll (Room 2 scrolling floor), ep3-r04-echo-drones (Room 4 echo chamber), ep3-r05-fake-close-btn (Room 5 fake X button), ep3-r06-rage-refinery (Room 6 rage reactions).
+  - EP4: ep4-r01-beige-smocks (Room 1 smock receptionist), ep4-r02-deprecated-art (Room 2 Mona Lisa deprecation), ep4-r03-alignment-token (Room 3 alignment elevator), ep4-r04-sanitizer-foam (Room 4 foam sanitizer), ep4-r05-chad-keynote (Room 5 Chad keynote rehearsal), ep4-r06-vault-countdown (Room 6 9-minute release countdown).
+
+### 2026-11-13 05:54 · T-G28 · REVIEW
+- Did: added 4 episode NPCs to cast.json (sysadmin-karan, stuntman-jaggu, influencer-roxy, rebel-intern-simran) and created interactive talk scenes (ep1-npc-sysadmin-karan, ep2-npc-stuntman-jaggu, ep3-npc-influencer-roxy, ep4-npc-rebel-intern-simran)
+- Files: content/story/cast.json, content/dialogue/ep*-npc-*.json
+- Commit: 10d6607
+- Notes: Embedded hints disguised as jokes (Ctrl+Z reflects boss lag spikes, yellow paint trampoline secrets, Jump Cut bypasses shield fronts, 3-member swap combos break BEIGE).
+
+### 2026-11-13 05:55 · T-G29 · REVIEW
+- Did: added 10 more loading tips (<=70 chars) and 10 more game-over quips (<=60 chars) covering actual gameplay hazards (wind turbines, lag reflections, vertical infinite scroll, 99% door, bouncy yellow paint)
+- Files: content/story/quips.json
+- Commit: 333d55d
+- Notes: Brings loading tips to 25 and game-over lines to 20 total.
+
+### 2026-11-13 05:56 · T-G30 · REVIEW
+- Did: created content/story/credits.json structured as { roll: [ { role, name } ] } containing full studio crew, NPCs, antagonists, AI partners, and comedic attribution entries
+- Files: content/story/credits.json
+- Commit: f0109ae
+- Notes: Ready for Claude to hook into the post-finale credits roll scene.
+
+### 2026-11-13 06:11 · T-G31 · REVIEW
+- Did: created content/story/achievements.json with all 12 fixed achievement IDs (first-swap, maximalist, no-ko-episode, monkey-business, le-re, rewind-reflect, ad-skipped, paint-the-town, chai-addict, small-talk, beige-is-dead, speedrun-ep0), funny names (<=32 chars), and punchy descriptions (<=80 chars)
+- Files: content/story/achievements.json
+- Commit: a35f970
+- Notes: Aligned with game design, crew jokes, and actual mechanics.
+
+### 2026-11-13 06:12 · T-G32 · REVIEW
+- Did: added headlines field to content/story/quips.json with 3 Neo-Amritsar Times headlines for each episode (0-4), all <=70 chars
+- Files: content/story/quips.json
+- Commit: f3da7a4
+- Notes: Written in satirical local press voice covering studio victories and urban aftermath.
+
+### 2026-11-13 06:13 · T-G33 · REVIEW
+- Did: ran programmatic copy-edit audit on all 288 dialogue lines and 233 barks across content/dialogue/ and content/barks/. Zero character length limit violations, zero duplicate dialogue lines or barks.
+- Files: content/dialogue/ep0-tutorial-hints.json
+- Commit: 676699a
+- Notes: Trimmed all 6 lines of ep0-tutorial-hints.json to strictly <=50 chars (previously 63-67 chars) for clean CRT screen presentation.
+### 2026-11-13 06:15 · T-G34 · REVIEW
+- Did: audited all 30 @hint lines from content/levels/*.txt across episodes 0-4 and created docs/narrative/hint-pass.md providing in-universe, comedic rewrites (all <=50 chars) for Claude's level files
+- Files: docs/narrative/hint-pass.md
+- Commit: 22d3b27
+- Notes: Prepared clean replacements with comedic context; ready for Claude to paste or integrate into level files whenever convenient.
+
