@@ -1,7 +1,9 @@
 // Achievement tracking. Ids are fixed here (and in @qublox/shared); names/descriptions are Gemini's
-// (content/story/achievements.json). Progress lives in this browser's localStorage.
+// (content/story/achievements.json). Progress lives in this browser's localStorage
+// (and, when signed in, in the account's cloud save: see account.ts).
 import type { ACHIEVEMENT_IDS } from '@qublox/shared';
 import { bus } from './bus';
+import { localSaved } from './savehook';
 
 export type AchievementId = (typeof ACHIEVEMENT_IDS)[number];
 type Save = { unlocked: Partial<Record<AchievementId, number>>; counters: Record<string, number>; sets: Record<string, string[]> };
@@ -11,6 +13,9 @@ const GOALS: Partial<Record<string, [AchievementId, number]>> = {
   bribes: ['le-re', 10],
   painted: ['paint-the-town', 50],
   chai: ['chai-addict', 10],
+  sprite: ['sprite-fizz', 5],
+  frame: ['frame-perfect', 10],
+  observed: ['silent-observer', 5],
 };
 
 let cache: Save | null = null;
@@ -22,9 +27,14 @@ function load(): Save {
   } catch { /* private mode / bad data */ }
   return (cache = { unlocked: {}, counters: {}, sets: {} });
 }
-function save(s: Save) { cache = s; try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* ignore */ } }
+function save(s: Save, notify = true) { cache = s; try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* ignore */ } if (notify) localSaved(); }
 
 export const achievements = {
+  /** The whole save, for cloud sync. */
+  snapshot(): Save { return structuredClone(load()); },
+  /** Overwrite with a merged cloud save (a superset of what's here), without popping unlock toasts. */
+  replace(s: Save) { save({ unlocked: { ...s.unlocked }, counters: { ...s.counters }, sets: { ...s.sets } }, false); },
+
   unlocked(): Partial<Record<AchievementId, number>> { return load().unlocked; },
 
   unlock(id: AchievementId) {

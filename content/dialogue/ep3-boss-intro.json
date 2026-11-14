@@ -21,12 +21,17 @@
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Its forward shields are completely impenetrable to normal attacks!"
+      "text": "Front shields are impenetrable! We need precision timing!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "happy",
+      "text": "Team, take positions. We do this together. Brahmansh, frame-perfect flank!"
     },
     {
       "speaker": "brahmansh",
       "emotion": "smug",
-      "text": "Front shields don't matter. Jump Cut behind it—frame perfect every time."
+      "text": "Jump Cut behind it—frame perfect every time. Watch this cut, bire."
     }
   ]
 }

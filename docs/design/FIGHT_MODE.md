@@ -22,7 +22,7 @@ The crew's request: a Tekken / Mortal Kombat-style 1v1. You create a room, get a
 | | Online / P1 | Local P2 |
 |---|---|---|
 | move / jump / crouch | `A` `D` / `W` / `S` (or arrows) | arrows |
-| block (hold) / parry (tap just before a hit) | `U` or hold **back** | `4` or hold back |
+| block (hold) / parry (tap just before a hit) | `U` | `4` |
 | light / heavy | `J` / `K` | `1` / `2` (numpad or row) |
 | special | `L` | `3` |
 | super (needs a full meter) | `I` | `0` |
@@ -34,16 +34,34 @@ The crew's request: a Tekken / Mortal Kombat-style 1v1. You create a room, get a
 - The **meter** fills when you land hits (and a little when you take them). Super costs a full meter.
 - **Fundamentals (everyone):** `J J J` 3-hit string (the 3rd knocks down) · `K` heavy · `↓+K` **sweep** (LOW, knocks down) · `→+K` **overhead** · air `J`/`K` (overheads) · `J+K` up close = **throw** (unblockable, knocks down, beats blocking).
 - **Combos:** a light/heavy that connects (hit or block) can cancel into the next string hit, or into your special or super. Presses are buffered for 6 frames.
-- **Blocking:** hold `U` or back. **Lows** must be crouch-blocked (hold ↓ too) and **overheads** stand-blocked; a hit that gets through a wrong-height block pops "LOW!"/"OVERHEAD!". Blocking takes 10% chip and drains a **guard bar**; empty guard = **GUARD BREAK** (dizzy ~1s). Tap `U` within 6 frames of a hit = **PARRY**: no chip, melee attackers stagger, +meter.
+- **Blocking:** hold `U` (only `U`). **Lows** must be crouch-blocked (hold ↓ + `U`) and **overheads** stand-blocked; a hit that gets through a wrong-height block pops "LOW!"/"OVERHEAD!". Blocking takes 10% chip and drains a **guard bar**; empty guard = **GUARD BREAK** (dizzy ~1s). Tap `U` within 6 frames of a hit = **PARRY**: no chip, melee attackers stagger, +meter.
 - **Knockdowns:** strings, sweeps, throws, launchers and supers knock you down; while down you're invulnerable, then you get up.
+- **Holding back just walks you back** (a bit slower); it never blocks. Guarding is always a deliberate `U`.
+- **No spam:** specials have a **1.5s cooldown** (shown on the HUD). Heavies are slower (12f startup, 22f recovery), and a **whiffed** heavy/sweep/overhead/special recovers **8 frames slower** (punish it).
+- **Combos scale:** each extra hit in a combo does 10% less (down to 40%), shown as "N HIT COMBO". At most 3 air hits before the opponent falls out of a juggle.
+- **COUNTER:** hitting someone during the startup of their own attack = +20% damage and extra stun.
+- **K.O.** freezes the frame and punches the camera in.
+- **FINAL CUT (finishers):** after the **deciding** KO (not a time-out), the loser staggers up dazed and **"FINAL CUT IT!"** flashes. The winner has ~3s to input **↓ + SUPER** (`S`+`I`; local P2 `↓`+`0`) for their crew's finisher cinematic, credited on the results screen. The CPU always finishes you.
+
+| Crew | FINAL CUT finisher |
+|---|---|
+| Ashwath | rm -rf BEIGE |
+| Sayam | **GET A LOAD OF THIS GUY**: throws a speech-bubble roast; whoever it hits (even blocking) is ROASTED: +25% damage taken for 3s, loses some meter | **TEN PERSONALITIES**: Philosopher (freeze), Roast (unblockable hit), Empath (heals himself), Hype (unblockable knockdown), back to back |
+| Tushar | THAT'S A WRAP |
+| Sehaj | CTRL+Z: UNEXIST |
+| Manvi | DHUMTANANA FOREVER |
+| Mansukh | MAKE THE LOGO BIGGER |
+| Manya | FILL: NEON |
+| Brahmansh | JUMP CUT TO BLACK |
+| Mishthi | MASTERPIECE: STILL LIFE |
 
 ## Movesets (from each person's real job and persona)
 
 | Crew | Special (`L`) | Super / finisher (`I`) |
 |---|---|---|
 | Ashwath | **INFO DUMP**: a close-range psychic multi-hit (3 ticks) | **SHIP IN 36 HOURS**: a hackathon countdown, then a full-screen deploy blast |
-| Sayam | **LE RE**: throws a fast wad of cash (hit words: BHAI · CHUDA LAG GYA on the sweep) | **HOSTILE TAKEOVER**: cash rains on the opponent |
-| Tushar | **CUT!**: freezes the opponent (short) if they're on screen | **THAT'S A WRAP**: a camera-flash dash strike |
+| Sayam | **GET A LOAD OF THIS GUY**: a speech-bubble roast; the target is ROASTED (+25% damage taken for 3s) | **TEN PERSONALITIES**: Philosopher, Roast, Empath, Hype, back to back |
+| Tushar | **CUT!**: freezes the opponent (short) if they're on screen | **FINE, I'LL DO IT MYSELF**: takes over for 7s: +35% damage dealt and a full guard bar, but +20% damage taken |
 | Sehaj | **BEAST MODE**: a slow, heavy boulder | **CTRL+Z**: rewinds himself 1.5s (position and HP) |
 | Manvi | **MIND GAMES**: inverts the opponent's controls for 2s (needs mid-range) | **DHUMTANANA**: a heart shockwave across the stage, and heals her |
 | Mansukh | **PEN TOOL**: draws a vector wall that blocks projectiles and movement | **STAN MODE**: BABYMONSTER comes on in his headphones; a lightstick swing (knocks down), then 6s of +50% damage and +50% walk speed |

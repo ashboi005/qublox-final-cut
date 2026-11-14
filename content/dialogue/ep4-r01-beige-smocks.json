@@ -16,7 +16,12 @@
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, mind the leather jacket. Tell them my consulting rate is 500k an hour. Le re!"
+      "text": "Bhai, mind the leather jacket. Let me smooth-talk this receptionist. Le re!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care about corporate dress codes, but beige linen is a sartorial crime."
     }
   ]
 }

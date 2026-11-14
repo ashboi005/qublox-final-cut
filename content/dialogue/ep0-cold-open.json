@@ -10,17 +10,17 @@
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Oyeee pagaalllll! Who triggered a full recompile on the production branch?!"
+      "text": "Oyeee pagaalllll! Compiling build at 2x speed and my Sprite is lukewarm!"
     },
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, relax. I already delegated your panic to third-party consultants."
+      "text": "Bhai, relax. Leather jacket is on, chai is hot. I delegated panic to consultants."
     },
     {
       "speaker": "tushar",
-      "emotion": "angry",
-      "text": "WHO TOUCHED MY ANAMORPHIC LENS?! WHY IS THE VIEWFINDER TURNING BEIGE?!"
+      "emotion": "panic",
+      "text": "Comms buzz: 'Prabhu, who touched the gear?! Infinite monkeys breached basement!'"
     },
     {
       "speaker": "beige",
@@ -30,22 +30,22 @@
     {
       "speaker": "ashwath",
       "emotion": "shocked",
-      "text": "The render drive! BEIGE just suctioned the Final Cut through the AC vent!"
+      "text": "Dost, the render drive! BEIGE just suctioned the Final Cut through the AC vent!"
     },
     {
       "speaker": "sayam",
       "emotion": "deadpan",
-      "text": "Bhai, chuda lag gya hai! Stealing our master file violates three vendor deals."
+      "text": "Bhai, chuda lag gya hai! That master file is our collateral. Ashwath, we move."
     },
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Sayam, grab your wallet. We're breaking through the security grid!"
+      "text": "Khel khtm if we miss 9:00 AM! Rescue Tushar from the basement before they eat cables!"
     },
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Le re! Grab your boots, boys. We're expensing some property damage."
+      "text": "Le re! Grab your boots. We're expensing some serious property damage."
     }
   ]
 }

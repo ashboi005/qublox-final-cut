@@ -91,7 +91,7 @@ const zigzag = (r: Room, fromY: number, toY: number, gap: number, left: [number,
   for (const x of [44, 49, 54]) r.set(x, f - 1, 'W');
   r.fill(43, f + 1, 57, r.H - 2, '.').fill(43, r.H - 1, 57, r.H - 1, '^');
   r.set(62, f - 4, 'p').set(66, f, 'i');
-  r.fill(72, 1, 72, f - 2, '#').set(72, f, 'G');                                   // toll: BRIBE, or JUMP CUT past it
+  r.fill(72, 1, 72, f - 2, '#').set(72, f, 'G');                                   // toll: SMOOTH TALK, or JUMP CUT past it
   r.fill(77, f + 1, 82, r.H - 2, '.').fill(77, r.H - 1, 82, r.H - 1, '^');
   r.set(86, f, 'p').set(90, f - 1, 'h');
   r.set(93, f, 'X');

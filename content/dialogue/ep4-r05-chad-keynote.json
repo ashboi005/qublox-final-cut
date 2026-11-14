@@ -17,6 +17,16 @@
       "speaker": "chad-frictionless",
       "emotion": "panic",
       "text": "Security! Someone mute this non-conforming stakeholder!"
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "shocked",
+      "text": "Hawwww! Chad, your keynote reeks of suppressed creative trauma! Talk to me!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Save the psychoanalysis, Manvi. We've got a deadline. Team, let's move!"
     }
   ]
 }

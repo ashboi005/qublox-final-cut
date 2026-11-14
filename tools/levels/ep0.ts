@@ -8,13 +8,13 @@ const common = (r: Room, name: string, next: string | null) => {
   return r;
 };
 
-// ---------- 01 · The Penthouse Studio: move, jump, attack, cash toss ----------
+// ---------- 01 · The Penthouse Studio: move, jump, attack, Sayam's one-liners ----------
 {
   const r = common(new Room('ep0', 'ep0-r01', 64), 'EP0 · 01 · The Penthouse Studio', 'ep0-r02');
   const f = r.floor;
   r.m('@party ashwath,sayam').m('@dialogue ep0-cold-open');
   r.m('@sign 4 4 DELIVERY: 9:00 AM — EXPORT HANGING').m('@sign 30 3 HOTFIX #992 — DO NOT TOUCH');
-  r.m(`@hint 3 ${f - 3} A/D walk · SPACE leap · J mechanical slap`).m(`@hint 19 ${f - 6} K = job superpower · 1/2 swap active crew`).m(`@hint 40 ${f - 4} Sayam hurls cash. LE RE! Keep the change.`);
+  r.m(`@hint 3 ${f - 3} A/D walk · SPACE leap · J mechanical slap`).m(`@hint 19 ${f - 6} K = job superpower · 1/2 swap active crew`).m(`@hint 40 ${f - 4} Sayam's J throws slang. BHAI! NO CAP! LE RE!`);
   r.set(3, f, 'P').pin('decor-trophy', 8);                               // Ashwath's real first-place hackathon cup
   r.fill(14, f - 2, 17, f - 2, '=');
   r.fill(24, f - 1, 27, f, '#').set(25, f - 2, 'h');
@@ -30,7 +30,7 @@ const common = (r: Room, name: string, next: string | null) => {
   const r = common(new Room('ep0', 'ep0-r02', 72), 'EP0 · 02 · The Bleaching Corridor', 'ep0-r03');
   const f = r.floor;
   r.m('@trigger 9 1 3 13 ep0-r02-blob');
-  r.m('@sign 3 4 MAXIMALIST OR DIE').m('@sign 34 4 Press 1/2/3 to swap crew members instantly!');
+  r.m('@sign 3 4 MAXIMALIST OR DIE').m('@sign 34 4 Press 1-4 to swap crew members instantly!');
   r.m(`@hint 19 ${f - 5} Deadly lasers? Ashwath: Sudo hack terminal (K)!`);
   r.set(3, f, 'P');
   r.set(16, f, 'b');
@@ -43,13 +43,13 @@ const common = (r: Room, name: string, next: string | null) => {
   r.write();
 }
 
-// ---------- 03 · The Executive Turnstile: BRIBE ----------
+// ---------- 03 · The Executive Turnstile: SMOOTH TALK (Sayam's K) ----------
 {
   const r = common(new Room('ep0', 'ep0-r03', 64), 'EP0 · 03 · The Executive Turnstile', 'ep0-r04');
   const f = r.floor;
   r.m('@trigger 24 1 3 13 ep0-r03-turnstile');
-  r.m('@sign 28 3 TOLL: 50,000 CR — NO CHECKS').m('@sign 6 4 VENDING: STALE CHIPS 2,000 CR').m('@sign 40 6 SAYAM PAYS CASH');
-  r.m(`@hint 26 ${f - 5} Capital gate? Sayam: Bribe (K) the sensor!`);
+  r.m('@sign 28 3 TOLL: 50,000 CR — NO CHECKS').m('@sign 6 4 VENDING: STALE CHIPS 2,000 CR').m('@sign 40 6 SAYAM DOES THE TALKING');
+  r.m(`@hint 26 ${f - 5} Toll sensor? Sayam: SMOOTH TALK (K) it open!`);
   r.set(3, f, 'P');
   r.set(12, f - 5, 'd').set(20, f - 4, 'd');
   r.fill(34, 1, 34, f - 2, '#').set(34, f, 'G');
@@ -99,7 +99,7 @@ const common = (r: Room, name: string, next: string | null) => {
   r.write();
 }
 
-// ---------- 06 · The Ventilation Intake Hub: vertical; CUT! the fans, HACK the laser, BRIBE the toll drone ----------
+// ---------- 06 · The Ventilation Intake Hub: vertical; CUT! the fans, HACK the laser, SMOOTH TALK the toll drone ----------
 {
   const r = common(new Room('ep0', 'ep0-r06', 32, 44), 'EP0 · 06 · The Ventilation Intake Hub', 'ep0-r07');
   const H = r.H, f = r.floor;
@@ -116,7 +116,7 @@ const common = (r: Room, name: string, next: string | null) => {
   r.set(20, f - 22, 'C');
   // top floor: laser + terminal, then the toll gate, then the exit
   const top = 10;
-  // you come up through the one-way hole on the left, hack the laser, pay the toll drone, leave
+  // you come up through the one-way hole on the left, hack the laser, SMOOTH TALK the toll drone, leave
   r.fill(1, top + 1, 30, top + 1, '#').fill(3, top + 1, 7, top + 1, '=');
   r.set(9, top, 'T').set(12, top, 'L');
   r.fill(22, 1, 22, top - 2, '#').set(22, top, 'G');

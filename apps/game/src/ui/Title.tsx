@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import type { CrewId } from '@qublox/shared';
+import { ACHIEVEMENT_IDS, type CrewId } from '@qublox/shared';
 import { nextEpisode } from '@/game/progress';
+import { AccountChip, AccountPanel } from './Account';
 
 export type Episode = { n: number; name: string; place: string; start: string; locked?: boolean; pool?: CrewId[]; pick?: number; required?: CrewId[]; joiners?: CrewId[] };
 
@@ -18,6 +19,7 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
     setStoryLabel(n === null ? 'All cleared · replay any episode' : n === 0 ? `Start · EP0 ${ep?.name ?? ''}` : `Continue · EP${n} ${ep?.name ?? ''}`);
   }, [episodes]);
   const [sel, setSel] = useState(0);
+  const [account, setAccount] = useState(false);
   const items = [{ kind: 'story' as const }, { kind: 'vs' as const }, { kind: 'crew' as const }, { kind: 'board' as const }, { kind: 'ach' as const }];
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (account) return;
       if (['ArrowDown', 's', 'S'].includes(e.key)) { e.preventDefault(); setSel(s => (s + 1) % items.length); }
       else if (['ArrowUp', 'w', 'W'].includes(e.key)) { e.preventDefault(); setSel(s => (s - 1 + items.length) % items.length); }
       else if (['Enter', ' ', 'j', 'J'].includes(e.key)) {
@@ -72,10 +75,12 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
           </button>
         ) : (
           <button key="ach" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={onAchievements}>
-            <span className="title-ep">◆</span><span className="title-name">Achievements</span><span className="title-place">12 to find</span>
+            <span className="title-ep">◆</span><span className="title-name">Achievements</span><span className="title-place">{ACHIEVEMENT_IDS.length} to find</span>
           </button>
         ))}
       </nav>
+      <AccountChip onOpen={() => setAccount(true)} />
+      {account && <AccountPanel onClose={() => setAccount(false)} />}
       <p className="title-foot">↑↓ choose · ENTER start · a Qublox production, Neo-Amritsar 2084</p>
     </div>
   );

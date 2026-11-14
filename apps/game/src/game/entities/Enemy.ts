@@ -125,7 +125,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (this.mode === 'hurt' && time < this.stateUntil) return;
     if (this.mode === 'hurt') this.go('recover', 200);
 
-    // Lured by a money bag: walk over and stare at it lovingly. No attacks.
+    // Lured by Sayam's hype speaker: walk over and listen, enthralled. No attacks.
     if (lure) {
       this.setFlipX(dx < 0);
       if (Math.abs(dx) > 6) body.setVelocityX(Math.sign(dx) * s.speed * 1.4); else body.setVelocityX(0);

@@ -5,13 +5,13 @@
       "Le re!",
       "Bhai, hold my leather jacket.",
       "CEO in the building. Let's cook.",
-      "Put the property damage on my tab."
+      "Bhai, let me talk to them."
     ],
     "ability": [
-      "Le re! Take the cash!",
-      "Bhai, take a stack and leave.",
-      "Throwing capital at the issue!",
-      "Keep the change, bhai."
+      "Le re! Listen to the pitch!",
+      "Bhai, gather round and listen.",
+      "Aura overflow! Crowd gathers!",
+      "Talking my way right through!"
     ],
     "hit": [
       "Bhai! Mind the leather jacket!",
@@ -28,29 +28,29 @@
     "kill": [
       "Le re! Out of my face.",
       "Get a load of this guy.",
-      "Hostile takeover complete.",
+      "Roast complete. Sit down, bro.",
       "Skill gap, bhai. Clean."
     ],
     "idle": [
       "Bhai, what if consciousness is a loop?",
       "Are we idling or building suspense?",
       "I delegate this standing around.",
-      "Who's ordering chai? I'm buying."
+      "Who's ordering chai? Hot cutting cup."
     ],
     "select": [
       "Bhai, pick me. The drip alone wins.",
       "I'll manage the vibes and the strategy.",
-      "Fine, but you're paying for chai.",
+      "Fine, but you're pouring the chai.",
       "Leather jacket's on. Let's roll."
     ],
     "results": [
-      "Le re! Profit, aura, and vibes.",
+      "Le re! Max aura and pure charisma.",
       "Bhai, we cooked. S-tier synergy.",
-      "Delegated, delivered, and cashed out."
+      "Delegated, delivered, talked down."
     ],
     "philosophy": [
-      "Bhai, what even is money?",
-      "Bhai, is value just collective faith?",
+      "Bhai, what even is value?",
+      "Bhai, is culture just collective faith?",
       "Do enemies feel pain or just keyframes?",
       "What if the simulation is buffering?",
       "Bhai, we are just dust with wifi."
@@ -81,7 +81,7 @@
     ],
     "start": [
       "Bhai, look at the size of this guy.",
-      "Le re! Big boss, bigger buyout.",
+      "Le re! Big boss, bigger monologue.",
       "Bhai listen: hit him where it hurts.",
       "Get a load of this boss. Cute."
     ]

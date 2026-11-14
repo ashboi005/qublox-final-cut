@@ -100,7 +100,7 @@ Persona: an editor with serious attention to detail, extrovert, easily annoyed, 
 
 ## T-A41 · NEW CREW: Mishthi `[DONE]` ✅
 Approved. The corset + puffed blouse, the gold hoops and the berry lip make her instantly her, and the theatrical-despair portrait is perfect for her. The `indifferent` hair-flip row plays on AS IF I CARE?; `prop` and `art-frame` are live (her throws and the MASTERPIECE ledge).
-**No open tasks.** Remaining personas: Tushar and Manya, when the user sends them. Wait with `scripts/await-orders.sh codex`.
+
 <details><summary>original brief</summary>
 
 A 9th crew member (BRIEF Fixed facts, GDD row); she's on a placeholder "M" block now. **Photo references** (private, gitignored): `tools/art/raw/refs/mishthi-1.png`, `-2.png`, `-3.png`.
@@ -116,3 +116,52 @@ Approved. The distressed CLASSIFIED stamp is live on every file, top right, rota
 The user asked for a crew glossary (title → **The Crew**). It's built with your existing sprites and portraits: a classified-HR-file look on bone paper, with a dark sprite stage. Optional polish for it:
 - `images/glossary-stamp.png`, image key `glossary-stamp`: a ~96×48 red rubber-stamp graphic reading **CLASSIFIED** (or "APPROVED BY HR", your call), rough ink edges, binary alpha. The game shows it rotated in the corner of each file automatically.
 - Anything else you think would make the dossier pop, as long as it's in an image key; log it and I'll wire it up.
+
+## T-A42 · Tushar likeness pass + WILDCARD `[DONE]` ✅
+Approved, and the FABU / LOUS smug portrait is exactly what the user asked for. The `wildcard` row (clapperboard → laptop → camera → shades on, with a glint) plays on FINE, I'LL DO IT MYSELF, and the mehndi + bracelet read on both hands. Nice touch adding `panic` for the monkeys.
+**All crew likenesses are done.** T-A43 stays WAITING until the story rewrite; I'll brief it with the new-asset list then. Wait with `scripts/await-orders.sh codex`.
+<details><summary>original brief</summary>
+
+Tushar's photos are in (private, gitignored, never commit or copy them): `tools/art/raw/refs/tushar-1.png` (clearest face + outfit), `tushar-2.png` (laughing), `tushar-3-group.png` (**he's the one in the centre**, hand over his face, with the bracelet and the ring; ignore the others) and `tushar-fabulous-glasses.png` (the "FABULOUS" shades; see 3).
+Likeness: wavy dark hair swept up and back (a bit messy), **thin gold double-bridge aviator glasses** (his everyday pair), light stubble/goatee, a big grin, a silver chain, slim build. Default outfit: a **black shirt with sleeves rolled up** (alt: a black zip hoodie over a white tank). Always, whatever the outfit: **mehndi (henna) patterns on one hand** and **a shiny silver bracelet on the other wrist** (plus a ring). Make both read at 48px; the bracelet glint is also his SILENT OBSERVER passive. HUD colour `#fecb56`.
+1. `sprites/characters/tushar.png`: standard rows (attack = clapperboard smack) plus a new **`wildcard`** row (5–6f) for FINE, I'LL DO IT MYSELF: he rolls up his sleeves, cycles through tools (clapperboard → laptop → camera), then **flips on the "FABULOUS" shades** (dark angular frames with "FABU" on one lens and "LOUS" on the other; at 48px a dark visor with a white glint per lens is fine, and the full lettering goes in the portrait).
+2. `portraits/tushar.png`: 8 emotions. **Smug = wearing the FABULOUS shades** (the user asked for those specifically; spell out FABU / LOUS if it fits at 64px). Angry = annoyed by stupidity. Happy = that big grin.
+3. Register the `wildcard` row in `manifest.json`.
+</details>
+
+## T-A46 · Two-eyed faces for six crew + a `block` row for everyone `[OPEN]` P0 (**your only open task, and the last thing blocking launch.** It got skipped last round: T-A43 went ahead and the six faces are still single-eye profiles)
+The user noticed that **Ashwath, Sayam and Tushar have two front-facing eyes** (the 3/4 view), but **Sehaj, Manvi, Mansukh, Manya, Brahmansh and Mishthi have a single big white side-profile eye**, which reads as weird next to the others. Make it consistent: redraw those six with the **same two-eye 3/4 face treatment as Ashwath/Sayam** (both eyes visible, the far one slightly narrower; small dark pupils, not a big white disc), on **every row of their sheets** (all anims, including super and the special rows). Don't change anything else about them: hair, outfits, props, silhouettes and likeness stay as they are. **The three dastars (Sehaj, Mansukh, Brahmansh) stay on, neat and unchanged in every frame.** Beards stay. Check their portraits match too (fix any portrait that's still profile-only if it clashes).
+Also add a **`block` row** to all nine sheets (3–4 frames, a guard pose: forearms/prop up in front, braced, can loop or hold the last frame). VERSUS now plays `block` by key when guarding (it used to wrongly play `run`; for now it falls back to `idle`). Blocking is U-only now, so this pose gets seen a lot.
+Re-run `tools/art/versus.py` after any base regeneration so the super rows survive. Log with a before/after contact sheet description. bun run validate.
+
+## T-A44 · VERSUS: super animations, FINAL CUT finishers, fight VFX `[DONE] ✅`
+**Integrated (2026-11-14):** supers play by key; all nine finisher sheets play over the loser with the runtime choreography; `fx-counter` and `fx-parry` burst *behind* their word (they have no lettering, so the word stays readable), `fx-combo` stretches behind the combo counter, `fx-ko` pops over the KO'd fighter (and over story-mode KO! pops). Checked in a live match for Mishthi, Ashwath, Tushar, Sayam, Mansukh and Brahmansh. Lovely work, especially the gallery frame and the terminal deletion.
+The user wants VERSUS to feel premium, Mortal Kombat-style. Combat got deeper (proximity block, special cooldowns, combos with a counter, COUNTER hits, KO freeze-frame) and there's now a **FINAL CUT finisher**: after the deciding KO the loser staggers up dazed, "FINAL CUT IT!" flashes, and the winner inputs ↓ + I for a crew-specific cinematic. Right now the cinematics are code-only placeholders (see `finisherFx` in `apps/game/src/fight/FightScene.ts` for what each one does). Your art replaces them.
+1. **`super` rows** on every crew sheet (5–8 frames, 48×48, same sheet; add a row at the bottom, don't touch the others): a short wind-up pose for their VERSUS super (ashwath SHIP IN 36 HOURS, sayam TEN PERSONALITIES (four quick poses: chin-stroke philosopher, pointing roast, hand-on-heart empath, arms-up hype), tushar FINE I'LL DO IT MYSELF (FABULOUS shades), sehaj CTRL+Z, manvi DHUMTANANA, mansukh STAN MODE, manya FILL: YELLOW, brahmansh MONTAGE, mishthi AS IF I CARE?). The fight plays `super` by key and falls back to `ability`.
+2. **Finisher sheets** `sprites/fx/finisher-<crew>.png`, one per crew (9), registered as sprites with a single non-looping `play` anim, **~2.4s total**, drawn on the loser's spot (origin bottom-centre, rendered at 2×; frames up to 96×96). The code plays it in place of the placeholder when the key exists. The finisher names (from `packages/shared/src/fight/moves.ts`) and the idea for each:
+   - ashwath **rm -rf BEIGE**: green terminal text pours over the loser, who glitches and deletes in blocks.
+   - sayam **BHAI, LISTEN…**: speech bubbles pile up mid-monologue (bhai / no cap / so basically / le re / hear me out); the loser yawns, nods off and wanders out of frame.
+   - tushar **THAT'S A WRAP**: camera flashes, film strip wraps the loser into a reel, the FABULOUS shades go on.
+   - sehaj **CTRL+Z: UNEXIST**: a giant boulder drops; the loser rewinds backwards out of existence.
+   - manvi **DHUMTANANA FOREVER**: a heart storm; the loser floats away happily (PG).
+   - mansukh **MAKE THE LOGO BIGGER**: the loser inflates until they pop into confetti; the lightstick concert finale.
+   - manya **FILL: NEON**: a paint bucket flood in four colours.
+   - brahmansh **JUMP CUT TO BLACK**: hard jump cuts; the loser's frames drop out until nothing's left.
+   - mishthi **MASTERPIECE: STILL LIFE**: the loser is gilded, framed and hung with a gallery plaque.
+   **Comedic, not gory**: slapstick deletion, never blood or body horror.
+3. **Fight VFX** (image keys): `fx-counter` (a punchy red/yellow starburst for COUNTER hits), `fx-combo` (a small badge behind the "N HIT COMBO" text), `fx-ko` (a big comic K.O. burst), `fx-parry` (a blue glint). I'll wire them as they land; log the keys.
+
+**Answer (2026-11-14, re your DOING note):** done, good catch. `finisherFx` now always runs the crew-specific loser choreography (delete, doze-and-wander, wrap, rewind, float, inflate-pop, recolour, hard cuts, gild) and plays your sheet on top as a transparent overlay; only the placeholder FX (code text, bubbles, boulder, hearts, sparks, frame) are skipped when your sheet exists. It also fixes a bug where `draw()` reset the loser every frame. Loser timings to sync your cues to (ms from the input): ashwath fade 1500 · sayam wander 1600–2500 · tushar fade 1700 · sehaj fade 900 · manvi float 600–2000 · mansukh inflate 300–1200 then gone · manya tints 250/530/810/1090, fade 1500 · brahmansh flicker 200–1250, gone 1300 · mishthi gilded at 400. Banners land around 1300–1800. The sheet's `play` anim ending closes the cinematic (3.2s hard cap). Sayam: no money lines in the bubbles (I changed the list above).
+
+## T-A45 · Sayam: new moves, no more money `[DONE] ✅`
+**Integrated (2026-11-14):** the attack and ability rows plus the `bubble` and `hype-speaker` keys are picked up automatically; story features e2e is green.
+The user asked for Sayam's money moves to go; his kit is now built on his persona (charisma, bhai-spam, roasts, ten personalities). Update his art to match:
+1. `sayam.png` **attack** row: throwing a speech bubble (a pointing, talking-with-hands gesture) instead of a cash toss. **ability** row: SMOOTH TALK: setting down a hype speaker and launching into a pitch (instead of the money bag).
+2. New props: `bubble` (16×12: a white comic speech bubble with three green dots; it's his projectile in story and VERSUS) and `hype-speaker` (16×16: a small boombox/PA speaker in his green; it's what enemies crowd round). Placeholders exist; your keys replace them.
+
+## T-A43 · Asset quality pass (everything except character sprites) `[DONE] ✅`
+**Integrated (2026-11-14):** all four batches (tiles/parallax, enemies/bosses/NPCs, props/title/icons, music/SFX). Full 5-episode e2e, story, features, glossary and VERSUS runs are clean, with no errors; I checked the title, BEIGE (ep4-r07) and the-set rooms on screen. Looks great.
+**Story v2 is final** (`docs/narrative/STORY_BIBLE.md`, `docs/design/STORY_V2.md`), so this is open. Do T-A44 and T-A45 first (VERSUS), then this. Prioritise what's on screen most: tilesets and backgrounds per district, then enemies and bosses (Chad Frictionless and BEIGE™ are the finale's faces), then props, FX and UI images, then music/SFX data. Log in batches.
+**Don't start yet.** Order of work, from the user: Tushar first (T-A42) → Claude + Gemini rewrite/extend the story and work all the new crew into it → **then** this.
+When it opens: raise the quality of **every asset except the character sprite sheets** (leave those as they are): tilesets, props, FX, decor, enemy and boss sprites, backgrounds and parallax, title and logo art, UI images (newspaper, glossary stamp), and the music/SFX data. More detail, better shading and animation, more life, within ART_SPEC (same keys, frame sizes and anim names, unless you log a reason and I approve a change). Expect a list of new story-specific asset asks alongside it once the story rewrite is done.
+

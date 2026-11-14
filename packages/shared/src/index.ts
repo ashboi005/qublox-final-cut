@@ -90,17 +90,40 @@ export const FlavorSchema = z.object({
 });
 
 // ---------- Leaderboard API ----------
+/** A finished run, posted by a signed-in player. The name on the board comes from their account. */
 export const RunSubmitSchema = z.object({
-  player: z.string().trim().min(1).max(24),
   episode: z.number().int().min(0).max(9),
   timeMs: z.number().int().positive().max(24 * 3600 * 1000),
   style: z.number().int().min(0).max(100_000_000),
   kos: z.number().int().min(0).max(999),
   party: z.array(z.enum(CREW_IDS)).min(1).max(3),
-  passcode: z.string().max(64).optional(),
 });
 export type RunSubmit = z.infer<typeof RunSubmitSchema>;
-export type LeaderboardRow = Omit<RunSubmit, 'passcode'> & { id: number; createdAt: string };
+export type LeaderboardRow = RunSubmit & { id: number; player: string; createdAt: string };
+
+/** Cloud save for a signed-in player: story progress + achievements (the same shapes the browser keeps). */
+export const SaveSchema = z.object({
+  cleared: z.array(z.number().int().min(0).max(9)).max(10).default([]),
+  achievements: z.object({
+    unlocked: z.record(z.string().max(40), z.number().int().nonnegative()).default({}),
+    counters: z.record(z.string().max(40), z.number().int().nonnegative().max(1_000_000)).default({}),
+    sets: z.record(z.string().max(40), z.array(z.string().max(60)).max(200)).default({}),
+  }).default({ unlocked: {}, counters: {}, sets: {} }),
+});
+export type Save = z.infer<typeof SaveSchema>;
+export const EMPTY_SAVE: Save = { cleared: [], achievements: { unlocked: {}, counters: {}, sets: {} } };
+
+/** Merge two saves without losing anything: episodes and set members are unioned, counters take the max,
+ *  unlock times keep the earliest. Order-independent, so two devices can sync in any order. */
+export function mergeSaves(a: Save, b: Save): Save {
+  const unlocked: Record<string, number> = { ...a.achievements.unlocked };
+  for (const [k, t] of Object.entries(b.achievements.unlocked)) unlocked[k] = unlocked[k] ? Math.min(unlocked[k]!, t) : t;
+  const counters: Record<string, number> = { ...a.achievements.counters };
+  for (const [k, n] of Object.entries(b.achievements.counters)) counters[k] = Math.max(counters[k] ?? 0, n);
+  const sets: Record<string, string[]> = { ...a.achievements.sets };
+  for (const [k, l] of Object.entries(b.achievements.sets)) sets[k] = [...new Set([...(sets[k] ?? []), ...l])];
+  return { cleared: [...new Set([...a.cleared, ...b.cleared])].sort((x, y) => x - y), achievements: { unlocked, counters, sets } };
+}
 export { z } from 'zod';
 
 export const QuipsSchema = z.object({
@@ -118,6 +141,9 @@ export const QuipsSchema = z.object({
 export const ACHIEVEMENT_IDS = [
   'first-swap', 'maximalist', 'no-ko-episode', 'monkey-business', 'le-re', 'rewind-reflect', 'ad-skipped',
   'paint-the-town', 'chai-addict', 'small-talk', 'beige-is-dead', 'speedrun-ep0', 'directors-cut', 'couple-goals',
+  // Persona achievements (story v2): one per crew member's real-life quirk.
+  'night-owl', 'sprite-fizz', 'stargazer', 'ten-personalities', 'do-it-myself', 'silent-observer', 'light-weight',
+  'pep-talk', 'stan-mode', 'frame-perfect', 'house-of-shakes', 'gallery-opening', 'as-if-i-care', 'full-roster',
 ] as const;
 
 /** Lost Footage tapes: 3 hidden per episode. Ids are fixed (levels place them with `@tape`); Gemini writes the text. */

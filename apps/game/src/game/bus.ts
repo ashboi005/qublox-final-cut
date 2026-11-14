@@ -27,7 +27,7 @@ type Events = {
   beige: { amount: number };
   achievement: { id: string };
   /** VERSUS: the match is over (winner = player index), or the online peer left. */
-  versusEnd: { winner: 0 | 1 | null; reason?: 'left' | 'desync' };
+  versusEnd: { winner: 0 | 1 | null; reason?: 'left' | 'desync'; finisher?: string };
   versusStatus: { text: string | null };
 };
 

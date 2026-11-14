@@ -11,12 +11,12 @@
     {
       "speaker": "ashwath",
       "emotion": "happy",
-      "text": "Thread closed! Mark as resolved and blacklist the entire IP range!"
+      "text": "Closed as resolved, dost! Blacklisted the IP range and cleared the inbox!"
     },
     {
       "speaker": "tushar",
       "emotion": "smug",
-      "text": "And that is a wrap on executive communications. Beautiful coverage."
+      "text": "Print it! That's a wrap on executive communications. Beautiful coverage."
     },
     {
       "speaker": "sayam",
@@ -26,12 +26,17 @@
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Sehaj is over there rendering our trailers! If BEIGE reaches him..."
+      "text": "Sehaj is over there rendering our trailers! If BEIGE reaches his timeline..."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "deadpan",
+      "text": "Then Sehaj will just stare at it in silence. Move out before his export boils."
     },
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Then we move out. Le re! Next episode is on my card."
+      "text": "Le re! Render Farm transit unlocked. Next district is on my corporate card."
     }
   ]
 }

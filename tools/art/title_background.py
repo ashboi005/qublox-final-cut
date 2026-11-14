@@ -19,10 +19,10 @@ d.ellipse((401,91,409,99),fill=C[20]); d.line([(446,106),(446,235)],fill=C[26],w
 for y,col in [(202,9),(216,10),(230,11)]:
  points=[(0,270),(0,y)]+[(x,y+(x//30%3)*3) for x in range(0,301,15)]+[(334,y+16),(353,270)]
  d.polygon(points,fill=C[col])
-# Rooftop foreground and seven individualized silhouettes.
+# Rooftop foreground and nine individualized silhouettes.
 d.polygon([(0,245),(25,241),(311,241),(329,247),(480,247),(480,270),(0,270)],fill=C[0])
 d.line([(25,241),(311,241)],fill=C[3]); d.line([(331,247),(479,247)],fill=C[18])
-for i,who in enumerate(['ashwath','sayam','mansukh','manya','sehaj','brahmansh','tushar']):
+for i,who in enumerate(['ashwath','sayam','mansukh','manya','sehaj','manvi','brahmansh','tushar','mishthi']):
  sprite=frame(who,'idle',0); silhouette=Image.new('RGBA',(48,48))
  src=sprite.load(); out=silhouette.load()
  for y in range(48):
@@ -31,6 +31,6 @@ for i,who in enumerate(['ashwath','sayam','mansukh','manya','sehaj','brahmansh',
     # A thin light-facing rim, otherwise ink silhouettes.
     rim=x<47 and not src[x+1,y][3]
     out[x,y]=tuple(bytes.fromhex(C[18 if rim else 0][1:]))+(255,)
- im.alpha_composite(silhouette,(22+i*43,194))
+ im.alpha_composite(silhouette,(5+i*36,194))
 im.save(A/'backgrounds/title-bg.png')
 p=A/'manifest.json';m=json.loads(p.read_text());m['images']['title-bg']={'file':'backgrounds/title-bg.png'};p.write_text(json.dumps(m,indent=2)+'\n')

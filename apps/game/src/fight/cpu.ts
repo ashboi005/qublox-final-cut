@@ -7,9 +7,14 @@ export function cpuInput(s: FightState, i: 0 | 1, level: 1 | 2 | 3 = 2): number 
   const toward = o.x > f.x ? BTN.RIGHT : BTN.LEFT, away = o.x > f.x ? BTN.LEFT : BTN.RIGHT;
   const dist = Math.abs(o.x - f.x) / SUB;
   let b = 0;
+  // FINAL CUT: the CPU always finishes you (and makes you wait a beat for the drama).
+  if (s.phase === 'finish') return s.winner === i && s.phaseFrames < 150 && s.frame % 20 === 0 ? BTN.DOWN | BTN.SUPER : 0;
   // Block when the opponent is mid-attack and close (more often at higher levels).
   // Defend: block (crouch-block sweeps) when the opponent swings nearby, more reliably at higher levels.
-  if (o.mode === 'attack' && dist < 110 && r < 25 * level) return BTN.BLOCK | (o.move === 'sweep' ? BTN.DOWN : 0);
+  // One decision per attack (hashed on when it started), held for its whole duration after a human-ish reaction
+  // delay. Re-rolling every frame made the CPU mash U, and every fresh press is a parry attempt: it parried far too much.
+  const atk = (Math.imul((s.frame - o.modeFrames) * 7 + i * 131 + 17, 2654435761) >>> 0) % 100;
+  if (o.mode === 'attack' && dist < 110 && o.modeFrames >= 6 - level && atk < 25 * level) return BTN.BLOCK | (o.move === 'sweep' ? BTN.DOWN : 0);
   if (f.mode === 'block' && r < 20) return BTN.LIGHT | BTN.HEAVY;   // tech: throw back out of block pressure
   if (dist > 70) b |= toward; else if (r < 10) b |= away;
   if (r > 95) b |= BTN.UP;

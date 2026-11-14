@@ -135,6 +135,16 @@ R.masterpiece = await g(() => { const s = window.__qublox.scene.getScene('game')
 R.masterpiece.ledge = (await g(() => window.__qublox.scene.getScene('game').pens.getLength())) > pens0;
 await page.keyboard.down('j'); await wait(800); await page.keyboard.up('j'); await wait(200);
 R.indifferent = await g(() => { const s = window.__qublox.scene.getScene('game'); return s.avatar.invulnUntil > s.time.now + 1000; });
+// Tushar: FINE, I'LL DO IT MYSELF recharges everyone and borrows the tagged-out member's ability (Ashwath → HACK).
+await page.goto(BASE + '/?level=ep0-r02&party=ashwath,tushar', { waitUntil: 'networkidle0' });
+await wait(1800); await skipDialogue();
+R.wildcard = await page.evaluate(async () => {
+  const s = window.__qublox.scene.getScene('game');
+  s.avatar.members[0].abilityReadyAt = s.time.now + 9999;
+  s.swap(1); await new Promise(r => setTimeout(r, 400));
+  s.wildcard();
+  return { active: s.avatar.def.id, borrowed: s.wildcardAbility, recharged: s.avatar.members[0].abilityReadyAt <= s.time.now };
+});
 await page.screenshot({ path: process.env.SHOT ?? '/tmp/qublox-sayam.png' });
 console.log(JSON.stringify(R, null, 1));
 console.log(logs.length ? logs.join('\n') : 'no errors');

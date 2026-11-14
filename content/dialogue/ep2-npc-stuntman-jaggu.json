@@ -11,7 +11,12 @@
     {
       "speaker": "tushar",
       "emotion": "happy",
-      "text": "Jaggu Ustaad! The greatest action choreographer in Punjabi cinema history!"
+      "text": "Jaggu Ustaad! The greatest action choreographer in cinema! Real stunts forever!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Real wirework. Heavy impact. Respect. Vajj."
     },
     {
       "speaker": "stuntman-jaggu",

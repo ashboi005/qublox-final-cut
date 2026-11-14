@@ -4,7 +4,7 @@ import type { CrewId } from '@qublox/shared';
 export type AbilityId = 'hack' | 'bribe' | 'penTool' | 'fillBucket' | 'ctrlZ' | 'jumpCut' | 'cut' | 'mindGames' | 'masterpiece';
 export type AttackKind =
   | { type: 'melee'; range: number; height: number; damage: number; hits: number; word: string }
-  | { type: 'ranged'; texture: 'cash' | 'paint' | 'prop'; speed: number; gravity: number; damage: number; word: string };
+  | { type: 'ranged'; texture: 'paint' | 'prop' | 'bubble'; speed: number; gravity: number; damage: number; word: string };
 
 export type CrewDef = {
   id: CrewId; name: string; role: string; className: string; color: number;
@@ -13,7 +13,7 @@ export type CrewDef = {
   ability: AbilityId; abilityName: string; abilityCooldownMs: number;
   catchphrase: string;
   /** Hold-attack special (hold J ~0.55s). */
-  special?: { kind: 'boulder' | 'infoDump' | 'personality' | 'stan' | 'unhinged' | 'indifferent'; name: string; cooldownMs: number };
+  special?: { kind: 'boulder' | 'infoDump' | 'personality' | 'stan' | 'unhinged' | 'indifferent' | 'wildcard'; name: string; cooldownMs: number };
 };
 
 export const CREW: Record<CrewId, CrewDef> = {
@@ -27,8 +27,8 @@ export const CREW: Record<CrewId, CrewDef> = {
   sayam: {
     id: 'sayam', name: 'Sayam', role: 'CEO', className: 'Boss', color: 0x1d7a3a,
     maxHp: 90, runSpeed: 105, jumpVelocity: 255,
-    attack: { type: 'ranged', texture: 'cash', speed: 260, gravity: 0, damage: 7, word: 'LE RE' }, attackCooldownMs: 330,
-    ability: 'bribe', abilityName: 'BRIBE', abilityCooldownMs: 8000, catchphrase: 'Le re.',
+    attack: { type: 'ranged', texture: 'bubble', speed: 250, gravity: 0, damage: 7, word: 'BHAI' }, attackCooldownMs: 330,
+    ability: 'bribe', abilityName: 'SMOOTH TALK', abilityCooldownMs: 8000, catchphrase: 'Le re.',
     special: { kind: 'personality', name: 'BHAI, LISTEN', cooldownMs: 9000 },
   },
   mansukh: {
@@ -59,10 +59,11 @@ export const CREW: Record<CrewId, CrewDef> = {
     special: { kind: 'unhinged', name: 'UNHINGED', cooldownMs: 12000 },
   },
   tushar: {
-    id: 'tushar', name: 'Tushar', role: 'Director + DP', className: 'Controller', color: 0xfecb56,
+    id: 'tushar', name: 'Tushar', role: 'Wandering Generalist', className: 'Wildcard', color: 0xfecb56,
     maxHp: 110, runSpeed: 108, jumpVelocity: 295,
     attack: { type: 'melee', range: 28, height: 20, damage: 10, hits: 1, word: 'BONK' }, attackCooldownMs: 320,
-    ability: 'cut', abilityName: 'CUT!', abilityCooldownMs: 12000, catchphrase: 'I hate monkeys.',
+    ability: 'cut', abilityName: 'CUT!', abilityCooldownMs: 12000, catchphrase: 'Shaanttt hojaaa!',
+    special: { kind: 'wildcard', name: "FINE, I'LL DO IT MYSELF", cooldownMs: 20000 },
   },
   manvi: {
     id: 'manvi', name: 'Manvi', role: 'Creative + Comms', className: 'Psychologist', color: 0xff5a7a,
@@ -79,6 +80,12 @@ export const CREW: Record<CrewId, CrewDef> = {
   },
 };
 
+/** Tushar's FINE, I'LL DO IT MYSELF: how long he runs someone else's job. */
+export const WILDCARD_MS = 8000;
+
+/** Sayam's one-liners: every speech bubble he throws is a different bit of slang. */
+export const SAYAM_WORDS = ['BHAI', 'NO CAP', 'FR FR', 'LE RE', 'BRUH', 'GET A LOAD OF THIS GUY'];
+
 /** Mishthi's improvised projectiles: whatever was lying around, now art. */
 export const MISHTHI_PROPS = ['VASE', 'FAIRY LIGHTS', 'GLUE GUN', 'PICTURE FRAME', 'FAKE PLANT', 'GLITTER', 'MOOD BOARD', 'CANDLE'];
 
@@ -94,6 +101,9 @@ export const isNightOwlHour = (d = new Date()) => d.getHours() >= 1 && d.getHour
 export const STAN_MS = 8000;
 /** Mansukh's "multitasking (unstable)": every swing is a different hobby. */
 export const MANSUKH_WORDS = ['STAB', 'TWEAK', 'NEW TAB', 'GG EZ', 'REMIX'];
+
+/** Party size cap: 4, so story joins (9 crew) never have to push someone out. */
+export const PARTY_MAX = 4;
 
 export const DEFAULT_PARTY: CrewId[] = ['ashwath', 'sayam', 'tushar'];
 export const hex = (n: number) => '#' + n.toString(16).padStart(6, '0');

@@ -79,6 +79,7 @@ const common = (r: Room, name: string, next: string | null) => {
   r.set(54, f, 'M');
   r.fill(60, 1, 61, f - 3, '#').fill(60, f - 2, 61, f, '1');
   r.set(66, f - 4, 'p').set(70, f, 'b').set(73, f - 1, 'h');
+  r.m('@join mishthi ep2-mishthi-joins').m(`@npc 50 ${f} mishthi`);   // Mishthi, props + decor, hiding in wardrobe
   r.set(77, f, 'X');
   r.write();
 }

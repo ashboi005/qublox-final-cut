@@ -7,6 +7,9 @@ C = ['#'+x for x in COLORS]
 ANIMS = [('idle',4,6,True),('run',8,12,True),('jump',2,8,False),('fall',2,6,True),('attack',5,14,False),('ability',6,10,False),('hurt',2,9,False),('ko',4,8,False),('tagin',4,12,False)]
 
 def frame(who, anim, f):
+    if who == 'tushar':
+        from tushar import frame as tushar_frame
+        return tushar_frame(who,anim,f)
     if who == 'mishthi':
         from mishthi import frame as mishthi_frame
         return mishthi_frame(who,anim,f)
@@ -135,6 +138,9 @@ def frame(who, anim, f):
     return im
 
 def build(who):
+    if who == 'tushar':
+        from tushar import build as tushar_build
+        return tushar_build(who)
     if who == 'mishthi':
         from mishthi import build as mishthi_build
         return mishthi_build(who)

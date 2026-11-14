@@ -7,7 +7,7 @@ export type InputFrame = {
   left: boolean; right: boolean; up: boolean; down: boolean;
   jumpHeld: boolean; jumpPressed: boolean;
   attackPressed: boolean; attackHeld: boolean; abilityPressed: boolean;
-  swapTo: 0 | 1 | 2 | null; swapNext: boolean; swapPrev: boolean;
+  swapTo: 0 | 1 | 2 | 3 | null; swapNext: boolean; swapPrev: boolean;
   confirmPressed: boolean;
 };
 
@@ -34,7 +34,7 @@ export class LocalInput implements InputSource {
     this.k = kb.addKeys({
       left: K.A, right: K.D, up: K.W, down: K.S, aLeft: K.LEFT, aRight: K.RIGHT, aUp: K.UP, aDown: K.DOWN,
       jump: K.SPACE, attack: K.J, attack2: K.X, ability: K.K, ability2: K.C,
-      one: K.ONE, two: K.TWO, three: K.THREE, next: K.E, prev: K.Q, enter: K.ENTER, interact: K.F,
+      one: K.ONE, two: K.TWO, three: K.THREE, four: K.FOUR, next: K.E, prev: K.Q, enter: K.ENTER, interact: K.F,
     }, false) as Record<string, Phaser.Input.Keyboard.Key>;
     for (const [name, key] of Object.entries(this.k)) key.on('down', () => this.latched.add(name));
   }
@@ -53,7 +53,7 @@ export class LocalInput implements InputSource {
     f.attackPressed = tap('attack') || tap('attack2');
     f.attackHeld = down('attack') || down('attack2');
     f.abilityPressed = tap('ability') || tap('ability2');
-    f.swapTo = tap('one') ? 0 : tap('two') ? 1 : tap('three') ? 2 : null;
+    f.swapTo = tap('one') ? 0 : tap('two') ? 1 : tap('three') ? 2 : tap('four') ? 3 : null;
     f.swapNext = tap('next');
     f.swapPrev = tap('prev');
     f.confirmPressed = tap('enter') || tap('interact');

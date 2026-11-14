@@ -16,6 +16,7 @@ import { PauseMenu } from './PauseMenu';
 import { Studio } from './Studio';
 import { Credits, type CreditLine } from './Credits';
 import { Achievements, type AchievementText, type TapeText } from './Achievements';
+import { useAccountSync } from './Account';
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }>; sprites?: SpriteSheets };
 type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] }; versus?: { crew?: Partial<Record<CrewId, { win?: string[] }>> }; glossary?: unknown }; barks: Record<string, { barks?: Record<string, string[]> }> };
@@ -25,9 +26,9 @@ type Screen = { kind: 'title' } | { kind: 'story' } | { kind: 'versus' } | { kin
 const EPISODES: Episode[] = [
   { n: 0, name: 'Cold Open', place: 'Qublox HQ', start: 'ep0-r01' },
   { n: 1, name: 'Render Farm', place: 'The Server Towers', start: 'ep1-r01', pool: ['ashwath', 'sayam', 'tushar'], pick: 2, required: ['ashwath'], joiners: ['sehaj', 'manvi'] },
-  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mishthi'], pick: 1, joiners: ['mansukh', 'manya'] },
-  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'mishthi'], pick: 2, joiners: ['brahmansh'] },
-  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'brahmansh', 'mishthi'], pick: 3, joiners: [] },
+  { n: 2, name: 'The Set', place: 'Abandoned Film Studio', start: 'ep2-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi'], pick: 1, joiners: ['mansukh', 'manya', 'mishthi'] },
+  { n: 3, name: 'The Feed', place: 'Infinite-Scroll Tower', start: 'ep3-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'mishthi'], pick: 3, joiners: ['brahmansh'] },
+  { n: 4, name: 'Templatr HQ', place: 'The Beige Monolith', start: 'ep4-r01', pool: ['ashwath', 'sayam', 'tushar', 'sehaj', 'manvi', 'mansukh', 'manya', 'brahmansh', 'mishthi'], pick: 4, joiners: [] },
 ];
 
 /** `direct` = the URL named a level, so skip the title (handy for dev and for agents testing). */
@@ -35,6 +36,8 @@ export default function GameShell({ level, party, direct }: { level: string; par
   const [screen, setScreen] = useState<Screen>(direct ? { kind: 'play', level, party, run: 0 } : { kind: 'title' });
   const [manifest, setManifest] = useState<Manifest>({});
   const [content, setContent] = useState<Content | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  useAccountSync(text => { setNotice(text); window.setTimeout(() => setNotice(n => (n === text ? null : n)), 5000); });
 
   useEffect(() => {
     fetch('/assets/manifest.json').then(r => (r.ok ? r.json() : {})).then(m => setManifest(m as Manifest)).catch(() => {});
@@ -99,13 +102,14 @@ export default function GameShell({ level, party, direct }: { level: string; par
             onCrew={() => setScreen({ kind: 'glossary' })}
           />
         )}
+        {notice && screen.kind !== 'play' && <div className="toast" role="status">{notice}</div>}
       </div>
       {screen.kind !== 'versus' && screen.kind !== 'glossary' && <footer className="legend">
         <span><kbd>A</kbd><kbd>D</kbd> move</span>
         <span><kbd>Space</kbd> jump</span>
         <span><kbd>J</kbd> attack</span>
         <span><kbd>K</kbd> ability</span>
-        <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> / <kbd>Q</kbd><kbd>E</kbd> swap</span>
+        <span><kbd>1</kbd>–<kbd>4</kbd> / <kbd>Q</kbd><kbd>E</kbd> swap</span>
         <span><kbd>F</kbd> talk</span>
         <span><kbd>Esc</kbd> pause</span>
         <span><kbd>M</kbd> mute</span>

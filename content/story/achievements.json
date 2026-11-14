@@ -22,8 +22,8 @@
     },
     {
       "id": "le-re",
-      "name": "Expense Account Abuser",
-      "desc": "Deploy Sayam's Bribe 10 times. Accounting will have severe questions on Monday."
+      "name": "Silver-Tongued CEO",
+      "desc": "Deploy Sayam's SMOOTH TALK 10 times. Talk your way through any barrier."
     },
     {
       "id": "rewind-reflect",
@@ -69,6 +69,76 @@
       "id": "couple-goals",
       "name": "Couple Goals",
       "desc": "Trigger a Couple Move with Sehaj and Manvi. Dhumtanana love shockwave deployed!"
+    },
+    {
+      "id": "night-owl",
+      "name": "Prime Hacking Hours",
+      "desc": "Play while Ashwath's 1–4 AM Night Owl buff is active. Pure tea and Sprite."
+    },
+    {
+      "id": "sprite-fizz",
+      "name": "Crisp Real Metal Can",
+      "desc": "Drink 5 Sprite cans. Real metal only; reject generic carbonated substitutes."
+    },
+    {
+      "id": "stargazer",
+      "name": "Pale Blue Pixel",
+      "desc": "Look through the EP0 balcony telescope. Realize human lifespans are too short."
+    },
+    {
+      "id": "ten-personalities",
+      "name": "Ten in a Leather Jacket",
+      "desc": "Trigger all four of Sayam's BHAI, LISTEN personalities in combat."
+    },
+    {
+      "id": "do-it-myself",
+      "name": "Fine, I'll Do It Myself",
+      "desc": "Use a borrowed crew ability as Tushar during FINE, I'LL DO IT MYSELF."
+    },
+    {
+      "id": "silent-observer",
+      "name": "Silent Observer",
+      "desc": "Spot 5 hidden secrets with Tushar's shiny bracelet glint."
+    },
+    {
+      "id": "light-weight",
+      "name": "Light Weight, Clean Form",
+      "desc": "Shatter a cracked barricade with Sehaj's BEAST MODE boulder throw. Vajj."
+    },
+    {
+      "id": "pep-talk",
+      "name": "Playful Masti Triage",
+      "desc": "Revive a knocked-out crew member using Manvi's psychology cheer."
+    },
+    {
+      "id": "stan-mode",
+      "name": "BABYMONSTER ASA Bias",
+      "desc": "Score 5 knockouts in a single STAN MODE with Mansukh's lightstick blazing."
+    },
+    {
+      "id": "frame-perfect",
+      "name": "240 FPS Precision",
+      "desc": "Land 10 FRAME PERFECT counter-hits with Brahmansh's editor eye."
+    },
+    {
+      "id": "house-of-shakes",
+      "name": "House of Shakes",
+      "desc": "Catch 4+ enemies in a single screen-shaking UNHINGED jump-cut chain."
+    },
+    {
+      "id": "gallery-opening",
+      "name": "Avant-Garde Vernissage",
+      "desc": "Stand atop one of Mishthi's MASTERPIECE framed enemy art installations."
+    },
+    {
+      "id": "as-if-i-care",
+      "name": "As If I Care?",
+      "desc": "Demoralize 5 attacking enemies in one use of Mishthi's dramatic indifference."
+    },
+    {
+      "id": "full-roster",
+      "name": "Nine-Person Production",
+      "desc": "Deploy and fight with all 9 crew members across the campaign."
     }
   ]
 }

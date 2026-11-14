@@ -1,19 +1,18 @@
-import { useEffect, useState } from 'react';
-import type { LeaderboardRow } from '@qublox/shared';
+import { useEffect, useRef, useState } from 'react';
+import type { LeaderboardRow, RunSubmit } from '@qublox/shared';
+import { API, parkRun, postRun, useSession } from '@/game/account';
+import { AccountPanel } from './Account';
 import type { RunResult } from '@/game/bus';
 import { CREW } from '@/game/crew';
 import { fmtTime } from './Hud';
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787';
-const NAME_KEY = 'qublox-player-name';
-
 export function Results({ result, headline, byline, paper, onRetry, onQuit }: { result: RunResult; headline: string | null; byline?: string | null; paper?: string | null; onRetry: () => void; onQuit: () => void }) {
-  const [name, setName] = useState('');
+  const { data: session } = useSession();
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [error, setError] = useState('');
   const [board, setBoard] = useState<LeaderboardRow[] | null>(null);
-
-  useEffect(() => { try { setName(localStorage.getItem(NAME_KEY) ?? ''); } catch { /* private mode */ } }, []);
+  const [signIn, setSignIn] = useState(false);
+  const run: RunSubmit = { episode: result.episode, timeMs: result.timeMs, style: result.style, kos: result.kos, party: result.party };
 
   const loadBoard = async () => {
     try {
@@ -23,24 +22,14 @@ export function Results({ result, headline, byline, paper, onRetry, onQuit }: { 
   };
   useEffect(() => { void loadBoard(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) return;
+  const submit = async () => {
     setState('sending');
-    try { localStorage.setItem(NAME_KEY, name.trim()); } catch { /* ignore */ }
-    try {
-      const r = await fetch(`${API}/runs`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ player: name.trim(), episode: result.episode, timeMs: result.timeMs, style: result.style, kos: result.kos, party: result.party }),
-      });
-      if (!r.ok) throw new Error((await r.text()) || `HTTP ${r.status}`);
-      setState('sent');
-      void loadBoard();
-    } catch (err) {
-      setState('error');
-      setError(err instanceof TypeError ? 'Leaderboard server is offline. Start it with: bun run db:up && bun run dev:server' : String((err as Error).message));
-    }
+    try { await postRun(run); setState('sent'); void loadBoard(); }
+    catch (err) { setState('error'); setError((err as Error).message); }
   };
+  // Signed in from this screen with email: post straight away, that's what they came for.
+  const wanted = useRef(false);
+  useEffect(() => { if (session && wanted.current && state === 'idle') { wanted.current = false; setSignIn(false); void submit(); } }, [session]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="results" role="dialog" aria-label="Episode complete">
@@ -57,14 +46,20 @@ export function Results({ result, headline, byline, paper, onRetry, onQuit }: { 
           <div><dt>KOs</dt><dd>{result.kos}</dd></div>
           <div><dt>Party</dt><dd>{result.party.map(id => CREW[id].name).join(' · ')}</dd></div>
         </dl>
-        <form className="results-form" onSubmit={submit}>
-          <label htmlFor="player-name">Name on the board</label>
-          <div className="results-row">
-            <input id="player-name" value={name} maxLength={24} onChange={e => setName(e.target.value)} placeholder="Your name" disabled={state === 'sending' || state === 'sent'} onKeyDown={e => e.stopPropagation()} />
-            <button type="submit" disabled={!name.trim() || state === 'sending' || state === 'sent'}>{state === 'sent' ? 'Posted' : state === 'sending' ? 'Posting…' : 'Post run'}</button>
-          </div>
+        <div className="results-form">
+          {session ? (
+            <div className="results-row">
+              <button type="button" onClick={() => void submit()} disabled={state === 'sending' || state === 'sent'}>
+                {state === 'sent' ? 'Posted' : state === 'sending' ? 'Posting…' : `Post run as ${session.user.name || session.user.email}`}
+              </button>
+            </div>
+          ) : (
+            <div className="results-row">
+              <button type="button" onClick={() => { wanted.current = true; setSignIn(true); }}>Sign in to post this run</button>
+            </div>
+          )}
           {state === 'error' && <p className="results-error">{error}</p>}
-        </form>
+        </div>
         {board && board.length > 0 && (
           <ol className="results-board">
             {board.map((r, i) => <li key={r.id}><span>{i + 1}</span><b>{r.player}</b><span>{fmtTime(r.timeMs)}</span><span>{r.style.toLocaleString()}</span></li>)}
@@ -75,6 +70,7 @@ export function Results({ result, headline, byline, paper, onRetry, onQuit }: { 
           <button className="results-retry" type="button" onClick={onQuit}>Back to title</button>
         </div>
       </div>
+      {signIn && <AccountPanel reason="Sign in (or make an account) to put this run on the leaderboard. It posts as soon as you're in." beforeRedirect={() => parkRun(run)} onClose={() => { wanted.current = false; setSignIn(false); }} />}
     </div>
   );
 }

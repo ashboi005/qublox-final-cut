@@ -21,7 +21,7 @@
     {
       "speaker": "tushar",
       "emotion": "deadpan",
-      "text": "Hold your marks. Its notification spam has a three-second latency rhythm."
+      "text": "Prabhu, shaanttt hojaaa! Hold your marks. Its notification spam has a 3-second cycle."
     },
     {
       "speaker": "reply-all-mothership",
@@ -29,9 +29,14 @@
       "text": "Automated notice: Per my last email, your saturation has been liquidated."
     },
     {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "I'll hack its relays alone at 2x speed. Minecraft logic: break the root block!"
+    },
+    {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, listen: Ashwath hacks relays, Tushar calls CUT. Time to fire this vendor."
+      "text": "Bhai, listen: Ashwath hacks, Tushar calls CUT. I'll authorize the invoice. Move!"
     }
   ]
 }

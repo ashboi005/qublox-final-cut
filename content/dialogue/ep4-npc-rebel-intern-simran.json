@@ -11,7 +11,7 @@
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, relax. We're here for a hostile takeover. Here's a signing bonus. Le re!"
+      "text": "Bhai, relax. We're here for a hostile takeover. You're promoted to VP. Le re!"
     },
     {
       "speaker": "rebel-intern-simran",
@@ -21,7 +21,12 @@
     {
       "speaker": "ashwath",
       "emotion": "happy",
-      "text": "Diagnosis: zero skill issue here! Three-way swaps overload the buffer. Great intel!"
+      "text": "Diagnosis: zero skill issue here! Four-way swaps overload the buffer. Great intel!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "Here, drink water. You look terrified. As if I care, but don't pass out."
     }
   ]
 }

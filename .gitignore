@@ -14,3 +14,4 @@ tools/e2e/shots/
 
 # Raw voice notes from the crew (drop folder). tools/voice/build.ts encodes them into apps/game/public/voice/.
 voicelines/
+.next-prod/

@@ -28,16 +28,25 @@ export function shake(scene: Phaser.Scene, strength: number) {
 
 const WORD_COLORS = ['#ff2f36', '#fecb56', '#3a6ea5', '#f2f1ec'];
 /** A comic onomatopoeia that pops out and floats away. */
+/** Astra's fx images that carry no lettering: drawn behind the word instead of replacing it. */
+const BACKING = new Set(['fx-counter', 'fx-parry']);
+
 export function wordPop(scene: Phaser.Scene, x: number, y: number, word: string, big = false) {
   // Astra's hand-lettered version wins when it exists (manifest image "fx-<slug>").
   const key = 'fx-' + word.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  if (scene.textures.exists(key)) {
+  if (scene.textures.exists(key) && BACKING.has(key)) {
+    // Wordless burst art (COUNTER's "!!", PARRY's glint): the burst goes behind and the word stays readable.
+    const img = scene.add.image(x, y, key).setDepth(49).setAngle(Phaser.Math.Between(-12, 12)).setScale(big ? 0.6 : 0.4);
+    scene.tweens.add({ targets: img, scale: big ? 1.3 : 1, duration: 90, ease: 'Back.Out' });
+    scene.tweens.add({ targets: img, alpha: 0, scale: big ? 1.5 : 1.2, delay: 220, duration: 300, onComplete: () => img.destroy() });
+  } else if (scene.textures.exists(key)) {
     const img = scene.add.image(x, y, key).setDepth(50).setAngle(Phaser.Math.Between(-10, 10)).setScale(big ? 0.5 : 0.25);
     scene.tweens.add({ targets: img, scale: big ? 1 : 0.75, duration: 90, ease: 'Back.Out' });
     scene.tweens.add({ targets: img, y: y - 16, alpha: 0, delay: 280, duration: 340, onComplete: () => img.destroy() });
     return;
   }
-  const color = WORD_COLORS[Math.floor(Math.random() * WORD_COLORS.length)]!;
+  const backed = scene.textures.exists(key) && BACKING.has(key);
+  const color = backed ? '#f2f1ec' : WORD_COLORS[Math.floor(Math.random() * WORD_COLORS.length)]!;
   const t = scene.add.text(x, y, word, {
     fontFamily: FONT, fontSize: big ? '16px' : '10px', color, stroke: '#0f1014', strokeThickness: 3,
   }).setOrigin(0.5).setDepth(50).setAngle(Phaser.Math.Between(-14, 14)).setScale(0.3);

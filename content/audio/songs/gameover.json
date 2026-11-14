@@ -7,15 +7,16 @@
     "lead": {
       "wave": "sawtooth",
       "volume": 0.12,
-      "attack": 0.035,
+      "attack": 0.006,
       "decay": 0.07,
       "sustain": 0.5,
-      "release": 0.18,
+      "release": 0.055,
       "cutoff": 1100,
       "vibrato": {
         "rate": 4,
         "depth": 20
-      }
+      },
+      "pan": 0.08
     },
     "bass": {
       "wave": "triangle",
@@ -23,7 +24,8 @@
       "attack": 0.003,
       "decay": 0.035,
       "sustain": 0.65,
-      "release": 0.035
+      "release": 0.045,
+      "pan": 0
     },
     "pad": {
       "wave": "sawtooth",
@@ -32,8 +34,8 @@
       "decay": 0.08,
       "sustain": 0.35,
       "release": 0.12,
-      "cutoff": 900,
-      "pan": -0.3
+      "cutoff": 700,
+      "pan": -0.22
     },
     "kick": {
       "wave": "kick",
@@ -42,12 +44,13 @@
     "snare": {
       "wave": "snare",
       "volume": 0.16,
-      "pan": -0.08
+      "pan": -0.12
     },
     "hat": {
       "wave": "hat",
-      "volume": 0.055,
-      "pan": 0.25
+      "volume": 0.05,
+      "pan": 0.28,
+      "cutoff": 6500
     }
   },
   "patterns": {

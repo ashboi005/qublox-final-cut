@@ -1,9 +1,11 @@
 // VERSUS lobby: mode (vs CPU / local 2P / online room) → character select → fight → result.
 // Online: create a room, read the 4-letter code to your friend, they join, you both pick and ready up.
+import { matchLine } from '@/fight/lines';
 import { useEffect, useRef, useState } from 'react';
 import { CREW_IDS, type CrewId } from '@qublox/shared';
 import { MOVESETS, moveList, type LobbyPlayer } from '@qublox/shared/fight';
 import { bus } from '@/game/bus';
+import { useSession } from '@/game/account';
 import { CREW, hex } from '@/game/crew';
 import { speak } from '@/game/voice';
 import type { Portraits } from './DialogueBox';
@@ -18,6 +20,9 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
   const [step, setStep] = useState<'menu' | 'select' | 'fight' | 'result'>('menu');
   const [mode, setMode] = useState<Mode>('cpu');
   const [name, setName] = useState(loadName);
+  // Signed in and never typed a name: use the account's.
+  const { data: session } = useSession();
+  useEffect(() => { if (!name.trim() && session?.user.name) setName(session.user.name.slice(0, 16)); }, [session?.user.name]); // eslint-disable-line react-hooks/exhaustive-deps
   const [code, setCode] = useState('');
   const [msg, setMsg] = useState<string | null>(null);
   const [picks, setPicks] = useState<[CrewId | null, CrewId | null]>([null, null]);
@@ -25,6 +30,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
   const [lobby, setLobby] = useState<Lobby | null>(null);
   const [match, setMatch] = useState<Match | null>(null);
   const matchRef = useRef<Match | null>(null);
+  const [finisher, setFinisher] = useState<string | null>(null);
   matchRef.current = match;
   const [winner, setWinner] = useState<0 | 1 | null>(null);
   const sock = useRef<import('@/fight/net').VersusSocket | null>(null);
@@ -73,7 +79,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
   }, [step, mode, cursor]);
   useEffect(() => { if (step === 'select' && mode !== 'online' && picks[0] && picks[1]) { const t = setTimeout(() => go([picks[0]!, picks[1]!]), 600); return () => clearTimeout(t); } }, [picks, step, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => bus.on('versusEnd', ({ winner: w, reason }) => { setWinner(w); if (w !== null && matchRef.current) speak(matchRef.current.crews[w], 'win'); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug; tell Claude.'); setStep('result'); }), []);
+  useEffect(() => bus.on('versusEnd', ({ winner: w, reason, finisher: fin }) => { setWinner(w); setFinisher(fin ?? null); if (w !== null && matchRef.current) speak(matchRef.current.crews[w], 'win'); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug; tell Claude.'); setStep('result'); }), []);
 
   const face = (id: CrewId) => {
     const p = portraits[id];
@@ -91,7 +97,8 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
         <div className="studio-eyebrow">VERSUS · FINAL CUT</div>
         <h2>{w === null ? 'Draw.' : `${match.names[w]} wins`}</h2>
         {w !== null && <p className="versus-sub">as <b style={{ color: hex(CREW[match.crews[w]].color) }}>{CREW[match.crews[w]].name}</b></p>}
-        {w !== null && (winLines[match.crews[w]]?.length ?? 0) > 0 && <p className="versus-quote">“{winLines[match.crews[w]]![match.seed % winLines[match.crews[w]]!.length]}”</p>}
+        {finisher && <p className="versus-finisher">FINAL CUT · {finisher}</p>}
+        {w !== null && (() => { const q = matchLine(winLines[match.crews[w]], match.crews[w], match.crews[w === 0 ? 1 : 0], match.seed); return q && <p className="versus-quote">“{q}”</p>; })()}
         {msg && <p className="versus-msg">{msg}</p>}
         <div className="studio-actions">
           <button type="button" onClick={() => { if (mode === 'online') { sock.current?.send({ t: 'rematch' }); setStep('select'); } else go(match.crews); }}>Rematch</button>
@@ -153,7 +160,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
       <div className="studio-head">
         <div className="studio-eyebrow">QUBLOX: FINAL CUT · VERSUS</div>
         <h2>1v1. Settle it.</h2>
-        <p>Light <kbd>J</kbd> · heavy <kbd>K</kbd> · special <kbd>L</kbd> · super <kbd>I</kbd> (full meter) · block by holding <b>back</b>. First to 2 rounds.</p>
+        <p>Light <kbd>J</kbd> · heavy <kbd>K</kbd> · special <kbd>L</kbd> · super <kbd>I</kbd> (full meter) · block <kbd>U</kbd> (tap it just before a hit to parry). First to 2 rounds.</p>
       </div>
       <div className="versus-menu">
         <label className="versus-field">Your name<input value={name} maxLength={16} placeholder="Player" onChange={e => setName(e.target.value)} /></label>

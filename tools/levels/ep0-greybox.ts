@@ -29,7 +29,7 @@ const header = [
   '@tileset hq',
   '@dialogue ep0-cold-open',
   '@hint 4 12 A/D walk. SPACE jump. J slap. K do your job.',
-  '@hint 14 12 1/2/3 swaps crew. Physics preserves momentum!',
+  '@hint 14 12 1-4 swaps crew. Physics preserves momentum!',
   '@hint 20 10 Overwhelmed? Sayam: Expense them away with (K).',
   '@hint 43 12 Locked door? Ashwath: Sudo hack terminal (K).',
   '@hint 77 12 Ape panic! Tushar: CUT (K) freezes all frames.',

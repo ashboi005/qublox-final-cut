@@ -10,7 +10,8 @@ function bot(s: FightState, i: 0 | 1, salt: number): number {
   let b = 0;
   const toward = o.x > f.x ? BTN.RIGHT : BTN.LEFT, away = o.x > f.x ? BTN.LEFT : BTN.RIGHT;
   const dist = Math.abs(o.x - f.x) / 16;
-  if (o.mode === 'attack' && dist < 90 && r < 35) return BTN.BLOCK | (r < 12 ? BTN.DOWN : 0);
+  const atk = (Math.imul((s.frame - o.modeFrames) + salt, 2654435761) >>> 0) % 100;   // one decision per attack
+  if (o.mode === 'attack' && dist < 90 && o.modeFrames >= 3 && atk < 45) return BTN.BLOCK | (atk < 12 ? BTN.DOWN : 0);
   if (dist > 60) b |= toward; else if (r < 15) b |= away;
   if (r > 92) b |= BTN.UP;
   if (s.frame % 7 === 0) b |= r < 30 ? BTN.LIGHT : r < 45 ? BTN.HEAVY : r < 55 ? (BTN.DOWN | BTN.HEAVY) : r < 62 ? (toward | BTN.HEAVY) : r < 68 ? (BTN.LIGHT | BTN.HEAVY) : r < 85 ? BTN.SPECIAL : 0;
@@ -76,6 +77,36 @@ for (const p1 of CREW_IDS) for (const p2 of CREW_IDS) if (p1 !== p2) { const r =
 console.log('bot-vs-bot wins (rough balance read):', Object.entries(wins).sort((x, y) => y[1] - x[1]).map(([k, v]) => `${k} ${v}`).join(' · '));
 for (const sl of ['light2', 'light3', 'sweep', 'overhead', 'airLight', 'airHeavy', 'throw']) if (!slots.has(sl)) { console.log(`never used: ${sl}`); fail++; }
 for (const md of ['down', 'blockstun']) if (!modes.has(md)) { console.log(`never reached: ${md}`); fail++; }
+// New rules: special cooldown, U-only block, FINAL CUT finisher.
+{
+  const t = createFight('sayam', 'ashwath', 5);
+  for (let k = 0; k < 95; k++) step(t, [0, 0]);   // past the intro
+  step(t, [BTN.SPECIAL, 0]); const first = t.fighters[0].move;
+  for (let k = 0; k < 40; k++) step(t, [0, 0]);
+  step(t, [BTN.SPECIAL, 0]); const second = t.fighters[0].move;
+  console.log(`special cooldown: ${first === 'special' && second !== 'special' ? 'OK' : 'FAIL'}`); if (!(first === 'special' && second !== 'special')) fail++;
+  const u = createFight('ashwath', 'sehaj', 6);
+  for (let k = 0; k < 95; k++) step(u, [0, 0]);
+  const x0 = u.fighters[0].x; for (let k = 0; k < 20; k++) step(u, [BTN.LEFT, 0]);
+  const walked = u.fighters[0].x < x0 && u.fighters[0].mode === 'walk';
+  console.log(`hold back walks: ${walked ? 'OK' : 'FAIL'}`); if (!walked) fail++;
+  // Holding back never guards; U does.
+  const g = createFight('ashwath', 'sehaj', 8);
+  for (let k = 0; k < 95; k++) step(g, [0, 0]);
+  g.fighters[0].x = g.fighters[1].x - 40 * 16; g.fighters[0].facing = 1;
+  let backGuarded = false, uGuarded = false;
+  for (let k = 0; k < 30; k++) { step(g, [BTN.LEFT, k === 0 ? BTN.HEAVY : 0]); if (g.events?.some?.((e: { type: string; blocked?: boolean }) => e.type === 'hit' && e.blocked)) backGuarded = true; }
+  const h = createFight('ashwath', 'sehaj', 8);
+  for (let k = 0; k < 95; k++) step(h, [0, 0]);
+  h.fighters[0].x = h.fighters[1].x - 40 * 16; h.fighters[0].facing = 1;
+  for (let k = 0; k < 30; k++) { step(h, [BTN.BLOCK, k === 0 ? BTN.HEAVY : 0]); if (h.events?.some?.((e: { type: string; blocked?: boolean }) => e.type === 'hit' && e.blocked)) uGuarded = true; }
+  console.log(`block is U only: ${!backGuarded && uGuarded ? 'OK' : 'FAIL'} (back ${backGuarded}, U ${uGuarded})`); if (backGuarded || !uGuarded) fail++;
+  const v = createFight('tushar', 'manvi', 7);
+  for (let n = 0; n < 60 * 60 * 6 && v.phase !== 'finish' && v.phase !== 'matchEnd'; n++) { step(v, [BTN.RIGHT | (n % 9 === 0 ? BTN.LIGHT : 0), 0]); v.fighters[1].hp = Math.min(v.fighters[1].hp, 30); }
+  let fin = false;
+  if (v.phase === 'finish') { const w = v.winner!; const inp: [number, number] = [0, 0]; inp[w] = BTN.DOWN | BTN.SUPER; step(v, inp); for (let k = 0; k < 400 && v.phase !== 'matchEnd'; k++) step(v, [0, 0]); fin = v.finisher === w && v.phase === 'matchEnd'; }
+  console.log(`FINAL CUT finisher: ${fin ? 'OK' : 'FAIL'} (phase ${v.phase})`); if (!fin) fail++;
+}
 console.log('seen hit words:', ['PARRY', 'GUARD BREAK', 'LOW!', 'OVERHEAD!', 'THROWN', 'BLOCK'].map(w => `${w} ${words.has(w) ? '✓' : '·'}`).join('  '));
 console.log(fail ? `${fail} problem(s)` : 'all good');
 process.exit(fail ? 1 : 0);

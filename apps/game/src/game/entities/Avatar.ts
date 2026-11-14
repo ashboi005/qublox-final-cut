@@ -1,10 +1,13 @@
-// The player: one physics body, three crew members. Swapping changes who's "wearing" it,
+// The player: one physics body, up to four crew members (PARTY_MAX). Swapping changes who's "wearing" it,
 // so momentum carries through a swap for free.
 import * as Phaser from 'phaser';
 import type { CrewId } from '@qublox/shared';
 import { animKey, SPRITES } from '../assets/art';
 import { CREW, type CrewDef } from '../crew';
 import type { InputFrame } from '../input/InputSource';
+
+export { PARTY_MAX } from '../crew';
+import { PARTY_MAX } from '../crew';
 
 export type Member = { def: CrewDef; hp: number; ko: boolean; abilityReadyAt: number; attackReadyAt: number };
 type Snapshot = { t: number; x: number; y: number; hp: number };
@@ -56,7 +59,7 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
   get member() { return this.members[this.slot]!; }
 
   addMember(id: CrewId) {
-    if (this.members.some(m => m.def.id === id) || this.members.length >= 3) return false;
+    if (this.members.some(m => m.def.id === id) || this.members.length >= PARTY_MAX) return false;
     this.members.push({ def: CREW[id], hp: CREW[id].maxHp, ko: false, abilityReadyAt: 0, attackReadyAt: 0 });
     return true;
   }

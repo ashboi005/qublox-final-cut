@@ -11,12 +11,17 @@
     {
       "speaker": "tushar",
       "emotion": "angry",
-      "text": "CUT! Freeze the nozzles before our color profiles corrupt!"
+      "text": "Shaanttt hojaaa! Hit CUT! Freeze the nozzles before our color profiles corrupt!"
     },
     {
       "speaker": "manya",
       "emotion": "happy",
       "text": "Paint the foam yellow! Turn their sanitizer into trampolines!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "Oh my god wtf bhai. Neutral foam? I'm turning it into installation sculptures."
     }
   ]
 }

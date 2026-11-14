@@ -182,8 +182,9 @@ export const TILE = { ONEWAY_L: 9, ONEWAY_M: 10, ONEWAY_R: 11, HAZARD: 12 } as c
 function makeProps(scene: Phaser.Scene) {
   // Mishthi's improvised prop (placeholder: a little vase with a flower), until Astra draws the real ones.
   canvasTex(scene, 'prop', 12, 12, c => { c.fillStyle = INK; c.fillRect(3, 4, 6, 8); c.fillStyle = '#e8c26a'; c.fillRect(4, 5, 4, 6); c.fillStyle = '#9a3050'; c.fillRect(5, 0, 2, 4); c.fillStyle = '#ff5a7a'; c.fillRect(4, 0, 4, 2); });
-  canvasTex(scene, 'cash', 12, 8, c => { c.fillStyle = INK; c.fillRect(0, 0, 12, 8); c.fillStyle = '#4fbf6a'; c.fillRect(1, 1, 10, 6); c.fillStyle = INK; c.fillRect(5, 3, 2, 2); });
-  canvasTex(scene, 'money-bag', 14, 16, c => { c.fillStyle = INK; c.fillRect(1, 3, 12, 13); c.fillStyle = '#c9a24a'; c.fillRect(2, 4, 10, 11); c.fillStyle = INK; c.fillText('$', 4, 13); c.fillRect(5, 0, 4, 4); });
+  // Sayam: a speech bubble (his attack) and a hype speaker (SMOOTH TALK), until Astra draws them.
+  canvasTex(scene, 'bubble', 14, 10, c => { c.fillStyle = INK; c.fillRect(0, 0, 14, 8); c.fillRect(3, 8, 3, 2); c.fillStyle = '#f2f1ec'; c.fillRect(1, 1, 12, 6); c.fillRect(4, 7, 1, 2); c.fillStyle = '#1d7a3a'; c.fillRect(3, 3, 2, 2); c.fillRect(6, 3, 2, 2); c.fillRect(9, 3, 2, 2); });
+  canvasTex(scene, 'hype-speaker', 14, 16, c => { c.fillStyle = INK; c.fillRect(1, 1, 12, 15); c.fillStyle = '#1d7a3a'; c.fillRect(2, 2, 10, 13); c.fillStyle = INK; c.fillRect(4, 4, 6, 4); c.fillRect(5, 10, 4, 4); c.fillStyle = '#f2f1ec'; c.fillRect(6, 5, 2, 2); });
   canvasTex(scene, 'paint', 8, 8, c => { c.fillStyle = '#d63a8f'; c.beginPath(); c.arc(4, 4, 4, 0, Math.PI * 2); c.fill(); });
   if (!scene.textures.exists('door')) {
     canvasTex(scene, 'door', 32, 32, c => {

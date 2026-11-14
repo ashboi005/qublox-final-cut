@@ -11,12 +11,22 @@
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "It's trying to round her smile into an approved corporate emoji!"
+      "text": "Dost, it's trying to round her smile into an approved corporate emoji!"
     },
     {
       "speaker": "mansukh",
-      "emotion": "angry",
-      "text": "Hack it, Ashwath! Lightstick blazing, I'm drawing vector walls over the art!"
+      "emotion": "smug",
+      "text": "Wait... what if I made a roguelike about this? No! Closing the tab! Locking in!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "happy",
+      "text": "Zero procrastination today! I'm actually finishing the master vector override!"
+    },
+    {
+      "speaker": "manya",
+      "emotion": "happy",
+      "text": "Mansukh finished a file?! A literal miracle! Splashing neon to cover him!"
     }
   ]
 }

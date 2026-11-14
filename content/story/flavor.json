@@ -59,8 +59,8 @@
     },
     {
       "id": "cash-wad",
-      "name": "Sayam's Cash Roll",
-      "desc": "Increases Sayam's Bribe attraction duration by 3 seconds."
+      "name": "Sayam's Megaphone",
+      "desc": "Increases Sayam's Smooth Talk attraction duration by 3 seconds."
     }
   ],
   "places": [
@@ -94,7 +94,7 @@
     "THINK INSIDE THE BOX",
     "MAKE IT BEIGE™",
     "FRICTION IS CANCELLED",
-    "SAYAM PAYS CASH",
+    "SAYAM HAS THE MIC",
     "OYEE PAGALLL!",
     "UNIFIED TEMPLATES ONLY",
     "CHAI > CLOUD COMPUTE",
@@ -115,7 +115,7 @@
     "CUTTING CHAI 50 CR",
     "AI REPLACES TASTE",
     "JUMP CUT THE FEED",
-    "LE RE! TAKE THE MONEY",
+    "LE RE! HEAR THE PITCH",
     "MAXIMALIST OR DIE",
     "RENDER AT 99% FOREVER",
     "DO NOT HIT REPLY ALL",

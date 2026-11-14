@@ -1,0 +1,57 @@
+{
+  "id": "ep2-mishthi-joins",
+  "episode": 2,
+  "trigger": "Plays when clearing Room 04 (Chroma Key Dressing Rooms) and finding Mishthi in wardrobe.",
+  "lines": [
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "The void is calling. And honestly? It's horribly, aggressively beige."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "shocked",
+      "text": "Mishthi?! What did you do to that pile of corporate mannequin torsos?!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "smug",
+      "text": "It's called 'Intern, Startled'. A commentary on soul-crushing corporate dread."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Dost, she turned BEIGE's security shields into modern gallery art!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "shocked",
+      "text": "Oh my god wtf bhai, took you long enough! Did you run through a swamp, crew?!"
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Bhai, we fought a buffering wheel and two server meltdowns. How are you alive?"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care? I just turned their lasers into gallery lighting. Dam bhai."
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "neutral",
+      "text": "Here, drink water. You all look tragic. I'm joining before you pass out."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Yippieeee! Mishthi is in! See? Deep down, she loves us! Total denial!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care, Manvi. Now let me turn that suburban family into an installation."
+    }
+  ]
+}

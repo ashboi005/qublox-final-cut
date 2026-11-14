@@ -4,8 +4,8 @@ import { synth } from '../audio/synth';
 import { achievements } from '../achievements';
 import { animKey, TILE } from '../assets/art';
 import { bus, type HudState } from '../bus';
-import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_WORDS, MISHTHI_PROPS, partnerOf, STAN_MS } from '../crew';
-import { Avatar } from '../entities/Avatar';
+import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_WORDS, MISHTHI_PROPS, SAYAM_WORDS, partnerOf, STAN_MS, WILDCARD_MS, type AbilityId } from '../crew';
+import { Avatar, PARTY_MAX } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
 import { bark, FONT, fx, hitstop, shake, sparks, wordPop } from '../fx/juice';
@@ -104,7 +104,7 @@ export class GameScene extends Phaser.Scene {
   private lastBark = 0;
   private coupleReadyAt = 0;
   private nightOwl = false;
-  private stillSince = 0; private cosmicDone = false; private personalityIdx = Math.floor(Math.random() * 4); private swings = 0; private songId = ''; private annoyedUntil = 0; private recentHits: number[] = [];
+  private stillSince = 0; private cosmicDone = false; private personalityIdx = Math.floor(Math.random() * 4); private swings = 0; private stanKills = 0; private songId = ''; private annoyedUntil = 0; private recentHits: number[] = []; private wildcardUntil = 0; private nextObserve = 0; private secrets: Phaser.GameObjects.Sprite[] = []; private wildcardAbility: AbilityId | null = null; private borrowedCooldown = 0; private lastOut: CrewId | null = null; private observed = false;
   /** MENTOR'S AURA: with Ashwath (conscious) in the party, everyone learns faster: abilities recharge 10% sooner. NIGHT OWL: Ashwath's own recharge −25% at 1–4 AM. */
   private cooldownScale(id: string) {
     const mentor = this.avatar.members.some(m => m.def.id === 'ashwath' && !m.ko) ? 0.9 : 1;
@@ -122,7 +122,7 @@ export class GameScene extends Phaser.Scene {
     this.explicitParty = data.party?.length ? data.party : null;
     if (data.party?.length) this.party = data.party;
     this.carry = data.carry ?? null;
-    this.cracked = []; this.specialReadyAt = {}; this.holdStart = 0;
+    this.cracked = []; this.specialReadyAt = {}; this.holdStart = 0; this.secrets = []; this.observed = false; this.wildcardUntil = 0; this.wildcardAbility = null; this.nextObserve = 0;
     this.switches = []; this.terminals = []; this.fans = []; this.npcs = []; this.triggers = [];
     this.vents = []; this.crumbly = []; this.winds = []; this.wave = 0; this.waveTimer = null;
     this.blocks = []; this.mirrors = []; this.booms = []; this.echoes = []; this.mortars = []; this.scrollY = Infinity; this.scrollRect = null;
@@ -163,7 +163,7 @@ export class GameScene extends Phaser.Scene {
 
     // Party: carried from the last room, else @party, else the URL/default.
     // Party precedence: carried from the last room > picked in the Studio / URL > @party > default.
-    const party = (this.carry?.members.map(m => m.id) ?? this.explicitParty ?? (this.level.party?.filter(isCrewId) as CrewId[] | undefined) ?? DEFAULT_PARTY).slice(0, 3);
+    const party = (this.carry?.members.map(m => m.id) ?? this.explicitParty ?? (this.level.party?.filter(isCrewId) as CrewId[] | undefined) ?? DEFAULT_PARTY).slice(0, PARTY_MAX);
     this.party = party.length ? party : DEFAULT_PARTY;
 
     const at = (tx: number, ty: number) => ({ x: tx * T + T / 2, y: ty * T + T });
@@ -231,7 +231,7 @@ export class GameScene extends Phaser.Scene {
       if ((tile as Phaser.Tilemaps.Tile).index === TILE.HAZARD) this.hurtPlayer(15, this.avatar.x + 1, null, true);
     });
     this.physics.add.collider(this.avatar, this.blockers);
-    this.physics.add.collider(this.avatar, this.pens);
+    this.physics.add.collider(this.avatar, this.pens, (_a, p) => { if ((p as Phaser.GameObjects.GameObject).getData('art')) achievements.unlock('gallery-opening'); });
     this.physics.add.collider(this.avatar, this.platforms);
     this.physics.add.collider(this.avatar, this.blockGroup, (_a, b) => this.touchBlock(b as Phaser.Physics.Arcade.Image));
     this.physics.add.collider(this.enemies, this.blockGroup);
@@ -275,7 +275,7 @@ export class GameScene extends Phaser.Scene {
     this.nightOwl = isNightOwlHour();
     if (this.nightOwl && this.avatar.members.some(m => m.def.id === 'ashwath') && !nightOwlToasted) {
       nightOwlToasted = true;
-      this.time.delayedCall(4000, () => { bus.emit('toast', { text: '🦉 NIGHT OWL: it\'s between 1 and 4 AM. Ashwath hits 25% harder and recharges 25% faster.' }); this.say('nightowl', true); });
+      this.time.delayedCall(4000, () => { bus.emit('toast', { text: '🦉 NIGHT OWL: it\'s between 1 and 4 AM. Ashwath hits 25% harder and recharges 25% faster.' }); this.say('nightowl', true); achievements.unlock('night-owl'); });
     }
     // "Previously on QUBLOX…": once per session, on an episode's first room.
     const prev = `ep${this.level.episode}-previously`;
@@ -311,7 +311,7 @@ export class GameScene extends Phaser.Scene {
       const sp = this.avatar.def.special;
       if (sp && !this.holdFired && time - this.holdStart > 550) {
         this.holdFired = true;
-        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else if (sp.kind === 'personality') this.personality(); else if (sp.kind === 'stan') this.stanMode(); else if (sp.kind === 'unhinged') this.unhinged(); else if (sp.kind === 'indifferent') this.asIfICare(); else this.infoDump(); }
+        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else if (sp.kind === 'personality') this.personality(); else if (sp.kind === 'stan') this.stanMode(); else if (sp.kind === 'unhinged') this.unhinged(); else if (sp.kind === 'indifferent') this.asIfICare(); else if (sp.kind === 'wildcard') this.wildcard(); else this.infoDump(); }
         else wordPop(this, this.avatar.x, this.avatar.y - 50, 'STILL SORE');
       }
     } else { this.holdStart = 0; this.holdFired = false; }
@@ -348,6 +348,7 @@ export class GameScene extends Phaser.Scene {
     this.updateHazards(time, delta);
     this.updateConfusion(time);
     this.updateCosmic(time);
+    this.silentObserver(time);
     this.updateSet(time, delta);
     this.updateFeed(time, delta);
     if (!busy) this.checkTriggers();
@@ -366,6 +367,7 @@ export class GameScene extends Phaser.Scene {
     const prev = this.avatar.def.id;
     if (i < 0 || !this.avatar.swapTo(i)) return;
     const id = this.avatar.def.id, now = this.time.now;
+    achievements.collect('played', id, Object.keys(CREW), 'full-roster');
     this.specialHint();
     if (partnerOf(prev) === id && now >= this.coupleReadyAt) { this.coupleMove(prev, id); return; }
     fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 22, 19);
@@ -382,6 +384,7 @@ export class GameScene extends Phaser.Scene {
     if (id === 'tushar') this.cameras.main.flash(80, 255, 255, 255);
     if (id === 'mansukh') this.ragebait(now);
     if (id === 'mishthi') this.secretlyCaring(prev);
+    if (prev !== id) this.lastOut = prev;
     this.style.gain(`${id}:tagin`, hits ? 12 : 4, now);
   }
 
@@ -412,7 +415,7 @@ export class GameScene extends Phaser.Scene {
           // Brahmansh's ATTENTION TO DETAIL: catch an enemy mid wind-up and it's a FRAME PERFECT double hit.
           const fp = def.id === 'brahmansh' && e instanceof Enemy && e.mode === 'telegraph';
           const dmg = atk.damage * dmgMult * (fp ? 2 : 1);
-          if (e.hit(dmg, a.x)) { this.onHit(e, fp ? 'FRAME PERFECT' : atk.word, `${def.id}:attack`, dmg); if (fp) { this.style.gain('brahmansh:frame', 6, this.time.now); if (Math.random() < 0.4) this.say('frame'); } }
+          if (e.hit(dmg, a.x)) { this.onHit(e, fp ? 'FRAME PERFECT' : atk.word, `${def.id}:attack`, dmg); if (fp) { achievements.count('frame'); this.style.gain('brahmansh:frame', 6, this.time.now); if (Math.random() < 0.4) this.say('frame'); } }
           else this.overloadShield(e, `${def.id}:attack`);
         }
         for (const m of this.mirrors) if (m.hp > 0 && Phaser.Geom.Intersects.RectangleToRectangle(zone, m.spr.getBounds())) this.hitMirror(m, atk.damage * dmgMult);
@@ -420,14 +423,13 @@ export class GameScene extends Phaser.Scene {
     } else {
       const tex = atk.texture === 'paint' && this.textures.exists('paint-glob') ? 'paint-glob' : atk.texture;
       const s = this.shots.create(a.x + a.facing * 10, a.y - 24, tex) as Phaser.Physics.Arcade.Sprite;
-      const word = def.id === 'mishthi' ? MISHTHI_PROPS[this.swings++ % MISHTHI_PROPS.length]! : atk.word;
+      const word = def.id === 'mishthi' ? MISHTHI_PROPS[this.swings++ % MISHTHI_PROPS.length]! : def.id === 'sayam' ? SAYAM_WORDS[this.swings++ % SAYAM_WORDS.length]! : atk.word;
       s.setData({ owner: def.id, damage: atk.damage * dmgMult, word, kind: atk.texture }).setDepth(15);
       const body = s.body as Phaser.Physics.Arcade.Body;
       body.setAllowGravity(atk.gravity > 0).setGravityY(atk.gravity - this.physics.world.gravity.y);
       body.setVelocity(a.facing * atk.speed, atk.gravity > 0 ? -170 : 0);
       const spin = `${tex}:idle`;
       if (this.anims.exists(spin)) s.play(spin);
-      else if (atk.texture === 'cash') this.tweens.add({ targets: s, angle: 360 * a.facing, duration: 300, repeat: -1 });
       this.time.delayedCall(1400, () => s.active && s.destroy());
     }
   }
@@ -454,8 +456,10 @@ export class GameScene extends Phaser.Scene {
     this.style.addScore(damage * 10);
     if (!e.alive) {
       this.style.addScore(e instanceof BossBase ? 5000 : 250);
+      if (this.avatar.def.id === 'mansukh' && this.time.now < this.avatar.stanUntil && ++this.stanKills >= 5) achievements.unlock('stan-mode');
       const cleared = e instanceof BossBase || (this.liveEnemies().length === 0 && !this.boss?.alive);
       if (cleared && this.voice('clear')) { /* the real line said it */ }
+      else if (this.voice('kill')) { /* recorded lines get first dibs on kills (rate-limited in voice.ts) */ }
       else if (Math.random() < 0.4) this.say(this.avatar.def.id === 'ashwath' && Math.random() < 0.5 ? 'crit' : 'kill');
     }
     if (!e.alive && e instanceof Enemy && e.kind === 'pop-up-ad' && this.level.popupsSpawn) {
@@ -473,6 +477,8 @@ export class GameScene extends Phaser.Scene {
     if (now < a.invulnUntil || this.finished || this.leaving) return;
     const m = a.member;
     const wasOk = m.hp >= m.def.maxHp * 0.3;
+    // Tushar's side effect: running everyone's job means taking everyone's hits a bit harder.
+    if (m.def.id === 'tushar' && now < this.wildcardUntil) amount = Math.round(amount * 1.25);
     m.hp = Math.max(0, m.hp - amount);
     if (wasOk && m.hp > 0 && m.hp < m.def.maxHp * 0.3) this.say('low', true);
     a.invulnUntil = now + 900;
@@ -519,15 +525,20 @@ export class GameScene extends Phaser.Scene {
   private ability() {
     const a = this.avatar, m = a.member, now = this.time.now;
     if (now < m.abilityReadyAt) { wordPop(this, a.x, a.y - 50, m.def.id === 'sehaj' ? 'RENDERING…' : 'COOLDOWN'); if (m.def.id === 'sehaj') this.say('render'); return; }
+    // FINE, I'LL DO IT MYSELF: while it's running, Tushar's K is the borrowed job (at half its usual cooldown).
+    const borrowed = m.def.id === 'tushar' && now < this.wildcardUntil ? this.wildcardAbility : null;
+    const abilityId: AbilityId = borrowed ?? m.def.ability;
+    if (borrowed) achievements.unlock('do-it-myself');
     const used = ({
       hack: () => this.hack(), bribe: () => this.bribe(), penTool: () => this.penTool(), fillBucket: () => this.fill(),
       ctrlZ: () => this.ctrlZ(), jumpCut: () => this.jumpCut(), cut: () => this.cut(), mindGames: () => this.mindGames(),
       masterpiece: () => this.masterpiece(),
-    } as const)[m.def.ability]();
+    } as const)[abilityId]();
     if (!used) { m.abilityReadyAt = now + 400; return; }
-    m.abilityReadyAt = now + m.def.abilityCooldownMs * this.cooldownScale(m.def.id);
+    m.abilityReadyAt = now + (borrowed ? this.borrowedCooldown / 2 : m.def.abilityCooldownMs) * this.cooldownScale(m.def.id);
     a.doAction('ability', Math.min(450, a.animMs('ability', 300)));
-    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut', mindGames: 'mind', masterpiece: 'pen' } as const)[m.def.ability]}`);
+    this.voice('ability');
+    synth.sfx(`ability-${({ hack: 'hack', bribe: 'bribe', penTool: 'pen', fillBucket: 'fill', ctrlZ: 'ctrlz', jumpCut: 'jumpcut', cut: 'cut', mindGames: 'mind', masterpiece: 'pen' } as const)[abilityId]}`);
     synth.sfx('ability');
     this.style.gain(`${m.def.id}:ability`, 10, now);
     this.say('ability');
@@ -574,6 +585,7 @@ export class GameScene extends Phaser.Scene {
       for (const w of this.cracked) this.physics.add.overlap(rock, w, () => {
         if (!w.active) return;
         wordPop(this, w.x, w.y - 36, 'CRUNCH', true); sparks(this, w.x, w.y - 16, 20);
+        achievements.unlock('light-weight');
         w.destroy(); this.cracked = this.cracked.filter(x => x !== w); smash();
       });
       this.physics.add.collider(rock, this.blockers);
@@ -615,6 +627,7 @@ export class GameScene extends Phaser.Scene {
   private personality() {
     const a = this.avatar, now = this.time.now;
     const k = this.personalityIdx++ % 4;
+    achievements.collect('personalities', String(k), ['0', '1', '2', '3'], 'ten-personalities');
     a.doAction(this.anims.exists(animKey('sayam', 'bhai')) ? 'bhai' : 'ability', 500);
     wordPop(this, a.x, a.y - 76, `PERSONALITY #${[3, 7, 1, 9][k]} OF 10`);
     this.style.gain('sayam:personality', 12, now);
@@ -647,7 +660,7 @@ export class GameScene extends Phaser.Scene {
   /** Mansukh: the BABYMONSTER playlist comes on in his headphones. Lightstick out: double damage, longer reach, faster feet. */
   private stanMode() {
     const a = this.avatar, now = this.time.now;
-    a.stanUntil = now + STAN_MS;
+    a.stanUntil = now + STAN_MS; this.stanKills = 0;
     a.doAction(this.anims.exists(animKey('mansukh', 'stan')) ? 'stan' : 'ability', 600);
     wordPop(this, a.x, a.y - 64, 'STAN MODE', true);
     this.say('stan', true);
@@ -692,6 +705,7 @@ export class GameScene extends Phaser.Scene {
         if (!this.blockedAt(nx, a.y)) a.setX(nx);
         a.facing = (e.x > a.x ? 1 : -1); a.setFlipX(a.facing < 0);
         if (e.hit(12, a.x)) this.onHit(e, k === hops.length - 1 ? 'PARLAUG BIRE' : 'SNIP', 'brahmansh:unhinged', 12);
+        if (victims.length >= 4) achievements.unlock('house-of-shakes');
       } else {
         const nx = a.x + (k % 2 ? -1 : 1) * 28;
         if (!this.blockedAt(nx, a.y)) a.setX(nx);
@@ -718,6 +732,39 @@ export class GameScene extends Phaser.Scene {
     bark(this, this.avatar, clip.label);
     return true;
   }
+  /** Tushar, FINE, I'LL DO IT MYSELF: the team is stuck, so he unblocks everyone (every ability recharged) and runs
+   *  the job himself: for 8s his K is the ability of whoever he just tagged in for. Side effect: unnecessary
+   *  responsibility (he takes 25% more damage while it lasts). */
+  private wildcard() {
+    const a = this.avatar, now = this.time.now;
+    const others = a.members.filter(m => m.def.id !== 'tushar');
+    const from = others.find(m => m.def.id === this.lastOut) ?? others.find(m => !m.ko) ?? others[0];
+    for (const m of a.members) m.abilityReadyAt = Math.min(m.abilityReadyAt, now);
+    a.doAction(this.anims.exists(animKey('tushar', 'wildcard')) ? 'wildcard' : 'ability', 600);
+    wordPop(this, a.x, a.y - 70, "FINE, I'LL DO IT MYSELF", true);
+    if (!this.voice('special')) this.say('wildcard', true);
+    this.style.gain('tushar:wildcard', 14, now);
+    fx(this, 'tag-in-burst', a.x, a.y - 22, 19);
+    if (from && from.def.ability !== 'cut') {
+      this.wildcardUntil = now + WILDCARD_MS; this.wildcardAbility = from.def.ability; this.borrowedCooldown = from.def.abilityCooldownMs;
+      this.time.delayedCall(500, () => a.active && wordPop(this, a.x, a.y - 50, `K = ${from.def.abilityName} (8s)`));
+      a.setTint(0xfff1a8);
+      this.time.delayedCall(WILDCARD_MS, () => { this.wildcardAbility = null; if (a.active) { a.clearTint(); if (a.def.id === 'tushar') wordPop(this, a.x, a.y - 50, 'BACK TO DIRECTING'); } });
+    } else wordPop(this, a.x, a.y - 50, 'EVERYONE RECHARGED');
+  }
+  /** Tushar's SILENT OBSERVER: with him active, hidden things nearby (Lost Footage, cracked walls) catch the light
+   *  of his bracelet: they glint, and the first find in each room gets called out. */
+  private silentObserver(now: number) {
+    if (this.avatar.def.id !== 'tushar' || now < this.nextObserve) return;
+    this.nextObserve = now + 600;
+    const a = this.avatar;
+    const spots = [...this.secrets.filter(t => t.active), ...this.cracked.filter(w => w.active)];
+    for (const t of spots) {
+      if (Phaser.Math.Distance.Between(t.x, t.y, a.x, a.y) > 260) continue;
+      fx(this, 'heal-sparkle', t.x + Phaser.Math.Between(-6, 6), t.y - 10, 30);
+      if (!this.observed) { this.observed = true; wordPop(this, a.x, a.y - 56, 'NOTICED SOMETHING'); this.say('observe', true); achievements.count('observed'); }
+    }
+  }
   /** Mishthi turns whatever's nearest into art: an enemy is frozen into a framed installation you can stand on (6s).
    *  Bosses can't be framed, so they get CRITIQUED instead (+50% damage taken). */
   private masterpiece(): boolean {
@@ -727,7 +774,7 @@ export class GameScene extends Phaser.Scene {
       e.frozenUntil = now + 6000; e.restoreTint(); e.setTint(0xe8c26a);
       const w = Math.max(20, e.displayWidth * 0.9), top = e.y - e.displayHeight + 4;
       const ledge = this.add.tileSprite(e.x, top, w, 4, this.textures.exists('art-frame') ? 'art-frame' : 'pen-line').setDepth(7).setTint(0xe8c26a);
-      this.pens.add(ledge);
+      this.pens.add(ledge); ledge.setData('art', true);
       const body = ledge.body as Phaser.Physics.Arcade.StaticBody;
       body.checkCollision.down = false; body.checkCollision.left = false; body.checkCollision.right = false;
       const frame = this.add.rectangle(e.x, e.y - e.displayHeight / 2 + 2, e.displayWidth + 8, e.displayHeight + 4).setStrokeStyle(2, 0xe8c26a).setDepth(6);
@@ -755,11 +802,13 @@ export class GameScene extends Phaser.Scene {
     if (!this.voice('special')) this.say('indifferent', true);
     this.style.gain('mishthi:indifferent', 12, now);
     a.setAlpha(0.75);
+    let ignored = 0;
     const tick = this.time.addEvent({ delay: 150, repeat: Math.floor(3500 / 150) - 1, callback: () => {
       for (const e of this.liveEnemies()) {
         if (e.confusedUntil > this.time.now || Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) > 34) continue;
         e.confusedUntil = this.time.now + 3000; e.restoreTint();
         bark(this, e, '…she doesn’t care?');
+        if (++ignored >= 5) achievements.unlock('as-if-i-care');
       }
     } });
     this.time.delayedCall(3500, () => { tick.remove(); if (a.active) { a.setAlpha(1); if (a.def.id === 'mishthi') wordPop(this, a.x, a.y - 50, 'DAM BHAI'); } });
@@ -788,6 +837,7 @@ export class GameScene extends Phaser.Scene {
       if (m.abilityReadyAt <= this.time.now) return; // save it for when you need it
       m.abilityReadyAt = this.time.now;
       wordPop(this, can.x, can.y - 12, 'FIZZ! RECHARGED', true);
+      achievements.count('sprite');
       fx(this, 'heal-sparkle', this.avatar.x, this.avatar.y - 20, 30);
       synth.sfx('pickup');
       can.destroy();
@@ -802,6 +852,7 @@ export class GameScene extends Phaser.Scene {
     const what: Record<string, string> = {
       boulder: 'throws a boulder (smashes cracked walls)',
       infoDump: 'explains distributed systems at 2× speed. Enemies nearby take psychic damage and back off.',
+      wildcard: 'recharges everyone, then does the job himself: for 8s his K is the ability of whoever he tagged in for',
       indifferent: 'stops caring for 3.5s: nothing hurts her, and whatever touches her gets demoralised',
       unhinged: 'goes UNHINGED: a chain of jump cuts through everything nearby. HOUSE OF SHAKES.',
       personality: 'becomes his next of 10 personalities: Philosopher (enemies stop to listen) · Hype · Roast · Empath',
@@ -819,6 +870,7 @@ export class GameScene extends Phaser.Scene {
       down.ko = false; down.hp = Math.round(down.def.maxHp * 0.4);
       fx(this, 'heal-sparkle', a.x, a.y - 20, 30);
       wordPop(this, a.x, a.y - 56, `PEP TALK! ${down.def.name.toUpperCase()} IS BACK`, true);
+      achievements.unlock('pep-talk');
       did = true;
     }
     const thoughts = this.content.barks.manvi as { barks?: Record<string, unknown> } | undefined;
@@ -874,13 +926,16 @@ export class GameScene extends Phaser.Scene {
   private bribe(): boolean {
     this.lureBag?.destroy();
     const a = this.avatar;
-    const bag = this.physics.add.image(a.x + a.facing * 12, a.y - 20, 'money-bag').setDepth(8);
+    // SMOOTH TALK: he sets down a hype speaker and starts talking. Enemies crowd round to listen; toll bots get talked
+    // into opening up.
+    const bag = this.physics.add.image(a.x + a.facing * 12, a.y - 20, 'hype-speaker').setDepth(8);
     bag.setVelocity(a.facing * 90, -140);
     this.physics.add.collider(bag, this.layer);
     this.physics.add.collider(bag, this.blockers);
     this.lureBag = bag;
     this.lureUntil = this.time.now + 4000;
-    wordPop(this, bag.x, bag.y - 10, 'LE RE', true);
+    wordPop(this, bag.x, bag.y - 10, Phaser.Utils.Array.GetRandom(['BHAI, LISTEN', 'HEAR ME OUT', 'GET A LOAD OF THIS', 'LE RE']), true);
+    this.time.addEvent({ delay: 700, repeat: 4, callback: () => bag.active && wordPop(this, bag.x + Phaser.Math.Between(-10, 10), bag.y - 18, Phaser.Utils.Array.GetRandom(['bhai', 'no cap', 'fr', 'so basically', 'deep, right?'])) });
     achievements.count('bribes');
     return true;
   }
@@ -1126,7 +1181,7 @@ export class GameScene extends Phaser.Scene {
   }
   private payGate(g: Switchable) {
     this.setSwitch(g, true);
-    wordPop(this, g.x, g.y - 40, 'PAID', true);
+    wordPop(this, g.x, g.y - 40, 'CONVINCED', true);
     synth.sfx('pickup');
     this.style.gain('sayam:toll', 15, this.time.now);
     this.style.addScore(500);
@@ -1156,6 +1211,7 @@ export class GameScene extends Phaser.Scene {
     const x = tx * T + T / 2, y = ty * T + T;
     const had = achievements.has('tapes', id);
     const tape = this.physics.add.staticSprite(x, y - 8, 'tape').setDepth(5).setAlpha(had ? 0.35 : 1);
+    if (!had) this.secrets.push(tape);
     if (this.anims.exists('tape:idle')) tape.play('tape:idle');
     this.tweens.add({ targets: tape, y: y - 12, angle: { from: -8, to: 8 }, yoyo: true, repeat: -1, duration: 700, ease: 'Sine.InOut' });
     this.time.delayedCall(0, () => this.physics.add.overlap(this.avatar, tape, () => {
@@ -1205,6 +1261,7 @@ export class GameScene extends Phaser.Scene {
     if (this.anims.exists(talk)) near.spr.play(talk);
     const cast = (this.content.story.cast as { cast?: { id: string; kind: string }[] } | undefined)?.cast ?? [];
     achievements.collect('npcs', near.id, cast.filter(c => c.kind === 'npc').map(c => c.id), 'small-talk');
+    if (near.id === 'telescope') achievements.unlock('stargazer');
     this.queueDialogue(`ep${this.level.episode}-npc-${near.id}`, () => { if (this.anims.exists(animKey(near.id, 'idle'))) near.spr.play(animKey(near.id, 'idle')); });
   }
   private checkTriggers() {
@@ -1226,6 +1283,7 @@ export class GameScene extends Phaser.Scene {
   private join(crew: CrewId) {
     for (const n of this.npcs.filter(n => n.id === crew)) { fx(this, 'tag-in-burst', n.spr.x, n.spr.y - 22, 19); n.spr.destroy(); }
     this.npcs = this.npcs.filter(n => n.id !== crew);
+    if (this.avatar.members.some(m => m.def.id === crew)) return;   // already in the party (cast at the start)
     if (!this.avatar.addMember(crew)) {
       // Party is full: the newcomer replaces someone (story beats beat party size). Never their partner, and never
       // the hacker if anyone else can go (terminals are Ashwath-only).

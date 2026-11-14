@@ -6,17 +6,37 @@
     {
       "speaker": "intern-bunty",
       "emotion": "panic",
-      "text": "Sir! The worldwide broadcast goes live in nine minutes! Do you have the drive?!"
+      "text": "Sir! The global broadcast goes live in nine minutes! Do you have the drive?!"
     },
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "We're right outside the vault, Bunty! Hold the release window open!"
+      "text": "BEIGE encrypted the vault partition! We can't locate the raw file, dost!"
     },
     {
-      "speaker": "sayam",
-      "emotion": "smug",
-      "text": "Bhai, chill. Final Cut delivery is at 8:59 AM. Qublox doesn't miss deadlines."
+      "speaker": "brahmansh",
+      "emotion": "shocked",
+      "text": "Wait! Look at frame 4,092! It's cycling at 23.976 fps! That's a dropped frame!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "happy",
+      "text": "GG thaa 🔫! That glitch is our uncompressed backup partition! Right there!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "neutral",
+      "text": "Here, hot chai and bandages for everyone. As if I care... just stay alive."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Whatcha doin, Mishthi? Classic caretaking in deep denial! Love you, girl!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care, Manvi. Ashwath, hack the lock before I sigh into the void."
     }
   ]
 }

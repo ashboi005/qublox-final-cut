@@ -10,36 +10,66 @@
     },
     {
       "speaker": "narrator",
-      "text": "8:59 AM. With sixty seconds to spare, Ashwath commits the Final Cut to main."
+      "text": "8:59 AM. Sixty seconds to spare. Ashwath guides the crew to press Deploy."
     },
     {
       "speaker": "ashwath",
       "emotion": "happy",
-      "text": "Production deployed! Zero merge conflicts! The film is live worldwide!"
+      "text": "Production deployed! Zero downtime! The Final Cut is live across the globe!"
     },
     {
       "speaker": "narrator",
-      "text": "Across Neo-Amritsar, vibrant neon cyan, hot pink, and gold flood through the streets."
+      "text": "Across Neo-Amritsar, radiant neon cyan, hot pink, and gold flood every street."
     },
     {
       "speaker": "manya",
       "emotion": "happy",
-      "text": "Color has returned! The chai stalls are glowing again!"
+      "text": "Color has returned! The chai stalls and neon signs are burning bright again!"
     },
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, cutting chai for the whole city! Chacha, put it on my tab. Le re!"
+      "text": "Bhai, cutting chai for the whole city! Put it on my tab. Le re!"
     },
     {
-      "speaker": "chad-frictionless",
-      "emotion": "panic",
-      "text": "My turtlenecks! They're turning tie-dye! This violates our seed agreement!"
+      "speaker": "sehaj",
+      "emotion": "happy",
+      "text": "Render complete. Zero dropped frames. Clean form. Vajj."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Yippieeee! Look at this city! Beautiful, messy, chaotic human art!"
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "happy",
+      "text": "Babymonnsterrr! We shipped it! Now I can open thirty new prototype tabs!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "happy",
+      "text": "GG thaa 🔫! Seamless continuity from start to finish. Masterpiece, bire!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care? But... our movie looks gorgeous. Here's celebratory chai."
     },
     {
       "speaker": "tushar",
       "emotion": "smug",
-      "text": "And that, Chad, is a wrap. Print it. Picture wrap on the universe."
+      "text": "Quiet on set! Picture wrap on BEIGE. Great job, crew. Proud of you all."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "deadpan",
+      "text": "Looking through the balcony telescope at the stars... we're so small, dost."
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Eighty years isn't enough to explore the cosmos. But we made this together."
     }
   ]
 }

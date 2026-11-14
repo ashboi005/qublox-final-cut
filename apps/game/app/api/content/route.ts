@@ -37,5 +37,5 @@ export function GET() {
     songs: songs.ok,
     sfx: audio.ok.sfx ?? null,
     errors: [...dialogue.errors.map(e => `dialogue/${e}`), ...barks.errors.map(e => `barks/${e}`), ...story.errors.map(e => `story/${e}`)],
-  }, { headers: { 'Cache-Control': 'no-store' } });
+  }, { headers: { 'Cache-Control': process.env.NODE_ENV === 'production' ? 'public, max-age=300' : 'no-store' } });
 }

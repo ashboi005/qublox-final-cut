@@ -2,141 +2,225 @@
   "crew": {
     "ashwath": {
       "intro": [
+        "Sayam, you can't charm this hitbox!",
+        "Tushar, picture wrap on your defense.",
+        "Sehaj, you're about to drop 60 frames.",
+        "Manvi, your psychology has zero ping.",
+        "Mansukh, close your tabs and dodge!",
+        "Manya, your saturation is clipping!",
+        "Brahmansh, 240 FPS won't save you.",
+        "Mishthi, framing me won't stop this.",
         "Khel khtm. Compiling your defeat.",
         "Smoke lineup ready. You're in my zone.",
-        "Sayam, you can't bribe this hitbox!",
-        "Sehaj, you're about to drop 60 frames.",
         "36-hour hackathon mode: ACTIVATED."
       ],
       "win": [
-        "ts pmo sm gng icl fr. Full deploy to prod with zero errors.",
-        "Diagnosis: skill issue. Should've practiced your smoke lineups, bro.",
-        "PR merged. You've been deprecated, archived, and garbage collected.",
-        "Khel khtm! That was an O(1) algorithmic takedown. GG, go next."
+        "Diagnosis: skill issue, Sayam. Pitch deck deprecated.",
+        "Tushar, dad was right, but this mentor has better DPS.",
+        "Sehaj, your render finished right as the round ended.",
+        "Mansukh, I closed your background tabs. Clean merge.",
+        "ts pmo sm gng icl fr. Full deploy with zero errors.",
+        "PR merged. You've been deprecated and garbage collected.",
+        "Khel khtm! That was an O(1) takedown. GG, go next."
       ]
     },
     "sayam": {
       "intro": [
+        "Ashwath, take a seat. Time for a pitch.",
+        "Tushar, dad, relax. Let me cook.",
+        "Sehaj, your silence speaks defeat.",
+        "Manvi, psychoanalyze my high aura!",
+        "Mansukh, ratio + L + my drip wins.",
+        "Manya, your neon can't outshine me.",
+        "Brahmansh, stop cutting my speech!",
+        "Mishthi, don't dramatic-sigh at me.",
         "Le re! Get a load of this guy.",
         "Bhai. Bhai. BHAI. You wanna spar?",
         "Don't scuff the leather jacket, bro.",
-        "Ashwath, I'm deducting this from pay.",
-        "Bhai, what if fighting solves nothing?"
+        "Ten personalities ready to roast you."
       ],
       "win": [
-        "Le re. Keep the change and write it off as business development.",
-        "Get a load of this guy! Bhai, that was barely a warm-up. Clean aura.",
-        "Bhai, you good? Here, take some cash for chai and ice. Good spar.",
-        "Delegated, delivered, cashed out. Plus the jacket stayed spotless."
+        "Ashwath, I just acquired your codebase. Hostile takeover.",
+        "Tushar, I did it myself this time. Picture wrap on you.",
+        "Mansukh, ratio + L + zero aura. Go open 15 pitch decks.",
+        "Mishthi, as if you care? But that loss looked tragic.",
+        "Le re. Get a load of this guy! Total verbal shutdown.",
+        "Bhai, listen: you fell asleep mid-monologue. Pure charisma.",
+        "Ten personalities, zero scratches on the jacket. GG."
       ]
     },
     "tushar": {
       "intro": [
-        "Quiet on set! Sound rolling... ACTION!",
-        "CUT! Your blocking form is atrocious.",
-        "No monkeys in here? Good. Let's box.",
-        "Brahmansh, your pacing ends right here.",
-        "Frame this: my right hook in 4K."
+        "Ashwath, stop hacking and box!",
+        "Sayam, no meetings. Fist meeting.",
+        "Sehaj, let's see that gym form.",
+        "Manvi, no mind games on set. Action!",
+        "Mansukh, close those fifteen tabs!",
+        "Manya, stop splashing paint on set!",
+        "Brahmansh, stop complaining on speed!",
+        "Mishthi, drink water and let's go.",
+        "Shaanttt hojaaa! Quiet on set!",
+        "Fine, I'll do it myself. Let's box.",
+        "Behen di tang, don't waste my time.",
+        "Mehndi hand or bracelet hand? Pick one."
       ],
       "win": [
-        "And that's a picture wrap! Print the frame, no second takes needed.",
-        "Flawless blocking, cinematic lighting. Put that straight into Cannes.",
-        "CUT! You just got directed straight into the mat. Beautiful cinema.",
-        "Sayam, that performance doesn't even qualify for a streaming cameo."
+        "Sayam, you talked for ten minutes and did zero damage.",
+        "Ashwath, go to sleep. It's past your bedtime, son.",
+        "Mansukh, picture wrap on your roguelike. Back to work.",
+        "Brahmansh, that was a single clean take. No bad frames.",
+        "Shaanttt hojaaa! Print the frame, no second takes needed.",
+        "Fine, I'll do it myself: direct, fight, and win.",
+        "Picture wrap on that performance. Next time, stay alert."
       ]
     },
     "sehaj": {
       "intro": [
+        "Ashwath, stop babbling. Lift. Vajj.",
+        "Sayam, talk won't block this. Vajj.",
+        "Tushar, dad... clean form only.",
+        "Manvi... Maana, I'll go easy. Vajj.",
+        "Mansukh, turn down the music. Vajj.",
+        "Manya, paint can't stop a boulder.",
+        "Brahmansh, drop your frame rate. Vajj.",
+        "Mishthi, as if I care? I lift. Vajj.",
         "Vajj! Clean form only.",
-        "Maana... I promise I'll go easy.",
         "PR attempt on your jawline. Ready?",
         "I don't talk much. I just lift.",
         "Ctrl+Z won't save you today."
       ],
       "win": [
+        "Sorry Manvi... you're still the champ in my heart, Maana.",
+        "Sayam, talk is cheap. Clean knockout. Stay positive.",
+        "Ashwath, dropped zero frames. Pure uncompressed cinema.",
+        "Brahmansh, fir khende bohota galla kad da. Clean set.",
         "Vajj. Clean set, clean knockout. Stay positive.",
-        "Sorry Maana, you're still the champ in my heart.",
         "Hit PR, re-racked the weights, rendered the win. Next.",
-        "Dropped zero frames. That was pure, uncompressed cinema."
+        "Clean form beats frantic spam every single time."
       ]
     },
     "manvi": {
       "intro": [
+        "Ashwath, let's unpack that insomnia!",
+        "Sayam, which personality is fighting?",
+        "Tushar, dad needs a stress toy!",
+        "Sehaj! Look at me! Distracted yet?",
+        "Mansukh, ragebaiting masks sadness!",
+        "Manya, your anger is so oversaturated!",
+        "Brahmansh, why so easily annoyed?",
+        "Mishthi, I know you secretly care!",
         "Yippieeee! Time for some mind games!",
         "Whatcha doin? Ready for therapy?",
-        "Sehaj, look at me! Distracted yet?",
         "Hawwww! You're picking a fight with me?",
         "Dhumtanana! Love always wins!"
       ],
       "win": [
-        "Yippieeee! Diagnosed with a severe lack of defense! That was fun!",
-        "Dhumtanana! My heart shockwave solved all your aggression issues!",
-        "Aww Sehaj, don't be sad! You're still getting cuddles and dessert!",
-        "Whatcha doin on the floor? That was just a little playful masti!"
+        "Aww Sehaj, don't be sad! You're still getting cuddles!",
+        "Sayam, diagnosed with severe over-delegation! Take notes!",
+        "Mishthi, admit it: you cared a little bit about that match!",
+        "Tushar, you carried too much again! Time for a forced nap!",
+        "Yippieeee! Diagnosed with zero defense! That was so fun!",
+        "Dhumtanana! My shockwave solved your aggression issues!",
+        "Whatcha doin on the floor? Just a little playful masti!"
       ]
     },
     "mansukh": {
       "intro": [
+        "Ashwath, your smoke lineup ratioed!",
+        "Sayam, ratio + L + your drip is fake.",
+        "Tushar, stop yelling CUT! on my jam.",
+        "Sehaj, gym aura: ZERO. Ratioed! 💔",
+        "Manvi, your psychology got no aura!",
+        "Manya, your saturation has zero aura.",
+        "Brahmansh, 24fps? Frame drop + L! 💔",
+        "Mishthi, ratio your modern art! 💔",
         "Babymonnsterrr! Asa bias locked in!",
         "Headphones on. Prepare to get ratioed.",
-        "You mad? I'm always baiting people 💔",
-        "Sayam, ratio + L + your suit is fake.",
-        "Manya, your saturation has zero aura."
+        "You mad? I'm always baiting people 💔"
       ],
       "win": [
-        "Babymonnsterrr! STAN MODE win! Asa would be proud of that clean KO.",
-        "Ratio + L + zero aura. Go open 15 tabs and rethink your life choices.",
-        "Bait successful 💔 Now let me go tweak my roguelike prototype.",
-        "Lightstick charged, pencil sharp, opponent deleted. Clean vector win."
+        "Manya, your vector grid couldn't contain my high aura!",
+        "Sayam, ratio + L + zero aura. Go open 15 pitch decks.",
+        "Brahmansh, dropped 60 frames on your head. Bait success 💔",
+        "Ashwath, skill issue! Go drink your Sprite and take the L.",
+        "Babymonnsterrr! STAN MODE win! Asa would be so proud.",
+        "Ratio + L + zero aura. Go rethink your life choices.",
+        "Bait successful 💔 Now let me go tweak my roguelike."
       ]
     },
     "manya": {
       "intro": [
+        "Ashwath, your terminal is so grey!",
+        "Sayam, your jacket lacks saturation!",
+        "Tushar, your monochrome sets bore me!",
+        "Sehaj, black t-shirts are so dull!",
+        "Manvi, pastel thoughts? Splat yellow!",
+        "Mansukh, your vector lines are grey!",
+        "Brahmansh, high frame rate, zero hue!",
+        "Mishthi, primary colors are superior!",
         "Needs more saturation! Bleach this!",
-        "Mansukh, your vector lines are so grey!",
         "Turning this canvas into neon chaos!",
         "Yellow fill incoming! Bounce away!",
         "Corporate grey has no power here!"
       ],
       "win": [
-        "Needs more saturation! Your health bar is now officially desaturated.",
-        "Drenched the arena in primary neon! That's what real art looks like!",
-        "Mansukh, your vector grid couldn't contain my high-chroma splash!",
-        "Splat on the mat! Maximum vibrance, zero corporate greyscale."
+        "Mansukh, your vector grid was completely washed in neon!",
+        "Mishthi, primary yellow completely overrides tragic decor.",
+        "Ashwath, saturated your terminal into pure neon magenta!",
+        "Sayam, your leather jacket needed a fresh coat of color!",
+        "Needs more saturation! Your health bar is desaturated.",
+        "Drenched the arena in primary neon! That is real art!",
+        "Splat on the mat! Maximum vibrance, zero greyscale."
       ]
     },
     "brahmansh": {
       "intro": [
-        "House of shakes! Try to keep up!",
+        "Ashwath, two hits and I'm annoyed, bro!",
+        "Sayam, your pitch is too long! CUT!",
         "Tushar, your long takes are too slow!",
+        "Sehaj, still rendering? Faster, bire!",
+        "Manvi, no psychoanalysis on timeline!",
+        "Mansukh, your tabs are dropping frames!",
+        "Manya, your splash is 3 frames late!",
+        "Mishthi, dramatic sighs kill my pacing!",
+        "House of shakes! Try to keep up!",
         "Jump Cut right behind your head!",
         "I spot the bad frame in your guard!",
-        "120 FPS beatdown starting now!",
-        "Two hits and I'm annoyed, bire!"
+        "120 FPS beatdown starting now!"
       ],
       "win": [
-        "GG thaa 🔫! Six-hit montage before you even knew it started.",
-        "Parlaug bire! You blinked and missed your own KO on the timeline.",
-        "Tushar, that was speed. No freeze frames, pure adrenaline montage.",
-        "Sehaj is still rendering while I already won the rematch. Fast cut!",
-        "Frame perfect finish. Your wind-up was three frames too slow, bro."
+        "Tushar, that was speed. No freeze frames, pure montage.",
+        "Sehaj is still rendering while I already won the rematch!",
+        "Mansukh, I closed your tabs in three frames. GG thaa 🔫!",
+        "Ashwath, your smoke lineup was four frames too slow, bro.",
+        "GG thaa 🔫! Six-hit montage before you even knew it.",
+        "Parlaug bire! You blinked and missed your own knockout.",
+        "Frame perfect finish. Clean edit on the timeline."
       ]
     },
     "mishthi": {
       "intro": [
+        "Ashwath, drink water, you look tragic.",
+        "Sayam, ten personalities? All tragic.",
+        "Tushar, dad energy won't intimidate me.",
+        "Sehaj, as if I care about gym PRs.",
+        "Manvi, do not psychoanalyze my void.",
+        "Mansukh, ratio your terrible music.",
+        "Manya, your primary colors clash!",
+        "Brahmansh, stop whining about frames!",
         "As if I care? Step into my gallery.",
         "Oh my god wtf bhai, you challenge me?",
         "Dam bhai, what is that outfit? Tragic.",
-        "Manya, your primary colors clash so bad!",
-        "Drink water before I frame you up.",
         "Total indifference mode engaged."
       ],
       "win": [
-        "Dam bhai! Framed you like an avant-garde installation. Drink water.",
-        "As if I care? But honestly, your hitboxes were horribly uncurated.",
-        "Oh my god wtf bhai, that was too easy. Now go lie down and hydrate.",
-        "Turned your offense into decorative prop art. Exhibition closed.",
-        "Manya, color theory won't save you from a high-velocity ceramic vase."
+        "Manya, color theory won't save you from decorative vases.",
+        "Manvi, you diagnosed me? I just framed you as art.",
+        "Sayam, ten personalities and all of them lost to a vase.",
+        "Ashwath, as if I care? But go drink water and hydrate.",
+        "Dam bhai! Framed you like an avant-garde installation.",
+        "As if I care? But your hitboxes were horribly uncurated.",
+        "Oh my god wtf bhai, that was easy. Go lie down and rest."
       ]
     }
   }

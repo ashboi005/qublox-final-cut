@@ -2,7 +2,7 @@
   "id": "ashwath",
   "barks": {
     "tagin": [
-      "Terminal open! I'm in!",
+      "Dost, terminal open! I'm in!",
       "Deploying hotfix to prod!",
       "Mining blocks, placing logic!",
       "Brimstone smokes deployed!"
@@ -27,12 +27,12 @@
     ],
     "kill": [
       "Process killed -9!",
-      "Closed as resolved!",
+      "Closed as resolved, dost.",
       "Diagnosis: skill issue.",
       "L + ratio + git revert!"
     ],
     "idle": [
-      "Anyone got cutting chai?",
+      "Dost, got any cutting chai?",
       "I could rebuild this in redstone.",
       "800-day Reddit streak is safe.",
       "Just need five minutes and a Sprite."

@@ -17,9 +17,14 @@ const CUES: Partial<Record<CrewId, Partial<Record<VoiceCue, string[]>>>> = {
     annoyed: ['kutti-jaat-lubaane'],        // EASILY ANNOYED triggers
     intro: ['house-of-shakes', 'parlaug-bire'],
     tagin: ['gg-thaa', 'parlaug-bire'],
+    ability: ['parlaug-bire'],
+    hurt: ['kutti-jaat-lubaane'],
+    ko: ['gg-thaa'],
   },
   sehaj: {
     tagin: ['vajj'],
+    ability: ['vajj'],
+    ko: ['random-weird-laugh'],
     kill: ['vajj', 'random-weird-laugh'],
     special: ['vajj'],                                  // BEAST MODE boulder
     hurt: ['ferr-khende-bohota-galla-kad-da'],          // "then you say I abuse a lot"
@@ -35,7 +40,9 @@ const CAPTIONS: Record<string, string> = {
   'sehaj/ferr-khende-bohota-galla-kad-da': 'Fir khende bohota galla kad da',
 };
 /** Per-cue minimum gap so frequent moments (kills) don't turn into a soundboard. */
-const GAP: Partial<Record<VoiceCue, number>> = { kill: 6000, tagin: 8000, hurt: 5000 };
+const GAP: Partial<Record<VoiceCue, number>> = { kill: 3500, tagin: 4000, hurt: 3000, ability: 4000, special: 1500 };
+/** Any line from the same person: a short breather so lines don't trip over each other. */
+const ANY_GAP = 1400;
 
 let index: Index = {};
 const caption = (crew: string, slug: string, c: VoiceClip): VoiceClip => ({ ...c, label: CAPTIONS[`${crew}/${slug}`] ?? c.label });
@@ -60,8 +67,8 @@ export function speak(crew: CrewId, cue: VoiceCue, now = performance.now()): Voi
   const clip = clipFor(crew, cue);
   if (!clip) return null;
   const key = `${crew}:${cue}`;
-  if (now - (lastAt.get(key) ?? -1e9) < (GAP[cue] ?? 0)) return null;
-  lastAt.set(key, now);
+  if (now - (lastAt.get(key) ?? -1e9) < (GAP[cue] ?? 0) || now - (lastAt.get(crew) ?? -1e9) < ANY_GAP) return null;
+  lastAt.set(key, now); lastAt.set(crew, now);
   void synth.speak(clip.file);
   return clip;
 }

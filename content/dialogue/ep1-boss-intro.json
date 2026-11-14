@@ -11,17 +11,22 @@
     {
       "speaker": "sehaj",
       "emotion": "deadpan",
-      "text": "Vajj. My nemesis."
+      "text": "Vajj. My nemesis. 99% forever."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "smug",
+      "text": "Hawwww! You think you can freeze us? I'm psychoanalyzing your lag spikes!"
     },
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "It's firing high-latency ping spikes! Our controls are desyncing!"
+      "text": "It's firing high-latency ping spikes! Our inputs are desyncing, dost!"
     },
     {
       "speaker": "tushar",
       "emotion": "angry",
-      "text": "CUT! Freeze the rotating blades so Sehaj can hit the core!"
+      "text": "Shaanttt hojaaa! CUT! Freeze the rotating blades so Sehaj can strike!"
     },
     {
       "speaker": "sayam",

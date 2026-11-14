@@ -1,0 +1,14 @@
+# Keep build contexts small and secret-free (both Dockerfiles build from the repo root).
+**/node_modules
+**/.next
+**/.next-prod
+.git
+.env
+.env.*
+!.env.example
+voicelines
+tools/art/raw
+tools/e2e/shots
+**/*.tsbuildinfo
+**/.DS_Store
+comms

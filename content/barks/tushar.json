@@ -2,40 +2,40 @@
   "id": "tushar",
   "barks": {
     "tagin": [
-      "Action!",
-      "And... rolling!",
-      "Quiet on set!",
-      "Camera is rolling."
+      "Fine, I'll do it myself.",
+      "Quiet on set! Dad's here.",
+      "Prabhu, step back. I'll handle ops.",
+      "Lead camera rolling. Action!"
     ],
     "ability": [
-      "CUT!",
-      "Hold that frame!",
-      "Freeze the shot!",
-      "Maintain focus!"
+      "Shaanttt hojaaa!",
+      "CUT! Everyone freeze!",
+      "Shaanttt hojaaa! Hold marks!",
+      "Freeze the frame!"
     ],
     "hit": [
-      "My anamorphic lens!",
-      "Watch the lighting!",
-      "That ruined the take!",
-      "Costume department!"
+      "Behen di tang!",
+      "Lann! That hurt.",
+      "Watch the bracelet!",
+      "Stupid hit. Annoying."
     ],
     "ko": [
-      "That's a wrap for me...",
-      "Cut... print it...",
-      "Fade to black...",
-      "Pack the cameras..."
+      "That's a wrap... for now...",
+      "Cut... need five minutes...",
+      "Who's watching the set...",
+      "Fade out... behen di tang..."
     ],
     "kill": [
-      "Print it!",
-      "Picture wrap on that!",
-      "Flawless composition!",
-      "In the can!"
+      "Print it! Problem solved.",
+      "Prabhu, that was clean. Wrap it.",
+      "In the can. Next scene.",
+      "Behen di tang, clean hit."
     ],
     "idle": [
-      "Where is the golden hour?",
-      "Is that a monkey? No. Good.",
-      "Reset the scene.",
-      "Check the monitor."
+      "Restless mind. Need to move.",
+      "Can't stand in one place.",
+      "Prabhu, what did you do now?",
+      "Is that a monkey? No. Good."
     ],
     "monkey": [
       "MONKEY! I HATE MONKEYS!",
@@ -44,15 +44,27 @@
       "TERRIFYING BEAST!"
     ],
     "select": [
-      "Lead camera is rolling. Quiet!",
-      "Promise me there are no monkeys.",
-      "Framing the shot. Action!",
-      "I'm calling the cuts this run."
+      "Fine, I'll do it myself. Let's go.",
+      "Promise me zero monkeys.",
+      "Directing and carrying today.",
+      "Ops are locked. Roll sound!"
     ],
     "results": [
-      "Picture wrap! Print every take!",
-      "Cinematic perfection. That's a wrap!",
+      "Wrap! Delivered ahead of schedule.",
+      "Every department nailed it. Good.",
       "And most importantly: no monkeys!"
+    ],
+    "wildcard": [
+      "Fine, I'll do it myself!",
+      "Taking over all departments!",
+      "Recharging everyone. Watch this!",
+      "Generalist mode: activated!"
+    ],
+    "observe": [
+      "Nobody saw that? Cool.",
+      "Spotted the break in the wall.",
+      "Silent observer catches everything.",
+      "That wall's fake. Easy catch."
     ]
   }
 }

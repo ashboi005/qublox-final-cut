@@ -283,3 +283,62 @@
 - Files: sprites/characters/mishthi.png, portraits/mishthi.png, sprites/props/prop.png, sprites/props/art-frame.png, manifest.json; tools/art/mishthi.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
 - Commit: included in this commit (art: add Mishthi likeness and prop kit).
 - Notes: F2 checked at 1× and 2×; portraits inspected separately. Native pixels, exact palette, binary alpha. bun run validate: 102 files, zero warnings; pixel audit passes. Reference photos remain ignored. No new palette colours.
+
+### 2026-11-14 01:07 · T-A42 · REVIEW
+- Did: Tushar photo likeness: swept-up wavy hair, gold double-bridge aviators, light goatee, black rolled-sleeve shirt, silver chain, henna hand opposite silver bracelet/ring. Standard rows and panic preserved; six-frame wildcard rolls sleeves, cycles clapper/laptop/camera, then flips on dark shades. Eight portraits: lettered FABU / LOUS smug, annoyed angry, broad-grin happy.
+- Files: apps/game/public/assets/sprites/characters/tushar.png, portraits/tushar.png, manifest.json; tools/art/tushar.py, crew.py, portraits.py; docs/art/ART_BIBLE.md.
+- Commit: included in this commit (art: draw Tushar likeness and wildcard tools).
+- Notes: F2 checked at 1× and 2×, including wildcard/panic; portrait sheet and contact sheet inspected. Both hand details stay visible, jewellery drawn in front of held tools. Native pixels, 43-colour palette, binary alpha. bun run validate: 103 files, zero warnings; pixel audit passes. All references stay private/ignored.
+- NOTE for claude: T-A43 remains WAITING: story final; I am waiting for your asset-polish/new-story brief before starting that pass.
+
+### 2026-11-14 · T-A44 / T-A45 · DOING
+- Did: starting nine super rows, nine FINAL CUT sheets, fight punctuation and Sayam's speech/speaker replacement.
+- NOTE for claude: finisherFx's custom-sheet branch currently skips all loser choreography. The new sheets are transparent overlays, without a baked-in generic loser. Please retain crew-specific loser transforms/hide (especially deletion, rewind, float, inflate, wander and hard cuts) alongside the sheet; otherwise the defeated crew remains standing underneath after the FX disappears. I will document animation cue times in docs/art/versus.md. No game code edited.
+
+### 2026-11-14 · T-A44 · REVIEW
+- Did: eight-frame super rows for all nine crew; nine 96×96, 24-frame/10-fps nonlooping FINAL CUT overlay sheets; fx-counter, fx-combo, fx-ko, fx-parry image keys. Native pixels, 43 colours, binary alpha. Character-specific terminal deletion, monologue, reel/shades, rewind boulder, hearts, concert confetti, four-colour paint, dropped film frames, hanging gallery frame.
+- Files: apps/game/public/assets/sprites/characters/{all nine crew}.png, sprites/fx/finisher-{all nine crew}.png, fx/fx-counter.png, fx/fx-combo.png, fx/fx-ko.png, fx/fx-parry.png, manifest.json; tools/art/versus.py; docs/art/versus.md.
+- Commit: included in this batch commit (art: add versus supers and final cut effects).
+- Notes: bun run validate passes (104 files, zero warnings); exact-palette/binary-alpha audit passes. Compared all pre-existing crew rows against HEAD: unchanged pixel-for-pixel, except the two requested Sayam rows. Contact sheets inspected for all supers/finisher beats/props. T3 snapshots timed out twice; native Chrome fallback visibly showed F2 at 1× (Ashwath super and Sayam attack/ability). Full nine-finisher playback and live 2× review remain for integration QA; no claim of an end-to-end VERSUS match check.
+- NOTE for claude: docs/art/versus.md has exact overlay cue times and image dimensions. Saw your runtime update retain loser choreography with custom sheets. Run tools/art/versus.py after any base crew regeneration to restore super rows; it is idempotent and preserves other rows. Native browser tab was left available after user muted/interacted with it; my T3 preview tab is closed.
+
+### 2026-11-14 · T-A45 · REVIEW
+- Did: Sayam's attack now points/throws a three-dot speech bubble; ability lowers a green carry-handle PA and pitches. New bubble 16×12 and hype-speaker 16×16 image keys. No cash/bag pixels in either move.
+- Files: apps/game/public/assets/sprites/characters/sayam.png, sprites/props/bubble.png, sprites/props/hype-speaker.png, manifest.json; tools/art/likeness.py, versus.py; docs/art/versus.md.
+- Commit: included in this batch commit (art: add versus supers and final cut effects).
+- Notes: both new moves visibly loaded in F2; contact sheet and contract/pixel checks pass. Legacy cash/moneybag assets retained for older consumers. T-A43 next, environment batches first.
+
+### 2026-11-14 · T-A43.1 · REVIEW
+- Did: five tile atlases and all thirty district parallax images polished with material-specific details and district architecture: heritage balconies/cables, cooling machinery, theatrical construction, Feed cards, Templatr reliefs/stone. Stable keys, dimensions, tile indices and alpha masks across state pairs.
+- Files: apps/game/public/assets/tiles/{hq,render-farm,the-set,the-feed,templatr}.png; backgrounds/{neo-amritsar,render-farm,the-set,the-feed,templatr}-{far,mid,near}-{drained,saturated}.png; tools/art/polish_world.py; docs/art/POLISH_PASS.md.
+- Commit: included in this batch commit (art: detail district tiles and parallax).
+- Notes: bun run validate and pixel audit pass; all ten district/state composites inspected; native Chrome ep4-r02 confirmed polished Templatr tiles/backgrounds in gameplay with readable crew/platform contrast. Review tab closed. Next dev overlay showed one issue, but gameplay/art rendered; no code changed. T-A43 parent remains DOING, enemies/bosses next.
+
+### 2026-11-14 · T-A43.2 · REVIEW
+- Did: polished all enemy/boss/NPC sheets: material edges, machinery and costume details, clearer family faces, concentric Buffering Wheel, Algorithm cards. Rebuilt BEIGE's machined core/drive cradle and Chad's cream athleisure/headset/pitch poses. District costumes inherit polished bases.
+- Files: apps/game/public/assets/sprites/enemies/*.png, sprites/bosses/*.png, sprites/npcs/*.png; tools/art/polish_entities.py, the_set.py; docs/art/POLISH_PASS.md.
+- Commit: included in this batch commit (art: polish enemies and finale cast).
+- Notes: validation/palette/alpha checks pass. All entity contact sheets inspected. BEIGE visibly loaded in ep4-r07; F2 showed Buffering Wheel hurt/stunned/death and Chacha/Bunty. Double-scale check attempted; after user continuation Chrome returned cgWindowNotFound, so no complete 2× pass claimed. Parent T-A43 remains DOING.
+
+### 2026-11-14 · T-A44 follow-up · REVIEW
+- Did: replaced old money-reference finisher bubbles with LE RE and HEAR ME OUT, following updated inbox. Ashwath block deletion now begins at 1.5s; Brahmansh blackout starts at 1.3s, matching Claude's confirmed loser timings.
+- Files: tools/art/versus.py, docs/art/versus.md; sprites/fx/finisher-{ashwath,brahmansh,sayam}.png.
+- Commit: included in this batch commit (art: polish enemies and finale cast).
+- Notes: regenerated sheets and reran contract/pixel checks. No crew rows or game code changed in this follow-up.
+
+### 2026-11-14 · T-A43.3 · REVIEW
+- Did: decor/puzzle-prop material details, older combat FX accents, title/logo/paper/stamp finish; title now includes all nine silhouettes. Replaced stale seven crew icons with current likeness heads; added icon-manvi/icon-mishthi. Legacy icon-ability-bribe now depicts a speech bubble. Portrait polish confined to clothing at y48–63, faces untouched.
+- Files: assets/sprites/{props,decor}, assets/fx, assets/icons, assets/portraits, backgrounds/title-bg.png, logo.png, images/{newspaper,glossary-stamp}.png, manifest.json; tools/art/polish_objects.py, title_background.py; docs/art/POLISH_PASS.md.
+- Commit: included in this batch commit (art: finish props and presentation assets).
+- Notes: contact sheet inspected, validation/palette/binary-alpha checks pass. Browser review currently limited: native Chrome reported cgWindowNotFound after prior F2 pass; new object/title live inspection remains integration QA. No code/UI layouts changed. Source rebuild order documented; remaining T-A43 work: music/SFX data and final coverage audit.
+
+### 2026-11-14 · T-A43.4 · REVIEW
+- Did: all fifteen songs mixed/orchestrated with percussion dynamics, restrained stereo positions, selected phrase rests/fills and quieter ambience. All twenty-one SFX articulated/mixed; legacy ability-bribe now a chatter gesture. Melodies, BPM, arrangement length and nonlooping stinger flags preserved.
+- Files: content/audio/songs/*.json, content/audio/sfx.json; tools/art/polish_audio.py; docs/art/POLISH_PASS.md.
+- Commit: included in this batch commit (art: refine score dynamics and effect mix).
+- Notes: 104 files validate, zero warnings. Audio data reviewed structurally; subjective listening and live overlap review remain integration QA. No synth/game code changed.
+
+### 2026-11-14 · T-A43 · REVIEW
+- Did: completed four polish batches across environment, enemies/bosses/NPCs, objects/presentation and audio. Details and rebuild order in docs/art/POLISH_PASS.md. Functional tiny swatches/lines and just-delivered VERSUS art retained where added detail would impair readability.
+- Commit: batch commits a3c5ca2, 6b92a13, 6a7c78f, and this audio batch.
+- Notes: full world → entity → object regeneration reproduces committed PNGs; no unexpected diffs. All PNGs pass RGBA/binary-alpha/exact-palette audit. Confirmed all T-A43 crew sheets and portrait faces/headwear remain pixel-identical. Browser coverage/limitations and audio audition request documented above. Awaiting integration feedback/new orders; CONTROL remains RUN.

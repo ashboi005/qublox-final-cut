@@ -172,15 +172,27 @@ def frame(who, anim, f):
             p.r((26,30,31,35),1); p.l([(27,31),(30,33)],3)
             p.l([(26,34),(28,34)],42)
         elif anim=='attack':
-            p.p([(hx,hy-3),(hx+6,hy-5),(min(47,hx+8),hy-1),(hx+2,hy+1)],42)
-            p.l([(hx+2,hy-3),(hx+5,hy-3)],29)
-            p.r((hx+3,hy-2,hx+4,hy-1),22)
-            if f==2: p.l([(35,20),(38,19)],6)
-        elif anim=='ability' and f>=2:
-            by=min(38,hy+f*2)
-            p.p([(hx-2,by-4),(hx+2,by-4),(hx+1,by-1),(hx+5,by+4),(hx+4,by+7),(hx-4,by+7),(hx-5,by+4),(hx-1,by-1)],42)
-            p.l([(hx-2,by),(hx+2,by)],22)
-            p.l([(hx+1,by+2),(hx-1,by+3),(hx+1,by+5),(hx-1,by+6)],6)
+            # Talking hands: point, release the bubble, open-palm follow-through.
+            p.l([(hx,hy),(min(46,hx+5),hy-2)],0,3)
+            p.l([(hx,hy),(min(46,hx+4),hy-2)],32)
+            if f in (2,3):
+                bx=39 if f==2 else 41
+                p.p([(bx-3,10),(bx+4,10),(bx+5,12),(bx+5,16),(bx,16),(bx-2,19),(bx-2,16),(bx-4,15),(bx-4,12)],6)
+                for xx in (bx-2,bx,bx+2):p.r((xx,13,xx,13),42)
+            p.r((26,23,28,23),6)
+        elif anim=='ability':
+            # A green PA descends to the floor, then Sayam opens his pitch.
+            sx,sy=[(34,29),(35,32),(37,35),(38,35),(38,35),(38,35)][f]
+            p.r((sx-5,sy-3,sx+5,sy+9),0)
+            p.r((sx-4,sy-2,sx+4,sy+8),42)
+            p.r((sx-2,sy-5,sx+2,sy-3),0)
+            p.r((sx-1,sy-4,sx+1,sy-4),29)
+            p.p([(sx-2,sy+1),(sx+2,sy+1),(sx+3,sy+4),(sx+1,sy+6),(sx-2,sy+6),(sx-3,sy+3)],0)
+            p.r((sx-1,sy+2,sx+1,sy+4),29)
+            p.r((sx-3,sy-1,sx-1,sy-1),6)
+            if f>=3:
+                p.l([(44,29),(46,31),(46,36),(44,38)],29)
+                p.r((26,23,28,23),6)
         elif anim=='bhai':
             if f<2:
                 p.l([(hx,hy),(hx,hy-7)],0,3)

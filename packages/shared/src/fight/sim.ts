@@ -16,6 +16,14 @@ const INTRO_FRAMES = 90, ROUND_END_FRAMES = 150, HISTORY = 90;
 // Input bits (one byte per player per frame).
 export const BTN = { LEFT: 1, RIGHT: 2, UP: 4, DOWN: 8, LIGHT: 16, HEAVY: 32, SPECIAL: 64, SUPER: 128, BLOCK: 256 } as const;
 const GUARD_MAX = 1000, PARRY_WINDOW = 6, BUFFER = 6;
+/** Specials go on cooldown (no spam); whiffed heavies/specials recover slower (punishable). */
+export const SPECIAL_COOLDOWN = 90, WHIFF_PENALTY = 8;
+/** Combo damage scales down 10% per hit (to 40%); at most 3 air hits before you fall out of a juggle. */
+const SCALE_STEP = 10, SCALE_MIN = 40, JUGGLE_MAX = 3;
+/** FINAL CUT (the finisher): the winner gets this long to input ↓ + SUPER; the cinematic then runs this long. */
+export const FINISH_WINDOW = 200, FINISHER_FRAMES = 170;
+/** Freeze-frame on a KO. */
+const KO_FREEZE = 36;
 
 export type FighterMode = 'idle' | 'walk' | 'jump' | 'crouch' | 'block' | 'attack' | 'hitstun' | 'blockstun' | 'dizzy' | 'down' | 'ko' | 'win';
 
@@ -27,24 +35,29 @@ export type Fighter = {
   mode: FighterMode; modeFrames: number;          // frames left in hitstun/blockstun, or frames into the current move
   move: MoveSlot | null; hitsDone: number;
   held: number; prev: number;                      // buttons this frame / last frame (after inversion)
-  frozenUntil: number; invertUntil: number; stanUntil: number; slowUntil: number; indifferentUntil: number;
+  frozenUntil: number; invertUntil: number; stanUntil: number; slowUntil: number; indifferentUntil: number; takeoverUntil: number; roastedUntil: number;
   history: number[];                               // ring of [x, y, hp] triples for CTRL+Z
   guard: number;                                   // drains while blocking; 0 = GUARD BREAK (dizzy)
   blockAt: number;                                 // frame BLOCK was last pressed (parry window)
   buf: number; bufAt: number;                      // buffered attack presses (a few frames of leniency)
   knock: boolean;                                  // the current hitstun ends in a knockdown
+  specialReadyAt: number;                          // SPECIAL_COOLDOWN
+  combo: number; juggle: number;                   // hits taken in the current combo / air hits in the current juggle
 };
-export type Projectile = { owner: 0 | 1; sprite: string; x: number; y: number; vx: number; vy: number; gravity: number; life: number; damage: number; hitstun: number; kb: number; w: number; h: number; puddle: boolean };
+export type Projectile = { owner: 0 | 1; sprite: string; x: number; y: number; vx: number; vy: number; gravity: number; life: number; damage: number; hitstun: number; kb: number; w: number; h: number; puddle: boolean; roast: number };
 export type Zone = { owner: 0 | 1; kind: 'wall' | 'puddle' | 'bounce'; x: number; w: number; h: number; until: number; nextHit: number; damage: number };
 export type FightEvent =
-  | { type: 'hit'; x: number; y: number; word: string; damage: number; blocked: boolean; big: boolean }
+  | { type: 'hit'; x: number; y: number; word: string; damage: number; blocked: boolean; big: boolean; combo?: number; by?: 0 | 1 }
+  | { type: 'finisher'; who: 0 | 1; name: string }
   | { type: 'move'; who: 0 | 1; slot: MoveSlot; name: string }
   | { type: 'banner'; text: string }
   | { type: 'ko'; who: 0 | 1 };
 
 export type FightState = {
   frame: number; rng: number;
-  phase: 'intro' | 'fight' | 'roundEnd' | 'matchEnd'; phaseFrames: number;
+  phase: 'intro' | 'fight' | 'roundEnd' | 'finish' | 'finishing' | 'matchEnd'; phaseFrames: number;
+  /** Who performed a FINAL CUT finisher (null = none). */
+  finisher: 0 | 1 | null;
   round: number; wins: [number, number]; timer: number;
   hitstop: number;
   fighters: [Fighter, Fighter];
@@ -56,13 +69,13 @@ export type FightState = {
 const newFighter = (crew: CrewId, side: 0 | 1): Fighter => ({
   crew, x: (side === 0 ? 150 : STAGE_W - 150) * SUB, y: FLOOR_Y * SUB, vx: 0, vy: 0, facing: side === 0 ? 1 : -1,
   hp: MOVESETS[crew].hp, meter: 0, mode: 'idle', modeFrames: 0, move: null, hitsDone: 0, held: 0, prev: 0,
-  frozenUntil: 0, invertUntil: 0, stanUntil: 0, slowUntil: 0, indifferentUntil: 0, history: [],
-  guard: GUARD_MAX, blockAt: -99, buf: 0, bufAt: 0, knock: false,
+  frozenUntil: 0, invertUntil: 0, stanUntil: 0, slowUntil: 0, indifferentUntil: 0, takeoverUntil: 0, roastedUntil: 0, history: [],
+  guard: GUARD_MAX, blockAt: -99, buf: 0, bufAt: 0, knock: false, specialReadyAt: 0, combo: 0, juggle: 0,
 });
 
 export function createFight(p1: CrewId, p2: CrewId, seed: number): FightState {
   return {
-    frame: 0, rng: seed >>> 0 || 1, phase: 'intro', phaseFrames: INTRO_FRAMES, round: 1, wins: [0, 0], timer: ROUND_FRAMES, hitstop: 0,
+    frame: 0, rng: seed >>> 0 || 1, phase: 'intro', phaseFrames: INTRO_FRAMES, finisher: null, round: 1, wins: [0, 0], timer: ROUND_FRAMES, hitstop: 0,
     fighters: [newFighter(p1, 0), newFighter(p2, 1)], projectiles: [], zones: [], events: [], winner: null,
   };
 }
@@ -92,6 +105,7 @@ function startMove(s: FightState, i: 0 | 1, slot: MoveSlot) {
   f.mode = 'attack'; f.move = slot; f.modeFrames = 0; f.hitsDone = 0; f.buf = 0;
   if (grounded(f) && slot !== 'throw') f.vx = 0;
   const m = MOVESETS[f.crew][slot];
+  if (slot === 'special') f.specialReadyAt = s.frame + SPECIAL_COOLDOWN;
   if (slot === 'special' || slot === 'super') s.events.push({ type: 'move', who: i, slot, name: m.name });
 }
 
@@ -102,6 +116,9 @@ function hit(s: FightState, ai: 0 | 1, damage: number, hitstun: number, blockstu
   const a = s.fighters[ai], b = s.fighters[ai === 0 ? 1 : 0];
   if (b.mode === 'ko' || b.mode === 'down' || s.phase !== 'fight') return false;
   if (s.frame < a.stanUntil) damage = Math.floor(damage * 3 / 2);   // STAN MODE
+  if (s.frame < a.takeoverUntil) damage = Math.floor(damage * 27 / 20);   // FINE, I'LL DO IT MYSELF
+  if (s.frame < b.takeoverUntil) damage = Math.floor(damage * 6 / 5);     // …and the responsibility that comes with it
+  if (s.frame < b.roastedUntil) damage = Math.floor(damage * 5 / 4);      // ROASTED (Sayam: "get a load of this guy")
   if (s.frame < b.indifferentUntil) {
     // AS IF I CARE?: no damage at all, and whoever swung at her gets ignored so hard they stagger.
     if (o.melee) { a.mode = 'hitstun'; a.modeFrames = 18; a.move = null; a.vx = 0; }
@@ -109,8 +126,7 @@ function hit(s: FightState, ai: 0 | 1, damage: number, hitstun: number, blockstu
     return true;
   }
   const dir: 1 | -1 = (fromX ?? a.x) <= b.x ? 1 : -1;     // push direction
-  const backHeld = (b.held & (dir === 1 ? BTN.RIGHT : BTN.LEFT)) !== 0; // holding away from the attack
-  const guarding = (b.held & BTN.BLOCK) !== 0 || backHeld;
+  const guarding = (b.held & BTN.BLOCK) !== 0;                        // blocking is U only; holding back just walks
   const crouching = (b.held & BTN.DOWN) !== 0;
   const height = o.height ?? 'mid';
   const heightOk = height === 'low' ? crouching : height === 'high' ? !crouching : true;
@@ -140,6 +156,14 @@ function hit(s: FightState, ai: 0 | 1, damage: number, hitstun: number, blockstu
     s.hitstop = 3;
     return true;
   }
+  // COUNTER: caught them in the startup of their own attack. Bonus damage and stun.
+  const counter = b.mode === 'attack' && b.move !== null && b.modeFrames < MOVESETS[b.crew][b.move].startup;
+  if (counter) { damage = Math.floor(damage * 6 / 5); hitstun += 8; }
+  // Combos: each extra hit while they're still reeling does a bit less (no touch-of-death loops).
+  b.combo = b.mode === 'hitstun' ? b.combo + 1 : 1;
+  if (b.combo > 1) damage = Math.floor(damage * Math.max(SCALE_MIN, 100 - SCALE_STEP * (b.combo - 1)) / 100);
+  // Juggles: after JUGGLE_MAX air hits they fall out (knockdown, no more launch).
+  if (!grounded(b)) { b.juggle++; if (b.juggle > JUGGLE_MAX) { launch = 0; o = { ...o, knockdown: true }; } }
   b.hp = Math.max(0, b.hp - damage);
   b.mode = 'hitstun'; b.modeFrames = hitstun; b.move = null; b.frozenUntil = 0;
   b.knock = b.knock || !!o.knockdown || launch > 0;
@@ -147,8 +171,8 @@ function hit(s: FightState, ai: 0 | 1, damage: number, hitstun: number, blockstu
   a.meter = Math.min(METER_MAX, a.meter + Math.floor(damage / 2)); b.meter = Math.min(METER_MAX, b.meter + Math.floor(damage / 4));
   const big = damage >= 90;
   // A low/overhead that got through a block attempt says so (teaches the mixup).
-  const label = guarding && !heightOk && !unblockable ? (height === 'low' ? 'LOW!' : 'OVERHEAD!') : word;
-  s.events.push({ type: 'hit', x: px, y: py, word: label, damage, blocked: false, big });
+  const label = counter ? 'COUNTER' : guarding && !heightOk && !unblockable ? (height === 'low' ? 'LOW!' : 'OVERHEAD!') : word;
+  s.events.push({ type: 'hit', x: px, y: py, word: label, damage, blocked: false, big: big || counter, combo: b.combo, by: ai });
   s.hitstop = big ? 8 : 4;
   return true;
 }
@@ -159,7 +183,7 @@ function activate(s: FightState, i: 0 | 1, m: Move) {
   const dist = Math.abs(o.x - f.x) / SUB;
   switch (e.kind) {
     case 'projectile':
-      s.projectiles.push({ owner: i, sprite: e.sprite, x: f.x + f.facing * 26 * SUB, y: f.y - 44 * SUB, vx: f.facing * e.speed * SUB, vy: e.vy * SUB, gravity: e.gravity * 4, life: e.life, damage: e.damage, hitstun: e.hitstun, kb: e.kb, w: e.w, h: e.h, puddle: !!e.puddle });
+      s.projectiles.push({ owner: i, sprite: e.sprite, x: f.x + f.facing * 26 * SUB, y: f.y - 44 * SUB, vx: f.facing * e.speed * SUB, vy: e.vy * SUB, gravity: e.gravity * 4, life: e.life, damage: e.damage, hitstun: e.hitstun, kb: e.kb, w: e.w, h: e.h, puddle: !!e.puddle, roast: e.roast ?? 0 });
       break;
     case 'freeze':
       if (dist <= e.range && o.mode !== 'ko') { o.frozenUntil = s.frame + e.frames; o.mode = 'hitstun'; o.modeFrames = e.frames; o.vx = 0; o.move = null; s.events.push({ type: 'hit', x: o.x / SUB, y: o.y / SUB - 50, word: 'FROZEN', damage: 0, blocked: false, big: true }); }
@@ -181,13 +205,6 @@ function activate(s: FightState, i: 0 | 1, m: Move) {
       if (Math.abs(o.x - (f.x + f.facing * 46 * SUB)) < 30 * SUB) hit(s, i, 70, 20, 10, 6, 0, m.word, false, f.x, { melee: true });
       s.zones.push({ owner: i, kind: 'wall', x: f.x + f.facing * 46 * SUB, w: e.w, h: e.h, until: s.frame + e.frames, nextHit: 0, damage: 0 });
       break;
-    case 'rain':
-      for (let k = 0; k < e.count; k++) {
-        const x = o.x + (rand(s, 120) - 60) * SUB;
-        s.projectiles.push({ owner: i, sprite: 'cash', x, y: (20 - k * 22) * SUB, vx: 0, vy: 3 * SUB, gravity: 2, life: 160, damage: e.damage, hitstun: 14, kb: 1, w: 18, h: 12, puddle: false });
-      }
-      s.events.push({ type: 'banner', text: 'HOSTILE TAKEOVER' });
-      break;
     case 'shockwave':
       f.hp = Math.min(MOVESETS[f.crew].hp, f.hp + e.heal);
       hit(s, i, e.damage, 30, 18, 8, grounded(o) ? 5 : 0, m.word, false, f.x, { knockdown: true });
@@ -196,6 +213,12 @@ function activate(s: FightState, i: 0 | 1, m: Move) {
     case 'bounceFloor':
       s.zones.push({ owner: i, kind: 'bounce', x: STAGE_W / 2 * SUB, w: STAGE_W, h: 8, until: s.frame + e.frames, nextHit: s.frame, damage: e.damage });
       s.events.push({ type: 'banner', text: 'FILL: YELLOW' });
+      break;
+    case 'personalities':
+      break; // handled per-frame in updateMove
+    case 'takeover':
+      f.takeoverUntil = s.frame + e.frames; f.guard = GUARD_MAX;
+      s.events.push({ type: 'banner', text: "FINE, I'LL DO IT MYSELF" });
       break;
     case 'indifferent':
       f.indifferentUntil = s.frame + e.frames;
@@ -219,12 +242,11 @@ function activate(s: FightState, i: 0 | 1, m: Move) {
 function pickSlot(s: FightState, f: Fighter, o: Fighter, bits: number, from: MoveSlot | null): MoveSlot | null {
   const fwd = o.x >= f.x ? BTN.RIGHT : BTN.LEFT;
   if (bits & BTN.SUPER && f.meter >= METER_MAX) return 'super';
-  if (bits & BTN.SPECIAL) return 'special';
+  if (bits & BTN.SPECIAL && s.frame >= f.specialReadyAt) return 'special';
   if (!grounded(f)) return bits & BTN.HEAVY ? 'airHeavy' : bits & BTN.LIGHT ? 'airLight' : null;
   if (bits & BTN.LIGHT && bits & BTN.HEAVY && !from && Math.abs(o.x - f.x) < 56 * SUB) return 'throw';
   if (bits & BTN.HEAVY) return f.held & BTN.DOWN ? 'sweep' : f.held & fwd ? 'overhead' : 'heavy';
   if (bits & BTN.LIGHT) return from === 'light' ? 'light2' : from === 'light2' ? 'light3' : 'light';
-  void s;
   return null;
 }
 
@@ -236,6 +258,15 @@ function updateMove(s: FightState, i: 0 | 1) {
   if (activeT >= 0 && activeT < m.active) {
     const e = m.effect;
     if (e?.kind === 'dash') f.vx = f.facing * e.speed * SUB;
+    if (e?.kind === 'personalities' && activeT % e.every === 0 && f.hitsDone < 4) {
+      // TEN PERSONALITIES (well, four of them, back to back).
+      const k = f.hitsDone++;
+      const near = Math.abs(o.x - f.x) <= 300 * SUB;
+      if (k === 0 && near) { o.frozenUntil = s.frame + 24; s.events.push({ type: 'hit', x: o.x / SUB, y: o.y / SUB - 50, word: 'THE PHILOSOPHER', damage: 0, blocked: false, big: true }); }
+      if (k === 1 && near) hit(s, i, 90, 20, 10, 3, 0, 'GET A LOAD OF THIS GUY', true);
+      if (k === 2) { f.hp = Math.min(MOVESETS[f.crew].hp, f.hp + 100); s.events.push({ type: 'hit', x: f.x / SUB, y: f.y / SUB - 50, word: 'BHAI, YOU GOOD?', damage: 0, blocked: true, big: false }); }
+      if (k === 3 && near) hit(s, i, 130, 34, 18, 9, 7, 'BHAI. BHAI. BHAI.', true, f.x, { knockdown: true });
+    }
     if (e?.kind === 'montage' && activeT % e.every === 0 && f.hitsDone < e.hits) {
       f.hitsDone++;
       f.x = Math.max(WALL_L, Math.min(WALL_R, o.x + (f.hitsDone % 2 ? 40 : -40) * SUB)); f.y = o.y; f.facing = f.x < o.x ? 1 : -1;
@@ -260,7 +291,8 @@ function updateMove(s: FightState, i: 0 | 1) {
     if (next && m.chain.includes(next)) { startMove(s, i, next); return; }
   }
   f.modeFrames++;
-  if (f.modeFrames >= m.startup + m.active + m.recovery) { f.mode = grounded(f) ? 'idle' : 'jump'; f.move = null; }
+  const whiff = m.box && f.hitsDone === 0 && f.move !== 'light' && f.move !== 'light2' && f.move !== 'airLight' ? WHIFF_PENALTY : 0;
+  if (f.modeFrames >= m.startup + m.active + m.recovery + whiff) { f.mode = grounded(f) ? 'idle' : 'jump'; f.move = null; }
 }
 
 function control(s: FightState, i: 0 | 1, input: number) {
@@ -282,7 +314,7 @@ function control(s: FightState, i: 0 | 1, input: number) {
     if (f.mode === 'hitstun' && f.knock && grounded(f) && f.vy >= 0 && f.modeFrames < 20) { f.mode = 'down'; f.modeFrames = 34; f.knock = false; f.vx = 0; return; }
     if (--f.modeFrames <= 0) {
       if (f.mode === 'hitstun' && f.knock && !grounded(f)) { f.modeFrames = 1; return; }   // launched: stay reeling until you land
-      f.mode = grounded(f) ? 'idle' : 'jump'; f.knock = false;
+      f.mode = grounded(f) ? 'idle' : 'jump'; f.knock = false; f.combo = 0; f.juggle = 0;
     }
     return;
   }
@@ -300,9 +332,13 @@ function control(s: FightState, i: 0 | 1, input: number) {
     const dir = (input & BTN.RIGHT ? 1 : 0) - (input & BTN.LEFT ? 1 : 0);
     const slow = s.frame < f.slowUntil ? 2 : 1, stan = s.frame < f.stanUntil ? 3 : 2;
     if (input & BTN.BLOCK) { f.mode = 'block'; f.vx = 0; }
-    else if (input & BTN.DOWN) { f.mode = dir === -f.facing ? 'block' : 'crouch'; f.vx = 0; }
+    else if (input & BTN.DOWN) { f.mode = 'crouch'; f.vx = 0; }
     else if (input & BTN.UP && s.phase === 'fight') { f.vy = -(ms.jump * SUB + 24); f.vx = Math.trunc(dir * ms.walk * SUB * stan / 2 / slow * 5 / 4); f.mode = 'jump'; }
-    else if (dir) { f.vx = Math.trunc(dir * ms.walk * SUB * stan / 2 / slow); f.mode = dir === -f.facing ? 'block' : 'walk'; }
+    else if (dir) {
+      // Holding back just walks you back (a bit slower). Guarding is U (with ↓ for lows).
+      const back = dir === -f.facing;
+      f.vx = Math.trunc(dir * ms.walk * SUB * stan / 2 / slow * (back ? 3 : 4) / 4); f.mode = 'walk';
+    }
     else { f.vx = 0; f.mode = 'idle'; }
   }
 }
@@ -348,7 +384,12 @@ function updateProjectiles(s: FightState) {
     for (const z of s.zones) if (z.kind === 'wall' && z.owner !== p.owner && Math.abs(p.x - z.x) < (z.w / 2 + p.w / 2) * SUB && p.y > (FLOOR_Y - z.h) * SUB) return false;
     const target = s.fighters[p.owner === 0 ? 1 : 0];
     const r = { x: p.x / SUB - p.w / 2, y: p.y / SUB - p.h / 2, w: p.w, h: p.h };
-    if (overlap(r, hurtRect(target))) { hit(s, p.owner, p.damage, p.hitstun, Math.floor(p.hitstun / 2), p.kb, 0, p.sprite === 'cash' ? 'LE RE' : p.sprite === 'boulder' ? 'VAJJ' : 'SPLAT', false, p.x - Math.sign(p.vx || 1) * SUB); return false; }
+    if (overlap(r, hurtRect(target))) {
+      const landed = hit(s, p.owner, p.damage, p.hitstun, Math.floor(p.hitstun / 2), p.kb, 0, p.sprite === 'bubble' ? 'ROASTED' : p.sprite === 'boulder' ? 'VAJJ' : p.sprite === 'prop' ? 'MASTERPIECE' : 'SPLAT', false, p.x - Math.sign(p.vx || 1) * SUB);
+      // Sayam's bubble: a roast lands even through a block (you still heard it). +25% damage taken, a little meter lost.
+      if (landed && p.roast) { target.roastedUntil = s.frame + p.roast; target.meter = Math.max(0, target.meter - 100); }
+      return false;
+    }
     return true;
   });
 }
@@ -375,14 +416,24 @@ function endRound(s: FightState, winner: 0 | 1 | null) {
     s.wins[winner]++;
     s.fighters[winner].mode = 'win';
     const loser = s.fighters[winner === 0 ? 1 : 0];
-    if (loser.hp <= 0) { loser.mode = 'ko'; s.events.push({ type: 'ko', who: winner === 0 ? 1 : 0 }); }
+    if (loser.hp <= 0) { loser.mode = 'ko'; s.events.push({ type: 'ko', who: winner === 0 ? 1 : 0 }); s.hitstop = KO_FREEZE; }
   }
   s.events.push({ type: 'banner', text: winner === null ? 'DRAW' : s.fighters[winner].hp >= MOVESETS[s.fighters[winner].crew].hp ? 'PERFECT CUT' : 'K.O.' });
 }
 
 function nextRound(s: FightState) {
   if (s.wins[0] >= WINS_NEEDED || s.wins[1] >= WINS_NEEDED) {
-    s.phase = 'matchEnd'; s.winner = s.wins[0] >= WINS_NEEDED ? 0 : 1; s.phaseFrames = 0;
+    s.winner = s.wins[0] >= WINS_NEEDED ? 0 : 1;
+    const loser = s.fighters[s.winner === 0 ? 1 : 0];
+    if (loser.mode === 'ko') {
+      // FINAL CUT: the loser staggers up, dazed. The winner has a few seconds for ↓ + SUPER.
+      s.phase = 'finish'; s.phaseFrames = FINISH_WINDOW;
+      loser.mode = 'dizzy'; loser.modeFrames = FINISH_WINDOW + FINISHER_FRAMES; loser.hp = 1; loser.vx = 0;
+      s.fighters[s.winner].mode = 'idle';
+      s.events.push({ type: 'banner', text: 'FINAL CUT IT!' });
+      return;
+    }
+    s.phase = 'matchEnd'; s.phaseFrames = 0;
     s.events.push({ type: 'banner', text: 'FINAL CUT' });
     return;
   }
@@ -401,6 +452,21 @@ export function step(s: FightState, inputs: [number, number]) {
   if (s.phase === 'matchEnd') return;
   if (s.phase === 'intro') { if (--s.phaseFrames <= 0) { s.phase = 'fight'; s.events.push({ type: 'banner', text: `ROUND ${s.round} · ACTION!` }); } }
   else if (s.phase === 'roundEnd') { if (--s.phaseFrames <= 0) nextRound(s); }
+  else if (s.phase === 'finish') {
+    const w = s.winner!, f = s.fighters[w];
+    const pressed = inputs[w] & ~f.held;
+    if (pressed & BTN.SUPER && inputs[w] & BTN.DOWN) {
+      s.phase = 'finishing'; s.phaseFrames = FINISHER_FRAMES; s.finisher = w;
+      f.mode = 'win'; f.vx = 0;
+      s.events.push({ type: 'finisher', who: w, name: MOVESETS[f.crew].finisher });
+      s.fighters[0].held = inputs[0]; s.fighters[1].held = inputs[1];
+      return;
+    } else if (--s.phaseFrames <= 0) { s.phase = 'matchEnd'; s.events.push({ type: 'banner', text: 'FINAL CUT' }); return; }
+  } else if (s.phase === 'finishing') {
+    s.fighters[0].held = inputs[0]; s.fighters[1].held = inputs[1];
+    if (--s.phaseFrames <= 0) { s.phase = 'matchEnd'; s.events.push({ type: 'banner', text: 'FINAL CUT' }); }
+    return;
+  }
   control(s, 0, inputs[0]); control(s, 1, inputs[1]);
   physics(s, 0); physics(s, 1);
   pushApart(s);

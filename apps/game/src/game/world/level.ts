@@ -27,7 +27,7 @@
 //   Z  cracked wall (2 tall; only Sehaj's BEAST MODE boulder smashes it; use for optional secrets)
 //   D  door (2 tall, opened by a terminal)   T  terminal (HACK toggles the nearest door/laser)
 //   L  laser grid (vertical beam up to the ceiling; terminal toggles it)
-//   G  toll gate (2 tall; a BRIBE bag landing next to it opens it for good)
+//   G  toll gate (2 tall; Sayam's SMOOTH TALK speaker landing next to it opens it for good)
 //   F  fan (hazard; CUT! freezes it so you can pass)
 //   V  steam vent (bursts every few seconds; CUT! freezes it)
 //   W  collapsing catwalk (3 tiles wide from here; crumbles when stood on; Sehaj's CTRL+Z rebuilds it)

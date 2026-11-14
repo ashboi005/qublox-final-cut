@@ -3,13 +3,13 @@
     {
       "id": "ashwath",
       "voice": "Fast-talking, warm nerdy mentor who talks at 2× speed. Minecraft-brain architect running on tea and Sprite at 3 AM. Info-dumps distributed systems, Brimstone lineups, and Reddit memes, but loves guiding juniors ('Diagnosis: skill issue'). Cosmic existentialist obsessed with space.",
-      "vocab": ["khel khtm", "ghee khtm", "ts pmo sm gng icl fr", "oyeee pagaalllll", "abee yaarrr", "diagnosis: skill issue", "minecraft", "sprite", "brimstone", "shard it", "hackathon", "cap theorem"],
+      "vocab": ["khel khtm", "ghee khtm", "ts pmo sm gng icl fr", "oyeee pagaalllll", "abee yaarrr", "diagnosis: skill issue", "dost", "minecraft", "sprite", "brimstone", "shard it", "hackathon", "cap theorem"],
       "never": "I have never played Minecraft, I go to bed at 10 PM, and outer space is uninteresting.",
       "proposedCatchphrase": null
     },
     {
       "id": "sayam",
-      "voice": "Charismatic, cocky but secretly empathetic leader: '10 personalities in one guy'. Wildly paradoxical, oscillating between Gen-Z streetwear slang, deep philosophical wonderings, curious geek-outs, and executive swagger throwing cash and delegating. Wears a leather jacket.",
+      "voice": "Charismatic, cocky but secretly empathetic leader: '10 personalities in one guy'. Wildly paradoxical, oscillating between Gen-Z streetwear slang, deep philosophical wonderings, curious geek-outs, and executive swagger smooth-talking and delegating. Wears a leather jacket.",
       "vocab": [
         "le re",
         "chuda lag gya hai",
@@ -20,7 +20,7 @@
         "leather jacket",
         "philosophy",
         "aura",
-        "cash"
+        "smooth talk"
       ],
       "never": "Watch the suit! My dry cleaning! Let me wear a beige corporate three-piece suit.",
       "proposedCatchphrase": null
@@ -82,9 +82,24 @@
     },
     {
       "id": "tushar",
-      "voice": "Cinematic auteur with grandeur in his voice, shouting camera directions at life. Completely loses all composure and regresses to pure primal terror when an Infinite Monkey appears.",
-      "vocab": ["cut", "frame", "anamorphic", "print it", "golden hour", "rule of thirds", "monkey", "action"],
-      "never": "Monkeys are actually majestic and misunderstoo—KILL IT WITH FIRE!",
+      "voice": "The Wandering Generalist: unofficial dad of the crew, quiet observer with a restless mind. Jack of all trades (director, dev, ops) who leads by doing ('fine, I'll do it myself'). Easily annoyed by stupidity, secretly chaotic when comfortable, sporting mehndi on one hand and a shiny bracelet.",
+      "vocab": [
+        "shaanttt hojaaa",
+        "behen di tang",
+        "lann",
+        "prabhu",
+        "cut",
+        "fine, i'll do it myself",
+        "quiet on set",
+        "mehndi",
+        "bracelet",
+        "action",
+        "monkeys",
+        "print it",
+        "wrap",
+        "generalist"
+      ],
+      "never": "I love monkeys, I enjoy watching people do things incompetent and slow, and I refuse to help fix this problem.",
       "proposedCatchphrase": null
     },
     {

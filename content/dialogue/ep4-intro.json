@@ -15,12 +15,22 @@
     {
       "speaker": "manya",
       "emotion": "angry",
-      "text": "It's all #F5F5DC! I am going to paint this entire lobby in neon magenta!"
+      "text": "It's all #F5F5DC! I am going to splash this entire lobby in neon magenta!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "Oh my god wtf bhai. It looks like an untextured default cube. Horrific."
     },
     {
       "speaker": "ashwath",
       "emotion": "panic",
       "text": "The master render drive is on the 99th floor! It's 8:30 AM! Thirty minutes left!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Thirty minutes. Heavy lifting starts now. Vajj."
     }
   ]
 }

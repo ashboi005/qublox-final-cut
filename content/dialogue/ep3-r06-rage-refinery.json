@@ -4,24 +4,39 @@
   "trigger": "Player enters the boiling rage-reaction refinery in Room 06.",
   "lines": [
     {
-      "speaker": "ashwath",
+      "speaker": "tushar",
       "emotion": "panic",
-      "text": "Rage-reaction fireballs from the ceiling! The comments section is boiling!"
+      "text": "The comments are boiling! Prabhu, step back—fine, I'll carry this myself!"
     },
     {
-      "speaker": "sayam",
-      "emotion": "deadpan",
-      "text": "Bhai, synthetic outrage. Tragic engagement farming with zero nutritional value."
-    },
-    {
-      "speaker": "brahmansh",
-      "emotion": "happy",
-      "text": "Keep the tempo up! One bad frame ruins the combo. Time to go unhinged!"
+      "speaker": "tushar",
+      "emotion": "sad",
+      "text": "My hands are shaking... Too many departments... I can't hold all the frames..."
     },
     {
       "speaker": "sehaj",
       "emotion": "deadpan",
-      "text": "Fir khende bohota galla kad da. Toxic lobby. Mute and move."
+      "text": "Rest, dad. Clean form only. I'll take this set. Beast mode on. Vajj."
+    },
+    {
+      "speaker": "mansukh",
+      "emotion": "happy",
+      "text": "Babymonnsterrr! Ratio + L, drones! Drawing vector barricades to cover him!"
+    },
+    {
+      "speaker": "brahmansh",
+      "emotion": "smug",
+      "text": "Frame-perfect Jump Cut! GG thaa 🔫! Sit down, Tushar, we've got your back!"
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "neutral",
+      "text": "Here, drink this water. As if I care? But nobody passes out on set. Dam bhai."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "neutral",
+      "text": "Prabhu... I really don't have to direct every single frame alone. Thank you."
     }
   ]
 }

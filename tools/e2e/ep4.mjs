@@ -16,9 +16,10 @@ const toExit = async () => { const e = await g(() => { const s = window.__qublox
 const clearWaves = async () => { for (let i = 0; i < 4; i++) { await wait(500); await g(() => { const s = window.__qublox.scene.getScene('game'); for (const e of s.liveEnemies()) e.hit(999, 0); }); await wait(1300); } };
 const R = {};
 try {
-  // Title → EP4 → Studio (pick 3) → play
+  // Title → Story → EP4 → Studio (pick 4) → play
   await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
   await wait(1200);
+  await page.keyboard.press('Enter'); await wait(500);   // Title → Story
   for (let i = 0; i < 4; i++) await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter'); await wait(500);
   R.studio = await g(() => [...document.querySelectorAll('.studio-card[aria-selected="true"] .studio-name')].map(e => e.textContent).join(','));

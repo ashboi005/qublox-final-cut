@@ -8,7 +8,7 @@
 @sign 30 3 HOTFIX #992 — DO NOT TOUCH
 @hint 3 10 A/D walk · SPACE leap · J mechanical slap
 @hint 19 7 K = job superpower · 1/2 swap active crew
-@hint 40 9 Sayam hurls cash. LE RE! Keep the change.
+@hint 40 9 Sayam's J throws slang. BHAI! NO CAP! LE RE!
 @tape 20 8 ep0-1
 @decor decor-mood-board 16 13
 @decor decor-beanbag 40 13

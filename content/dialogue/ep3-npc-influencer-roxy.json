@@ -11,7 +11,7 @@
     {
       "speaker": "brahmansh",
       "emotion": "deadpan",
-      "text": "Roxy, put down the ring light. The tower is collapsing upward."
+      "text": "Roxy, put down the ring light. You're dropping 30 frames a second."
     },
     {
       "speaker": "influencer-roxy",
@@ -21,7 +21,12 @@
     {
       "speaker": "brahmansh",
       "emotion": "smug",
-      "text": "An influencer who understands hitboxes. The world truly is healing."
+      "text": "An influencer who understands hitboxes. GG thaa 🔫."
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "As if I care about engagement, but please step off the glass before you drop."
     }
   ]
 }

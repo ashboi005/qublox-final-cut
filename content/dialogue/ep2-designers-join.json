@@ -21,17 +21,22 @@
     {
       "speaker": "manya",
       "emotion": "deadpan",
-      "text": "Needs more saturation! Look, Ashwath and Sayam survived the render farm!"
+      "text": "Needs more saturation! Look, the crew survived the render farm!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "happy",
+      "text": "Mansukh, Manya! Stop tweaking font weights. We need vector bridges right now!"
     },
     {
       "speaker": "mansukh",
       "emotion": "happy",
-      "text": "Babymonnsterrr! Lightstick ready, headphones on. Let's draw vector bridges."
+      "text": "Babymonnsterrr! Lightstick ready, headphones on. Let's ragebait these beige bots."
     },
     {
       "speaker": "manya",
       "emotion": "smug",
-      "text": "And my paint bucket is loaded. Red for solid, yellow for bounce. Let's go."
+      "text": "Paint bucket loaded. Red for solid blocks, yellow for bounce. Let's move!"
     }
   ]
 }

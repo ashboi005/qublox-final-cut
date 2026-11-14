@@ -11,17 +11,27 @@
     {
       "speaker": "tushar",
       "emotion": "angry",
-      "text": "Give back our drive! You stripped every shadow, every contrast, every feeling!"
+      "text": "Behen di tang, give back our drive! You stripped every shadow and every feeling!"
     },
     {
       "speaker": "beige",
       "emotion": "smug",
-      "text": "Feelings create friction. Our template #4092 ensures 100% brand safety for all."
+      "text": "Feelings create friction. Template #4092 ensures 100% brand safety for all."
     },
     {
       "speaker": "sayam",
-      "emotion": "deadpan",
-      "text": "Get a load of this guy. Safety doesn't build culture, bro. Crew, delete this bot."
+      "emotion": "angry",
+      "text": "Safety is boring, bhai! Delegation won't buy taste, and pitches won't delete you."
+    },
+    {
+      "speaker": "sayam",
+      "emotion": "smug",
+      "text": "Ten personalities, one leather jacket. No delegation today—I'm doing this myself!"
+    },
+    {
+      "speaker": "ashwath",
+      "emotion": "happy",
+      "text": "Sayam on the front line?! Full maximalist push! Dost, let's take back our film!"
     }
   ]
 }

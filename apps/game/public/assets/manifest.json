@@ -72,6 +72,12 @@
           "frames": 4,
           "fps": 4,
           "loop": true
+        },
+        "super": {
+          "row": 11,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -139,6 +145,12 @@
           "row": 9,
           "frames": 5,
           "fps": 10,
+          "loop": false
+        },
+        "super": {
+          "row": 10,
+          "frames": 8,
+          "fps": 12,
           "loop": false
         }
       }
@@ -234,6 +246,18 @@
           "frames": 4,
           "fps": 12,
           "loop": true
+        },
+        "wildcard": {
+          "row": 10,
+          "frames": 6,
+          "fps": 9,
+          "loop": false
+        },
+        "super": {
+          "row": 11,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -537,6 +561,12 @@
           "frames": 4,
           "fps": 8,
           "loop": false
+        },
+        "super": {
+          "row": 11,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -605,6 +635,12 @@
           "frames": 6,
           "fps": 12,
           "loop": false
+        },
+        "super": {
+          "row": 10,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -665,6 +701,12 @@
         "tagin": {
           "row": 8,
           "frames": 4,
+          "fps": 12,
+          "loop": false
+        },
+        "super": {
+          "row": 9,
+          "frames": 8,
           "fps": 12,
           "loop": false
         }
@@ -733,6 +775,12 @@
         "unhinged": {
           "row": 9,
           "frames": 6,
+          "fps": 12,
+          "loop": false
+        },
+        "super": {
+          "row": 10,
+          "frames": 8,
           "fps": 12,
           "loop": false
         }
@@ -1857,6 +1905,12 @@
           "frames": 4,
           "fps": 8,
           "loop": false
+        },
+        "super": {
+          "row": 10,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -2151,6 +2205,129 @@
           "frames": 6,
           "fps": 10,
           "loop": false
+        },
+        "super": {
+          "row": 10,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
+        }
+      }
+    },
+    "finisher-ashwath": {
+      "file": "sprites/fx/finisher-ashwath.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-sayam": {
+      "file": "sprites/fx/finisher-sayam.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-tushar": {
+      "file": "sprites/fx/finisher-tushar.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-sehaj": {
+      "file": "sprites/fx/finisher-sehaj.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-manvi": {
+      "file": "sprites/fx/finisher-manvi.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-mansukh": {
+      "file": "sprites/fx/finisher-mansukh.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-manya": {
+      "file": "sprites/fx/finisher-manya.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-brahmansh": {
+      "file": "sprites/fx/finisher-brahmansh.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-mishthi": {
+      "file": "sprites/fx/finisher-mishthi.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
         }
       }
     }
@@ -2389,6 +2566,30 @@
     },
     "art-frame": {
       "file": "sprites/props/art-frame.png"
+    },
+    "fx-counter": {
+      "file": "fx/fx-counter.png"
+    },
+    "fx-combo": {
+      "file": "fx/fx-combo.png"
+    },
+    "fx-ko": {
+      "file": "fx/fx-ko.png"
+    },
+    "fx-parry": {
+      "file": "fx/fx-parry.png"
+    },
+    "bubble": {
+      "file": "sprites/props/bubble.png"
+    },
+    "hype-speaker": {
+      "file": "sprites/props/hype-speaker.png"
+    },
+    "icon-manvi": {
+      "file": "icons/manvi.png"
+    },
+    "icon-mishthi": {
+      "file": "icons/mishthi.png"
     }
   },
   "portraits": {

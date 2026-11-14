@@ -6,12 +6,12 @@
     {
       "speaker": "buffering-wheel",
       "emotion": "neutral",
-      "text": "Buffering... 99%... Estimated time: Forever."
+      "text": "Buffering... 99%... Estimated export time: Forever."
     },
     {
       "speaker": "buffering-wheel",
       "emotion": "angry",
-      "text": "Frame dropped! Frame dropped! Zero FPS!"
+      "text": "Sehaj, you'll render in silence for all eternity!"
     },
     {
       "speaker": "buffering-wheel",
@@ -21,12 +21,12 @@
     {
       "speaker": "buffering-wheel",
       "emotion": "smug",
-      "text": "Latency shield deployed! Buffering all inputs!"
+      "text": "Manvi, your psychology can't cure packet loss!"
     },
     {
       "speaker": "buffering-wheel",
       "emotion": "panic",
-      "text": "Rewind detected?! My timeline has been corrupted!"
+      "text": "Rewind detected?! Sehaj, stop hitting Ctrl+Z!"
     },
     {
       "speaker": "buffering-wheel",
@@ -36,7 +36,7 @@
     {
       "speaker": "buffering-wheel",
       "emotion": "neutral",
-      "text": "Playback paused. Please check your bandwidth."
+      "text": "Ashwath, distributed systems cannot fix my latency!"
     },
     {
       "speaker": "buffering-wheel",
@@ -46,17 +46,17 @@
     {
       "speaker": "buffering-wheel",
       "emotion": "angry",
-      "text": "Packet loss incoming! Dodge the jitter!"
+      "text": "Sayam, your pitch deck won't clear this queue!"
     },
     {
       "speaker": "buffering-wheel",
       "emotion": "neutral",
-      "text": "Overheating cooling towers to 150% capacity!"
+      "text": "Couple move detected?! Disconnecting both sessions!"
     },
     {
       "speaker": "buffering-wheel",
       "emotion": "shocked",
-      "text": "Shield shattered?! Who touched the export bar?!"
+      "text": "Shield shattered?! Who kicked the export bar?!"
     },
     {
       "speaker": "buffering-wheel",

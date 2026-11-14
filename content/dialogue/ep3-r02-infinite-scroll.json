@@ -14,9 +14,14 @@
       "text": "Bhai, keep jumping upward! The algorithm waits for no one! Keep climbing!"
     },
     {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Whatcha doin? Running for your lives? Cardio date! Let's go!"
+    },
+    {
       "speaker": "sehaj",
       "emotion": "deadpan",
-      "text": "Stairmaster on insane mode. Stay positive."
+      "text": "Cardio date. Stay positive. Vajj."
     }
   ]
 }

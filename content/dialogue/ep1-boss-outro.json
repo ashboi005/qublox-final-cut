@@ -11,7 +11,12 @@
     {
       "speaker": "sehaj",
       "emotion": "happy",
-      "text": "100%. Vajj."
+      "text": "100%. Form was clean. Vajj."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Yippieeee! Look at him smile! I told you he had feelings, crew!"
     },
     {
       "speaker": "ashwath",
@@ -21,7 +26,7 @@
     {
       "speaker": "tushar",
       "emotion": "smug",
-      "text": "Now that is cinema. Beautiful lighting restoration."
+      "text": "Now that is cinema. Beautiful lighting restoration. Print the take."
     },
     {
       "speaker": "sayam",
@@ -29,9 +34,14 @@
       "text": "Bhai, look at the tracking: BEIGE took the drive toward the old film studios."
     },
     {
-      "speaker": "manvi",
-      "emotion": "happy",
-      "text": "Yippieeee! Mansukh and Manya are over there! Let's go!"
+      "speaker": "ashwath",
+      "emotion": "panic",
+      "text": "Mansukh and Manya are there! Mansukh has 15 tabs open, he won't notice BEIGE!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Then we move. Studio soundstage is next. Vajj."
     }
   ]
 }

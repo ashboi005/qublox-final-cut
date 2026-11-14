@@ -6,17 +6,22 @@
     {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Fourteen thousand unhandled exceptions! That tower is tipping over!"
+      "text": "Fourteen thousand unhandled exceptions! That server tower is collapsing!"
     },
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, don't panic. Sprint across before the physics engine catches up."
+      "text": "Bhai, don't panic. Sprint across before the physics engine catches up!"
+    },
+    {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Catwalk collapsing? Ctrl+Z. Rewound. Vajj."
     },
     {
       "speaker": "ashwath",
-      "emotion": "panic",
-      "text": "Hack the coolant level terminal! Quick, before we take a nitrogen bath!"
+      "emotion": "happy",
+      "text": "Oyeee pagaalllll! You just rewound gravity! Distributed systems could never!"
     }
   ]
 }

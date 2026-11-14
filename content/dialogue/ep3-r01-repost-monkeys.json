@@ -6,7 +6,7 @@
     {
       "speaker": "tushar",
       "emotion": "panic",
-      "text": "MONKEYS! AND THEY'RE AUTOMATING RETWEETS WITH ZERO FACT-CHECKING!"
+      "text": "MONKEYS! Behen di tang, they're automating retweets with zero fact-checking!"
     },
     {
       "speaker": "brahmansh",
@@ -17,6 +17,11 @@
       "speaker": "ashwath",
       "emotion": "deadpan",
       "text": "They've generated four thousand opinion columns in twelve seconds."
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "Oh my god wtf bhai. Infinite monkeys and not one good sentence."
     }
   ]
 }

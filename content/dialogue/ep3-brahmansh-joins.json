@@ -16,17 +16,22 @@
     {
       "speaker": "sayam",
       "emotion": "shocked",
-      "text": "Bhai, did he just teleport straight through reinforced steel?! The aura on that!"
+      "text": "Bhai, did he just phase straight through reinforced steel?! What a pitch!"
     },
     {
       "speaker": "brahmansh",
       "emotion": "happy",
-      "text": "GG thaa 🔫! Jump Cut skips walls and bad frames entirely. Stop walking slow!"
+      "text": "GG thaa 🔫! Jump Cut skips walls and filler frames. Stop walking so slow!"
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "angry",
+      "text": "Prabhu, don't rush ahead alone! I'm responsible for getting everyone to the top."
     },
     {
       "speaker": "sehaj",
       "emotion": "deadpan",
-      "text": "Fast. I respect the pacing."
+      "text": "Fast. Good pacing. Vajj."
     }
   ]
 }

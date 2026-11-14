@@ -20,7 +20,7 @@ const R = {};
 
 await page.goto(BASE + '/', { waitUntil: 'networkidle0' });
 await wait(1200);
-await press('ArrowDown'); await press('Enter'); await wait(500);
+await press('Enter'); await wait(500); await press('ArrowDown'); await press('Enter'); await wait(500);   // Title → Story → EP1
 R.studio = await g(() => [...document.querySelectorAll('.studio-card[aria-selected="true"] .studio-name')].map(e => e.textContent));
 await page.screenshot({ path: `${out}/30-studio.png` });
 await press('Enter'); await wait(2500); await skip();

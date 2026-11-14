@@ -19,14 +19,29 @@
       "text": "Whatcha doin standing around? Dhumtanana time! Let's hit 'em with a couple move!"
     },
     {
+      "speaker": "sehaj",
+      "emotion": "deadpan",
+      "text": "Nobody touches her. Ctrl+Z on anyone who tries."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Look at these beige drones! Classic emotional suppression! Mind games time!"
+    },
+    {
       "speaker": "ashwath",
       "emotion": "panic",
-      "text": "Oyeee pagaalllll, save the Bollywood romance for after we delete this firewall!"
+      "text": "Diagnosis: skill issue on romantic timing, dost! Drones are breaching!"
     },
     {
       "speaker": "sayam",
       "emotion": "deadpan",
       "text": "Get a load of these two. Bhai, my leather jacket is melting from pure cuteness."
+    },
+    {
+      "speaker": "tushar",
+      "emotion": "deadpan",
+      "text": "Prabhu, wrap the rehearsal! Manvi is in the party. Frame the couple move!"
     }
   ]
 }

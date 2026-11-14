@@ -6,7 +6,7 @@
     {
       "speaker": "sayam",
       "emotion": "deadpan",
-      "text": "Bhai, elevator bot refused my cash. It asked for 'alignment tokens.' Tragic."
+      "text": "Bhai, elevator bot refused my pitch. It asked for 'alignment tokens.' Tragic."
     },
     {
       "speaker": "sehaj",
@@ -17,6 +17,11 @@
       "speaker": "brahmansh",
       "emotion": "smug",
       "text": "And I'll Jump Cut through the maintenance hatch. Let's ride."
+    },
+    {
+      "speaker": "manvi",
+      "emotion": "happy",
+      "text": "Whatcha doin? Elevator hacking? Dhumtanana team lift! Let's go!"
     }
   ]
 }

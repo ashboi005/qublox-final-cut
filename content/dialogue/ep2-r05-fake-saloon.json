@@ -6,17 +6,22 @@
     {
       "speaker": "sayam",
       "emotion": "smug",
-      "text": "Bhai, a bank! Finally, some respect for liquidity. Let me make a deposit."
+      "text": "Bhai, a bank facade! Perfect stage for a pitch deck. Total valuation ten mil."
+    },
+    {
+      "speaker": "mishthi",
+      "emotion": "deadpan",
+      "text": "Dam bhai. The joints aren't even mortised. It's four sheets of plywood and vibes."
     },
     {
       "speaker": "mansukh",
       "emotion": "deadpan",
-      "text": "Sayam, that's four sheets of plywood and two C-clamps. Ratio + L. Always baiting 💔"
+      "text": "Sayam, ratio + L. Even my unfinished roguelike has better architecture 💔"
     },
     {
-      "speaker": "sayam",
+      "speaker": "mishthi",
       "emotion": "deadpan",
-      "text": "Still more structurally sound than most fintech startups. Pure ROI."
+      "text": "As if I care about timber integrity, but one kick and your bank collapses."
     }
   ]
 }
