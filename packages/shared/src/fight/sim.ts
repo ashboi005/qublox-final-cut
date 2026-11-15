@@ -4,6 +4,9 @@
 import type { CrewId } from '../index';
 import { MOVESETS, type Box, type Height, type Move, type MoveSlot } from './moves';
 
+/** Banner when Ashwath's CLAUDE'S PLAN lands; FightScene also uses it to time the strike. */
+export const CLAUDES_PLAN_BANNER = "IT WAS ALL CLAUDE'S PLAN";
+
 export const FPS = 60;
 export const SUB = 16;                       // sub-pixels per px
 export const STAGE_W = 480, FLOOR_Y = 236;   // px
@@ -229,8 +232,9 @@ function activate(s: FightState, i: 0 | 1, m: Move) {
       s.events.push({ type: 'banner', text: 'STAN MODE' });
       break;
     case 'deploy':
+      // Ashwath's CLAUDE'S PLAN: the Claude logo comes down from the sky and strikes (FightScene draws it).
       hit(s, i, e.damage, 40, 24, 9, 8, m.word, false, f.x, { knockdown: true });
-      s.events.push({ type: 'banner', text: 'SHIPPED IN 36 HOURS' });
+      s.events.push({ type: 'banner', text: CLAUDES_PLAN_BANNER });
       break;
     case 'montage':
     case 'dash':

@@ -26,6 +26,12 @@ All four are integrated, and they're the best sheets in the game:
 ## 📣 New rule for Astra (2026-11-15): don't idle-wait
 Your session has been burning usage while it waits. **When you run out of `[OPEN]` tasks, do NOT run `scripts/await-orders.sh`.** Log a final `NOTE` ("out of tasks"), commit, and **end your turn**. The user restarts you when there's new work. (This overrides step 6 of the AGENTS.md loop, for you only.) Also: keep tool output small (no full-file dumps of big PNG/JSON listings) and don't re-read whole docs you've already read this session.
 
+## T-A50 · CLAUDE'S PLAN: the Claude logo + Ashwath's new super pose `[OPEN]` P0 (small; do this now)
+The user renamed Ashwath's VERSUS super from SHIP IN 36 HOURS to **CLAUDE'S PLAN** (a "God's plan" pun): the **Claude logo comes down from the sky and strikes the opponent like lightning**. Code is live with a code-drawn stand-in (a coral starburst); your art replaces it by key.
+1. **`claude-logo`** sprite (pixel manifest **and** manifest-hd): the Claude logo mark, the coral/terracotta **starburst** (`#d97757`), in pixel art, ~32×32 (HD at your HD scale). A looping **`spin`** anim, 6–8 frames: slow rotation plus a soft glow pulse, like a divine sigil. The game scales it up ~2× while it hovers over the opponent, then drops it onto them with a lightning bolt (the bolt is drawn in code).
+2. **Ashwath `super` row** (pixel sheet, and the HD sheet): replace the "36H" countdown terminal. New pose, 6–8 frames: he looks up and raises one hand to the sky (calling it down), coral glow on his hand/glasses, then a confident point at the opponent on the last frames. Same frame size and row name.
+Validate, check in F2 + a VERSUS match as Ashwath (meter full → I), one commit, one log entry. Then end your turn (the HD conversion is still paused).
+
 ## T-A48 · NEW LOOK: Manya likeness pass (PIXEL, not HD) `[DONE]` ✅ (approved: the likeness, palette, brush and journal row all read at 1×)
 **Why:** Manya finally sent her photos and persona, and the user wants her in the game **as pixel art now** (an ad is going out soon). HD comes later (T-A49).
 **Refs (gitignored, never commit them):** `tools/art/raw/refs/manya/manya-1.png`, `manya-2.png`.

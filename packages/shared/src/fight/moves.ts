@@ -70,7 +70,7 @@ export const MOVESETS: Record<CrewId, Moveset> = {
   ashwath: {
     finisher: 'rm -rf BEIGE', walk: 2, jump: 6, hp: 1000, ...kit({ light: 'CLACK', heavy: 'MERGE', sweep: 'GIT RESET', overhead: 'SUDO' }),
     special: { name: 'INFO DUMP', startup: 8, active: 24, recovery: 14, box: { x: 4, y: 10, w: 96, h: 70 }, damage: 35, hitEvery: 8, hitstun: 12, blockstun: 8, kb: 1, chain: ['super'], word: 'CAP THEOREM' },
-    super: { name: 'SHIP IN 36 HOURS', startup: 50, active: 2, recovery: 30, effect: { kind: 'deploy', damage: 260 }, word: 'DEPLOYED' },
+    super: { name: "CLAUDE'S PLAN", startup: 50, active: 2, recovery: 30, effect: { kind: 'deploy', damage: 260 }, word: 'STRUCK' },
   },
   sayam: {
     finisher: 'BHAI, LISTEN…', walk: 2, jump: 5, hp: 1050, ...kit({ light: 'BHAI', heavy: 'NO CAP', sweep: 'CHUDA LAG GYA', overhead: 'FR FR' }),

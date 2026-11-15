@@ -2,7 +2,7 @@
 // frame and draws it: big 2× fighters, projectiles, zones, a fighting-game HUD and juice for sim events.
 // A `Driver` decides how frames advance: locally (2 players / vs CPU) or online (rollback session).
 import * as Phaser from 'phaser';
-import { createFight, FLOOR_Y, METER_MAX, MOVESETS, step, SUB, WINS_NEEDED, type FightEvent, type FightState } from '@qublox/shared/fight';
+import { CLAUDES_PLAN_BANNER, createFight, FLOOR_Y, METER_MAX, MOVESETS, step, SUB, WINS_NEEDED, type FightEvent, type FightState } from '@qublox/shared/fight';
 import type { CrewId } from '@qublox/shared';
 import { animKey } from '../game/assets/art';
 import { synth } from '../game/audio/synth';
@@ -55,6 +55,8 @@ export class FightScene extends Phaser.Scene {
   private last: FightState | null = null;
   private ended = false;
   private talkAt: [number, number] = [0, 0];
+  /** Ashwath's CLAUDE'S PLAN: the logo hovering over the target until the strike lands. */
+  private planLogo: { spr: Phaser.GameObjects.Sprite | Phaser.GameObjects.Image; target: 0 | 1 } | null = null;
   private lowSaid: [boolean, boolean] = [false, false];
   private comboText: Phaser.GameObjects.Text[] = [];
   private comboBadge: (Phaser.GameObjects.Image | null)[] = [];
@@ -168,12 +170,12 @@ export class FightScene extends Phaser.Scene {
         const f = s.fighters[e.who];
         if (e.slot === 'special' || e.slot === 'super') this.talk(s, e.who, e.slot === 'super' ? 'special' : 'ability', e.slot === 'super' ? 'tagin' : 'ability', e.slot === 'super' ? 0.9 : 0.4);
         synth.sfx(e.slot === 'super' ? 'style-rankup' : 'ability');
-        if (e.slot === 'super') { this.cameras.main.flash(120, 255, 255, 255); this.showBanner(e.name, hex(CREW[f.crew].color)); }
+        if (e.slot === 'super') { this.cameras.main.flash(120, 255, 255, 255); this.showBanner(e.name, hex(CREW[f.crew].color)); if (f.crew === 'ashwath') this.claudesPlan(e.who); }
         else wordPop(this, f.x / SUB, f.y / SUB - 110, e.name);
         break;
       }
       case 'finisher': this.prompt.setVisible(false); this.finisherFx(s, e.who, e.name); break;
-      case 'banner': this.showBanner(e.text); synth.sfx(e.text.startsWith('ROUND') ? 'menu' : 'style-rankup'); break;
+      case 'banner': this.showBanner(e.text, e.text === CLAUDES_PLAN_BANNER ? CLAUDE_HEX : undefined); synth.sfx(e.text.startsWith('ROUND') ? 'menu' : 'style-rankup'); if (e.text === CLAUDES_PLAN_BANNER) this.claudeStrike(); break;
       case 'ko':
         shake(this, 4); this.cameras.main.flash(200, 255, 80, 80); synth.sfx('boss-roar');
         if (this.textures.exists('fx-ko')) {
@@ -284,6 +286,42 @@ export class FightScene extends Phaser.Scene {
     this.time.delayedCall(sheet ? 3200 : 2400, done);
   }
 
+  /** CLAUDE'S PLAN, part 1 (super startup): the sky darkens and the Claude logo descends over the opponent, spinning.
+   *  Astra's `claude-logo` sprite (with a `spin` anim) when it exists; a code-drawn coral starburst until then. */
+  private claudesPlan(who: 0 | 1) {
+    this.planLogo?.spr.destroy();
+    const target: 0 | 1 = who === 0 ? 1 : 0, foe = this.fighters[target]!;
+    const art = this.textures.exists('claude-logo');
+    if (!art && !this.textures.exists('claude-logo-ph')) claudePlaceholder(this);
+    const spr = art ? this.add.sprite(foe.x, -40, 'claude-logo') : this.add.image(foe.x, -40, 'claude-logo-ph');
+    if (art && spr instanceof Phaser.GameObjects.Sprite && this.anims.exists(animKey('claude-logo', 'spin'))) spr.play(animKey('claude-logo', 'spin'));
+    spr.setDepth(45).setScale(art ? 1 : 1).setAlpha(0);
+    this.planLogo = { spr, target };
+    const dark = this.add.rectangle(240, 135, 480, 270, 0x1a0f0a, 0).setDepth(2);
+    this.tweens.add({ targets: dark, fillAlpha: 0.45, duration: 300, yoyo: true, hold: 500, onComplete: () => dark.destroy() });
+    this.tweens.add({ targets: spr, alpha: 1, scale: art ? 2 : 2.2, y: foe.y - 150, duration: 760, ease: 'Sine.Out',
+      onUpdate: () => { spr.x += (this.fighters[target]!.x - spr.x) * 0.15; if (!art) spr.angle += 6; } });
+    // A safety net: a blocked/whiffed strike still clears the logo.
+    this.time.delayedCall(2200, () => { if (this.planLogo?.spr === spr) { this.planLogo = null; this.tweens.add({ targets: spr, alpha: 0, duration: 200, onComplete: () => spr.destroy() }); } });
+  }
+  /** CLAUDE'S PLAN, part 2 (the hit): the logo drops like a lightning bolt onto the opponent. Flash, shake, done. */
+  private claudeStrike() {
+    const plan = this.planLogo; this.planLogo = null;
+    const foe = this.fighters[plan?.target ?? 1]!;
+    const x = foe.x, y = foe.y - 30;
+    const bolt = this.add.graphics().setDepth(44);
+    const pts: [number, number][] = [[x + Phaser.Math.Between(-10, 10), -10]];
+    for (let k = 1; k <= 7; k++) pts.push([x + (k === 7 ? 0 : Phaser.Math.Between(-16, 16)), -10 + (y + 10) * k / 7]);
+    for (const [w, c] of [[7, 0xd97757], [3, 0xfff4e8]] as const) { bolt.lineStyle(w, c, 1); bolt.beginPath(); bolt.moveTo(pts[0]![0], pts[0]![1]); for (const p of pts.slice(1)) bolt.lineTo(p[0], p[1]); bolt.strokePath(); }
+    this.tweens.add({ targets: bolt, alpha: 0, duration: 260, delay: 90, onComplete: () => bolt.destroy() });
+    this.cameras.main.flash(180, 217, 119, 87);
+    shake(this, 5);
+    synth.sfx('boss-hit');
+    if (plan) this.tweens.add({ targets: plan.spr, x, y, scale: plan.spr.scale * 1.3, duration: 90, ease: 'Quad.In', onComplete: () => {
+      this.tweens.add({ targets: plan.spr, alpha: 0, scale: plan.spr.scale * 2, duration: 300, onComplete: () => plan.spr.destroy() });
+    } });
+  }
+
   private showBanner(text: string, color = '#fecb56') {
     this.banner.setText(text).setColor(color).setAlpha(1).setScale(0.6);
     this.tweens.killTweensOf(this.banner);
@@ -388,3 +426,22 @@ export class FightScene extends Phaser.Scene {
   }
 }
 
+
+/** Claude's coral (the logo colour). */
+const CLAUDE_HEX = '#d97757';
+/** Code-drawn stand-in for Astra's pixel Claude logo: a chunky coral starburst on a 32×32 canvas. */
+function claudePlaceholder(scene: Phaser.Scene) {
+  const g = scene.add.graphics();
+  g.fillStyle(0xd97757, 1);
+  for (let k = 0; k < 12; k++) {
+    const a = (k / 12) * Math.PI * 2, len = k % 2 ? 13 : 15, w = 0.16;
+    g.fillPoints([
+      new Phaser.Math.Vector2(16 + Math.cos(a - w) * 3, 16 + Math.sin(a - w) * 3),
+      new Phaser.Math.Vector2(16 + Math.cos(a) * len, 16 + Math.sin(a) * len),
+      new Phaser.Math.Vector2(16 + Math.cos(a + w) * 3, 16 + Math.sin(a + w) * 3),
+    ], true);
+  }
+  g.fillCircle(16, 16, 4);
+  g.generateTexture('claude-logo-ph', 32, 32);
+  g.destroy();
+}

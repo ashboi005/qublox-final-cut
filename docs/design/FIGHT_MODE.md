@@ -59,7 +59,7 @@ The crew's request: a Tekken / Mortal Kombat-style 1v1. You create a room, get a
 
 | Crew | Special (`L`) | Super / finisher (`I`) |
 |---|---|---|
-| Ashwath | **INFO DUMP**: a close-range psychic multi-hit (3 ticks) | **SHIP IN 36 HOURS**: a hackathon countdown, then a full-screen deploy blast |
+| Ashwath | **INFO DUMP**: a close-range psychic multi-hit (3 ticks) | **CLAUDE'S PLAN** (like God's plan): the pixel Claude logo descends from the sky over the opponent and strikes like lightning ("IT WAS ALL CLAUDE'S PLAN"). Same damage/frames as the old SHIP IN 36 HOURS |
 | Sayam | **GET A LOAD OF THIS GUY**: a speech-bubble roast; the target is ROASTED (+25% damage taken for 3s) | **TEN PERSONALITIES**: Philosopher, Roast, Empath, Hype, back to back |
 | Tushar | **CUT!**: freezes the opponent (short) if they're on screen | **FINE, I'LL DO IT MYSELF**: takes over for 7s: +35% damage dealt and a full guard bar, but +20% damage taken |
 | Sehaj | **BEAST MODE**: a slow, heavy boulder | **CTRL+Z**: rewinds himself 1.5s (position and HP) |
