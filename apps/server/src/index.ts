@@ -5,6 +5,7 @@ import { RunSubmitSchema, SaveSchema, mergeSaves, EMPTY_SAVE, type LeaderboardRo
 import { migrate, sql } from './db';
 import { auth, migrateAuth, userOf, ORIGINS, PROVIDERS } from './auth';
 import { fight } from './fight';
+import { errMsg, log } from './log';
 
 const PORT = Number(process.env.PORT ?? 8787);
 
@@ -12,9 +13,10 @@ const PORT = Number(process.env.PORT ?? 8787);
 // The DB can come up after the server (e.g. both starting on a deploy), so keep retrying until it answers.
 let dbReady = false;
 async function connectDb(attempt = 1): Promise<void> {
-  try { await migrate(); await migrateAuth(); dbReady = true; if (attempt > 1) console.log('[server] Postgres connected'); }
+  try { await migrate(); await migrateAuth(); dbReady = true; log('info', 'db', 'connected', { attempt }); }
   catch (e) {
-    if (attempt === 1) console.warn('[server] Postgres unavailable (retrying every 5s), accounts/leaderboard/saves off until then:', (e as Error).message);
+    // First failure, then every ~minute while it keeps failing, so the logs show it's still down without flooding.
+    if (attempt === 1 || attempt % 12 === 0) log('warn', 'db', 'unavailable', { attempt, retryEverySecs: 5, error: errMsg(e), off: 'accounts,leaderboard,saves' });
     setTimeout(() => void connectDb(attempt + 1), 5000);
   }
 }
@@ -35,7 +37,21 @@ const limited = (key: string) => {
   return recent.length > 20;
 };
 
+// Request timing for the access log (only failures and slow requests are logged).
+const started = new WeakMap<Request, number>();
+
 export const app = new Elysia()
+  .onRequest(({ request }) => { started.set(request, performance.now()); })
+  .onAfterResponse({ as: 'global' }, ({ request, set }) => {
+    const ms = Math.round(performance.now() - (started.get(request) ?? performance.now()));
+    const status = Number(set.status ?? 200);
+    const path = new URL(request.url).pathname;
+    if (path === '/fight') return;   // the WebSocket upgrade; the relay logs its own lines
+    if (status >= 400 || ms > 1500) log(status >= 500 ? 'error' : status >= 400 ? 'warn' : 'info', 'http', `${request.method} ${path}`, { status, ms, origin: request.headers.get('origin') ?? undefined });
+  })
+  .onError({ as: 'global' }, ({ request, code, error }) => {
+    log('error', 'http', 'error', { path: `${request.method} ${new URL(request.url).pathname}`, code: String(code), error: errMsg(error) });
+  })
   .use(cors({ origin: ORIGINS, credentials: true, allowedHeaders: ['Content-Type', 'Authorization'], methods: ['GET', 'POST', 'PUT', 'OPTIONS'] }))
   .mount(auth.handler)
   .use(fight)
@@ -94,3 +110,10 @@ export const app = new Elysia()
   .listen(PORT);
 
 console.log(`[server] game API on http://localhost:${PORT} (sign-in: email${PROVIDERS.google ? ', google' : ''}${PROVIDERS.discord ? ', discord' : ''})`);
+// Everything that decides how this deploy behaves, in one line (no secrets): check this first when something's off.
+log('info', 'server', 'boot', {
+  port: PORT, db: dbReady, authUrl: process.env.BETTER_AUTH_URL ?? 'unset', origins: ORIGINS, crossSiteCookies: process.env.CROSS_SITE_COOKIES === '1',
+  google: PROVIDERS.google, discord: PROVIDERS.discord, secretSet: !!process.env.BETTER_AUTH_SECRET, commit: (process.env.SOURCE_COMMIT ?? 'dev').slice(0, 7), logLevel: process.env.LOG_LEVEL ?? 'info',
+});
+process.on('unhandledRejection', e => log('error', 'server', 'unhandled-rejection', { error: errMsg(e) }));
+process.on('uncaughtException', e => log('error', 'server', 'uncaught-exception', { error: errMsg(e) }));

@@ -2,6 +2,8 @@
 // Sessions are cookies on the API's domain. The game lives on a sibling subdomain (same site), so the browser
 // sends them along with `credentials: 'include'` fetches.
 import { betterAuth } from 'better-auth';
+import { createAuthMiddleware } from 'better-auth/api';
+import { errMsg, log, short } from './log';
 import { getMigrations } from 'better-auth/db/migration';
 import { Pool } from 'pg';
 import { DATABASE_URL } from './db';
@@ -32,6 +34,26 @@ export const auth = betterAuth({
   // Only when the game and API are on unrelated domains (not sibling subdomains): cookies must be SameSite=None.
   ...(env('CROSS_SITE_COOKIES') === '1' ? { advanced: { defaultCookieAttributes: { sameSite: 'none' as const, secure: true } } } : {}),
   telemetry: { enabled: false },
+  // Better Auth's own messages (OAuth state/code errors, DB problems…) go through our one-line logger.
+  logger: {
+    level: process.env.LOG_LEVEL === 'debug' ? 'debug' : 'info',
+    log: (level, message, ...args) => log(level, 'auth', message.replace(/\s+/g, ' ').slice(0, 200), args.length ? { detail: args.map(errMsg).join(' | ').replace(/\s+/g, ' ').slice(0, 300) } : {}),
+  },
+  // One line per sign-in / sign-up / OAuth callback / sign-out: did it work, which provider, which user (short id).
+  hooks: {
+    after: createAuthMiddleware(async ctx => {
+      const p = ctx.path;
+      if (!/^\/(sign-in|sign-up|callback|sign-out)/.test(p)) return;
+      const returned: unknown = ctx.context.returned;
+      const failed = returned instanceof Error;
+      const r = (failed ? returned : {}) as { status?: number | string; statusCode?: number; message?: string };
+      const provider = (ctx.params as { id?: string } | undefined)?.id ?? (ctx.body as { provider?: string } | undefined)?.provider ?? (p.includes('email') ? 'email' : undefined);
+      log(failed ? 'warn' : 'info', 'auth', p.replace(/\/:?id$/, ''), {
+        provider, ok: !failed, user: short(ctx.context.newSession?.user.id ?? ctx.context.session?.user.id),
+        error: failed ? `${r.status ?? r.statusCode ?? ''} ${r.message ?? ''}`.trim().slice(0, 160) : undefined,
+      });
+    }),
+  },
 });
 
 /** Create/upgrade Better Auth's tables (user, session, account, verification). Idempotent. */

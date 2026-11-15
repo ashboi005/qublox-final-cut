@@ -2,6 +2,7 @@
 import { checksum, createFight, step, ServerMsg, type ClientMsg, type FightEvent, type FightState } from '@qublox/shared/fight';
 import type { CrewId } from '@qublox/shared';
 import type { Driver } from './FightScene';
+import { dlog } from '../game/debuglog';
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787';
 export const FIGHT_WS = API.replace(/^http/, 'ws') + '/fight';
@@ -15,27 +16,43 @@ export class VersusSocket {
   private queue: ClientMsg[] = [];
   closed = false;
   private beat: ReturnType<typeof setInterval> | undefined;
+  private openedAt = 0;
+  /** Round-trip time to the relay (ms): the last one and a running average, from the heartbeat pings. */
+  rtt = 0; rttAvg = 0;
   constructor(url = FIGHT_WS) {
+    const t0 = performance.now();
+    dlog('versus', 'connecting', { url });
     this.ws = new WebSocket(url);
     this.ws.onopen = () => {
+      this.openedAt = performance.now();
+      dlog('versus', 'connected', { ms: Math.round(this.openedAt - t0) });
       for (const m of this.queue) this.ws.send(JSON.stringify(m));
       this.queue = [];
       // Heartbeat: proxies in front of the server (Cloudflare, Traefik) drop a WebSocket that's quiet for ~100s,
       // e.g. while both players sit on the result or character-select screen.
+      this.send({ t: 'ping', at: Date.now() });   // first RTT right away (for the logs)
       this.beat = setInterval(() => this.send({ t: 'ping', at: Date.now() }), 20_000);
     };
     this.ws.onmessage = ev => {
       let raw: unknown;
       try { raw = JSON.parse(String(ev.data)); } catch { return; }
       const m = ServerMsg.safeParse(raw);
-      if (m.success) for (const h of this.handlers) h(m.data);
+      if (!m.success) { dlog('versus', 'bad-server-message', { sample: String(ev.data).slice(0, 80) }, 'warn'); return; }
+      if (m.data.t === 'pong') { this.rtt = Math.round(Date.now() - m.data.at); this.rttAvg = this.rttAvg ? Math.round(this.rttAvg * 0.7 + this.rtt * 0.3) : this.rtt; }
+      else if (m.data.t !== 'input' && m.data.t !== 'sync') dlog('versus', `server:${m.data.t}`, m.data.t === 'error' ? { message: m.data.message } : m.data.t === 'start' ? { match: m.data.seed, crews: m.data.crews.join(',') } : m.data.t === 'room' ? { room: m.data.code, you: m.data.you + 1, players: m.data.players.filter(Boolean).length } : {});
+      for (const h of this.handlers) h(m.data);
     };
-    this.ws.onclose = () => { this.closed = true; clearInterval(this.beat); for (const h of this.handlers) h({ t: 'error', message: 'Connection to the VERSUS server closed.' }); };
-    this.ws.onerror = () => { for (const h of this.handlers) h({ t: 'error', message: `Can't reach the VERSUS server (${url}). Is \`bun run dev:server\` running?` }); };
+    this.ws.onclose = ev => { dlog('versus', 'closed', { code: ev.code, reason: ev.reason || undefined, clean: ev.wasClean, byUs: this.closed, upSecs: this.openedAt ? Math.round((performance.now() - this.openedAt) / 1000) : 0, rttAvg: this.rttAvg }, ev.code === 1000 || this.closed ? 'info' : 'warn'); this.closed = true; clearInterval(this.beat); for (const h of this.handlers) h({ t: 'error', message: 'Connection to the VERSUS server closed.' }); };
+    this.ws.onerror = () => { dlog('versus', 'socket-error', { url, state: this.ws.readyState }, 'error'); for (const h of this.handlers) h({ t: 'error', message: `Can't reach the VERSUS server (${url}). Is \`bun run dev:server\` running?` }); };
   }
   send(m: ClientMsg) { if (this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(m)); else this.queue.push(m); }
   on(h: Handler) { this.handlers.add(h); return () => { this.handlers.delete(h); }; }
-  close() { this.closed = true; clearInterval(this.beat); this.ws.close(); }
+  close() { this.closed = true; clearInterval(this.beat); this.ws.close(1000, 'left'); }
+  /** Send a line to the server's logs (and this browser's debug log). */
+  report(kind: 'desync' | 'stall' | 'summary' | 'error', data: Record<string, string | number | boolean>) {
+    dlog('versus', `report:${kind}`, data, kind === 'desync' || kind === 'error' ? 'warn' : 'info');
+    this.send({ t: 'report', kind, data });
+  }
 }
 
 /**
@@ -68,12 +85,15 @@ export class RollbackDriver implements Driver {
   private off: () => void;
   rollbacks = 0;
   desync = false;
+  // For the logs: deepest rollback, stall episodes and the longest one.
+  private maxDepth = 0; private stalls = 0; private longestStall = 0;
 
   constructor(private sock: VersusSocket, you: 0 | 1, crews: [CrewId, CrewId], private seed: number, private onDesync: () => void) {
     this.local = you;
     this.state = createFight(crews[0], crews[1], seed);
     for (let f = 1; f <= RollbackDriver.INPUT_DELAY; f++) { this.localIn[f] = 0; this.remoteIn[f] = 0; }
     this.snaps.set(0, structuredClone(this.state));
+    dlog('versus', 'match-start', { match: seed, you: you + 1, crews: crews.join(','), rtt: sock.rttAvg });
     this.off = sock.on(m => {
       if (this.disposed || ((m.t === 'input' || m.t === 'sync') && m.m !== undefined && m.m !== this.seed)) return;
       if (m.t === 'input') m.bits.forEach((b, k) => this.receive(m.from + k, b));
@@ -114,12 +134,18 @@ export class RollbackDriver implements Driver {
         this.state = structuredClone(snap);
         for (let f = from; f <= to; f++) this.simulate(f);
         this.rollbacks++;
+        this.maxDepth = Math.max(this.maxDepth, to - from + 1);
       }
     }
     // 2) Stall if the opponent is too far behind.
     const next = this.state.frame + 1;
     const lastRemote = this.lastContiguousRemote();
     this.stalled = next - lastRemote > RollbackDriver.MAX_ROLLBACK;
+    if (!this.stalled && this.stallTicks > RollbackDriver.STALL_NOTICE) {
+      // A stall long enough to show WAITING FOR OPPONENT just ended: worth a line on the server.
+      this.stalls++; this.longestStall = Math.max(this.longestStall, this.stallTicks);
+      this.sock.report('stall', { match: this.seed, frame: this.state.frame, ticks: this.stallTicks, rtt: this.sock.rttAvg });
+    }
     this.stallTicks = this.stalled ? this.stallTicks + 1 : 0;
     if (this.stalled) return { state: this.state, events };
     // 3) Schedule + send local input (INPUT_DELAY frames ahead).
@@ -151,12 +177,21 @@ export class RollbackDriver implements Driver {
 
   private checkSync(f: number) {
     const a = this.sums.get(f), b = this.remoteSums.get(f);
-    if (a !== undefined && b !== undefined && a !== b && !this.desync && !this.disposed) { this.desync = true; this.onDesync(); }
+    if (a !== undefined && b !== undefined && a !== b && !this.desync && !this.disposed) {
+      this.desync = true;
+      this.sock.report('desync', { match: this.seed, frame: f, local: a, remote: b, now: this.state.frame, confirmed: this.confirmed, rollbacks: this.rollbacks, crews: this.state.fighters.map(x => x.crew).join(',') });
+      this.onDesync();
+    }
   }
 
   status() { return this.sock.closed ? 'DISCONNECTED' : this.stallTicks > RollbackDriver.STALL_NOTICE ? 'WAITING FOR OPPONENT…' : null; }
   /** Detach from the socket. Called when the scene shuts down AND when the fight view unmounts (destroying the
    *  Phaser game doesn't run scene shutdown, so a finished match used to stay subscribed and cry "desync" in the next). */
   private disposed = false;
-  dispose() { if (this.disposed) return; this.disposed = true; this.off(); }
+  dispose() {
+    if (this.disposed) return;
+    this.disposed = true; this.off();
+    // One summary per match: how healthy was the netcode?
+    if (this.state.frame > 0) this.sock.report('summary', { match: this.seed, frames: this.state.frame, phase: this.state.phase, rollbacks: this.rollbacks, maxDepth: this.maxDepth, stalls: this.stalls, longestStall: this.longestStall, rttAvg: this.sock.rttAvg, desync: this.desync });
+  }
 }

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { CREW_IDS, type CrewId } from '@qublox/shared';
 import { MOVESETS, moveList, type LobbyPlayer } from '@qublox/shared/fight';
 import { bus } from '@/game/bus';
+import { debugLogText, dlog } from '@/game/debuglog';
 import { useSession } from '@/game/account';
 import { CREW, hex } from '@/game/crew';
 import { speak } from '@/game/voice';
@@ -25,6 +26,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
   const [controls, setControls] = useState(false);
   const [step, setStep] = useState<'menu' | 'select' | 'fight' | 'result'>('menu');
   const [mode, setMode] = useState<Mode>('cpu');
+  const modeRef = useRef<Mode>('cpu'); modeRef.current = mode;
   const [name, setName] = useState(loadName);
   // Signed in and never typed a name: use the account's.
   const { data: session } = useSession();
@@ -87,7 +89,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
   }, [step, mode, cursor]);
   useEffect(() => { if (step === 'select' && mode !== 'online' && picks[0] && picks[1]) { const t = setTimeout(() => go([picks[0]!, picks[1]!]), 600); return () => clearTimeout(t); } }, [picks, step, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => bus.on('versusEnd', ({ winner: w, reason, finisher: fin }) => { setWinner(w); setFinisher(fin ?? null); if (w !== null && matchRef.current) speak(matchRef.current.crews[w], 'win'); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug; tell Claude.'); setStep('result'); }), []);
+  useEffect(() => bus.on('versusEnd', ({ winner: w, reason, finisher: fin }) => { setWinner(w); setFinisher(fin ?? null); if (w !== null && matchRef.current) speak(matchRef.current.crews[w], 'win'); dlog('versus', 'match-over', { mode: modeRef.current, winner: w === null ? 'draw' : w + 1, reason, finisher: fin }); if (reason === 'desync') setMsg('Desync detected: the two games disagreed. That\'s a bug: press “Copy debug log” and send it to Claude.'); setStep('result'); }), []);
 
   const face = (id: CrewId) => {
     const p = portraits[id];
@@ -110,6 +112,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
         {msg && <p className="versus-msg">{msg}</p>}
         <div className="studio-actions">
           <button type="button" onClick={() => { if (mode === 'online') { sock.current?.send({ t: 'rematch' }); setStep('select'); } else go(match.crews); }}>Rematch</button>
+          {mode === 'online' && <CopyLog />}
           <button type="button" onClick={() => { if (mode === 'online') sock.current?.close(); setLobby(null); setStep('menu'); }}>Change mode</button>
           <button type="button" onClick={onBack}>Title</button>
         </div>
@@ -189,6 +192,12 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
 }
 
 /** Mounts the Phaser VERSUS game for one match. */
+/** Copies the client debug log (see game/debuglog.ts) so a player can paste it to us. */
+function CopyLog() {
+  const [done, setDone] = useState(false);
+  return <button type="button" onClick={() => { void navigator.clipboard?.writeText(debugLogText()).then(() => setDone(true), () => setDone(false)); }}>{done ? 'Copied ✔' : 'Copy debug log'}</button>;
+}
+
 function FightHost({ match, mode, you, sock, onDesync }: { match: Match; mode: Mode; you: 0 | 1; sock: import('@/fight/net').VersusSocket | null; onDesync: () => void }) {
   const host = useRef<HTMLDivElement>(null);
   useEffect(() => {

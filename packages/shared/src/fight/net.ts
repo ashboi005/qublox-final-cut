@@ -19,6 +19,8 @@ export const ClientMsg = z.discriminatedUnion('t', [
   z.object({ t: z.literal('sync'), frame: z.number().int().min(0), sum: z.number().int().min(0), m: z.number().int().optional() }),
   z.object({ t: z.literal('rematch') }),
   z.object({ t: z.literal('ping'), at: z.number() }),
+  /** Client → server log line (shows in the server logs): desyncs, long stalls, end-of-match netcode summaries, errors. */
+  z.object({ t: z.literal('report'), kind: z.enum(['desync', 'stall', 'summary', 'error']), data: z.record(z.string().max(24), z.union([z.string().max(160), z.number(), z.boolean()])).refine(d => Object.keys(d).length <= 16) }),
 ]);
 export type ClientMsg = z.infer<typeof ClientMsg>;
 

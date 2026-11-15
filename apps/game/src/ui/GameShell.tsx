@@ -20,6 +20,7 @@ import { useAccountSync } from './Account';
 import { HD } from '@/game/artMode';
 import { key, useKeybinds } from '@/game/keybinds';
 import { Controls } from './Controls';
+import { dlog } from '@/game/debuglog';
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }>; sprites?: SpriteSheets };
 type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] }; versus?: { crew?: Partial<Record<CrewId, { win?: string[] }>> }; glossary?: unknown }; barks: Record<string, { barks?: Record<string, string[]> }> };
@@ -42,6 +43,8 @@ export default function GameShell({ level, party, direct }: { level: string; par
   const [content, setContent] = useState<Content | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   useAccountSync(text => { setNotice(text); window.setTimeout(() => setNotice(n => (n === text ? null : n)), 5000); });
+  // First debug-log line: which page, which API, and any error Better Auth bounced back with (?error=… after an OAuth fail).
+  useEffect(() => { const q = new URLSearchParams(window.location.search); dlog('page', 'load', { path: window.location.pathname, api: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787', authError: q.get('error') ?? undefined }, q.get('error') ? 'warn' : 'info'); }, []);
 
   useEffect(() => {
     // HD style test (?art=hd): its portraits replace the pixel ones key by key; everything else stays.

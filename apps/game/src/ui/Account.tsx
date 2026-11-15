@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { authClient, postParkedRun, serverConfig, setSignedIn, syncSave, useSession, type ServerConfig } from '@/game/account';
+import { dlog } from '@/game/debuglog';
 
 type User = { id: string; name: string; email: string };
 
@@ -72,7 +73,7 @@ function SignedOut({ cfg, reason, beforeRedirect }: { cfg: ServerConfig; reason?
     setBusy(true); setError('');
     beforeRedirect?.();
     const { error: err } = await authClient.signIn.social({ provider, callbackURL: window.location.href, errorCallbackURL: window.location.href });
-    if (err) { setBusy(false); setError(err.message ?? 'Sign-in failed.'); }
+    if (err) { setBusy(false); setError(err.message ?? 'Sign-in failed.'); dlog('auth', 'social-start-failed', { provider, status: err.status, message: err.message }, 'warn'); }
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -82,7 +83,7 @@ function SignedOut({ cfg, reason, beforeRedirect }: { cfg: ServerConfig; reason?
       ? await authClient.signUp.email({ name: name.trim(), email: email.trim(), password })
       : await authClient.signIn.email({ email: email.trim(), password });
     setBusy(false);
-    if (err) setError(err.message ?? 'That didn\'t work.');
+    if (err) { setError(err.message ?? 'That didn\'t work.'); dlog('auth', mode === 'up' ? 'sign-up-failed' : 'sign-in-failed', { status: err.status, message: err.message }, 'warn'); }
   };
 
   const socials = (['google', 'discord'] as const).filter(p => cfg.providers[p]);

@@ -61,3 +61,18 @@ To try the production frontend next to `bun run dev` without Docker: `cd apps/ga
 ## Alternative: frontend on Vercel
 
 It works: import the repo, root directory `apps/game`, framework Next.js, env `NEXT_PUBLIC_API_URL=https://api.yourdomain`. The `/api/content` route ships the `content/` folder via `outputFileTracingIncludes` in `next.config.ts`. The server (and its WebSockets) still runs on the VPS, and `CORS_ORIGINS` must list the Vercel URL. Give the Vercel project a subdomain of your own domain, or logins won't stick (see the cookie note above). Keeping both on the VPS is simpler (one place, one bill, no cross-provider latency), so that's the default.
+
+## Logs (debugging a live deploy)
+
+The server writes one line per event: `time LEVEL [tag] event key=value …` (Coolify → the server resource → Logs). `LOG_LEVEL=debug` adds heartbeats and rematch taps. No secrets, passwords or emails are ever logged.
+
+| Tag | What you'll see |
+|---|---|
+| `[server] boot` | The deploy's settings in one line: auth URL, CORS origins, which sign-in providers are on, cross-site cookies, whether the secret is set, commit. **Check this first.** |
+| `[db]` | `connected` / `unavailable` (repeats about once a minute while it's down). |
+| `[http]` | Only failures (4xx/5xx) and slow requests (>1.5s), with status, ms and origin. |
+| `[auth]` | Every sign-in / sign-up / OAuth callback / sign-out (`ok=true/false`, provider, short user id), plus Better Auth's own warnings (e.g. OAuth `state_mismatch`). |
+| `[versus]` | `connect` / `disconnect code=…` (1000/1001 = normal; 1006 = the network or a proxy cut it), `create` / `join` / `join-fail why=no-such-room\|full\|version-mismatch`, `start`, `match-end` (seconds, messages relayed, stale dropped), `stats` every 5 min. |
+| `[client]` | Sent by the players' browsers: `desync` (frame + both checksums), `stall` (a WAITING FOR OPPONENT long enough to see), `summary` after every match (rollbacks, deepest rollback, stalls, ping). |
+
+Players can also press **Copy debug log** on the VERSUS result screen (or run `__qubloxLog()` in the browser console) and send it over: it's that browser's side of the same story, including connection close codes and page errors.
