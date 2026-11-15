@@ -1,23 +1,38 @@
-// VERSUS input → BTN bits per frame. P1 = WASD/arrows + J K L I + U block (also used online); P2 (local) = arrows + 1 2 3 0 + 4 block.
+// VERSUS input → BTN bits per frame, from the player's bindings (keybinds.ts, Controls screen).
+// P1 is also the online / vs-CPU player; P2 is the second player on the same keyboard (Local 2P).
 import * as Phaser from 'phaser';
 import { BTN } from '@qublox/shared/fight';
+import { ACTIONS, bindsVersion, codes } from '@/game/keybinds';
 
-type Layout = { left: string[]; right: string[]; up: string[]; down: string[]; light: string[]; heavy: string[]; special: string[]; super: string[]; block: string[] };
-export const P1_KEYS: Layout = { left: ['A'], right: ['D'], up: ['W', 'SPACE'], down: ['S'], light: ['J'], heavy: ['K'], special: ['L'], super: ['I'], block: ['U'] };
-export const P1_SOLO_KEYS: Layout = { ...P1_KEYS, left: ['A', 'LEFT'], right: ['D', 'RIGHT'], up: ['W', 'SPACE', 'UP'], down: ['S', 'DOWN'] };
-export const P2_KEYS: Layout = { left: ['LEFT'], right: ['RIGHT'], up: ['UP'], down: ['DOWN'], light: ['ONE', 'NUMPAD_ONE'], heavy: ['TWO', 'NUMPAD_TWO'], special: ['THREE', 'NUMPAD_THREE'], super: ['ZERO', 'NUMPAD_ZERO'], block: ['FOUR', 'NUMPAD_FOUR'] };
+type Action = 'left' | 'right' | 'up' | 'down' | 'light' | 'heavy' | 'special' | 'super' | 'block';
+const BITS: Record<Action, number> = { left: BTN.LEFT, right: BTN.RIGHT, up: BTN.UP, down: BTN.DOWN, light: BTN.LIGHT, heavy: BTN.HEAVY, special: BTN.SPECIAL, super: BTN.SUPER, block: BTN.BLOCK };
+const MOVES: Action[] = ['left', 'right', 'up', 'down'];
 
 export class FightInput {
-  private keys: Record<keyof Layout, Phaser.Input.Keyboard.Key[]>;
-  constructor(private scene: Phaser.Scene, layout: Layout, private padIndex: number) {
-    const kb = scene.input.keyboard!;
-    this.keys = Object.fromEntries(Object.entries(layout).map(([k, names]) => [k, names.map(n => kb.addKey(n, true))])) as typeof this.keys;
+  private map = {} as Record<Action, number[]>;
+  private seen = -1;
+  /** `solo`: P1 with nobody on P2 (vs CPU, online), so P2's movement keys (arrows by default) move P1 too. */
+  constructor(private scene: Phaser.Scene, private player: 'p1' | 'p2', private padIndex: number, private solo = false) {
+    this.rebind();
   }
+
+  private rebind() {
+    const kb = this.scene.input.keyboard!;
+    this.seen = bindsVersion();
+    const own = Object.fromEntries(ACTIONS[this.player].map(a => [a.id, codes(this.player, a.id)])) as Record<Action, number[]>;
+    if (this.solo) {
+      const taken = new Set(Object.values(own).flat());
+      for (const m of MOVES) own[m] = [...own[m], ...codes('p2', m).filter(c => !taken.has(c))];
+    }
+    this.map = own;
+    for (const list of Object.values(this.map)) for (const c of list) kb.addKey(c, true);
+  }
+
   read(): number {
-    const d = (k: keyof Layout) => this.keys[k].some(key => key.isDown);
+    if (this.seen !== bindsVersion()) this.rebind();
+    const kb = this.scene.input.keyboard!;
     let b = 0;
-    if (d('left')) b |= BTN.LEFT; if (d('right')) b |= BTN.RIGHT; if (d('up')) b |= BTN.UP; if (d('down')) b |= BTN.DOWN;
-    if (d('light')) b |= BTN.LIGHT; if (d('heavy')) b |= BTN.HEAVY; if (d('special')) b |= BTN.SPECIAL; if (d('super')) b |= BTN.SUPER; if (d('block')) b |= BTN.BLOCK;
+    for (const [a, list] of Object.entries(this.map) as [Action, number[]][]) if (list.some(c => !!kb.keys[c]?.isDown)) b |= BITS[a];
     const pad = this.scene.input.gamepad?.gamepads[this.padIndex];
     if (pad) {
       const ax = pad.axes[0]?.getValue() ?? 0, ay = pad.axes[1]?.getValue() ?? 0, btn = (i: number) => !!pad.buttons[i]?.pressed;

@@ -24,6 +24,7 @@ The night before the biggest delivery of their lives, a corporate content AI cal
 | Difficulty | Fair. Checkpoint every room, 3 KO-able crew per party (a KO'd member is out until the next checkpoint), optional speedrun leaderboard. [crew] |
 | Players | Solo first [crew]. Later: local/online **party mode**, where each player owns one crew member live. [crew, later] |
 | Platform | Desktop browser, keyboard + gamepad. 480×270 internal resolution, integer-scaled. [claude] |
+| Controls | Every keyboard action is rebindable (two keys each) for Story, VERSUS P1 and VERSUS P2, from **Controls** on the title, the pause menu and the VERSUS menu. Saved per browser (`apps/game/src/game/keybinds.ts`); every on-screen key hint follows the bindings. Esc, Tab and F2 stay with the menus; gamepads keep the standard layout. [claude] |
 
 ## Core loop
 

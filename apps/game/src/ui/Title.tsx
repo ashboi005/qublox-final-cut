@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ACHIEVEMENT_IDS, type CrewId } from '@qublox/shared';
 import { nextEpisode } from '@/game/progress';
 import { AccountChip, AccountPanel } from './Account';
+import { Controls } from './Controls';
 
 export type Episode = { n: number; name: string; place: string; start: string; locked?: boolean; pool?: CrewId[]; pick?: number; required?: CrewId[]; joiners?: CrewId[] };
 
@@ -20,7 +21,8 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
   }, [episodes]);
   const [sel, setSel] = useState(0);
   const [account, setAccount] = useState(false);
-  const items = [{ kind: 'story' as const }, { kind: 'vs' as const }, { kind: 'crew' as const }, { kind: 'board' as const }, { kind: 'ach' as const }];
+  const [controls, setControls] = useState(false);
+  const items = [{ kind: 'story' as const }, { kind: 'vs' as const }, { kind: 'crew' as const }, { kind: 'board' as const }, { kind: 'ach' as const }, { kind: 'controls' as const }];
 
   useEffect(() => {
     if (taglines.length < 2) return;
@@ -30,7 +32,7 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (account) return;
+      if (account || controls) return;
       if (['ArrowDown', 's', 'S'].includes(e.key)) { e.preventDefault(); setSel(s => (s + 1) % items.length); }
       else if (['ArrowUp', 'w', 'W'].includes(e.key)) { e.preventDefault(); setSel(s => (s - 1 + items.length) % items.length); }
       else if (['Enter', ' ', 'j', 'J'].includes(e.key)) {
@@ -42,6 +44,7 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
         else if (it.kind === 'vs') onVersus();
         else if (it.kind === 'crew') onCrew();
         else if (it.kind === 'story') onStory();
+        else if (it.kind === 'controls') setControls(true);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -73,6 +76,10 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
           <button key="board" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={onBoard}>
             <span className="title-ep">★</span><span className="title-name">Leaderboard</span><span className="title-place">Fastest · Most stylish</span>
           </button>
+        ) : it.kind === 'controls' ? (
+          <button key="controls" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={() => setControls(true)}>
+            <span className="title-ep">⌨</span><span className="title-name">Controls</span><span className="title-place">Rebind keys · Story &amp; VERSUS</span>
+          </button>
         ) : (
           <button key="ach" type="button" className={`title-item is-board${sel === i ? ' is-sel' : ''}`} onMouseEnter={() => setSel(i)} onClick={onAchievements}>
             <span className="title-ep">◆</span><span className="title-name">Achievements</span><span className="title-place">{ACHIEVEMENT_IDS.length} to find</span>
@@ -81,6 +88,7 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
       </nav>
       <AccountChip onOpen={() => setAccount(true)} />
       {account && <AccountPanel onClose={() => setAccount(false)} />}
+      {controls && <Controls onClose={() => setControls(false)} />}
       <p className="title-foot">↑↓ choose · ENTER start · a Qublox production, Neo-Amritsar 2084</p>
     </div>
   );

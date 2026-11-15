@@ -9,6 +9,7 @@ import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_W
 import { Avatar, PARTY_MAX } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
+import { codes, key, keys, storyKeys } from '../keybinds';
 import { bark, FONT, fx, hitstop, isStopped, shake, sparks, wordPop } from '../fx/juice';
 import { emptyFrame, LocalInput } from '../input/InputSource';
 import { StyleMeter } from '../style';
@@ -212,7 +213,7 @@ export class GameScene extends Phaser.Scene {
       t.target = this.switches.filter(s => s.kind === 'door' || s.kind === 'laser').reduce<Switchable | null>((best, d) => !best || Math.abs(d.x - t.img.x) < Math.abs(best.x - t.img.x) ? d : best, null);
     }
     for (const h of this.level.hints) {
-      this.add.text(h.tx * T, h.ty * T, h.text, { fontFamily: FONT, fontSize: '8px', color: '#f2f1ec', backgroundColor: '#0f1014cc', padding: { x: 3, y: 2 }, wordWrap: { width: 150 } }).setDepth(2);
+      this.add.text(h.tx * T, h.ty * T, storyKeys(h.text), { fontFamily: FONT, fontSize: '8px', color: '#f2f1ec', backgroundColor: '#0f1014cc', padding: { x: 3, y: 2 }, wordWrap: { width: 150 } }).setDepth(2);
     }
     for (const s of this.level.signs) this.addSign(s.tx, s.ty, s.text);
     for (const n of this.level.npcs) this.addNpc(n.tx, n.ty, n.id);
@@ -273,8 +274,11 @@ export class GameScene extends Phaser.Scene {
     ];
     this.events.once('shutdown', () => offs.forEach(off => off()));
     this.input.keyboard!.on('keydown-F2', () => { this.scene.pause(); this.scene.launch('viewer'); });
-    this.input.keyboard!.on('keydown-M', () => bus.emit('toast', { text: synth.toggleMute() ? 'Sound off (M)' : 'Sound on (M)' }));
-    this.input.keyboard!.on('keydown-R', () => { if (!this.cutscene) this.scene.restart({ level: this.levelKey, party: this.party, carry: this.carry }); });
+    // Mute and restart follow the player's Story bindings (Controls screen).
+    this.input.keyboard!.on('keydown', (e: KeyboardEvent) => {
+      if (codes('story', 'mute').includes(e.keyCode)) bus.emit('toast', { text: `${synth.toggleMute() ? 'Sound off' : 'Sound on'} (${key('story', 'mute')})` });
+      else if (codes('story', 'restart').includes(e.keyCode) && !this.cutscene) this.scene.restart({ level: this.levelKey, party: this.party, carry: this.carry });
+    });
 
     this.startAudio();
     bus.emit('toast', { text: `${this.level.name}` });
@@ -870,13 +874,13 @@ export class GameScene extends Phaser.Scene {
     const what: Record<string, string> = {
       boulder: 'throws a boulder (smashes cracked walls)',
       infoDump: 'explains distributed systems at 2× speed. Enemies nearby take psychic damage and back off.',
-      wildcard: 'recharges everyone, then does the job himself: for 8s his K is the ability of whoever he tagged in for',
+      wildcard: `recharges everyone, then does the job himself: for 8s his ${key('story', 'ability')} is the ability of whoever he tagged in for`,
       indifferent: 'stops caring for 3.5s: nothing hurts her, and whatever touches her gets demoralised',
       unhinged: 'goes UNHINGED: a chain of jump cuts through everything nearby. HOUSE OF SHAKES.',
       personality: 'becomes his next of 10 personalities: Philosopher (enemies stop to listen) · Hype · Roast · Empath',
       stan: 'puts on BABYMONSTER: lightstick out, double damage and faster feet for 8s',
     };
-    bus.emit('toast', { text: `HOLD J · ${sp.name}: ${this.avatar.def.name} ${what[sp.kind]}` });
+    bus.emit('toast', { text: `HOLD ${key('story', 'attack')} · ${sp.name}: ${this.avatar.def.name} ${what[sp.kind]}` });
   }
 
   /** Manvi (psychology student): KO'd crew get a pep talk and come back; nearby enemies get confused and bonk each other. */
@@ -1268,13 +1272,15 @@ export class GameScene extends Phaser.Scene {
     const t = this.nearest(this.terminals.filter(t => !t.on && t.target), t => t.img, 56);
     if (!t) return null;
     const what = t.target!.kind === 'laser' ? 'kill the laser' : 'open the door';
-    if (this.avatar.def.ability === 'hack') return `K · HACK the terminal to ${what}`;
+    const K = key('story', 'ability');
+    if (this.avatar.def.ability === 'hack') return `${K} · HACK the terminal to ${what}`;
     const i = this.avatar.members.findIndex(m => m.def.ability === 'hack' && !m.ko);
-    return i >= 0 ? `Swap to ${this.avatar.members[i]!.def.name} (${i + 1}), then K to HACK · ${what}` : `Terminal locked: only a hacker can ${what}`;
+    return i >= 0 ? `Swap to ${this.avatar.members[i]!.def.name} (${key('story', `swap${i + 1}`)}), then ${K} to HACK · ${what}` : `Terminal locked: only a hacker can ${what}`;
   }
   private updateNpcHint(interact: boolean) {
     const near = this.nearest(this.npcs, n => n.spr, 40);
-    this.hint = near ? (near.id === 'telescope' ? 'ENTER / F · look through the telescope' : `ENTER / F · talk to ${near.name}`) : this.terminalHint();
+    const F = keys('story', 'interact');
+    this.hint = near ? (near.id === 'telescope' ? `${F} · look through the telescope` : `${F} · talk to ${near.name}`) : this.terminalHint();
     if (near) near.spr.setFlipX(this.avatar.x < near.spr.x);
     if (!near || !interact) return;
     const talk = animKey(near.id, 'talk');

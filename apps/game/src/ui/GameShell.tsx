@@ -18,6 +18,8 @@ import { Credits, type CreditLine } from './Credits';
 import { Achievements, type AchievementText, type TapeText } from './Achievements';
 import { useAccountSync } from './Account';
 import { HD } from '@/game/artMode';
+import { key, useKeybinds } from '@/game/keybinds';
+import { Controls } from './Controls';
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }>; sprites?: SpriteSheets };
 type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] }; versus?: { crew?: Partial<Record<CrewId, { win?: string[] }>> }; glossary?: unknown }; barks: Record<string, { barks?: Record<string, string[]> }> };
@@ -35,6 +37,7 @@ const EPISODES: Episode[] = [
 /** `direct` = the URL named a level, so skip the title (handy for dev and for agents testing). */
 export default function GameShell({ level, party, direct }: { level: string; party: CrewId[]; direct: boolean }) {
   const [screen, setScreen] = useState<Screen>(direct ? { kind: 'play', level, party, run: 0 } : { kind: 'title' });
+  useKeybinds();   // the key legend below follows the player's bindings
   const [manifest, setManifest] = useState<Manifest>({});
   const [content, setContent] = useState<Content | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -111,14 +114,14 @@ export default function GameShell({ level, party, direct }: { level: string; par
         {notice && screen.kind !== 'play' && <div className="toast" role="status">{notice}</div>}
       </div>
       {screen.kind !== 'versus' && screen.kind !== 'glossary' && <footer className="legend">
-        <span><kbd>A</kbd><kbd>D</kbd> move</span>
-        <span><kbd>Space</kbd> jump</span>
-        <span><kbd>J</kbd> attack</span>
-        <span><kbd>K</kbd> ability</span>
-        <span><kbd>1</kbd>–<kbd>4</kbd> / <kbd>Q</kbd><kbd>E</kbd> swap</span>
-        <span><kbd>F</kbd> talk</span>
-        <span><kbd>Esc</kbd> pause</span>
-        <span><kbd>M</kbd> mute</span>
+        <span><kbd>{key('story', 'left')}</kbd><kbd>{key('story', 'right')}</kbd> move</span>
+        <span><kbd>{key('story', 'jump')}</kbd> jump</span>
+        <span><kbd>{key('story', 'attack')}</kbd> attack</span>
+        <span><kbd>{key('story', 'ability')}</kbd> ability</span>
+        <span><kbd>{key('story', 'swap1')}</kbd>–<kbd>{key('story', 'swap4')}</kbd> / <kbd>{key('story', 'swapPrev')}</kbd><kbd>{key('story', 'swapNext')}</kbd> swap</span>
+        <span><kbd>{key('story', 'interact')}</kbd> talk</span>
+        <span><kbd>Esc</kbd> pause · controls</span>
+        <span><kbd>{key('story', 'mute')}</kbd> mute</span>
         <span><kbd>F2</kbd> sprite viewer</span>
       </footer>}
     </main>
@@ -149,6 +152,7 @@ function Play({ level, party, portraits, credits, creditsSong, logo, paper, head
   const [toast, setToast] = useState<string | null>(null);
   const [viewer, setViewer] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [controls, setControls] = useState(false);
   const [beige, setBeige] = useState(0);
   const [rolling, setRolling] = useState(false);
   const [unlocked, setUnlocked] = useState<AchievementText | null>(null);
@@ -214,8 +218,10 @@ function Play({ level, party, portraits, credits, creditsSong, logo, paper, head
           bus.emit('dialogueEnd', { id: dialogue.id });
         }} />
       )}
-      {paused && (
+      {paused && controls && <Controls onClose={() => setControls(false)} />}
+      {paused && !controls && (
         <PauseMenu
+          onControls={() => setControls(true)}
           onResume={() => setPause(false)}
           onRestart={() => { setPause(false); bus.emit('restart'); }}
           onQuit={onQuit}

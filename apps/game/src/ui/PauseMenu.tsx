@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function PauseMenu({ onResume, onRestart, onQuit, muted, onMute }: {
-  onResume: () => void; onRestart: () => void; onQuit: () => void; muted: boolean; onMute: () => boolean;
+export function PauseMenu({ onResume, onRestart, onQuit, muted, onMute, onControls }: {
+  onResume: () => void; onRestart: () => void; onQuit: () => void; muted: boolean; onMute: () => boolean; onControls: () => void;
 }) {
   const [isMuted, setMuted] = useState(muted);
   const first = useRef<HTMLButtonElement>(null);
@@ -13,6 +13,7 @@ export function PauseMenu({ onResume, onRestart, onQuit, muted, onMute }: {
         <button ref={first} type="button" onClick={onResume}>Resume</button>
         <button type="button" onClick={onRestart}>Restart room</button>
         <button type="button" onClick={() => setMuted(onMute())}>Sound: {isMuted ? 'off' : 'on'}</button>
+        <button type="button" onClick={onControls}>Controls</button>
         <button type="button" onClick={onQuit}>Quit to title</button>
       </div>
     </div>

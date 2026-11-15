@@ -12,7 +12,7 @@ import { loadVoices, preloadCrew, speak, type VoiceCue } from '../game/voice';
 import { bark, FONT, shake, wordPop } from '../game/fx/juice';
 import { matchLine } from './lines';
 import { cpuInput } from './cpu';
-import { FightInput, P1_KEYS, P1_SOLO_KEYS, P2_KEYS } from './input';
+import { FightInput } from './input';
 import { fixed, setupCamera, ZOOM } from '../game/view';
 
 /** Advances the match. Returns the state to draw plus the events produced since the last call. */
@@ -70,7 +70,7 @@ export class FightScene extends Phaser.Scene {
     this.driver = boot.driver; this.names = boot.names; this.ended = false; this.acc = 0;
     void loadVoices().then(() => { for (const id of Object.keys(CREW) as CrewId[]) preloadCrew(id); });
     const solo = boot.mode !== 'local';
-    this.inputs = [new FightInput(this, solo ? P1_SOLO_KEYS : P1_KEYS, 0), new FightInput(this, P2_KEYS, 1)];
+    this.inputs = [new FightInput(this, 'p1', 0, solo), new FightInput(this, 'p2', 1)];
 
     // Stage: one of the story districts, saturated (colour won).
     const seedStage = STAGES[(this.registry.get('fightStage') as number | undefined ?? 0) % STAGES.length]!;

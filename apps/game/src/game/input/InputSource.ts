@@ -2,6 +2,7 @@
 // Keyboard, gamepad, an AI follower or a network peer all produce the same frame,
 // which is what lets party mode (online co-op) arrive later without rewriting characters.
 import * as Phaser from 'phaser';
+import { ACTIONS, bindsVersion, codes } from '../keybinds';
 
 export type InputFrame = {
   left: boolean; right: boolean; up: boolean; down: boolean;
@@ -21,42 +22,47 @@ export const emptyFrame = (): InputFrame => ({
   attackPressed: false, attackHeld: false, abilityPressed: false, swapTo: null, swapNext: false, swapPrev: false, confirmPressed: false,
 });
 
-/** Keyboard + first connected gamepad (standard mapping). */
+/** Keyboard (the player's Story bindings, see keybinds.ts) + first connected gamepad (standard mapping). */
 export class LocalInput implements InputSource {
-  private k: Record<string, Phaser.Input.Keyboard.Key>;
   private prevPad = new Set<number>();
-  /** Keys pressed since the last read(). Phaser's JustDown loses taps that start and end inside one frame. */
-  private latched = new Set<string>();
+  /** keyCodes pressed since the last read(). Phaser's JustDown loses taps that start and end inside one frame. */
+  private latched = new Set<number>();
+  private map: Record<string, number[]> = {};
+  private seen = -1;
 
   constructor(private scene: Phaser.Scene) {
     const kb = scene.input.keyboard!;
-    const K = Phaser.Input.Keyboard.KeyCodes;
-    this.k = kb.addKeys({
-      left: K.A, right: K.D, up: K.W, down: K.S, aLeft: K.LEFT, aRight: K.RIGHT, aUp: K.UP, aDown: K.DOWN,
-      jump: K.SPACE, attack: K.J, attack2: K.X, ability: K.K, ability2: K.C,
-      one: K.ONE, two: K.TWO, three: K.THREE, four: K.FOUR, next: K.E, prev: K.Q, enter: K.ENTER, interact: K.F,
-    }, false) as Record<string, Phaser.Input.Keyboard.Key>;
-    for (const [name, key] of Object.entries(this.k)) key.on('down', () => this.latched.add(name));
+    kb.on('keydown', (e: KeyboardEvent) => this.latched.add(e.keyCode));
+    this.rebind();
+  }
+
+  /** Pick up the current bindings (cheap; runs again whenever the Controls screen changes them). */
+  private rebind() {
+    const kb = this.scene.input.keyboard!;
+    this.seen = bindsVersion();
+    this.map = Object.fromEntries(ACTIONS.story.map(a => [a.id, codes('story', a.id)]));
+    for (const list of Object.values(this.map)) for (const c of list) kb.addKey(c, false);
   }
 
   read(): InputFrame {
-    const k = this.k;
-    const down = (key: string) => !!k[key]?.isDown;
-    const tap = (key: string) => this.latched.has(key);
+    if (this.seen !== bindsVersion()) this.rebind();
+    const kb = this.scene.input.keyboard!;
+    const down = (a: string) => (this.map[a] ?? []).some(c => !!kb.keys[c]?.isDown);
+    const tap = (a: string) => (this.map[a] ?? []).some(c => this.latched.has(c));
     const f = emptyFrame();
-    f.left = down('left') || down('aLeft');
-    f.right = down('right') || down('aRight');
-    f.up = down('up') || down('aUp');
-    f.down = down('down') || down('aDown');
+    f.left = down('left');
+    f.right = down('right');
+    f.up = down('up');
+    f.down = down('down');
     f.jumpHeld = down('jump') || f.up;
-    f.jumpPressed = tap('jump') || tap('up') || tap('aUp');
-    f.attackPressed = tap('attack') || tap('attack2');
-    f.attackHeld = down('attack') || down('attack2');
-    f.abilityPressed = tap('ability') || tap('ability2');
-    f.swapTo = tap('one') ? 0 : tap('two') ? 1 : tap('three') ? 2 : tap('four') ? 3 : null;
-    f.swapNext = tap('next');
-    f.swapPrev = tap('prev');
-    f.confirmPressed = tap('enter') || tap('interact');
+    f.jumpPressed = tap('jump') || tap('up');
+    f.attackPressed = tap('attack');
+    f.attackHeld = down('attack');
+    f.abilityPressed = tap('ability');
+    f.swapTo = tap('swap1') ? 0 : tap('swap2') ? 1 : tap('swap3') ? 2 : tap('swap4') ? 3 : null;
+    f.swapNext = tap('swapNext');
+    f.swapPrev = tap('swapPrev');
+    f.confirmPressed = tap('interact');
     this.latched.clear();
 
     const pad = this.scene.input.gamepad?.pad1;

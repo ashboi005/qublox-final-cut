@@ -43,6 +43,9 @@ export class VersusSocket {
 export class RollbackDriver implements Driver {
   static INPUT_DELAY = 2;
   static MAX_ROLLBACK = 10;
+  /** Only say "waiting" after this many stalled ticks in a row (~0.75s). Clients a frame or two apart in time
+   *  stall for single ticks all the time, which is invisible in play but made the banner flicker on and off. */
+  static STALL_NOTICE = 45;
   readonly local: 0 | 1;
   state: FightState;
   private snaps = new Map<number, FightState>();         // snaps[f] = state at frame f
@@ -54,6 +57,7 @@ export class RollbackDriver implements Driver {
   private sums = new Map<number, number>();
   private remoteSums = new Map<number, number>();
   private stalled = false;
+  private stallTicks = 0;
   private off: () => void;
   rollbacks = 0;
   desync = false;
@@ -108,6 +112,7 @@ export class RollbackDriver implements Driver {
     const next = this.state.frame + 1;
     const lastRemote = this.lastContiguousRemote();
     this.stalled = next - lastRemote > RollbackDriver.MAX_ROLLBACK;
+    this.stallTicks = this.stalled ? this.stallTicks + 1 : 0;
     if (this.stalled) return { state: this.state, events };
     // 3) Schedule + send local input (INPUT_DELAY frames ahead).
     const at = next + RollbackDriver.INPUT_DELAY;
@@ -141,6 +146,6 @@ export class RollbackDriver implements Driver {
     if (a !== undefined && b !== undefined && a !== b && !this.desync) { this.desync = true; this.onDesync(); }
   }
 
-  status() { return this.sock.closed ? 'DISCONNECTED' : this.stalled ? 'WAITING FOR OPPONENT…' : null; }
+  status() { return this.sock.closed ? 'DISCONNECTED' : this.stallTicks > RollbackDriver.STALL_NOTICE ? 'WAITING FOR OPPONENT…' : null; }
   dispose() { this.off(); }
 }

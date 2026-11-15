@@ -5,6 +5,7 @@ import { CREW, hex } from '@/game/crew';
 import { stats, storyPowers } from '@/game/glossary';
 import { loadVoices, playClip, voiceClips, type VoiceClip } from '@/game/voice';
 import type { Portraits } from './DialogueBox';
+import { fightKeys, storyLetters, useKeybinds } from '@/game/keybinds';
 
 export type SpriteSheets = Record<string, { file: string; frameWidth: number; frameHeight: number; anims: Record<string, { row: number; frames: number; fps: number; loop?: boolean }> }>;
 
@@ -46,6 +47,7 @@ function vsMoves(id: CrewId) {
 }
 
 export function Glossary({ text, sheets, portraits, stamp, onBack }: { text?: GlossaryText; sheets: SpriteSheets; portraits: Portraits; stamp?: string | null; onBack: () => void }) {
+  useKeybinds();
   const [sel, setSel] = useState(0);
   const id = ORDER[sel]!, c = CREW[id], g = text?.crew[id], sheet = sheets[id];
   const anims = useMemo(() => sheet ? [...SIGNATURE.filter(k => sheet.anims[k]), ...Object.keys(sheet.anims).filter(k => !SIGNATURE.includes(k))] : [], [sheet]);
@@ -130,7 +132,7 @@ export function Glossary({ text, sheets, portraits, stamp, onBack }: { text?: Gl
               <h4>Story mode</h4>
               <ul className="gloss-moves">
                 {storyPowers(id).map(p => (
-                  <li key={p.name} className={`is-${p.tag ?? 'passive'}`}><kbd>{p.input}</kbd><b>{p.name}</b><span>{p.text}</span></li>
+                  <li key={p.name} className={`is-${p.tag ?? 'passive'}`}><kbd>{storyLetters(p.input)}</kbd><b>{p.name}</b><span>{storyLetters(p.text)}</span></li>
                 ))}
               </ul>
             </div>
@@ -138,7 +140,7 @@ export function Glossary({ text, sheets, portraits, stamp, onBack }: { text?: Gl
               <h4>Versus</h4>
               <ul className="gloss-moves is-vs">
                 {vsMoves(id).map(m => (
-                  <li key={m.input + m.name} className={m.input === 'L' || m.input === 'I' ? 'is-special' : ''}><kbd>{m.input}</kbd><b>{m.name}</b><span>{m.note}</span></li>
+                  <li key={m.input + m.name} className={m.input === 'L' || m.input === 'I' ? 'is-special' : ''}><kbd>{fightKeys(m.input)}</kbd><b>{m.name}</b><span>{fightKeys(m.note)}</span></li>
                 ))}
               </ul>
             </div>

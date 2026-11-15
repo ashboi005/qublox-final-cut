@@ -9,6 +9,10 @@ import { useSession } from '@/game/account';
 import { CREW, hex } from '@/game/crew';
 import { speak } from '@/game/voice';
 import type { Portraits } from './DialogueBox';
+import { Controls } from './Controls';
+import { codes, fightKeys, key, useKeybinds, type Scheme } from '@/game/keybinds';
+
+const K = (s: Scheme, a: string) => <kbd>{key(s, a)}</kbd>;
 
 type Mode = 'cpu' | 'local' | 'online';
 type Lobby = { code: string; you: 0 | 1; players: (LobbyPlayer | null)[] };
@@ -17,6 +21,8 @@ type Match = { crews: [CrewId, CrewId]; names: [string, string]; seed: number };
 const loadName = () => { try { return localStorage.getItem('qublox-name') ?? ''; } catch { return ''; } };
 
 export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portraits; winLines?: Partial<Record<CrewId, string[]>>; onBack: () => void }) {
+  useKeybinds();
+  const [controls, setControls] = useState(false);
   const [step, setStep] = useState<'menu' | 'select' | 'fight' | 'result'>('menu');
   const [mode, setMode] = useState<Mode>('cpu');
   const [name, setName] = useState(loadName);
@@ -63,15 +69,16 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
     if (step !== 'select' || mode === 'online') return;
     const n = CREW_IDS.length;
     const onKey = (e: KeyboardEvent) => {
-      const k = e.key;
-      if (k === 'Escape') { setStep('menu'); return; }
-      if (k === 'a' || k === 'A') setCursor(c => [(c[0] - 1 + n) % n, c[1]]);
-      if (k === 'd' || k === 'D') setCursor(c => [(c[0] + 1) % n, c[1]]);
-      if (k === 'j' || k === 'J') setPicks(p => [CREW_IDS[cursor[0]]!, p[1]]);
-      if (mode === 'local') {
-        if (k === 'ArrowLeft') setCursor(c => [c[0], (c[1] - 1 + n) % n]);
-        if (k === 'ArrowRight') setCursor(c => [c[0], (c[1] + 1) % n]);
-        if (k === '1' || k === 'Enter') setPicks(p => [p[0], CREW_IDS[cursor[1]]!]);
+      if (e.key === 'Escape') { setStep('menu'); return; }
+      const is = (s: Scheme, a: string) => codes(s, a).includes(e.keyCode);
+      // P1 browses with their move keys and picks with light. P2 (local) does the same with theirs, or Enter.
+      if (is('p1', 'left')) setCursor(c => [(c[0] - 1 + n) % n, c[1]]);
+      else if (is('p1', 'right')) setCursor(c => [(c[0] + 1) % n, c[1]]);
+      else if (is('p1', 'light')) setPicks(p => [CREW_IDS[cursor[0]]!, p[1]]);
+      else if (mode === 'local') {
+        if (is('p2', 'left')) setCursor(c => [c[0], (c[1] - 1 + n) % n]);
+        else if (is('p2', 'right')) setCursor(c => [c[0], (c[1] + 1) % n]);
+        else if (is('p2', 'light') || e.key === 'Enter') setPicks(p => [p[0], CREW_IDS[cursor[1]]!]);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -160,13 +167,14 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
       <div className="studio-head">
         <div className="studio-eyebrow">QUBLOX: FINAL CUT · VERSUS</div>
         <h2>1v1. Settle it.</h2>
-        <p>Light <kbd>J</kbd> · heavy <kbd>K</kbd> · special <kbd>L</kbd> · super <kbd>I</kbd> (full meter) · block <kbd>U</kbd> (tap it just before a hit to parry). First to 2 rounds.</p>
+        <p>Light {K('p1', 'light')} · heavy {K('p1', 'heavy')} · special {K('p1', 'special')} · super {K('p1', 'super')} (full meter) · block {K('p1', 'block')} (tap it just before a hit to parry). First to 2 rounds.</p>
       </div>
       <div className="versus-menu">
         <label className="versus-field">Your name<input value={name} maxLength={16} placeholder="Player" onChange={e => setName(e.target.value)} /></label>
         <button type="button" onClick={() => startLocal('cpu')}>Vs CPU</button>
         <button type="button" onClick={() => startLocal('local')}>Local 2P <small>one keyboard / two pads</small></button>
         <button type="button" onClick={() => online('create')}>Create online room</button>
+        <button type="button" onClick={() => setControls(true)}>Controls <small>rebind P1 / P2 keys</small></button>
         <div className="versus-join">
           <input value={code} maxLength={4} placeholder="CODE" onChange={e => setCode(e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))} onKeyDown={e => { if (e.key === 'Enter' && code.length === 4) online('join'); }} />
           <button type="button" disabled={code.length !== 4} onClick={() => online('join')}>Join room</button>
@@ -174,6 +182,7 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
         {msg && <p className="versus-msg">{msg}</p>}
       </div>
       <div className="studio-actions"><button type="button" onClick={onBack}>← Title</button></div>
+      {controls && <Controls initial="p1" onClose={() => setControls(false)} />}
     </div>
   );
 }
@@ -215,7 +224,7 @@ function FightHost({ match, mode, you, sock, onDesync }: { match: Match; mode: M
           <div className="versus-movelist-pair">{match.crews.map((c, i) => <MoveList key={i} crew={c} title={`${match.names[i]} · ${CREW[c].name}`} />)}</div>
         </div>
       )}
-      <div className="versus-strip"><span><kbd>A</kbd><kbd>D</kbd> move</span><span><kbd>W</kbd> jump</span><span><kbd>S</kbd> crouch</span><span><kbd>J</kbd> light</span><span><kbd>K</kbd> heavy</span><span><kbd>L</kbd> special</span><span><kbd>I</kbd> super</span><span><kbd>U</kbd> block / parry</span><span><kbd>Tab</kbd> move list</span>{mode === 'local' && <span>P2: arrows · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>0</kbd> · <kbd>4</kbd> block</span>}</div>
+      <div className="versus-strip"><span>{K('p1', 'left')}{K('p1', 'right')} move</span><span>{K('p1', 'up')} jump</span><span>{K('p1', 'down')} crouch</span><span>{K('p1', 'light')} light</span><span>{K('p1', 'heavy')} heavy</span><span>{K('p1', 'special')} special</span><span>{K('p1', 'super')} super</span><span>{K('p1', 'block')} block / parry</span><span><kbd>Tab</kbd> move list</span>{mode === 'local' && <span>P2: {K('p2', 'left')}{K('p2', 'right')}{K('p2', 'up')}{K('p2', 'down')} · {K('p2', 'light')}{K('p2', 'heavy')}{K('p2', 'special')}{K('p2', 'super')} · {K('p2', 'block')} block</span>}</div>
     </>
   );
 }
@@ -225,7 +234,7 @@ function MoveList({ crew, title }: { crew: CrewId; title?: string }) {
   return (
     <div className="versus-movelist" style={{ ['--crew' as string]: hex(CREW[crew].color) }}>
       <div className="versus-movelist-head">{title ?? `${CREW[crew].name} · moves`}</div>
-      <ul>{moveList(crew).map(m => <li key={m.input + m.name}><kbd>{m.input}</kbd><b>{m.name}</b><span>{m.note}</span></li>)}</ul>
+      <ul>{moveList(crew).map(m => <li key={m.input + m.name}><kbd>{fightKeys(m.input)}</kbd><b>{m.name}</b><span>{fightKeys(m.note)}</span></li>)}</ul>
     </div>
   );
 }
