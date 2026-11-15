@@ -6,7 +6,7 @@
 @trigger 14 1 3 13 ep1-r04-turbine-interns
 @sign 6 4 WIND VELOCITY: MAXIMUM RPM
 @sign 44 3 STANDARDIZE YOUR SOUL
-@hint 6 7 Hurricane wind! Tushar: CUT (K) freezes fans.
+@hint 6 7 Hurricane wind! Tushar's CUT or Ashwath's HACK (K) stops a turbine.
 @tape 61 8 ep1-3
 @decor decor-warning-sign 15 13
 @decor decor-coolant-drum 25 13

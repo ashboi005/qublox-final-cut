@@ -18,6 +18,8 @@ export interface EnemyWorld {
   playerPos(): Phaser.Math.Vector2;
   lure(): Phaser.Math.Vector2 | null;
   shoot(x: number, y: number, vx: number, vy: number, texture: string): void;
+  /** True while a dialogue scene is up: the world holds still. */
+  held(): boolean;
 }
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -103,6 +105,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
   override preUpdate(time: number, delta: number) {
     super.preUpdate(time, delta);
     if (!this.alive) return;
+    if (this.world.held()) { this.anims.pause(); return; }
     const body = this.body as Phaser.Physics.Arcade.Body;
     if (time < this.frozenUntil) { body.setVelocity(0, 0); body.setAllowGravity(false); this.anims.pause(); return; }
     if (!this.stats.flying) body.setAllowGravity(true);

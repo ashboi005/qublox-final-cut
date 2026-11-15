@@ -66,7 +66,7 @@ const common = (r: Room, name: string, next: string | null) => {
   const f = r.floor;
   r.m('@trigger 14 1 3 13 ep1-r04-turbine-interns');
   r.m('@sign 6 4 WIND VELOCITY: MAXIMUM RPM').m('@sign 44 3 STANDARDIZE YOUR SOUL');
-  r.m(`@hint 6 ${f - 6} Hurricane wind! Tushar: CUT (K) freezes fans.`);
+  r.m(`@hint 6 ${f - 6} Hurricane wind! Tushar's CUT or Ashwath's HACK (K) stops a turbine.`);
   r.set(1, f, 'L');                                      // the electrified fence behind you (always on)
   r.set(5, f, 'P').set(9, f, 'C').set(12, f, 's');
   r.set(40, f - 1, '<');

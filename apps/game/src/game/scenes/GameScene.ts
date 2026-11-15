@@ -9,7 +9,7 @@ import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_W
 import { Avatar, PARTY_MAX } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
-import { bark, FONT, fx, hitstop, shake, sparks, wordPop } from '../fx/juice';
+import { bark, FONT, fx, hitstop, isStopped, shake, sparks, wordPop } from '../fx/juice';
 import { emptyFrame, LocalInput } from '../input/InputSource';
 import { StyleMeter } from '../style';
 import { loadVoices, preloadCrew, speak, type VoiceCue } from '../voice';
@@ -132,6 +132,7 @@ export class GameScene extends Phaser.Scene {
     this.style = new StyleMeter(this.carry?.style.meter ?? 0, this.carry?.style.score ?? 0);
     this.elapsed = this.carry?.elapsed ?? 0; this.kos = this.carry?.kos ?? 0;
     this.cutscene = false; this.finished = false; this.leaving = false; this.joined = false;
+    this.time.paused = false;   // a restart mid-dialogue must not inherit the dialogue hold (the Clock outlives restarts)
     this.dialogueQueue = []; this.dialogueThen = undefined; this.hint = null;
   }
 
@@ -267,7 +268,7 @@ export class GameScene extends Phaser.Scene {
 
     // Bus + keys
     const offs = [
-      bus.on('dialogueEnd', () => { this.cutscene = false; const then = this.dialogueThen; this.dialogueThen = undefined; then?.(); this.pumpDialogue(); }),
+      bus.on('dialogueEnd', () => { this.cutscene = false; this.holdWorld(false); const then = this.dialogueThen; this.dialogueThen = undefined; then?.(); this.pumpDialogue(); }),
       bus.on('restart', () => this.scene.restart({ level: this.levelKey, party: this.party, carry: this.carry })),
     ];
     this.events.once('shutdown', () => offs.forEach(off => off()));
@@ -482,7 +483,7 @@ export class GameScene extends Phaser.Scene {
 
   private hurtPlayer(amount: number, fromX: number, source: Enemy | null, bounce = false, from?: string) {
     const a = this.avatar, now = this.time.now;
-    if (now < a.invulnUntil || this.finished || this.leaving) return;
+    if (now < a.invulnUntil || this.finished || this.leaving || this.cutscene) return;
     const m = a.member;
     const wasOk = m.hp >= m.def.maxHp * 0.3;
     // Tushar's side effect: running everyone's job means taking everyone's hits a bit harder.
@@ -566,6 +567,15 @@ export class GameScene extends Phaser.Scene {
       fresh.img.setFrame('on');
       if (fresh.target) this.setSwitch(fresh.target, true);
       wordPop(this, fresh.img.x, fresh.img.y - 20, fresh.target?.kind === 'laser' ? 'LASER OFF' : 'ACCESS GRANTED');
+      return true;
+    }
+    // A turbine is just a machine with a control board: HACK shuts the nearest one down. EP1 lets you leave Tushar
+    // (CUT!) behind, and Ashwath is locked into EP1, so this keeps the Turbine Trench passable for any pick.
+    const w = this.nearest(this.winds.filter(x => now >= x.frozenUntil), x => x.spr, 170);
+    if (w) {
+      w.frozenUntil = now + 6000;
+      if (this.anims.exists('big-fan:frozen')) w.spr.play('big-fan:frozen'); else w.spr.setTint(0x6aff8a);
+      wordPop(this, w.spr.x, w.spr.y - 28, 'SHUTDOWN');
       return true;
     }
     const e = this.nearest(this.liveEnemies(), x => x, 110);
@@ -1080,6 +1090,7 @@ export class GameScene extends Phaser.Scene {
       playerPos: () => new Phaser.Math.Vector2(this.avatar.x, this.avatar.y - 16),
       lure: () => this.activeLure(),
       shoot: (sx, sy, vx, vy, tex) => this.foeShot(sx, sy, vx, vy, tex, 8, kind, 420),
+      held: () => this.cutscene,
     }, this.level.tileset ? `${kind}-${this.level.tileset}` : undefined);
     if (kind === 'buffering-wheel-minion') (e.body as Phaser.Physics.Arcade.Body).setSize(12, 12).setOffset(2, 4);
     this.enemies.add(e);
@@ -1104,6 +1115,7 @@ export class GameScene extends Phaser.Scene {
       spawnMinion: (mx, my, kind = 'reply-all-drone') => { const d = this.spawnEnemy(kind as EnemyKind, mx, my); this.enemyTotal++; d.setAlpha(0); this.tweens.add({ targets: d, alpha: 1, duration: 200 }); },
       minions: () => this.liveEnemies().length,
       onPhase: phase => this.onBossPhase(phase),
+      held: () => this.cutscene,
     });
     this.physics.add.overlap(this.shots, this.boss, (b, s) => this.shotHits(s as Phaser.Physics.Arcade.Sprite, b as BossBase));
     if (this.boss instanceof TheAlgorithm) this.boss.onBlocked = () => { synth.sfx('menu'); if (Math.random() < 0.3) bus.emit('toast', { text: 'Its front is guarded. Hit it from BEHIND (JUMP CUT through it!)' }); };
@@ -1683,12 +1695,22 @@ export class GameScene extends Phaser.Scene {
       const parsed = DialogueSchema.safeParse(this.content.dialogue[id]);
       if (!parsed.success) { then?.(); continue; }
       this.cutscene = true;
+      this.holdWorld(true);
       this.dialogueThen = then;
       const cast = (this.content.story.cast as { cast?: { id: string; name: string }[] } | undefined)?.cast ?? [];
       // Crew who aren't in the party (or standing in the room as an NPC) speak "on comms" from HQ.
       const present = [...this.avatar.members.map(m => m.def.id), ...this.npcs.map(n => n.id)];
       bus.emit('dialogueStart', { ...parsed.data, names: Object.fromEntries(cast.map(c => [c.id, c.name])), present });
     }
+  }
+
+  /** While a dialogue scene is up the room holds still: no physics, scene timers or tweens, and enemies and bosses
+   *  stop thinking (they check `held()`), so nothing can attack you mid-conversation. */
+  private holdWorld(on: boolean) {
+    if (on === this.time.paused) return;
+    this.time.paused = on;
+    if (on) { this.physics.world.pause(); this.tweens.pauseAll(); }
+    else { this.tweens.resumeAll(); if (!isStopped(this)) this.physics.world.resume(); }
   }
 
   private say(category: string, force = false) {

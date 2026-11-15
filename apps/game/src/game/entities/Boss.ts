@@ -12,6 +12,8 @@ export interface BossWorld {
   spawnMinion(x: number, y: number, kind?: string): void;
   minions(): number;
   onPhase(phase: 'shield-up' | 'shield-down' | 'attack' | 'defeated'): void;
+  /** True while a dialogue scene is up: the world holds still. */
+  held(): boolean;
 }
 
 export abstract class BossBase extends Phaser.Physics.Arcade.Sprite {
@@ -126,6 +128,7 @@ export abstract class BossBase extends Phaser.Physics.Arcade.Sprite {
     super.preUpdate(time, delta);
     this.ring.setPosition(this.x, this.y);
     if (!this.alive || this.mode === 'intro') return;
+    if (this.world.held()) { this.anims.pause(); return; }
     const body = this.body as Phaser.Physics.Arcade.Body;
     if (time < this.frozenUntil) { body.setVelocity(0, 0); this.anims.pause(); return; }
     if (this.anims.isPaused) { this.anims.resume(); this.restoreTint(); }

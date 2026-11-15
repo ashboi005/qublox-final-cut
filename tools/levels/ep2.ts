@@ -89,7 +89,7 @@ const common = (r: Room, name: string, next: string | null) => {
   const r = common(new Room('ep2', 'ep2-r05', 88), 'EP2 · 05 · The Backlot Street Set', 'ep2-r06');
   const f = r.floor;
   r.m('@sign 4 4 QUIET ON SET — AI GENERATING SCENE').m('@sign 46 3 BEIGE BANK');
-  r.m(`@hint 6 ${f - 6} Heavy camera booms! Tushar: CUT (K) the take!`).m('@trigger 33 1 3 13 ep2-r05-fake-saloon');
+  r.m(`@hint 6 ${f - 6} Camera booms! Time the swing, or Tushar: CUT (K)!`).m('@trigger 33 1 3 13 ep2-r05-fake-saloon');
   r.set(3, f, 'P');
   for (const x of [14, 22, 30]) r.set(x, 8, 'O');
   r.set(36, f, 'C').set(38, f, 's').m(`@tape 30 ${f - 3} ep2-3`);                       // under a swinging boom
