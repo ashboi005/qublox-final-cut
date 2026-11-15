@@ -2403,6 +2403,19 @@
           "loop": true
         }
       }
+    },
+    "claude-logo": {
+      "file": "sprites/props/claude-logo.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "spin": {
+          "row": 0,
+          "frames": 8,
+          "fps": 8,
+          "loop": true
+        }
+      }
     }
   },
   "tilesets": {

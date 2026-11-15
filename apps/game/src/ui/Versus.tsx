@@ -58,7 +58,8 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
       if (m.t === 'error') setMsg(m.message);
     });
     setMode('online');
-    s.send(action === 'create' ? { t: 'create', name: me } : { t: 'join', code: code.trim().toUpperCase(), name: me });
+    const build = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || undefined;
+    s.send(action === 'create' ? { t: 'create', name: me, build } : { t: 'join', code: code.trim().toUpperCase(), name: me, build });
   };
 
   const startLocal = (m: Mode) => { setMode(m); setPicks([null, m === 'cpu' ? CREW_IDS[Math.floor(Math.random() * CREW_IDS.length)]! : null]); setStep('select'); setMsg(null); };
@@ -191,15 +192,16 @@ export function Versus({ portraits, winLines = {}, onBack }: { portraits: Portra
 function FightHost({ match, mode, you, sock, onDesync }: { match: Match; mode: Mode; you: 0 | 1; sock: import('@/fight/net').VersusSocket | null; onDesync: () => void }) {
   const host = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    let game: { destroy: (b: boolean) => void } | null = null, cancelled = false;
+    let game: { destroy: (b: boolean) => void } | null = null, cancelled = false, drv: { dispose?: () => void } | null = null;
     (async () => {
       try { await document.fonts.load('8px "Silkscreen"'); } catch { /* ignore */ }
       const [{ createVersus }, { LocalDriver }, { RollbackDriver }] = await Promise.all([import('@/fight/createVersus'), import('@/fight/FightScene'), import('@/fight/net')]);
       if (cancelled || !host.current) return;
       const driver = mode === 'online' && sock ? new RollbackDriver(sock, you, match.crews, match.seed, onDesync) : new LocalDriver(match.crews, match.seed, mode === 'cpu' ? 1 : null);
+      drv = driver as { dispose?: () => void };
       game = createVersus(host.current, { driver, names: match.names, mode }, match.seed % 5);
     })();
-    return () => { cancelled = true; game?.destroy(true); };
+    return () => { cancelled = true; drv?.dispose?.(); game?.destroy(true); };
   }, [match]); // eslint-disable-line react-hooks/exhaustive-deps
   const [list, setList] = useState(false);
   useEffect(() => {

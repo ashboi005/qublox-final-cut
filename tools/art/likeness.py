@@ -170,6 +170,7 @@ def frame(who, anim, f):
     if anim=='heart': hx,hy=26,29
     if anim=='info': hx,hy=[(35,21),(38,25),(32,17),(39,23)][f]
     if anim=='cosmic': hx,hy=31,30
+    if who=='ashwath' and anim=='super': hx,hy=[(33,28),(35,20),(35,12),(35,8),(35,8),(38,15),(40,24),(40,25)][f]
     if who=='sayam' and anim=='idle': hx,hy=28,32
     if anim=='bhai': hx,hy=[(30,24),(32,19),(36,24),(38,27),(32,30)][f]
     if who=='manvi' and anim=='ability' and f in (1,2,3,4): hx,hy=29,17
@@ -253,6 +254,19 @@ def frame(who, anim, f):
                 eyes.r((20,18,22,19),6);eyes.r((22,18,22,19),0)
                 eyes.r((25,18,28,19),6);eyes.r((27,18,27,19),0)
     if who=='ashwath':
+        if anim=='super':
+            if f<6:
+                p.l([(hx,hy),(hx,hy-4)],0,3);p.l([(hx,hy),(hx,hy-3)],32)
+                p.l([(hx+2,hy),(hx+3,hy-3)],32)
+                p.r((23,17,23,19),19);p.r((29,17,29,19),19)
+                p.r((23,17,23,17),0);p.r((29,17,29,17),0)
+            else:
+                p.l([(hx,hy),(46,hy-1)],0,3);p.l([(hx,hy),(45,hy-1)],32)
+                p.l([(25,23),(28,22)],6)
+            if f>=2:
+                p.l([(20,16),(23,16)],45);p.l([(27,16),(29,16)],45)
+                p.l([(hx-1,hy-1),(hx+1,hy-1)],45)
+                if f<6:p.star(42,6+f%2,45,1+f%2)
         if anim in ('attack','idle','run','jump','fall','tagin'):
             p.r((hx-6,hy,hx+6,hy+6),0)
             p.r((hx-5,hy+1,hx+5,hy+4),3)

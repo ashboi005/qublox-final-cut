@@ -20,7 +20,7 @@ def head(c,who,emotion='neutral',blink=False):
   else:
    h=13 if emotion=='panic' else 8
    c.path((x,42),[(x+4,38,x+w-2,38,x+w,42),(x+w,42+h),(x+4,45+h,x,45,x,42)],BONE,INK,3)
-   c.ellipse((x+w-8,41,x+w-3,48 if emotion!='panic' else 51),INK)
+   c.ellipse((x+w-8,38 if emotion=='summon' else 41,x+w-3,44 if emotion=='summon' else 48 if emotion!='panic' else 51),INK)
   brow=34 if emotion!='panic' else 29
   c.line([(x,brow+(3 if emotion=='angry' and x>40 else 0)),(x+w-2,brow+(3 if emotion=='angry' and x<40 else -2))],INK,3)
  # Signature frames: warm square aviators / translucent grey rectangles.
@@ -103,7 +103,7 @@ def frame(who,anim,f,n):
   g.poly([(112,96),(123,105),(119,140),(108,141),(113,119),(106,110)],'#172127',INK,3)
   g.line([(72,122),(75,135)],'#279a7d',4);g.line([(115,124),(113,136)],'#279a7d',4)
  # Head is independent, with delayed motion relative to torso.
- head(g.group(56+headlag,20+(bob*.2),.95),who,'panic' if anim=='hurt' else 'smug' if anim=='super' else 'neutral',anim=='idle' and f==6)
+ head(g.group(56+headlag,20+(bob*.2),.95),who,'panic' if anim=='hurt' else 'summon' if ash and anim=='super' and f<6 else 'smug' if anim=='super' else 'neutral',anim=='idle' and f==6)
  # Foreground arm and action prop.
  hx,hy=131-stride*.3,126
  if anim=='attack':hx,hy=[(119,120),(110,105),(113,99),(140,108),(137,113),(140,119),(137,123),(131,126)][f]
@@ -111,12 +111,22 @@ def frame(who,anim,f,n):
  if anim=='block':hx,hy=142,98
  if anim=='hurt':hx,hy=125,109
  if anim=='super':
-  if ash:hx,hy=(139,99) if f>=2 else (126,117)
+  if ash:hx,hy=[(132,116),(142,83),(143,47),(143,32),(143,32),(153,62),(161,96),(161,99)][f]
   else:hx,hy=[(112,95),(112,95),(148,104),(148,104),(102,116),(102,116),(146,65),(146,65)][f]
  elbow=(125,126) if anim!='block' else (132,129)
+ if ash and anim=='super':elbow=(138,88) if f<6 else (137,104)
  limb(g,[(117,103),elbow,(hx,hy)],'#e8ddc4' if ash else '#303d43',18);hand(g,hx,hy)
  if ash:
-  if anim in ('ability','super') and f>=2:
+  if anim=='super':
+   pts=[(hx,hy),(hx,hy-17)] if f<6 else [(hx,hy),(hx+22,hy-3)]
+   g.line(pts,INK,10);g.line(pts,SKIN,5)
+   if f<6:g.line([(hx+6,hy),(hx+10,hy-13)],SKIN,5)
+   if f>=2:
+    g.line([(hx-4,hy-5),(hx+4,hy-5)],'#d97757',4)
+    for x in (77,107):g.line([(x,55),(x+12,55)],'#d97757',4)
+    if f<6:
+     g.line([(170,27),(170,39)],'#d97757',3);g.line([(164,33),(176,33)],'#d97757',3)
+  elif anim=='ability' and f>=2:
    g.rect((hx-8,hy-34,hx+37,hy-4),INK,INK,5,3);g.rect((hx-3,hy-29,hx+32,hy-9),'#164d48',r=1)
    g.line([(hx+3,hy-23),(hx+9,hy-19),(hx+3,hy-15)],'#71ceb0',3);g.line([(hx+16,hy-15),(hx+26,hy-15)],'#b5fbec',3)
    g.poly([(hx-8,hy-3),(hx+37,hy-3),(hx+42,hy+5),(hx-14,hy+5)],'#697185',INK,4)

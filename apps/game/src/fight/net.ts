@@ -14,21 +14,28 @@ export class VersusSocket {
   private handlers = new Set<Handler>();
   private queue: ClientMsg[] = [];
   closed = false;
+  private beat: ReturnType<typeof setInterval> | undefined;
   constructor(url = FIGHT_WS) {
     this.ws = new WebSocket(url);
-    this.ws.onopen = () => { for (const m of this.queue) this.ws.send(JSON.stringify(m)); this.queue = []; };
+    this.ws.onopen = () => {
+      for (const m of this.queue) this.ws.send(JSON.stringify(m));
+      this.queue = [];
+      // Heartbeat: proxies in front of the server (Cloudflare, Traefik) drop a WebSocket that's quiet for ~100s,
+      // e.g. while both players sit on the result or character-select screen.
+      this.beat = setInterval(() => this.send({ t: 'ping', at: Date.now() }), 20_000);
+    };
     this.ws.onmessage = ev => {
       let raw: unknown;
       try { raw = JSON.parse(String(ev.data)); } catch { return; }
       const m = ServerMsg.safeParse(raw);
       if (m.success) for (const h of this.handlers) h(m.data);
     };
-    this.ws.onclose = () => { this.closed = true; for (const h of this.handlers) h({ t: 'error', message: 'Connection to the VERSUS server closed.' }); };
+    this.ws.onclose = () => { this.closed = true; clearInterval(this.beat); for (const h of this.handlers) h({ t: 'error', message: 'Connection to the VERSUS server closed.' }); };
     this.ws.onerror = () => { for (const h of this.handlers) h({ t: 'error', message: `Can't reach the VERSUS server (${url}). Is \`bun run dev:server\` running?` }); };
   }
   send(m: ClientMsg) { if (this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(m)); else this.queue.push(m); }
   on(h: Handler) { this.handlers.add(h); return () => { this.handlers.delete(h); }; }
-  close() { this.closed = true; this.ws.close(); }
+  close() { this.closed = true; clearInterval(this.beat); this.ws.close(); }
 }
 
 /**
@@ -62,12 +69,13 @@ export class RollbackDriver implements Driver {
   rollbacks = 0;
   desync = false;
 
-  constructor(private sock: VersusSocket, you: 0 | 1, crews: [CrewId, CrewId], seed: number, private onDesync: () => void) {
+  constructor(private sock: VersusSocket, you: 0 | 1, crews: [CrewId, CrewId], private seed: number, private onDesync: () => void) {
     this.local = you;
     this.state = createFight(crews[0], crews[1], seed);
     for (let f = 1; f <= RollbackDriver.INPUT_DELAY; f++) { this.localIn[f] = 0; this.remoteIn[f] = 0; }
     this.snaps.set(0, structuredClone(this.state));
     this.off = sock.on(m => {
+      if (this.disposed || ((m.t === 'input' || m.t === 'sync') && m.m !== undefined && m.m !== this.seed)) return;
       if (m.t === 'input') m.bits.forEach((b, k) => this.receive(m.from + k, b));
       if (m.t === 'sync') { this.remoteSums.set(m.frame, m.sum); this.checkSync(m.frame); }
     });
@@ -118,7 +126,7 @@ export class RollbackDriver implements Driver {
     const at = next + RollbackDriver.INPUT_DELAY;
     this.localIn[at] = read()[0];
     const from = Math.max(1, at - 7);
-    this.sock.send({ t: 'input', from, bits: this.localIn.slice(from, at + 1).map(b => b ?? 0) });
+    this.sock.send({ t: 'input', from, bits: this.localIn.slice(from, at + 1).map(b => b ?? 0), m: this.seed });
     // 4) Advance one frame with predicted/known inputs.
     events = this.simulate(next);
     while (this.remoteIn[this.confirmed + 1] !== undefined && this.confirmed + 1 <= this.state.frame) this.confirmed++;
@@ -128,7 +136,7 @@ export class RollbackDriver implements Driver {
       if (!s) break;
       const sum = checksum(s);
       this.sums.set(f, sum);
-      this.sock.send({ t: 'sync', frame: f, sum });
+      this.sock.send({ t: 'sync', frame: f, sum, m: this.seed });
       this.checkSync(f);
     }
     for (const f of this.snaps.keys()) if (f < this.confirmed - RollbackDriver.MAX_ROLLBACK - 2) this.snaps.delete(f);
@@ -143,9 +151,12 @@ export class RollbackDriver implements Driver {
 
   private checkSync(f: number) {
     const a = this.sums.get(f), b = this.remoteSums.get(f);
-    if (a !== undefined && b !== undefined && a !== b && !this.desync) { this.desync = true; this.onDesync(); }
+    if (a !== undefined && b !== undefined && a !== b && !this.desync && !this.disposed) { this.desync = true; this.onDesync(); }
   }
 
   status() { return this.sock.closed ? 'DISCONNECTED' : this.stallTicks > RollbackDriver.STALL_NOTICE ? 'WAITING FOR OPPONENT…' : null; }
-  dispose() { this.off(); }
+  /** Detach from the socket. Called when the scene shuts down AND when the fight view unmounts (destroying the
+   *  Phaser game doesn't run scene shutdown, so a finished match used to stay subscribed and cry "desync" in the next). */
+  private disposed = false;
+  dispose() { if (this.disposed) return; this.disposed = true; this.off(); }
 }

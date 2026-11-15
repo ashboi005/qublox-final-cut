@@ -391,3 +391,11 @@
 - Files: hd/sprites/{enemies,bosses,npcs}, hd/portraits; manifest-hd.json; tools/art/hd/entities.py.
 - Commit: included in this batch (art: draw HD enemies and supporting cast).
 - Notes: contact inspected at tools/art/raw/t-a49-entities.png; corrected monkey framing and family sizing after review. BEIGE keeps its captive master drive and faceted shell, Algorithm its stacked posts. Preview opened successfully after its initial unavailable status; in-game review follows with final objects batch. Validation before commit.
+
+### 2026-11-15 · T-A50 · REVIEW
+- Did: CLAUDE'S PLAN pixel + HD logo (32/128 px, eight-frame looping spin at 8 fps, terracotta rays and soft glow pulse); replaced Ashwath's eight-frame super with skyward summon, coral glasses/hand highlights and a confident forward point. Removed the countdown/terminal from this row.
+- Files: assets/{manifest.json,manifest-hd.json,palette.hex,palette.png}; assets/{sprites,hd/sprites}/{characters/ashwath.png,props/claude-logo.png}; tools/art/{claude_plan.py,likeness.py,versus.py,palette.py,hd/crew.py,hd/build.py} (assets paths relative to apps/game/public/).
+- Commit: this entry ships in the same `art: add Claude's Plan super sprites` commit.
+- Checks: bun run validate — 106 files valid, zero warnings; git diff --check; compared both sheets against HEAD: every non-super row byte-identical. Pixel F2 viewer loads both eight-frame animations. HD VERSUS, Ashwath, full meter + I: super triggered, new pose visible, `claude-logo:spin` active, 1024 px HD sheet loaded. Preview advanced too slowly to verify the full lightning impact reliably; no claim of full impact QA.
+- Rebuild: `/opt/homebrew/bin/python3.14 tools/art/claude_plan.py` updates only these sheets/manifests and the palette list. Existing pixel super and HD crew generators use the new poses; HD full rebuild retains the logo. Palette adds #d97757 (46 colours total); palette.py regenerates its swatch strip. Raw contact sheets stay ignored.
+- Notes: T-A49 remains paused. Ending turn as explicitly requested; no await-orders loop.

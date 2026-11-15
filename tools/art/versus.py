@@ -44,6 +44,9 @@ def ring(p,x,y,r,col):
         a=k*math.pi/10;p.star(round(x+math.cos(a)*r),round(y+math.sin(a)*r*.55),col,1)
 
 def super_frame(who,f,base,entry):
+    if who=='ashwath':
+        from likeness import frame
+        return frame(who,'super',f)
     if who=='manya':
         from manya import frame
         return frame(who,'super',f)
@@ -68,10 +71,6 @@ def super_frame(who,f,base,entry):
                 p.l(pts,0,6);p.l(pts,32,3)
             p.l([(7,13),(7,9)],42);p.l([(41,13),(43,9)],29)
             p.r((26,23,28,24),0);p.r((26,23,28,23),6)
-    elif who=='ashwath':
-        if f>=2:
-            p.r((3,4,25,12),0);txt(p,'36H',7,6,29)
-            for k in range(min(5,f)):p.r((5+k*4,11,7+k*4,11),35)
     elif who=='sehaj':
         if f>=2:
             p.l([(7,22),(5,16),(7,9),(11,6)],35,2)

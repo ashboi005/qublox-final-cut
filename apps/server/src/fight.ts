@@ -5,7 +5,7 @@ import { ClientMsg, ROOM_CODE_RE, type LobbyPlayer, type ServerMsg } from '@qubl
 import type { CrewId } from '@qublox/shared';
 
 type Sock = { id: string; send: (data: string) => unknown };
-type Room = { code: string; socks: [Sock | null, Sock | null]; players: [LobbyPlayer | null, LobbyPlayer | null]; playing: boolean; createdAt: number };
+type Room = { code: string; socks: [Sock | null, Sock | null]; players: [LobbyPlayer | null, LobbyPlayer | null]; playing: boolean; createdAt: number; build?: string; match: number };
 
 const rooms = new Map<string, Room>();
 const where = new Map<string, { code: string; idx: 0 | 1 }>();
@@ -50,7 +50,7 @@ export const fight = new Elysia().ws('/fight', {
       case 'create': {
         leave(ws.id);
         const code = newCode();
-        const r: Room = { code, socks: [sock, null], players: [{ name: m.name, crew: null, ready: false }, null], playing: false, createdAt: Date.now() };
+        const r: Room = { code, socks: [sock, null], players: [{ name: m.name, crew: null, ready: false }, null], playing: false, createdAt: Date.now(), build: m.build, match: 0 };
         rooms.set(code, r); where.set(ws.id, { code, idx: 0 });
         return lobby(r);
       }
@@ -58,6 +58,7 @@ export const fight = new Elysia().ws('/fight', {
         const r = rooms.get(m.code.toUpperCase());
         if (!r || !ROOM_CODE_RE.test(m.code)) return send(sock, { t: 'error', message: `No room called ${m.code}.` });
         if (r.socks[0] && r.socks[1]) return send(sock, { t: 'error', message: `Room ${m.code} is full.` });
+        if (r.build && m.build && r.build !== m.build) return send(sock, { t: 'error', message: 'You and your opponent are on different versions of the game. Both refresh the page, then try again.' });
         const idx: 0 | 1 = r.socks[0] ? 1 : 0;
         leave(ws.id);
         r.socks[idx] = sock; r.players[idx] = { name: m.name, crew: null, ready: false };
@@ -72,7 +73,8 @@ export const fight = new Elysia().ws('/fight', {
         const [a, b] = room.players;
         if (a?.ready && b?.ready && a.crew && b.crew) {
           room.playing = true;
-          const start: ServerMsg = { t: 'start', seed: Math.floor(Math.random() * 2 ** 31), crews: [a.crew as CrewId, b.crew as CrewId], names: [a.name, b.name] };
+          room.match = Math.floor(Math.random() * 2 ** 31);
+          const start: ServerMsg = { t: 'start', seed: room.match, crews: [a.crew as CrewId, b.crew as CrewId], names: [a.name, b.name] };
           room.socks.forEach(s => send(s, start));
         }
         return;
@@ -83,7 +85,7 @@ export const fight = new Elysia().ws('/fight', {
         return lobby(room);
       }
       case 'input': case 'sync': {
-        if (!room || !at || !room.playing) return;
+        if (!room || !at || !room.playing || (m.m !== undefined && m.m !== room.match)) return;   // stragglers from an old match
         return send(room.socks[at.idx === 0 ? 1 : 0], m);   // relay as-is (same shape on the way out)
       }
     }

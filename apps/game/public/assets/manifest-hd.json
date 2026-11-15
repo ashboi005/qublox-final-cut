@@ -1642,6 +1642,19 @@
           "loop": false
         }
       }
+    },
+    "claude-logo": {
+      "file": "hd/sprites/props/claude-logo.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "spin": {
+          "row": 0,
+          "frames": 8,
+          "fps": 8,
+          "loop": true
+        }
+      }
     }
   },
   "portraits": {
