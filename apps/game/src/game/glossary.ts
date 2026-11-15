@@ -2,7 +2,7 @@
 // crew.ts / GameScene.ts); Gemini's personality copy lives in content/story/glossary.json; VERSUS moves come
 // straight from the fight sim's moveList(). Keep these in sync when a power changes.
 import type { CrewId } from '@qublox/shared';
-import { CREW } from './crew';
+import { CREW, FLAWS } from './crew';
 
 export type Power = { input: string; name: string; text: string; tag?: 'attack' | 'ability' | 'special' | 'passive' | 'weakness' };
 
@@ -22,7 +22,6 @@ const POWERS: Record<CrewId, Power[]> = {
     { input: 'K', name: 'SMOOTH TALK', text: 'Sets down a hype speaker and starts talking: enemies crowd round to listen, toll bots get talked into opening.', tag: 'ability' },
     { input: 'hold J', name: 'BHAI, LISTEN', text: 'Cycles his 10 personalities: PHILOSOPHER (enemies stop to listen) · HYPE (party +30% dmg) · ROAST (marks a target) · EMPATH (party +15 HP).', tag: 'special' },
     { input: 'passive', name: 'DELEGATION', text: 'Swapping out of Sayam gives the next crew member +30% damage for 3s.', tag: 'passive' },
-    { input: 'weakness', name: "I DON'T DO MANUAL WORK", text: 'Weakest jump in the crew.', tag: 'weakness' },
   ],
   tushar: [
     { input: 'J', name: 'Clapperboard smack', text: 'BONK. The tank: most HP in the crew.', tag: 'attack' },
@@ -30,20 +29,17 @@ const POWERS: Record<CrewId, Power[]> = {
     { input: 'hold J', name: "FINE, I'LL DO IT MYSELF", text: 'Recharges every crew ability, then runs the job himself: for 8s his K is the power of whoever he tagged in for. Side effect: +25% damage taken.', tag: 'special' },
     { input: 'passive', name: 'SILENT OBSERVER', text: 'While he’s active, hidden Lost Footage and cracked walls nearby glint off his bracelet.', tag: 'passive' },
     { input: 'passive', name: 'CAMERA FLASH', text: 'Tagging him in flashes the camera and stuns anything close.', tag: 'passive' },
-    { input: 'weakness', name: 'MONKEYS', text: 'He hates monkeys. Monkeys know.', tag: 'weakness' },
   ],
   sehaj: [
     { input: 'J', name: 'Razor-tool slash', text: 'VAJJ. Heavy hitter.', tag: 'attack' },
     { input: 'K', name: 'CTRL+Z', text: 'Rewinds himself or an object 3 seconds: rebuild a bridge, reset a block, undo damage.', tag: 'ability' },
     { input: 'hold J', name: 'BEAST MODE', text: 'Gym rat. The shirt goes, a boulder comes up, a boulder goes out. The only thing that smashes cracked walls.', tag: 'special' },
     { input: 'swap', name: 'COUPLE MOVE', text: 'Swap straight between Sehaj and Manvi: heart pose, heart shockwave, party heal.', tag: 'passive' },
-    { input: 'weakness', name: 'RENDER BAR', text: 'The longest cooldown in the game. Always waiting on a render.', tag: 'weakness' },
   ],
   manvi: [
     { input: 'J', name: 'Mic-tap', text: 'HAWWW.', tag: 'attack' },
     { input: 'K', name: 'MIND GAMES', text: 'A KO’d crew member gets a pep talk and revives at 40% HP; nearby enemies get confused and bonk each other.', tag: 'ability' },
     { input: 'swap', name: 'COUPLE MOVE', text: 'Swap straight between Manvi and Sehaj: heart pose, heart shockwave, party heal.', tag: 'passive' },
-    { input: 'weakness', name: 'NO CODE', text: 'She studies psychology, not JavaScript. Terminals are off-limits.', tag: 'weakness' },
   ],
   mansukh: [
     { input: 'J', name: 'Pencil jab', text: 'MULTITASKING (UNSTABLE): every swing is a different hobby. STAB, TWEAK, NEW TAB, GG EZ, REMIX.', tag: 'attack' },
@@ -51,11 +47,14 @@ const POWERS: Record<CrewId, Power[]> = {
     { input: 'hold J', name: 'STAN MODE', text: 'BABYMONSTER comes on in his headphones. Lightstick out: double damage, longer reach, faster feet for 8s.', tag: 'special' },
     { input: 'tag in', name: 'RAGEBAIT', text: 'Arrives already baiting: nearby enemies lose their cool and take +50% damage for 3s.', tag: 'passive' },
     { input: 'idle', name: 'IDEAL PROCRASTINATION', text: 'Stand still and he opens a new project instead of finishing this one.', tag: 'passive' },
+    { input: 'swap', name: 'COUPLE MOVE', text: 'Swap straight between Mansukh and Manya: heart pose, heart shockwave, party heal.', tag: 'passive' },
   ],
   manya: [
     { input: 'J', name: 'Paint splat', text: 'Ranged arc. Splatted enemies are marked and take extra damage.', tag: 'attack' },
-    { input: 'K', name: 'FILL', text: 'Recolours an object: red = solid, blue = passable, yellow = bouncy.', tag: 'ability' },
-    { input: 'weakness', name: 'BEIGE', text: 'Beige enemies resist her paint. Personally offensive.', tag: 'weakness' },
+    { input: 'K', name: 'FILL', text: '"Wait, let me decorate this first." Recolours an object: red = solid, blue = passable, yellow = bouncy. Cracks beige varnish.', tag: 'ability' },
+    { input: 'hold J', name: 'THE WORLD INSIDE MY JOURNAL', text: 'Everything nearby gets drawn into an illustrated page: trapped and marked for 3.5s (bosses just sketched). A healing flower sprouts where she stood (+20 HP).', tag: 'special' },
+    { input: 'swap', name: 'COUPLE MOVE', text: 'Swap straight between Manya and Mansukh: heart pose, heart shockwave, party heal.', tag: 'passive' },
+    { input: 'passive', name: 'SENTIMENTAL SOUL', text: 'Little thoughtful things (chai, Lost Footage) instantly recharge her FILL and her journal.', tag: 'passive' },
   ],
   mishthi: [
     { input: 'J', name: 'Improvised prop toss', text: 'Lobs whatever was lying around: a vase, fairy lights, a glue gun. It’s art now.', tag: 'attack' },
@@ -71,15 +70,16 @@ const POWERS: Record<CrewId, Power[]> = {
     { input: 'passive', name: 'ATTENTION TO DETAIL', text: 'Hit an enemy mid wind-up: FRAME PERFECT, double damage. He saw the bad frame.', tag: 'passive' },
     { input: 'passive', name: 'EASILY ANNOYED', text: 'Two hits in 4s and he’s ANNOYED: +30% damage for 5s.', tag: 'passive' },
     { input: 'passive', name: 'DOUBLE JUMP', text: 'The only one who can.', tag: 'passive' },
-    { input: 'weakness', name: 'GLASS CANNON', text: 'The lowest HP in the crew.', tag: 'weakness' },
   ],
 };
 
-/** Story-mode powers, with live cooldowns from CREW. */
+/** Story-mode powers, with live cooldowns from CREW, and their flaw (FLAWS) last. */
 export function storyPowers(id: CrewId): Power[] {
   const c = CREW[id];
-  return POWERS[id].map(p => p.tag === 'ability' ? { ...p, input: `K · ${sec(c.abilityCooldownMs)}` }
-    : p.tag === 'special' && c.special ? { ...p, input: `hold J · ${sec(c.special.cooldownMs)}` } : p);
+  const flaw = FLAWS[c.flaw];
+  return [...POWERS[id].map(p => p.tag === 'ability' ? { ...p, input: `K · ${sec(c.abilityCooldownMs)}` }
+    : p.tag === 'special' && c.special ? { ...p, input: `hold J · ${sec(c.special.cooldownMs)}` } : p),
+  { input: 'weakness', name: flaw.name, text: `${flaw.text} Tagging out fixes it.`, tag: 'weakness' }];
 }
 
 /** 0..1 bars for the dossier (relative to the crew's range). */

@@ -65,6 +65,12 @@
       "Spotted the break in the wall.",
       "Silent observer catches everything.",
       "That wall's fake. Easy catch."
+    ],
+    "flaw": [
+      "MONKEY! I HATE MONKEYS!",
+      "GET THAT APE OFF MY SET!",
+      "Controls flipped! MONKEY PANIC!",
+      "WHY IS IT TYPING?! GET IT AWAY!"
     ]
   }
 }

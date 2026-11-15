@@ -37,8 +37,8 @@
     },
     {
       "id": "paint-the-town",
-      "name": "Gamut Overlord",
-      "desc": "Recolor 50 blocks with Manya's paint bucket. Take that, corporate greyscale."
+      "name": "Decorate the World",
+      "desc": "Recolor 50 blocks with Manya's FILL bucket. Pastel stickers and vibrant hues!"
     },
     {
       "id": "chai-addict",
@@ -139,6 +139,26 @@
       "id": "full-roster",
       "name": "Nine-Person Production",
       "desc": "Deploy and fight with all 9 crew members across the campaign."
+    },
+    {
+      "id": "happy-ending",
+      "name": "A Happy Ending",
+      "desc": "Trigger a Couple Move with Mansukh and Manya. Pure K-drama romance victory!"
+    },
+    {
+      "id": "look-what-i-made",
+      "name": "LOOK WHAT I MADE!",
+      "desc": "Trap 4+ enemies inside a single page of Manya's enchanted journal."
+    },
+    {
+      "id": "pehle-khana",
+      "name": "PEHLE KHANA!",
+      "desc": "Feed cutting chai to Manya while her apocalyptic HANGRY mode is active."
+    },
+    {
+      "id": "bench-therapy",
+      "name": "Bench Therapy",
+      "desc": "Tag out a crew member while their in-game flaw is biting, 10 times."
     }
   ]
 }

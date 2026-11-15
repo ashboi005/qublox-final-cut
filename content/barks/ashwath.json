@@ -99,6 +99,12 @@
       "PR merged with zero merge conflicts!",
       "Deployed to prod. Zero downtime. GG.",
       "Khel khtm! S-Rank deployment!"
+    ],
+    "flaw": [
+      "MERGE CONFLICT! Git stash! Git stash!",
+      "Head detached! Terminal locked!",
+      "Conflicted commit! Can't rebase!",
+      "Merge conflict on master! Revert!"
     ]
   }
 }

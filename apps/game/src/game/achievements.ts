@@ -16,6 +16,7 @@ const GOALS: Partial<Record<string, [AchievementId, number]>> = {
   sprite: ['sprite-fizz', 5],
   frame: ['frame-perfect', 10],
   observed: ['silent-observer', 5],
+  benched: ['bench-therapy', 10],
 };
 
 let cache: Save | null = null;

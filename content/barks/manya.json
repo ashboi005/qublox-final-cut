@@ -2,57 +2,75 @@
   "id": "manya",
   "barks": {
     "tagin": [
-      "Needs more saturation!",
-      "Let's splash some color!",
-      "Color wheel don't lie.",
-      "Dropping full gamut!"
+      "Wait, let me decorate this first.",
+      "Look what I made! So pretty!",
+      "Journal open. Time for art.",
+      "Stationery charged and ready!"
     ],
     "ability": [
-      "Fill bucket blast!",
-      "Recolored!",
-      "Primary hue swap!",
-      "Max saturation drop!"
+      "Fill bucket splash! Recolor!",
+      "Decorating the arena in lavender!",
+      "Recolored with aesthetic pastel!",
+      "Adding stickers and primary hues!"
     ],
     "hit": [
-      "My swatch book!",
-      "Ugh, desaturated!",
-      "That bleached my coat!",
-      "Color bleed alert!"
+      "Don't touch my journal!",
+      "Tang mat kar!",
+      "Don't irritate me.",
+      "Hey! That ripped my washi tape!"
     ],
     "ko": [
-      "Fading to greyscale...",
-      "Color gamut lost...",
-      "Zero saturation...",
-      "Turned... to beige..."
+      "It's fine... (it is not fine)...",
+      "I just wanted a happy ending...",
+      "My journal fell... closing...",
+      "Too tired... need a breather..."
     ],
     "kill": [
-      "Painted into corner!",
-      "Total saturation!",
-      "Vibrant victory!",
-      "Wiped from palette!"
+      "And that's how you make art!",
+      "LOOK WHAT I MADE!",
+      "Masterpiece complete! Next!",
+      "Framed you right into the page."
     ],
     "idle": [
-      "This lighting is so dull.",
-      "Needs more magenta.",
-      "Where is the contrast?",
-      "Palette needs punch."
+      "Where are my pastel stickers?",
+      "Need a warm cup of chai and lunch.",
+      "Wait, let me decorate this first.",
+      "This lighting needs fairy lights."
     ],
-    "beige": [
-      "EW! DISGUSTING BEIGE!",
-      "BLEACH IT OUT! BLEACH IT!",
-      "#F5F5DC MUST DIE!",
-      "MY EYES! THE DULLNESS!"
+    "hangry": [
+      "PEHLE KHANA!",
+      "LAST WARNING.",
+      "I told you I was hungry! MOVE!",
+      "Food is late! NOW YOU GET HIT!"
+    ],
+    "flaw": [
+      "PEHLE KHANA!",
+      "LAST WARNING.",
+      "I'm starving! DO NOT DISTURB!",
+      "Hungry and overstimulated! Tag out!"
+    ],
+    "journal": [
+      "Let's make something beautiful.",
+      "The world inside my journal!",
+      "Trapped in my sketchbook!",
+      "Illustrated page locked on you!"
+    ],
+    "couple": [
+      "Mansukh, look what I made!",
+      "Stop tweaking settings and pose!",
+      "Happy ending achieved! 💖",
+      "Keep up, babe! Vector and paint!"
     ],
     "select": [
-      "Time to bleach the beige away!",
-      "Loaded with pure primary pigments.",
-      "Needs more saturation, always!",
-      "Let's splash some life into this."
+      "Let's make something beautiful.",
+      "Wait, let me decorate this first.",
+      "I brought my journal and stickers.",
+      "And that's how you make a masterpiece."
     ],
     "results": [
-      "The color gamut is fully restored!",
-      "Not a single pixel of beige left!",
-      "Saturation: 100%. Masterpiece."
+      "And that's how you make art!",
+      "A happy ending, just like K-dramas!",
+      "LOOK WHAT I MADE! Pure aesthetic!"
     ]
   }
 }

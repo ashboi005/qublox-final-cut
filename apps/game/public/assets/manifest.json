@@ -745,6 +745,12 @@
           "frames": 4,
           "fps": 8,
           "loop": true
+        },
+        "journal": {
+          "row": 11,
+          "frames": 8,
+          "fps": 12,
+          "loop": false
         }
       }
     },
@@ -2382,6 +2388,19 @@
           "frames": 24,
           "fps": 10,
           "loop": false
+        }
+      }
+    },
+    "journal-flower": {
+      "file": "sprites/props/journal-flower.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
         }
       }
     }

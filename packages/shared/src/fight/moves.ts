@@ -98,7 +98,7 @@ export const MOVESETS: Record<CrewId, Moveset> = {
     super: { name: 'STAN MODE', startup: 14, active: 6, recovery: 18, box: { x: 6, y: 10, w: 64, h: 70 }, damage: 140, hitstun: 32, blockstun: 18, kb: 7, launch: 6, knockdown: true, effect: { kind: 'stan', frames: 360 }, word: 'BABYMONSTER' },
   },
   manya: {
-    finisher: 'FILL: NEON', walk: 2, jump: 6, hp: 950, ...kit({ light: 'SPLAT', heavy: 'SWATCH', sweep: 'DRIP', overhead: 'FILL' }),
+    finisher: 'FILL: NEON', walk: 2, jump: 6, hp: 950, ...kit({ light: 'SPLAT', heavy: 'QUILL', sweep: 'DRIP', overhead: 'TANG MAT KAR' }),
     special: { name: 'SPLAT', startup: 10, active: 1, recovery: 18, effect: { kind: 'projectile', sprite: 'paint', speed: 4, vy: -5, gravity: 1, damage: 70, hitstun: 16, kb: 2, life: 120, w: 12, h: 12, puddle: true }, chain: ['super'], word: 'SPLAT' },
     super: { name: 'FILL: YELLOW', startup: 18, active: 1, recovery: 30, effect: { kind: 'bounceFloor', frames: 150, damage: 40 }, word: 'BOING' },
   },

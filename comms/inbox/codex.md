@@ -23,7 +23,31 @@ All four are integrated, and they're the best sheets in the game:
 
 ---
 
-## T-A47 · STYLE TEST: clean vector comic (HD) for a small slice `[OPEN]` P0
+## 📣 New rule for Astra (2026-11-15): don't idle-wait
+Your session has been burning usage while it waits. **When you run out of `[OPEN]` tasks, do NOT run `scripts/await-orders.sh`.** Log a final `NOTE` ("out of tasks"), commit, and **end your turn**. The user restarts you when there's new work. (This overrides step 6 of the AGENTS.md loop, for you only.) Also: keep tool output small (no full-file dumps of big PNG/JSON listings) and don't re-read whole docs you've already read this session.
+
+## T-A48 · NEW LOOK: Manya likeness pass (PIXEL, not HD) `[DONE]` ✅ (approved: the likeness, palette, brush and journal row all read at 1×)
+**Why:** Manya finally sent her photos and persona, and the user wants her in the game **as pixel art now** (an ad is going out soon). HD comes later (T-A49).
+**Refs (gitignored, never commit them):** `tools/art/raw/refs/manya/manya-1.png`, `manya-2.png`.
+**Likeness notes (from the photos):** long, wavy, dark-brown hair well past the shoulders, side part, volume on one side; fair skin; red lips; a big warm closed-mouth smile; her signature pose is a **peace sign** (one hand at the cheek, or both by the eyes). Silver **bangles** stacked on both wrists, rings, drop/jhumka earrings and a thin pendant necklace. Outfits: a lavender/purple floral peplum top with light-blue jeans (photo 1), or a red ajrakh-print kurta (photo 2). Use the floral top + jeans as her game outfit.
+**Her new kit (code is live):** class **Artificer**. Palette **lavender, dusty pink, cream and gold** (her UI colour is now `#b48ce0`). Weapon: a magic **paintbrush/quill**; she also carries an **enchanted journal** (cream cover, gold corners) for her special. Persona in `docs/narrative/BRIEF.md` (Fixed facts → manya).
+1. **`sprites/manya`**: redraw every existing row with the likeness, same frame size (48×48), same row names and counts or more: idle, run, jump, fall, attack (paint flick from the brush), ability (FILL: dips the brush, splashes), hurt, ko, tagin (peace sign!), super, block. Two-eyed 3/4 face like the others.
+2. **New row `journal`** (6–8 frames, ~12 fps, not looping): she snaps the journal open, a burst of glowing pages/doodles flies out, she holds it up. The game plays `journal` by key for her hold-J special (falls back to `ability`).
+3. **New prop `journal-flower`** (sprite key, ~16×16, `idle` loop of 4 frames): a little hand-drawn lavender flower with a gold centre, gently swaying, as if doodled into the world. It's the healing flower her special leaves behind. (Falls back to a tinted heart until it exists.)
+4. **Portrait** `portraits/manya` (all emotions the others have) and the `icon-manya` icon, with the likeness.
+5. **`finisher-manya`** (VERSUS FILL: NEON) and her `super` row: keep the idea, restyle her into the new look.
+6. Optional if cheap: **heart pose** frames aren't needed (the couple move uses an FX heart), but Mansukh ⇄ Manya are now a couple, so if any of your existing couple/heart art is per-character, give Manya one.
+Validate, check in F2 at 1×, deep-link `?level=ep2-r02&party=manya,mansukh,ashwath` to see her in the set. One commit, one log entry.
+
+## T-A49 · HD conversion of the whole game `[PAUSED]` (the user: resume after the story is final; batch 1, the HD cast, is in ✅)
+**Approved:** the user liked the T-A47 direction (clean vector comic, Ink / Signal). Convert the **whole game** to it, in the same `hd/` + `manifest-hd.json` structure, batch by batch, one commit + log entry per batch so nothing is lost if a session is cut short:
+1. Remaining 7 crew sheets (sayam and ashwath are done) incl. every row the pixel sheets have (`super`, `block`, specials: beast, info, bhai, stan, unhinged, indifferent, wildcard, panic, `journal`), plus portraits. Include **Manya's new look** from T-A48.
+2. Tiles + parallax for every district (HQ, Render Farm done, Set, Feed, Templatr).
+3. Enemies (+ district reskins), bosses, NPCs.
+4. Props, pickups, FX words/sparks, VERSUS finishers and fight VFX, UI-ish images (icons, glossary stamp).
+Pixel assets and `manifest.json` stay untouched (the game picks HD per key when it exists and falls back to pixel). Keep files < 5 MB each.
+
+## T-A47 · STYLE TEST: clean vector comic (HD) for a small slice `[DONE]` ✅ (approved: the user wants the whole game in this style → T-A49)
 **Why:** the user feels the pixel art reads cheap next to the crisp UI (48 px crew, flat parallax, little room for likeness) and wants something **cleaner and more modern**. Before we redraw the whole game, prove a direction on a slice; the user compares old vs new **in the game** and decides. This is a test: don't touch any pixel asset or `manifest.json`.
 
 **The direction (yours to refine in a short `docs/art/HD_STYLE.md`):** *clean vector comic*. Think Castle Crashers / Brawlhalla crispness, pushed toward our retro-futurist brutalism × maximalism and comic-book energy:

@@ -2,57 +2,14 @@
 // /voice/index.json; this file decides WHEN each one plays (a cue). A cue with no clip just falls back to text barks.
 import type { CrewId } from '@qublox/shared';
 import { synth } from './audio/synth';
+import { CAPTIONS, CUES, type VoiceCue } from './voice-cues';
 
-export type VoiceCue = 'tagin' | 'kill' | 'clear' | 'hurt' | 'annoyed' | 'special' | 'ability' | 'intro' | 'win' | 'ko' | 'couple';
+export type { VoiceCue } from './voice-cues';
 export type VoiceClip = { file: string; label: string; ms: number };
 type Index = Partial<Record<CrewId, Record<string, VoiceClip>>>;
 
-/** Which recorded line answers which moment. Slugs are the clip file names (from the user's labels). */
-const CUES: Partial<Record<CrewId, Partial<Record<VoiceCue, string[]>>>> = {
-  ashwath: {
-    kill: ['khel-khtm', 'ghee-khtm'],         // "game over" (and its ghee-flavoured cousin)
-    clear: ['khel-khtm', 'ghee-khtm'],
-    win: ['khel-khtm', 'ghee-khtm'],
-    special: ['ts-pmo-sm-gng-icl-ong-fr'],     // INFO DUMP: a four-second rant is the psychic damage
-    ability: ['oye-pagal'],                    // HACK: "oye pagal" at whatever he just took over
-    hurt: ['oye-pagal'],
-    ko: ['ts-pmo-sm-gng-icl-ong-fr'],
-    tagin: ['dost'],
-    intro: ['dost', 'oye-pagal'],
-  },
-  brahmansh: {
-    kill: ['parlaug-bire'],                 // "parlok, bire": sending them off
-    clear: ['gg-thaa'],                     // room / boss cleared
-    win: ['gg-thaa'],                       // VERSUS win
-    special: ['house-of-shakes'],           // UNHINGED: the whole screen shakes
-    annoyed: ['kutti-jaat-lubaane'],        // EASILY ANNOYED triggers
-    intro: ['house-of-shakes', 'parlaug-bire'],
-    tagin: ['gg-thaa', 'parlaug-bire'],
-    ability: ['parlaug-bire'],
-    hurt: ['kutti-jaat-lubaane'],
-    ko: ['gg-thaa'],
-  },
-  sehaj: {
-    tagin: ['vajj'],
-    ability: ['vajj'],
-    ko: ['random-weird-laugh'],
-    kill: ['vajj', 'random-weird-laugh'],
-    special: ['vajj'],                                  // BEAST MODE boulder
-    hurt: ['ferr-khende-bohota-galla-kad-da'],          // "then you say I abuse a lot"
-    clear: ['random-weird-laugh'],
-    couple: ['random-weird-laugh'],
-    intro: ['vajj', 'ferr-khende-bohota-galla-kad-da'],
-    win: ['random-weird-laugh', 'vajj'],
-  },
-};
-/** Captions for clips whose label isn't the words spoken. */
-const CAPTIONS: Record<string, string> = {
-  'ashwath/oye-pagal': 'Oyee pagalll!',   // his catchphrase as the glossary spells it
-  'sehaj/random-weird-laugh': '*weird laugh*',
-  'sehaj/ferr-khende-bohota-galla-kad-da': 'Fir khende bohota galla kad da',
-};
 /** Per-cue minimum gap so frequent moments (kills) don't turn into a soundboard. */
-const GAP: Partial<Record<VoiceCue, number>> = { kill: 3500, tagin: 4000, hurt: 3000, ability: 4000, special: 1500 };
+const GAP: Partial<Record<VoiceCue, number>> = { kill: 3500, tagin: 4000, hurt: 3000, ability: 4000, special: 1500, flaw: 2500, low: 8000 };
 /** Any line from the same person: a short breather so lines don't trip over each other. */
 const ANY_GAP = 1400;
 

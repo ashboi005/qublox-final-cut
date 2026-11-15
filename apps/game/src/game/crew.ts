@@ -13,8 +13,27 @@ export type CrewDef = {
   ability: AbilityId; abilityName: string; abilityCooldownMs: number;
   catchphrase: string;
   /** Hold-attack special (hold J ~0.55s). */
-  special?: { kind: 'boulder' | 'infoDump' | 'personality' | 'stan' | 'unhinged' | 'indifferent' | 'wildcard'; name: string; cooldownMs: number };
+  special?: { kind: 'boulder' | 'infoDump' | 'personality' | 'stan' | 'unhinged' | 'indifferent' | 'wildcard' | 'journal'; name: string; cooldownMs: number };
+  /** Their personality's downside in story mode (see FLAWS). Swapping them out to the bench always cures it. */
+  flaw: FlawId;
 };
+
+/** Every crew member has one flaw that actually bites in story mode, so there's always a reason to swap.
+ *  Rule of thumb: it triggers from a situation, it hurts for a few seconds, and tagging them out ends it. */
+export type FlawId = 'mergeConflict' | 'manualWork' | 'clientFeedback' | 'hangry' | 'gymWeight' | 'tilted' | 'monkeys' | 'tooNice' | 'creativeBlock';
+export const FLAWS: Record<FlawId, { name: string; text: string }> = {
+  mergeConflict: { name: 'MERGE CONFLICT', text: 'Get hit within 2.5s of a HACK and it conflicts: stunned for 1s and HACK goes back on full cooldown.' },
+  manualWork: { name: "I DON'T DO MANUAL WORK", text: 'Weakest jump in the crew, and after 4s of running he gets WINDED (60% speed) until he stops or tags out.' },
+  clientFeedback: { name: 'CLIENT FEEDBACK', text: '"Make the logo bigger." Any enemy projectile that hits him slows him to half speed for 2.5s.' },
+  hangry: { name: 'HANGRY', text: 'After 35s on the field she goes HANGRY: hits 30% harder and moves faster, but FILL is locked (DO NOT DISTURB). Chai or a 6s break on the bench fixes it.' },
+  gymWeight: { name: 'GYM WEIGHT', text: 'Pure muscle: catwalks and cache blocks give way almost the moment he lands on them.' },
+  tilted: { name: 'TILTED', text: 'While ANNOYED he also takes 30% more damage. Tag him out to cool off.' },
+  monkeys: { name: 'MONKEYS', text: 'He hates monkeys. A monkey hit makes him panic: controls flip for 2s.' },
+  tooNice: { name: 'TOO NICE', text: '"Hawww, poor thing." She won\'t land the final hit: enemies (and bosses) she drops stay on 1 HP until someone else finishes them.' },
+  creativeBlock: { name: 'CREATIVE BLOCK', text: 'Six throws in quick succession and she runs out of things to improvise with: no attacks for 2s.' },
+};
+/** Seconds on the field before Manya goes HANGRY, and how long a bench break takes to fix it. */
+export const HANGRY_AFTER_MS = 35000, HANGRY_REST_MS = 6000;
 
 export const CREW: Record<CrewId, CrewDef> = {
   ashwath: {
@@ -22,61 +41,62 @@ export const CREW: Record<CrewId, CrewDef> = {
     maxHp: 100, runSpeed: 115, jumpVelocity: 310,
     attack: { type: 'melee', range: 26, height: 22, damage: 9, hits: 1, word: 'CLACK' }, attackCooldownMs: 230,
     ability: 'hack', abilityName: 'HACK', abilityCooldownMs: 6000, catchphrase: 'Oyeee pagaalllll!',
-    special: { kind: 'infoDump', name: 'INFO DUMP', cooldownMs: 9000 },
+    special: { kind: 'infoDump', name: 'INFO DUMP', cooldownMs: 9000 }, flaw: 'mergeConflict',
   },
   sayam: {
     id: 'sayam', name: 'Sayam', role: 'CEO', className: 'Boss', color: 0x1d7a3a,
     maxHp: 90, runSpeed: 105, jumpVelocity: 255,
     attack: { type: 'ranged', texture: 'bubble', speed: 250, gravity: 0, damage: 7, word: 'BHAI' }, attackCooldownMs: 330,
     ability: 'bribe', abilityName: 'SMOOTH TALK', abilityCooldownMs: 8000, catchphrase: 'Le re.',
-    special: { kind: 'personality', name: 'BHAI, LISTEN', cooldownMs: 9000 },
+    special: { kind: 'personality', name: 'BHAI, LISTEN', cooldownMs: 9000 }, flaw: 'manualWork',
   },
   mansukh: {
     id: 'mansukh', name: 'Mansukh', role: 'Graphic Designer', className: 'Builder', color: 0xff8a1f,
     maxHp: 100, runSpeed: 112, jumpVelocity: 305,
     attack: { type: 'melee', range: 30, height: 14, damage: 8, hits: 1, word: 'STAB' }, attackCooldownMs: 260,
     ability: 'penTool', abilityName: 'PEN TOOL', abilityCooldownMs: 7000, catchphrase: 'Babymonnsterrr!',
-    special: { kind: 'stan', name: 'STAN MODE', cooldownMs: 16000 },
+    special: { kind: 'stan', name: 'STAN MODE', cooldownMs: 16000 }, flaw: 'clientFeedback',
   },
   manya: {
-    id: 'manya', name: 'Manya', role: 'Graphic Designer', className: 'Colorist', color: 0xd63a8f,
+    id: 'manya', name: 'Manya', role: 'Graphic Designer · Illustrator', className: 'Artificer', color: 0xb48ce0,
     maxHp: 95, runSpeed: 112, jumpVelocity: 305,
     attack: { type: 'ranged', texture: 'paint', speed: 200, gravity: 500, damage: 8, word: 'SPLAT' }, attackCooldownMs: 360,
-    ability: 'fillBucket', abilityName: 'FILL', abilityCooldownMs: 3000, catchphrase: '…',
+    ability: 'fillBucket', abilityName: 'FILL', abilityCooldownMs: 3000, catchphrase: 'Wait, let me decorate this first.',
+    special: { kind: 'journal', name: 'THE WORLD INSIDE MY JOURNAL', cooldownMs: 15000 }, flaw: 'hangry',
   },
   sehaj: {
     id: 'sehaj', name: 'Sehaj', role: 'Video Editor', className: 'Time-bender', color: 0x7a3ad6,
     maxHp: 100, runSpeed: 110, jumpVelocity: 300,
     attack: { type: 'melee', range: 32, height: 18, damage: 11, hits: 1, word: 'VAJJJ!' }, attackCooldownMs: 300,
     ability: 'ctrlZ', abilityName: 'CTRL+Z', abilityCooldownMs: 10000, catchphrase: 'Vajjj!',
-    special: { kind: 'boulder', name: 'BEAST MODE', cooldownMs: 8000 },
+    special: { kind: 'boulder', name: 'BEAST MODE', cooldownMs: 8000 }, flaw: 'gymWeight',
   },
   brahmansh: {
     id: 'brahmansh', name: 'Brahmansh', role: 'Video Editor', className: 'Rogue', color: 0xe8242c,
     maxHp: 70, runSpeed: 130, jumpVelocity: 300, doubleJump: true,
     attack: { type: 'melee', range: 24, height: 18, damage: 6, hits: 1, word: 'SNIP' }, attackCooldownMs: 150,
     ability: 'jumpCut', abilityName: 'JUMP CUT', abilityCooldownMs: 4000, catchphrase: 'Parlaug bire!',
-    special: { kind: 'unhinged', name: 'UNHINGED', cooldownMs: 12000 },
+    special: { kind: 'unhinged', name: 'UNHINGED', cooldownMs: 12000 }, flaw: 'tilted',
   },
   tushar: {
     id: 'tushar', name: 'Tushar', role: 'Wandering Generalist', className: 'Wildcard', color: 0xfecb56,
     maxHp: 110, runSpeed: 108, jumpVelocity: 295,
     attack: { type: 'melee', range: 28, height: 20, damage: 10, hits: 1, word: 'BONK' }, attackCooldownMs: 320,
     ability: 'cut', abilityName: 'CUT!', abilityCooldownMs: 12000, catchphrase: 'Shaanttt hojaaa!',
-    special: { kind: 'wildcard', name: "FINE, I'LL DO IT MYSELF", cooldownMs: 20000 },
+    special: { kind: 'wildcard', name: "FINE, I'LL DO IT MYSELF", cooldownMs: 20000 }, flaw: 'monkeys',
   },
   manvi: {
     id: 'manvi', name: 'Manvi', role: 'Creative + Comms', className: 'Psychologist', color: 0xff5a7a,
     maxHp: 95, runSpeed: 116, jumpVelocity: 305,
     attack: { type: 'melee', range: 26, height: 20, damage: 8, hits: 1, word: 'HAWWW' }, attackCooldownMs: 260,
-    ability: 'mindGames', abilityName: 'MIND GAMES', abilityCooldownMs: 9000, catchphrase: 'Yippieeee!',
+    ability: 'mindGames', abilityName: 'MIND GAMES', abilityCooldownMs: 9000, catchphrase: 'Yippieeee!', flaw: 'tooNice',
   },
   mishthi: {
     id: 'mishthi', name: 'Mishthi', role: 'Creative · Art · Props + Decor', className: 'Improviser', color: 0x9a3050,
     maxHp: 95, runSpeed: 112, jumpVelocity: 305,
     attack: { type: 'ranged', texture: 'prop', speed: 210, gravity: 420, damage: 9, word: 'ART' }, attackCooldownMs: 380,
     ability: 'masterpiece', abilityName: 'MASTERPIECE', abilityCooldownMs: 8000, catchphrase: 'Oh my god wtf bhai.',
-    special: { kind: 'indifferent', name: 'AS IF I CARE?', cooldownMs: 14000 },
+    special: { kind: 'indifferent', name: 'AS IF I CARE?', cooldownMs: 14000 }, flaw: 'creativeBlock',
   },
 };
 
@@ -90,7 +110,9 @@ export const SAYAM_WORDS = ['BHAI', 'NO CAP', 'FR FR', 'LE RE', 'BRUH', 'GET A L
 export const MISHTHI_PROPS = ['VASE', 'FAIRY LIGHTS', 'GLUE GUN', 'PICTURE FRAME', 'FAKE PLANT', 'GLITTER', 'MOOD BOARD', 'CANDLE'];
 
 /** Couples: tag-swapping directly between the two triggers a COUPLE MOVE (see GameScene.coupleMove). */
-export const COUPLES: [CrewId, CrewId][] = [['sehaj', 'manvi']];
+export const COUPLES: [CrewId, CrewId][] = [['sehaj', 'manvi'], ['mansukh', 'manya']];
+/** The word that pops for each couple's move (keyed by either partner). */
+export const COUPLE_WORD: Partial<Record<CrewId, string>> = { sehaj: 'DHUMTANANA!', manvi: 'DHUMTANANA!', mansukh: 'HAPPY ENDING!', manya: 'HAPPY ENDING!' };
 export const partnerOf = (id: CrewId): CrewId | null => COUPLES.find(c => c.includes(id))?.find(x => x !== id) ?? null;
 export const COUPLE_COOLDOWN_MS = 20000;
 
@@ -101,6 +123,9 @@ export const isNightOwlHour = (d = new Date()) => d.getHours() >= 1 && d.getHour
 export const STAN_MS = 8000;
 /** Mansukh's "multitasking (unstable)": every swing is a different hobby. */
 export const MANSUKH_WORDS = ['STAB', 'TWEAK', 'NEW TAB', 'GG EZ', 'REMIX'];
+
+/** Manya, THE WORLD INSIDE MY JOURNAL: how long enemies stay trapped in the illustrated page, and the flower's heal. */
+export const JOURNAL_TRAP_MS = 3500, JOURNAL_HEAL = 20;
 
 /** Party size cap: 4, so story joins (9 crew) never have to push someone out. */
 export const PARTY_MAX = 4;

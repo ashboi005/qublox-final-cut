@@ -9,6 +9,9 @@ from tushar import clap
 
 
 def frame(who,source,f):
+    if who=='manya':
+        from manya import frame as manya_frame
+        return manya_frame(who,'block',f)
     im=Image.new('RGBA',(48,48))
     # Wide planted feet, lowered centre of gravity, a one-pixel impact compression.
     dx=[0,-1,-2,-1][f];dy=[0,1,2,1][f]

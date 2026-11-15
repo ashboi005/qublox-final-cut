@@ -4,7 +4,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import type { z } from '../packages/shared/src/index.ts';
 import {
-  BarksSchema, CastSchema, CREW_IDS, CREW_REQUIRED_ANIMS, CrewVoicesSchema, DialogueSchema,
+  ACHIEVEMENT_IDS, BarksSchema, CastSchema, CREW_IDS, CREW_REQUIRED_ANIMS, CrewVoicesSchema, DialogueSchema,
   ENEMY_REQUIRED_ANIMS, FlavorSchema, ManifestSchema, HdManifestSchema, QuipsSchema, SfxSchema, SongSchema, AchievementsSchema, FootageSchema, VersusLinesSchema, GlossarySchema,
 } from '../packages/shared/src/index.ts';
 
@@ -163,7 +163,12 @@ if (existsSync(voicesPath)) check(CrewVoicesSchema, voicesPath);
 const flavorPath = join(CONTENT, 'story/flavor.json');
 if (existsSync(flavorPath)) check(FlavorSchema, flavorPath);
 const achPath = join(CONTENT, 'story/achievements.json');
-if (existsSync(achPath)) check(AchievementsSchema, achPath);
+if (existsSync(achPath)) {
+  const ach = check(AchievementsSchema, achPath);
+  const named = new Set(ach?.achievements.map(x => x.id) ?? []);
+  const unnamed = ACHIEVEMENT_IDS.filter(id => !named.has(id));
+  if (ach && unnamed.length) warnings.push(`story/achievements.json: no name/desc yet for ${unnamed.join(', ')} (they won't show on the Achievements screen)`);
+}
 const quipsPath = join(CONTENT, 'story/quips.json');
 if (existsSync(quipsPath)) check(QuipsSchema, quipsPath);
 const footagePath = join(CONTENT, 'story/footage.json');
@@ -197,6 +202,24 @@ for (const p of listJson(join(CONTENT, 'audio/songs'))) {
 }
 const sfxPath = join(CONTENT, 'audio/sfx.json');
 if (existsSync(sfxPath)) check(SfxSchema, sfxPath);
+
+// ---------- Voice lines ----------
+// Every recorded clip must be used by at least one cue, and every cue must point at a real clip.
+const voiceIndexPath = join(ROOT, 'apps/game/public/voice/index.json');
+if (existsSync(voiceIndexPath)) {
+  const { CUES } = await import('../apps/game/src/game/voice-cues.ts');
+  const index = JSON.parse(readFileSync(voiceIndexPath, 'utf8')) as Record<string, Record<string, unknown>>;
+  let clips = 0;
+  for (const [crew, list] of Object.entries(index)) for (const slug of Object.keys(list)) {
+    clips++;
+    const used = Object.values((CUES as Record<string, Record<string, string[]>>)[crew] ?? {}).some(pool => pool.includes(slug));
+    if (!used) errors.push(`voice/${crew}/${slug}.mp3 is never played: add it to a cue in apps/game/src/game/voice-cues.ts`);
+  }
+  for (const [crew, cues] of Object.entries(CUES as Record<string, Record<string, string[]>>)) for (const [cue, pool] of Object.entries(cues)) for (const slug of pool) {
+    if (!index[crew]?.[slug]) errors.push(`voice-cues.ts: ${crew}.${cue} → "${slug}" has no clip in voice/index.json (run bun tools/voice/build.ts)`);
+  }
+  ok.push(`voice lines (${clips} clips, all cued)`);
+}
 
 // ---------- Report ----------
 for (const o of ok) console.log(`  ✓ ${o}`);

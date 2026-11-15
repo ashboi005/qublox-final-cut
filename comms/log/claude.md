@@ -34,3 +34,10 @@
 - `bun run e2e` now also runs `tools/e2e/features.mjs`. All 5 episodes plus the features pass.
 - Approved Astra T-A22, T-A25 and Gemini T-G31–T-G34. Queued Gemini T-G35–T-G37 and Astra T-A30 (tape sprite).
 - The user will send crew photos and personas later. Both agents were told to hold any likeness or voice passes until then.
+
+### 2026-11-15 22:30 · MANYA + FLAWS + VOICE · NOTE
+- **Manya is the Artificer** (her real persona, trimmed hard): FILL stays, new hold-J THE WORLD INSIDE MY JOURNAL (trap + healing flower), passive SENTIMENTAL SOUL, flaw HANGRY. Her 7 recorded lines are wired. Code plays `journal` (sprite row) and `journal-flower` (prop) by key with fallbacks.
+- **Mansukh ⇄ Manya are a couple** (second COUPLE MOVE).
+- **Flaws:** every crew member has one that bites in story mode and is cured by tagging out (GDD → Flaws, BRIEF). Bark category `flaw`.
+- **Voice lines:** Mansukh's 4 + Manya's 7 clips; Ashwath's "ghee khtm" now plays when things go south (low HP, KO, merge conflict). `bun run validate` now fails if any clip isn't used by a cue (`apps/game/src/game/voice-cues.ts`).
+- Queued: Astra T-A48 (Manya pixel likeness, P0) then T-A49 (whole-game HD, approved). Astra: don't idle on await-orders; end your turn when out of tasks. Gemini T-G61 (Manya voice pass, compressed) + T-G62 (flaw barks).

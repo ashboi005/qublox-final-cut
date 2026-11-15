@@ -1,4 +1,41 @@
 {
+  "manya": {
+    "look-what-i-made": {
+      "file": "/voice/manya/look-what-i-made.mp3",
+      "label": "look what i made",
+      "ms": 1105
+    },
+    "last-warning": {
+      "file": "/voice/manya/last-warning.mp3",
+      "label": "last warning",
+      "ms": 955
+    },
+    "its-fine": {
+      "file": "/voice/manya/its-fine.mp3",
+      "label": "its fine",
+      "ms": 857
+    },
+    "phele-khana": {
+      "file": "/voice/manya/phele-khana.mp3",
+      "label": "phele khana",
+      "ms": 1080
+    },
+    "dont-irritate-me": {
+      "file": "/voice/manya/dont-irritate-me.mp3",
+      "label": "dont irritate me",
+      "ms": 2192
+    },
+    "tang-mat-kar": {
+      "file": "/voice/manya/tang-mat-kar.mp3",
+      "label": "tang mat kar",
+      "ms": 842
+    },
+    "i-need-my-space": {
+      "file": "/voice/manya/i-need-my-space.mp3",
+      "label": "i need my space",
+      "ms": 2083
+    }
+  },
   "brahmansh": {
     "parlaug-bire": {
       "file": "/voice/brahmansh/parlaug-bire.mp3",
@@ -19,6 +56,28 @@
       "file": "/voice/brahmansh/kutti-jaat-lubaane.mp3",
       "label": "kutti jaat lubaane",
       "ms": 1182
+    }
+  },
+  "mansukh": {
+    "babymonster2": {
+      "file": "/voice/mansukh/babymonster2.mp3",
+      "label": "babymonster2",
+      "ms": 2655
+    },
+    "babymonster1": {
+      "file": "/voice/mansukh/babymonster1.mp3",
+      "label": "babymonster1",
+      "ms": 3162
+    },
+    "oyehhh": {
+      "file": "/voice/mansukh/oyehhh.mp3",
+      "label": "oyehhh",
+      "ms": 558
+    },
+    "singh": {
+      "file": "/voice/mansukh/singh.mp3",
+      "label": "singh",
+      "ms": 921
     }
   },
   "ashwath": {

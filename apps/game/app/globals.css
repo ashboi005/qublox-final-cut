@@ -159,6 +159,7 @@ kbd { display: inline-block; min-width: 18px; padding: 1px 4px; margin-right: 2p
 .studio-name { font-weight: 900; font-variation-settings: 'wdth' 115; font-size: 1.7cqw; text-transform: uppercase; line-height: 1; }
 .studio-role { font-family: var(--pixel); font-size: .9cqw; color: var(--muted); }
 .studio-ability { font-family: var(--pixel); font-size: 1cqw; color: var(--ink); background: var(--crew, var(--bone)); justify-self: start; padding: .1cqw .5cqw; }
+.studio-flaw { font-family: var(--pixel); font-size: .8cqw; color: var(--bone); opacity: .7; justify-self: start; }
 .studio-slot { position: absolute; top: .5cqw; right: .5cqw; width: 2.2cqw; height: 2.2cqw; display: grid; place-items: center; background: var(--crew); color: var(--ink); font-family: var(--pixel); font-size: 1.3cqw; }
 .studio-foot { display: flex; justify-content: space-between; align-items: center; gap: 1cqw; flex-wrap: wrap; }
 .studio-quote { margin: 0; font-family: var(--pixel); font-size: 1.2cqw; color: var(--yellow); min-width: 0; }

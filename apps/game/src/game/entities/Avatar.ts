@@ -35,6 +35,8 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
   lagUntil = 0;
   /** External horizontal push (turbine wind), px/s. Set by the scene every frame. */
   wind = 0;
+  /** Run-speed multiplier from flaws and moods (WINDED, CLIENT FEEDBACK, HANGRY). Set by the scene every frame. */
+  speedMult = 1;
   /** Until when an external launch (bounce pad, hazard knock-up) ignores the short-hop jump cut. */
   launchUntil = 0;
   delegationUntil = 0;
@@ -139,7 +141,7 @@ export class Avatar extends Phaser.Physics.Arcade.Sprite {
     const dir = (f.right ? 1 : 0) - (f.left ? 1 : 0);
     const hurt = time < this.hurtUntil;
     const lag = time < this.lagUntil;
-    const target = hurt ? body.velocity.x : dir * this.def.runSpeed * (lag ? 0.4 : 1) * (this.def.id === 'mansukh' && this.scene.time.now < this.stanUntil ? 1.25 : 1) + this.wind;
+    const target = hurt ? body.velocity.x : dir * this.def.runSpeed * this.speedMult * (lag ? 0.4 : 1) * (this.def.id === 'mansukh' && this.scene.time.now < this.stanUntil ? 1.25 : 1) + this.wind;
     const accel = (dir !== 0 ? ACCEL : DECEL) * (grounded ? 1 : AIR_CONTROL);
     const maxStep = accel * Math.min(this.scene.game.loop.delta, 50) / 1000;
     body.setVelocityX(body.velocity.x + Phaser.Math.Clamp(target - body.velocity.x, -maxStep, maxStep));

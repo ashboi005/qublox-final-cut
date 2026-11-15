@@ -155,6 +155,8 @@ export const ACHIEVEMENT_IDS = [
   // Persona achievements (story v2): one per crew member's real-life quirk.
   'night-owl', 'sprite-fizz', 'stargazer', 'ten-personalities', 'do-it-myself', 'silent-observer', 'light-weight',
   'pep-talk', 'stan-mode', 'frame-perfect', 'house-of-shakes', 'gallery-opening', 'as-if-i-care', 'full-roster',
+  // Manya (the Artificer), the second couple, and flaws (2026-11-15).
+  'happy-ending', 'look-what-i-made', 'pehle-khana', 'bench-therapy',
 ] as const;
 
 /** Lost Footage tapes: 3 hidden per episode. Ids are fixed (levels place them with `@tape`); Gemini writes the text. */

@@ -14,6 +14,8 @@ export interface BossWorld {
   onPhase(phase: 'shield-up' | 'shield-down' | 'attack' | 'defeated'): void;
   /** True while a dialogue scene is up: the world holds still. */
   held(): boolean;
+  /** Manvi's TOO NICE: while true, a hit can't take the boss below 1 HP. */
+  mercy(): boolean;
 }
 
 export abstract class BossBase extends Phaser.Physics.Arcade.Sprite {
@@ -92,12 +94,14 @@ export abstract class BossBase extends Phaser.Physics.Arcade.Sprite {
   protected abstract onShieldDown(): void;
   protected abstract onShieldUp(): void;
 
+  private sparedAt = -1e9;
   hit(damage: number, _fromX: number): boolean {
     if (!this.alive || this.mode === 'intro') return false;
     if (this.shielded) { wordPop(this.scene, this.x + Phaser.Math.Between(-10, 10), this.y - 20, this.shieldWord); return false; }
     const now = this.scene.time.now;
     const mult = (this.vulnerable ? 1.5 : 1) * (now < this.markedUntil ? 1.5 : 1);
     this.hp = Math.max(0, this.hp - Math.round(damage * mult));
+    if (this.hp <= 0 && this.world.mercy()) { this.hp = 1; if (now - this.sparedAt > 1500) { this.sparedAt = now; wordPop(this.scene, this.x, this.y - 40, 'HAWWW, POOR THING'); } }
     this.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL);
     this.scene.time.delayedCall(60, () => this.active && this.restoreTint());
     sparks(this.scene, this.x + Phaser.Math.Between(-12, 12), this.y + Phaser.Math.Between(-8, 8));

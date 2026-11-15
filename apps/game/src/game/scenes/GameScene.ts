@@ -5,7 +5,7 @@ import { achievements } from '../achievements';
 import { animKey, isHdTexture, TILE } from '../assets/art';
 import { fixed, HD, setupCamera, ZOOM } from '../view';
 import { bus, type HudState } from '../bus';
-import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_WORDS, MISHTHI_PROPS, SAYAM_WORDS, partnerOf, STAN_MS, WILDCARD_MS, type AbilityId } from '../crew';
+import { COUPLE_COOLDOWN_MS, COUPLE_WORD, CREW, DEFAULT_PARTY, FLAWS, HANGRY_AFTER_MS, HANGRY_REST_MS, hex, isNightOwlHour, JOURNAL_HEAL, JOURNAL_TRAP_MS, MANSUKH_WORDS, MISHTHI_PROPS, SAYAM_WORDS, partnerOf, STAN_MS, WILDCARD_MS, type AbilityId } from '../crew';
 import { Avatar, PARTY_MAX } from '../entities/Avatar';
 import { BeigeCore, BOSSES, BossBase, ReplyAllMothership, StockPhotoFamily, TheAlgorithm } from '../entities/Boss';
 import { Enemy, type EnemyKind } from '../entities/Enemy';
@@ -32,7 +32,7 @@ type Fan = { spr: Phaser.Physics.Arcade.Image; frozenUntil: number };
 type Npc = { spr: Phaser.GameObjects.Sprite; id: string; name: string };
 type Target = Enemy | BossBase;
 type Vent = { spr: Phaser.GameObjects.Sprite; x: number; y: number; phase: number; frozenUntil: number; bursting: boolean };
-type Crumbly = { spr: Phaser.Physics.Arcade.Sprite; kind: 'catwalk' | 'cache'; state: 'intact' | 'crumbling' | 'broken'; at: number; w: number };
+type Crumbly = { spr: Phaser.Physics.Arcade.Sprite; kind: 'catwalk' | 'cache'; state: 'intact' | 'crumbling' | 'broken'; at: number; w: number; heavy?: boolean };
 type Wind = { spr: Phaser.GameObjects.Sprite; dir: 1 | -1; frozenUntil: number };
 type BlockColor = 'red' | 'blue' | 'yellow';
 type ColorBlock = { spr: Phaser.Physics.Arcade.Sprite; tx: number; ty: number; color: BlockColor };
@@ -48,7 +48,9 @@ const ENEMY_CHARS: Record<string, EnemyKind> = { i: 'stock-intern', d: 'reply-al
 
 /** Episode recaps already shown this session (restarts don't replay them). */
 const seenRecaps = new Set<string>();
-let coupleHinted = false;
+const coupleHinted = new Set<string>();
+/** Flaws explained so far this session (a toast the first time each one bites). */
+const flawToasted = new Set<string>();
 let nightOwlToasted = false;
 const specialHinted = new Set<string>();
 
@@ -105,6 +107,9 @@ export class GameScene extends Phaser.Scene {
   private lastHud = 0;
   private lastBark = 0;
   private coupleReadyAt = 0;
+  // Flaws (crew.ts FLAWS): per-run state. Swapping a member out clears theirs.
+  private hackedAt = -1e9; private runMs = 0; private restMs = 0; private winded = false; private feedbackUntil = 0;
+  private fieldMs = 0; private benchMs = 0; private hangry = false; private nextSteam = 0; private throws: number[] = []; private blockUntil = 0; private gymPopped = false;
   private nightOwl = false;
   private stillSince = 0; private cosmicDone = false; private personalityIdx = Math.floor(Math.random() * 4); private swings = 0; private stanKills = 0; private songId = ''; private annoyedUntil = 0; private recentHits: number[] = []; private wildcardUntil = 0; private nextObserve = 0; private secrets: Phaser.GameObjects.Sprite[] = []; private wildcardAbility: AbilityId | null = null; private borrowedCooldown = 0; private lastOut: CrewId | null = null; private observed = false;
   /** MENTOR'S AURA: with Ashwath (conscious) in the party, everyone learns faster: abilities recharge 10% sooner. NIGHT OWL: Ashwath's own recharge −25% at 1–4 AM. */
@@ -135,6 +140,8 @@ export class GameScene extends Phaser.Scene {
     this.cutscene = false; this.finished = false; this.leaving = false; this.joined = false;
     this.time.paused = false;   // a restart mid-dialogue must not inherit the dialogue hold (the Clock outlives restarts)
     this.dialogueQueue = []; this.dialogueThen = undefined; this.hint = null;
+    this.hackedAt = -1e9; this.runMs = 0; this.restMs = 0; this.winded = false; this.feedbackUntil = 0;
+    this.fieldMs = 0; this.benchMs = 0; this.hangry = false; this.nextSteam = 0; this.throws = []; this.blockUntil = 0; this.gymPopped = false;
   }
 
   create() {
@@ -259,6 +266,7 @@ export class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.avatar, this.foeShots, (_a, s) => {
       const shot = s as Phaser.Physics.Arcade.Image;
       if (this.time.now < (shot.getData('frozenUntil') as number ?? 0)) return;
+      if (this.avatar.def.id === 'mansukh' && this.time.now >= this.avatar.invulnUntil && !this.cutscene) this.clientFeedback();
       if (shot.getData('kind') === 'pulse') {
         if (this.time.now > this.avatar.invulnUntil) { this.avatar.lagUntil = this.time.now + 1600; wordPop(this, this.avatar.x, this.avatar.y - 46, 'BUFFERING…'); }
         this.hurtPlayer(5, shot.x, null);
@@ -324,11 +332,12 @@ export class GameScene extends Phaser.Scene {
       const sp = this.avatar.def.special;
       if (sp && !this.holdFired && time - this.holdStart > 550) {
         this.holdFired = true;
-        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else if (sp.kind === 'personality') this.personality(); else if (sp.kind === 'stan') this.stanMode(); else if (sp.kind === 'unhinged') this.unhinged(); else if (sp.kind === 'indifferent') this.asIfICare(); else if (sp.kind === 'wildcard') this.wildcard(); else this.infoDump(); }
+        if (time >= (this.specialReadyAt[this.avatar.def.id] ?? 0)) { this.specialReadyAt[this.avatar.def.id] = time + sp.cooldownMs; if (sp.kind === 'boulder') this.beastMode(); else if (sp.kind === 'personality') this.personality(); else if (sp.kind === 'stan') this.stanMode(); else if (sp.kind === 'unhinged') this.unhinged(); else if (sp.kind === 'indifferent') this.asIfICare(); else if (sp.kind === 'wildcard') this.wildcard(); else if (sp.kind === 'journal') this.journal(); else this.infoDump(); }
         else wordPop(this, this.avatar.x, this.avatar.y - 50, 'STILL SORE');
       }
     } else { this.holdStart = 0; this.holdFired = false; }
     if (f.abilityPressed) this.ability();
+    this.updateFlaws(time, busy ? 0 : delta);
     this.avatar.step(f, time);
 
     for (const d of this.switches) if (d.tempUntil && time > d.tempUntil) { d.tempUntil = 0; this.setSwitch(d, false); }
@@ -382,6 +391,7 @@ export class GameScene extends Phaser.Scene {
     const id = this.avatar.def.id, now = this.time.now;
     achievements.collect('played', id, Object.keys(CREW), 'full-roster');
     this.specialHint();
+    if (prev !== id) this.benchFlaw(prev);
     if (partnerOf(prev) === id && now >= this.coupleReadyAt) { this.coupleMove(prev, id); return; }
     fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 22, 19);
     synth.sfx('swap');
@@ -400,15 +410,28 @@ export class GameScene extends Phaser.Scene {
     if (prev !== id) this.lastOut = prev;
     this.style.gain(`${id}:tagin`, hits ? 12 : 4, now);
   }
+  /** Tagging someone out is how you fix their flaw: a breather on the bench. (Manya needs a proper break: HANGRY_REST_MS.) */
+  private benchFlaw(id: CrewId) {
+    // BENCH THERAPY: tagging someone out while their flaw is actually biting.
+    const now = this.time.now;
+    if ((id === 'sayam' && this.winded) || (id === 'mansukh' && now < this.feedbackUntil) || (id === 'brahmansh' && now < this.annoyedUntil)
+      || (id === 'mishthi' && now < this.blockUntil) || (id === 'tushar' && now < this.avatar.panicUntil) || (id === 'manya' && this.hangry)) achievements.count('benched');
+    if (id === 'sayam') { this.winded = false; this.runMs = 0; }
+    if (id === 'mansukh') this.feedbackUntil = 0;
+    if (id === 'brahmansh') this.annoyedUntil = 0;
+    if (id === 'mishthi') { this.throws = []; this.blockUntil = 0; }
+    if (id === 'manya') this.benchMs = 0;
+  }
 
   // ---------- Combat ----------
   private attack() {
     const a = this.avatar, m = a.member, def = m.def, now = this.time.now;
     if (now < m.attackReadyAt || now < a.hurtUntil) return;
+    if (def.id === 'mishthi' && this.creativeBlock(now)) return;
     m.attackReadyAt = now + def.attackCooldownMs;
     const stan = def.id === 'mansukh' && now < a.stanUntil;
     const dmgMult = (now < a.delegationUntil ? 1.3 : 1) * (def.id === 'ashwath' && this.nightOwl ? 1.25 : 1) * (stan ? 2 : 1)
-      * (def.id === 'brahmansh' && now < this.annoyedUntil ? 1.3 : 1);
+      * (def.id === 'brahmansh' && now < this.annoyedUntil ? 1.3 : 1) * (def.id === 'manya' && this.hangry ? 1.3 : 1);
     let atk = def.attack;
     if (def.id === 'mansukh' && atk.type === 'melee') {
       const word = stan ? (this.swings % 2 ? 'ASA BIAS' : 'MONSTER!') : MANSUKH_WORDS[this.swings % MANSUKH_WORDS.length]!;
@@ -492,6 +515,8 @@ export class GameScene extends Phaser.Scene {
     const wasOk = m.hp >= m.def.maxHp * 0.3;
     // Tushar's side effect: running everyone's job means taking everyone's hits a bit harder.
     if (m.def.id === 'tushar' && now < this.wildcardUntil) amount = Math.round(amount * 1.25);
+    // Brahmansh TILTED: annoyed means sloppy. He hits harder and gets hit harder.
+    if (m.def.id === 'brahmansh' && now < this.annoyedUntil) amount = Math.round(amount * 1.3);
     m.hp = Math.max(0, m.hp - amount);
     if (wasOk && m.hp > 0 && m.hp < m.def.maxHp * 0.3) this.say('low', true);
     a.invulnUntil = now + 900;
@@ -501,6 +526,7 @@ export class GameScene extends Phaser.Scene {
     this.style.hurt();
     synth.sfx('hurt');
     shake(this, 2); hitstop(this, 40);
+    if (m.def.id === 'ashwath' && now - this.hackedAt < 2500) this.mergeConflict(now);
     const monkey = source?.kind === 'infinite-monkey' || from === 'infinite-monkey';
     if (monkey && m.def.id === 'tushar') { a.panicUntil = now + 2000; this.say('monkey', true); achievements.unlock('monkey-business'); }
     else if (m.def.id === 'brahmansh' && this.easilyAnnoyed(now)) { /* handled */ }
@@ -541,6 +567,7 @@ export class GameScene extends Phaser.Scene {
     // FINE, I'LL DO IT MYSELF: while it's running, Tushar's K is the borrowed job (at half its usual cooldown).
     const borrowed = m.def.id === 'tushar' && now < this.wildcardUntil ? this.wildcardAbility : null;
     const abilityId: AbilityId = borrowed ?? m.def.ability;
+    if (m.def.id === 'manya' && this.hangry) { wordPop(this, a.x, a.y - 50, 'PEHLE KHANA!', true); this.say('hangry'); return; }
     if (borrowed) achievements.unlock('do-it-myself');
     const used = ({
       hack: () => this.hack(), bribe: () => this.bribe(), penTool: () => this.penTool(), fillBucket: () => this.fill(),
@@ -548,6 +575,7 @@ export class GameScene extends Phaser.Scene {
       masterpiece: () => this.masterpiece(),
     } as const)[abilityId]();
     if (!used) { m.abilityReadyAt = now + 400; return; }
+    if (m.def.id === 'ashwath' && abilityId === 'hack') this.hackedAt = now;
     m.abilityReadyAt = now + (borrowed ? this.borrowedCooldown / 2 : m.def.abilityCooldownMs) * this.cooldownScale(m.def.id);
     a.doAction('ability', Math.min(450, a.animMs('ability', 300)));
     this.voice('ability');
@@ -746,6 +774,141 @@ export class GameScene extends Phaser.Scene {
     this.avatar.setTint(0xff6a6a); this.time.delayedCall(5000, () => this.avatar.active && this.avatar.clearTint());
     return true;
   }
+  // ---------- Flaws (crew.ts FLAWS) ----------
+  /** First time a flaw bites this session: say what it is and that tagging out fixes it. */
+  private flawToast(id: CrewId) {
+    if (flawToasted.has(id)) return;
+    flawToasted.add(id);
+    const f = FLAWS[CREW[id].flaw];
+    bus.emit('toast', { text: `⚠ ${CREW[id].name} · ${f.name}: ${f.text} Tag them out to reset.` });
+  }
+  /** Manvi's TOO NICE: she won't land the last hit. (Off when she's the only one still standing, so nothing soft-locks.) */
+  private tooNice(): boolean {
+    const a = this.avatar;
+    if (!a || a.def.id !== 'manvi' || !a.members.some(m => !m.ko && m.def.id !== 'manvi')) return false;
+    this.flawToast('manvi');
+    return true;
+  }
+  /** Per-frame flaw state for whoever is on the field (and Manya's bench break). Sets the run-speed multiplier. */
+  private updateFlaws(now: number, delta: number) {
+    const a = this.avatar, id = a.def.id;
+    let speed = 1;
+    // Sayam, I DON'T DO MANUAL WORK: 4s of running and he's WINDED until he stands still for 1s (or tags out).
+    if (id === 'sayam') {
+      const moving = Math.abs(a.pbody.velocity.x) > 40;
+      if (moving) { this.runMs += delta; this.restMs = 0; } else if ((this.restMs += delta) > 1000) { this.runMs = 0; if (this.winded) { this.winded = false; wordPop(this, a.x, a.y - 50, 'OKAY. OKAY.'); } }
+      if (!this.winded && this.runMs > 4000) { this.winded = true; wordPop(this, a.x, a.y - 52, 'BHAI, RUKO… WINDED', true); this.say('flaw', true); this.flawToast('sayam'); }
+      if (this.winded) speed *= 0.6;
+    }
+    // Mansukh, CLIENT FEEDBACK: half speed while the notes sink in.
+    if (id === 'mansukh' && now < this.feedbackUntil) speed *= 0.5;
+    // Manya, HANGRY: her clock runs while she's on the field; a long enough break on the bench resets it.
+    const manya = a.members.find(m => m.def.id === 'manya');
+    if (manya && id === 'manya') {
+      this.fieldMs += delta;
+      if (!this.hangry && this.fieldMs > HANGRY_AFTER_MS) {
+        this.hangry = true;
+        wordPop(this, a.x, a.y - 60, 'HANGRY: DO NOT DISTURB', true);
+        this.say('hangry', true); this.flawToast('manya');
+      }
+      if (this.hangry) {
+        speed *= 1.15;
+        if (now > this.nextSteam) { this.nextSteam = now + 900; fx(this, 'dust-puff', a.x + Phaser.Math.Between(-6, 6), a.y - 46, 9); }
+      }
+    } else if (manya && (this.hangry || this.fieldMs > 0)) {
+      if ((this.benchMs += delta) > HANGRY_REST_MS) { this.fieldMs = 0; this.benchMs = 0; if (this.hangry) { this.hangry = false; bus.emit('toast', { text: 'Manya had a snack on the bench. FILL is back.' }); } }
+    }
+    a.speedMult = speed;
+  }
+  /** Ashwath, MERGE CONFLICT: hit right after a HACK and the change conflicts. Stunned, and HACK starts over. */
+  private mergeConflict(now: number) {
+    const a = this.avatar;
+    this.hackedAt = -1e9;
+    a.hurtUntil = now + 1000;
+    a.member.abilityReadyAt = now + a.def.abilityCooldownMs * this.cooldownScale('ashwath');
+    wordPop(this, a.x, a.y - 58, 'MERGE CONFLICT', true);
+    this.say('flaw', true); this.flawToast('ashwath');
+  }
+  /** Mansukh, CLIENT FEEDBACK: an enemy projectile is a note from the client. "Make the logo bigger." */
+  private clientFeedback() {
+    const a = this.avatar, now = this.time.now;
+    if (now >= this.feedbackUntil) { wordPop(this, a.x, a.y - 56, Phaser.Utils.Array.GetRandom(['MAKE THE LOGO BIGGER', 'CAN IT POP MORE?', 'ONE SMALL CHANGE…', 'MAKE IT BLUE']), true); this.say('flaw'); }
+    this.feedbackUntil = now + 2500;
+    this.flawToast('mansukh');
+  }
+  /** Mishthi, CREATIVE BLOCK: six throws in 4s and there's nothing left lying around to improvise with. */
+  private creativeBlock(now: number): boolean {
+    const a = this.avatar;
+    if (now < this.blockUntil) { if (now - this.lastBark > 900) { this.lastBark = now; wordPop(this, a.x, a.y - 50, 'NO IDEAS'); } return true; }
+    this.throws = this.throws.filter(t => now - t < 4000);
+    if (this.throws.length >= 6) {
+      this.throws = []; this.blockUntil = now + 2000;
+      wordPop(this, a.x, a.y - 56, 'CREATIVE BLOCK', true);
+      this.say('flaw', true); this.flawToast('mishthi');
+      return true;
+    }
+    this.throws.push(now);
+    return false;
+  }
+  /** Food (or the thought behind it) fixes Manya. */
+  private feedManya(word: string) {
+    const a = this.avatar;
+    const was = this.hangry;
+    this.hangry = false; this.fieldMs = 0; this.benchMs = 0;
+    if (was) achievements.unlock('pehle-khana');
+    wordPop(this, a.x, a.y - 60, was ? `${word} …okay, I'm fine now` : word, was);
+    this.sentimental();
+  }
+  /** Manya's SENTIMENTAL SOUL: thoughtful little things (chai, Lost Footage) recharge her FILL and her journal. */
+  private sentimental() {
+    const a = this.avatar, now = this.time.now;
+    const m = a.members.find(x => x.def.id === 'manya');
+    if (!m || m.ko) return;
+    m.abilityReadyAt = Math.min(m.abilityReadyAt, now);
+    this.specialReadyAt.manya = Math.min(this.specialReadyAt.manya ?? 0, now);
+    if (a.def.id === 'manya') { fx(this, 'heal-sparkle', a.x, a.y - 24, 30); wordPop(this, a.x, a.y - 74, 'AWW. RECHARGED'); }
+  }
+  /** Manya, THE WORLD INSIDE MY JOURNAL: everything nearby gets drawn into an illustrated page (trapped, marked),
+   *  and a healing flower sprouts where she stood. */
+  private journal() {
+    const a = this.avatar, now = this.time.now;
+    a.doAction(this.anims.exists(animKey('manya', 'journal')) ? 'journal' : 'ability', 650);
+    wordPop(this, a.x, a.y - 70, "LET'S MAKE SOMETHING BEAUTIFUL", true);
+    if (!this.voice('special')) this.say('journal', true);
+    this.style.gain('manya:journal', 14, now);
+    this.cameras.main.flash(120, 240, 220, 255);
+    synth.sfx('ability-fill');
+    let trapped = 0;
+    for (const e of this.targets()) {
+      if (Phaser.Math.Distance.Between(e.x, e.y, a.x, a.y) > 170) continue;
+      const boss = e instanceof BossBase;
+      this.freezeTarget(e, boss ? 1500 : JOURNAL_TRAP_MS);
+      e.markedUntil = now + JOURNAL_TRAP_MS; e.restoreTint();
+      const page = this.add.rectangle(e.x, e.y - e.displayHeight / 2, e.displayWidth + 10, e.displayHeight + 8, 0xf6eedc, 0.45).setStrokeStyle(2, 0xd9b45a).setDepth(e.depth + 1);
+      this.tweens.add({ targets: page, alpha: 0, delay: (boss ? 1500 : JOURNAL_TRAP_MS) - 300, duration: 300, onComplete: () => page.destroy() });
+      wordPop(this, e.x, e.y - e.displayHeight - 10, boss ? 'SKETCHED' : 'PAGE 1');
+      trapped++;
+    }
+    // The flower: one heal for whoever picks it (the active crew member), wilts after 8s.
+    const tex = this.textures.exists('journal-flower') ? 'journal-flower' : 'fx-heart';
+    const flower = this.physics.add.staticSprite(a.x, a.y - 8, tex).setDepth(5).setScale(tex === 'fx-heart' ? 0.35 : 1);
+    if (tex === 'fx-heart') flower.setTint(0xb48ce0);
+    if (this.anims.exists(`${tex}:idle`)) flower.play(`${tex}:idle`);
+    this.tweens.add({ targets: flower, y: flower.y - 3, yoyo: true, repeat: -1, duration: 500, ease: 'Sine.InOut' });
+    const wilt = this.time.delayedCall(8000, () => flower.active && this.tweens.add({ targets: flower, alpha: 0, duration: 250, onComplete: () => flower.destroy() }));
+    // Armed a beat later so it isn't eaten the instant she casts at full HP… or at all: it waits for someone who needs it.
+    this.time.delayedCall(400, () => flower.active && this.physics.add.overlap(this.avatar, flower, () => {
+      const m = this.avatar.member;
+      if (m.hp >= m.def.maxHp || !flower.active) return;
+      m.hp = Math.min(m.def.maxHp, m.hp + JOURNAL_HEAL);
+      fx(this, 'heal-sparkle', this.avatar.x, this.avatar.y - 20, 30);
+      wordPop(this, flower.x, flower.y - 12, `+${JOURNAL_HEAL} HAPPY ENDING`);
+      synth.sfx('pickup');
+      wilt.remove(); flower.destroy();
+    }));
+    if (trapped >= 4) achievements.unlock('look-what-i-made');
+  }
+
   /** The real recorded line for this moment, if the active crew member recorded one. Shows it as a bark too. */
   private voice(cue: VoiceCue): boolean {
     const clip = speak(this.avatar.def.id, cue);
@@ -879,6 +1042,7 @@ export class GameScene extends Phaser.Scene {
       unhinged: 'goes UNHINGED: a chain of jump cuts through everything nearby. HOUSE OF SHAKES.',
       personality: 'becomes his next of 10 personalities: Philosopher (enemies stop to listen) · Hype · Roast · Empath',
       stan: 'puts on BABYMONSTER: lightstick out, double damage and faster feet for 8s',
+      journal: 'opens her journal: enemies nearby get trapped in an illustrated page, and a healing flower sprouts where she stood',
     };
     bus.emit('toast', { text: `HOLD ${key('story', 'attack')} · ${sp.name}: ${this.avatar.def.name} ${what[sp.kind]}` });
   }
@@ -923,7 +1087,7 @@ export class GameScene extends Phaser.Scene {
     this.tweens.add({ targets: heart, scale: 1.2, duration: 220, ease: 'Back.Out', yoyo: true, hold: 260, onComplete: () => heart.destroy() });
     const wave = this.add.image(cx, cy, 'fx-heart').setDepth(29).setScale(0.8).setAlpha(0.9);
     this.tweens.add({ targets: wave, scale: 9, alpha: 0, delay: 300, duration: 650, ease: 'Cubic.Out', onComplete: () => wave.destroy() });
-    wordPop(this, a.x, a.y - 72, 'DHUMTANANA!', true);
+    wordPop(this, a.x, a.y - 72, COUPLE_WORD[inn] ?? 'LOVE!', true);
     synth.sfx('style-rankup'); synth.sfx('ability');
     this.time.delayedCall(320, () => {
       for (const e of this.targets()) {
@@ -933,15 +1097,15 @@ export class GameScene extends Phaser.Scene {
     });
     this.style.gain(`couple:${inn}`, 30, now);
     this.style.addScore(1500);
-    achievements.unlock('couple-goals');
+    achievements.unlock(inn === 'mansukh' || inn === 'manya' ? 'happy-ending' : 'couple-goals');
     this.say('couple', true);
   }
   /** First time both halves of a couple are in the party (per session): explain the couple move. */
   private coupleHint() {
     const ids = this.avatar.members.map(m => m.def.id);
     const pair = ids.find(id => { const p = partnerOf(id); return p && ids.includes(p); });
-    if (!pair || coupleHinted) return;
-    coupleHinted = true;
+    if (!pair || coupleHinted.has([pair, partnerOf(pair)!].sort().join())) return;
+    coupleHinted.add([pair, partnerOf(pair)!].sort().join());
     this.time.delayedCall(1200, () => bus.emit('toast', { text: `💞 ${CREW[pair].name} + ${CREW[partnerOf(pair)!].name} are both here: swap straight from one to the other for a COUPLE MOVE` }));
   }
 
@@ -1095,6 +1259,7 @@ export class GameScene extends Phaser.Scene {
       lure: () => this.activeLure(),
       shoot: (sx, sy, vx, vy, tex) => this.foeShot(sx, sy, vx, vy, tex, 8, kind, 420),
       held: () => this.cutscene,
+      mercy: () => this.tooNice(),
     }, this.level.tileset ? `${kind}-${this.level.tileset}` : undefined);
     if (kind === 'buffering-wheel-minion') (e.body as Phaser.Physics.Arcade.Body).setSize(12, 12).setOffset(2, 4);
     this.enemies.add(e);
@@ -1120,6 +1285,7 @@ export class GameScene extends Phaser.Scene {
       minions: () => this.liveEnemies().length,
       onPhase: phase => this.onBossPhase(phase),
       held: () => this.cutscene,
+      mercy: () => this.tooNice(),
     });
     this.physics.add.overlap(this.shots, this.boss, (b, s) => this.shotHits(s as Phaser.Physics.Arcade.Sprite, b as BossBase));
     if (this.boss instanceof TheAlgorithm) this.boss.onBlocked = () => { synth.sfx('menu'); if (Math.random() < 0.3) bus.emit('toast', { text: 'Its front is guarded. Hit it from BEHIND (JUMP CUT through it!)' }); };
@@ -1221,8 +1387,10 @@ export class GameScene extends Phaser.Scene {
     this.tweens.add({ targets: cup, y: y - 11, yoyo: true, repeat: -1, duration: 600, ease: 'Sine.InOut' });
     this.time.delayedCall(0, () => this.physics.add.overlap(this.avatar, cup, () => {
       const m = this.avatar.member;
-      if (m.hp >= m.def.maxHp) return;
+      const fed = m.def.id === 'manya' && (this.hangry || this.fieldMs > HANGRY_AFTER_MS / 2);
+      if (m.hp >= m.def.maxHp && !fed) return;
       m.hp = Math.min(m.def.maxHp, m.hp + 35);
+      if (m.def.id === 'manya') this.feedManya('CHAI!');
       fx(this, 'heal-sparkle', this.avatar.x, this.avatar.y - 20, 30);
       wordPop(this, cup.x, cup.y - 12, '+CHAI');
       achievements.count('chai');
@@ -1244,6 +1412,7 @@ export class GameScene extends Phaser.Scene {
       fx(this, 'heal-sparkle', x, y - 16, 30);
       if (had) { wordPop(this, x, y - 20, 'ALREADY ARCHIVED'); return; }
       wordPop(this, x, y - 20, 'LOST FOOTAGE!');
+      if (this.avatar.def.id === 'manya') this.sentimental();
       this.style.addScore(1000);
       const all = (this.content.story.footage as { tapes?: { id: string; title: string; caption: string }[] } | undefined)?.tapes ?? [];
       const t = all.find(f => f.id === id);
@@ -1391,8 +1560,13 @@ export class GameScene extends Phaser.Scene {
     for (const c of this.crumbly) {
       if (c.state === 'intact') {
         const on = a.pbody.touching.down && Math.abs(a.y - (c.spr.y - 8)) < 3 && Math.abs(a.x - c.spr.x) < c.w / 2 + 6;
-        if (on) this.setCrumbly(c, 'crumbling', time);
-      } else if (c.state === 'crumbling' && time - c.at > (c.kind === 'catwalk' ? 450 : 1100)) {
+        if (on) {
+          this.setCrumbly(c, 'crumbling', time);
+          // Sehaj's GYM WEIGHT: it was never rated for this much muscle.
+          c.heavy = a.def.id === 'sehaj';
+          if (c.heavy) { if (!this.gymPopped) { this.gymPopped = true; wordPop(this, a.x, a.y - 52, 'GYM WEIGHT', true); this.say('flaw', true); } this.flawToast('sehaj'); }
+        }
+      } else if (c.state === 'crumbling' && time - c.at > (c.kind === 'catwalk' ? 450 : 1100) * (c.heavy ? 0.25 : 1)) {
         this.setCrumbly(c, 'broken', time);
         synth.sfx('hit');
       } else if (c.state === 'broken') {
@@ -1722,7 +1896,7 @@ export class GameScene extends Phaser.Scene {
   private say(category: string, force = false) {
     const now = this.time.now;
     if (!force && now - this.lastBark < 1400) return;
-    const cue = ({ tagin: 'tagin', kill: 'kill', crit: 'kill', ko: 'ko', hit: 'hurt', start: 'intro' } as Record<string, VoiceCue>)[category];
+    const cue = ({ tagin: 'tagin', kill: 'kill', crit: 'kill', ko: 'ko', hit: 'hurt', start: 'intro', low: 'low', flaw: 'flaw', hangry: 'flaw' } as Record<string, VoiceCue>)[category];
     if (cue && this.voice(cue)) return;
     const def = this.avatar.def;
     const raw = this.content.barks[def.id] as { barks?: Record<string, unknown> } | undefined;
@@ -1740,7 +1914,7 @@ export class GameScene extends Phaser.Scene {
     return {
       party: this.avatar.members.map((m, i) => ({
         id: m.def.id, name: m.def.name, className: m.def.className, color: hex(m.def.color),
-        hp: m.hp, maxHp: m.def.maxHp, ko: m.ko, active: i === this.avatar.slot, abilityName: m.def.abilityName,
+        hp: m.hp, maxHp: m.def.maxHp, ko: m.ko, active: i === this.avatar.slot, abilityName: m.def.id === 'manya' && this.hangry ? 'PEHLE KHANA!' : m.def.abilityName,
         cooldown: Math.max(0, Math.min(1, (m.abilityReadyAt - now) / m.def.abilityCooldownMs)),
       })),
       style: { rank: this.style.rank.name, meter: this.style.meter, score: this.style.score },

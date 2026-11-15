@@ -4,6 +4,9 @@ from PIL import Image,ImageDraw
 import json
 EMOTIONS=['neutral','smug','panic','angry','deadpan','happy','sad','shocked']
 def portrait(who,emotion):
+    if who == 'manya':
+        from manya import portrait as manya_portrait
+        return manya_portrait(who,emotion)
     if who == 'tushar':
         from tushar import portrait as tushar_portrait
         return tushar_portrait(who,emotion)

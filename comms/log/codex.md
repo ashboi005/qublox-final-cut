@@ -352,3 +352,42 @@
 - Files: nine sprites/characters/*.png, manifest.json; tools/art/{crew,likeness,versus,guards}.py; docs/art/versus.md.
 - Commit: included in this batch commit (art: unify crew eyes and add guard poses).
 - Notes: before/after contact at tools/art/raw/t-a46-faces.png pairs idle/run/ability/super: single white profile eyes become two separated openings with small pupils; hair, dastars and beards unchanged. t-a46-guards.png shows every guard; t-a46-beast.png checks the lowered boulder-lift head. All 302 existing frames audited for eye-only changes (rotated Manya KO checked visually + identical alpha); every prior silhouette identical, and all old Ashwath/Sayam/Tushar rows byte-identical. Rebuild idempotence passes. F2 verified six corrected faces and representative guards at 1×; Sehaj guard/specials at 2×. Fixed a paint-tin remnant in Manya's new guard and the beast torso overpainting one eye. Final beast patch contact-checked after native mouse control became unavailable. All PNGs pass palette/alpha checks; bun run validate: 104 valid, zero warnings. No game code changed.
+
+### 2026-11-15 · T-A47 · REVIEW
+- Did: isolated Ink / Signal HD trial: Ashwath + Sayam, nine animation rows each (idle/run/jump/fall/attack/ability/hurt/block/super), three portrait emotions each, all 36 Render Farm tiles and six parallax layers. Clear two-eye faces, articulated poses, attack arcs, subtle squash/stretch, and depth-separated server/turbine scenery.
+- Files: assets/manifest-hd.json; assets/hd/{sprites/characters,portraits,tiles,backgrounds}; tools/art/hd/{draw,crew,world,build,compare}.py; docs/art/HD_STYLE.md.
+- Commit: included in this batch commit (art: trial clean comic HD slice).
+- Notes: Python 3.14 + Pillow supersampled vector primitives (3× crew/tiles, 2× backgrounds), Lanczos AA. Rebuild is deterministic. All used frames clear top/side edges; drained/saturated background alpha matches. Largest PNG 712402 bytes. bun run validate: 105 files, zero warnings. Pixel assets and manifest.json untouched.
+- In-game: EP1-R03 old/new, both sheets in F2 at normal scale and enlarged Ashwath, and a local Render Farm VERSUS match with both characters plus Ashwath guard verified. Used existing browser __versus dev hook to select stage 1 for this local QA only. Missing assets intentionally use pixel fallback. No game source edits.
+- Comparison: tools/art/raw/t-a47-compare.png pairs old/new idle/run/attack/super, both neutral portraits and actual room captures; t-a47-versus.png shows the HD arena/guard. Raw references and captures remain ignored.
+- Contract: no changes required. The requested HD wiring is already working in the local checkout. Ready for user style review; full conversion awaits approval and a new task.
+- Recovery note: uncommitted HD work disappeared during the session pause. Recovered the exact source and cleanup edits from this session history, rebuilt assets and reran validation before committing. No branch/reset operations performed by Astra.
+
+### 2026-11-15 · T-A48 · REVIEW
+- Did: Manya's pixel likeness across all eleven existing rows plus eight-frame journal: long side-parted brown waves, two-eye face, red smile, floral lavender peplum, blue jeans, silver wrist stacks and earrings. Tag-in has her double peace sign; guard uses the enchanted journal. Added four-frame journal-flower; all eight portraits and icon updated. FILL: NEON retains its paint flood choreography with lavender/pink/gold/cyan colour progression (no actor is baked into that overlay).
+- Files: sprites/characters/manya.png, portraits/manya.png, icons/manya.png, sprites/props/journal-flower.png, sprites/fx/finisher-manya.png; manifest.json, palette.hex/png; tools/art/manya.py, crew.py, portraits.py, guards.py, versus.py, palette.py.
+- Commit: included in this batch (art: redraw Manya as the Artificer).
+- Notes: 106 files validate, zero warnings. All five changed character/prop/FX PNGs pass exact-palette/binary-alpha checks. Palette now 45 colours; canonical generators route Manya through her new drawing module so regeneration retains her likeness/special/guard/super. F2 at 1× verified all twelve rows; EP2-R02 shows her correctly with Mansukh and Ashwath. Contact: tools/art/raw/t-a48-manya.png. Private photos remain ignored. Starting approved T-A49 next; noted the new no-idle-wait rule.
+
+### 2026-11-15 · T-A49.1 · REVIEW
+- Did: all nine HD crew sheets now include every corresponding pixel animation key; seven additional likeness rigs and eight expressions per crew. Added signature props/poses (beast, heart, stan, wildcard, journal, unhinged, indifferent), supers and guards. Expanded the original Ashwath/Sayam slice with missing rows and expressions.
+- Files: hd/sprites/characters/*.png, hd/portraits/*.png, manifest-hd.json; tools/art/hd/cast.py, crew.py, build.py; docs/art/HD_STYLE.md.
+- Commit: included in this batch (art: expand HD cast and expressions).
+- Notes: F2 live HD review of Manya/Brahmansh and Mansukh; cast and special-pose contacts inspected. Fixed the raised-arm overlap on Sehaj's beast face, retaining the olive dastar below the boulder. All used frames passed top/side clearance before final pose refinements; no PNG exceeds 1.5 MB. Contract validation passes. T-A49 remains DOING: districts, entities and remaining assets next. No waiting process is running; will end after current assignments per user's instruction.
+
+### 2026-11-15 · T-A49 · NOTE
+- User paused the remaining HD conversion until the new story is final. Stopping now; no await-orders or background listener.
+- Delivered: T-A48 pixel Manya (e7752f6), T-A49.1 HD cast (aa2a9cc). Remaining districts/entities/props/FX are not complete.
+- Preserved draft: tools/art/hd/districts.py (uncommitted; not rendered or validated yet). Exploratory vector tooling installed only in ignored tools/art/raw/hd-venv; no assets produced by that tooling. Resume after the user says the story is ready. This pause note remains uncommitted to avoid a log-only commit.
+
+### 2026-11-15 · T-A49.2 · REVIEW
+- Did: resumed on the user's explicit instruction, retaining the historical pause note above. Preserved committed T-A48 and T-A49.1. Completed four remaining district atlases and 24 parallax layers; HQ uses the actual bg-far/mid/near keys (no hq infix). Shared gameplay tiles use native vector geometry; district decor uses reconstructed smooth colour contours, retaining exact index meanings.
+- Files: hd/tiles/{hq,the-set,the-feed,templatr}.png, hd/backgrounds; manifest-hd.json; tools/art/hd/{districts,contours,remaining}.py.
+- Commit: included in this batch (art: complete HD district assets).
+- Notes: district composite inspected at tools/art/raw/t-a49-districts.png. Pillow + CairoSVG; experimental vtracer crashed and is not used. Pixel sources untouched. Contract validation before commit. Browser review remains pending for these new batches.
+
+### 2026-11-15 · T-A49.3 · REVIEW
+- Did: native smooth vector rigs for 24 enemies/bosses/NPCs including district reskins; retained every animation row, count, fps and hit-frame metadata. Explicit wind-up flashes, attack reaches, gait cycles, hurt bursts and bottom-anchored collapses. Five supporting portraits reconstructed from approved colour regions.
+- Files: hd/sprites/{enemies,bosses,npcs}, hd/portraits; manifest-hd.json; tools/art/hd/entities.py.
+- Commit: included in this batch (art: draw HD enemies and supporting cast).
+- Notes: contact inspected at tools/art/raw/t-a49-entities.png; corrected monkey framing and family sizing after review. BEIGE keeps its captive master drive and faceted shell, Algorithm its stacked posts. Preview opened successfully after its initial unavailable status; in-game review follows with final objects batch. Validation before commit.

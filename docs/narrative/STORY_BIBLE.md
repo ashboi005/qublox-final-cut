@@ -76,10 +76,10 @@ Every crew member plays as their real self, wielding their actual professional c
    - *Mechanics:* Pen-tool vector anchor bridges, hold-J **STAN MODE** (devil-horn lightstick comes out, massive confidence/stat buff), and **RAGEBAIT** tags that mark enemies with ratio debuffs.
    - *Canon Catchphrases:* *"Babymonnsterrr!"* (exact spelling) · *"Ratio + L + no aura"*.
 
-7. **Manya (Lead Graphic Designer & Colorist):**
-   - *Persona:* Sharp-tongued, high-energy saturation zealot. Holds visceral physical disgust toward desaturation, greyscale palettes, and corporate muted tones. Treats color as an act of political and artistic rebellion.
-   - *Mechanics:* Neon paint bursts that recolor deadly security lasers into bouncy trampolines, strip beige armor, and light up dark environments.
-   - *Canon Catchphrase:* *"Needs more saturation!"*.
+7. **Manya (Graphic Designer & Illustrator / Artificer):**
+   - *Persona:* Sweet, artsy, and deeply sentimental designer obsessed with her enchanted journal, stationery, washi tape, stickers, and K-drama happy endings. Sweet-tempered until overstimulated by interruptions or starved of lunch, at which point she snaps into an apocalyptic hangry state (*"PEHLE KHANA!"*). Mansukh's partner (their couple move unleashes a happy ending burst). Deeply hates corporate beige.
+   - *Mechanics:* Recolor **FILL**, hold-J **THE WORLD INSIDE MY JOURNAL** (traps enemies in an illustrated page with healing flower), **SENTIMENTAL SOUL** passive, and **HANGRY** flaw.
+   - *Canon Catchphrases (real recorded voice lines):* *"Wait, let me decorate this first."* · *"LOOK WHAT I MADE!"* · *"Tang mat kar."* · *"Don't irritate me."* · *"It's fine."* · *"PEHLE KHANA!"* · *"I NEED MY SPACE."* · *"LAST WARNING."* · *"I just want a happy ending."* · *"Let's make something beautiful."* · *"And that's how you make a masterpiece."*
 
 8. **Brahmansh (Principal Timeline Surgeon & Rogue):**
    - *Persona:* Video editor with surgical attention to detail—can spot a single dropped frame from across the room. Extrovert, accepting, but easily annoyed by sluggishness or bad continuity. Features niche-community humor and unhinged (PG) chaotic energy at the after-party.
@@ -161,8 +161,8 @@ Each crew member experiences one defining transformative beat across the narrati
 6. **Mansukh (The Chronic Procrastinator → The Finisher):**  
    Infamous for having 15 tabs open and abandoning projects at 80% to start a new roguelike. In the climax of EP4, he ignores the impulse to open another tab and locks in to finish the master vector file that saves the studio.
 
-7. **Manya (The Saturation Crusader → The Soul of the Image):**  
-   Fierce defender of bright hues against corporate sterility. Proves that saturation isn't just aesthetic garnish; it is emotional defiance and cultural preservation.
+7. **Manya (The Romantic Journaler → The Champion of Happy Endings):**  
+   Begins seeking solace in her private journal, stickers, and K-drama ideals, prone to getting overwhelmed by the chaotic studio grind and snapping when lunch is delayed. Across the adventure, she learns to share her emotional world and art with the crew, turning her sketchbook into a living shield that creates real happy endings for the people she loves.
 
 8. **Brahmansh (The Annoyed Critic → The Clutch Surgeon):**  
    Perpetually irritated by slight timing flaws and continuity glitches in everyone else's work. His obsessive eye for the single dropped frame becomes the exact superpower that detects the hidden backup partition inside BEIGE's core.
@@ -175,6 +175,7 @@ Each crew member experiences one defining transformative beat across the narrati
 ## 6. Key Real-Persona Dynamics & Pairings
 
 - **Sehaj ↔ Manvi (The Power Couple):** Deadpan quiet strength meets bubbly chaotic psychology. Sehaj's dry *"Vajj"* counters Manvi's energetic *"Whatcha doin?"*, punctuated by their devastating **Dhumtanana** combo.
+- **Mansukh ↔ Manya (The Creative Couple):** Multitasking BABYMONSTER stan meets hopeless-romantic journal artificer. Mansukh's affectionate ragebaiting meets Manya's sharp *"Tang mat kar!"* and washi tape, culminating in their devastating **Happy Ending** couple attack.
 - **Sayam ↔ Tushar (The Visionary vs. The Executor):** Sayam sells the vision and talks their way through firewalls; Tushar rolls his eyes, mutters *"Prabhu"*, and actually sets up the gear. A classic brotherly balance of executive swagger and practical operations.
 - **Ashwath ↔ Brahmansh / Juniors (The Mentor & The Perfectionist):** Ashwath explains algorithms at 2× speed with warm patience (*"Diagnosis: skill issue, dost"*); Brahmansh screams about a single dropped frame at 120 FPS.
 - **Mansukh ↔ Manya (The Design Department):** Endless friendly creative friction: vector geometry vs. color saturation, BABYMONSTER stan playlists vs. color wheel purism, and Mansukh's endless ragebaiting.

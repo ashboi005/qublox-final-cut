@@ -44,6 +44,9 @@ def ring(p,x,y,r,col):
         a=k*math.pi/10;p.star(round(x+math.cos(a)*r),round(y+math.sin(a)*r*.55),col,1)
 
 def super_frame(who,f,base,entry):
+    if who=='manya':
+        from manya import frame
+        return frame(who,'super',f)
     source={'ashwath':'ability','sayam':'idle','tushar':'wildcard','sehaj':'ability','manvi':'heart','mansukh':'stan','manya':'ability','brahmansh':'unhinged','mishthi':'indifferent'}[who]
     an=entry['anims'][source];idx=min(an['frames']-1,f*an['frames']//8)
     im=base.crop((idx*48,an['row']*48,(idx+1)*48,(an['row']+1)*48));p=Pen(im)
@@ -173,7 +176,7 @@ def finisher(who,f):
             im.alpha_composite(light,(15,68-(f-12)%3));im.alpha_composite(light,(67,68-(f-12)%3))
             p.l([(22,87),(22,95)],20,2);p.l([(74,87),(74,95)],20,2)
     elif who=='manya':
-        colors=[20,22,18,37];col=colors[min(3,f//5)]
+        colors=[43,44,22,35];col=colors[min(3,f//5)]
         if f<18:
             p.p([(9,4),(28,9),(24,26),(6,21)],3);p.l([(9,5),(12,0),(28,4),(28,10)],5)
             p.p([(23,20),(29,19),(38,34),(39,65),(32,69),(29,33)],col)

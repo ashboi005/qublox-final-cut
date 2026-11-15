@@ -381,5 +381,52 @@
 - Commit: (bundled in task commit)
 - Notes: Validated with `bun run validate` (104 files valid, 0 errors, 0 warnings) and `bun run typecheck`. All intro lines strictly ≤ 40 chars, all win lines strictly ≤ 60 chars.
 
+### 2026-11-15 22:15 · T-G61 · Manya Voice Pass (The Artificer) & Couple Beat
+- Did: Implemented full real-persona narrative pass for Manya (The Artificer) and her couple dynamic with Mansukh:
+  - crew-voices.json: updated Manya voice profile (sweet, artsy, sentimental, enchanted journal, stickers & stationery, K-drama happy endings, low patience when disturbed, apocalyptic hangry mode; Mansukh's partner) and canonical vocab.
+  - glossary.json: completely rewrote Manya dossier with Artificer role, full bio, canon catchphrases ("LOOK WHAT I MADE!", "PEHLE KHANA!", "LAST WARNING.", "And that's how you make a masterpiece."), and HANGRY known weakness.
+  - barks/manya.json: full overhaul with 10 real recorded voice lines, tagin, ability, hit, ko, kill, idle, hangry, flaw, journal, couple (with Mansukh), select, and results lines (all strictly ≤ 40 chars).
+  - barks/mansukh.json: added couple category with Manya ("Hold on Manya!", "Our happy ending!", "Watch this, Manya!") (all strictly ≤ 40 chars).
+  - versus.json: updated 1v1 matchups between Mansukh and Manya to reflect couple affection/ragebaiting; refreshed Manya's full 1v1 taunt and win lines across the roster (intros ≤ 40 chars, wins ≤ 60 chars).
+  - dialogue: re-voiced Manya's lines across EP2–EP4 scenes (ep2-designers-join with sweet couple beat, ep2-r03, ep2-r06, ep2-npc-stuntman-jaggu, ep2-boss-intro, ep2-boss-outro, ep3-r05, ep4-intro, ep4-r01, ep4-r02, ep4-r04, ep4-beige-phase2, ep4-ending) honoring her real voice (journal, stickers, PEHLE KHANA, happy endings, hating beige).
+  - STORY_BIBLE.md: updated Manya cast entry, character arc (Romantic Journaler → Champion of Happy Endings), and Mansukh ↔ Manya pairing dynamic.
+- Files: content/story/crew-voices.json, content/story/glossary.json, content/story/versus.json, content/barks/manya.json, content/barks/mansukh.json, content/dialogue/ep2-designers-join.json, content/dialogue/ep2-r03-color-blocks.json, content/dialogue/ep2-r06-no-shadows.json, content/dialogue/ep2-npc-stuntman-jaggu.json, content/dialogue/ep2-boss-intro.json, content/dialogue/ep2-boss-outro.json, content/dialogue/ep3-r05-fake-close-btn.json, content/dialogue/ep4-intro.json, content/dialogue/ep4-r01-beige-smocks.json, content/dialogue/ep4-r02-deprecated-art.json, content/dialogue/ep4-r04-sanitizer-foam.json, content/dialogue/ep4-beige-phase2.json, content/dialogue/ep4-ending.json, docs/narrative/STORY_BIBLE.md, comms/log/gemini.md
+- Commit: a4d6538
+- Notes: Validated with `bun run validate` (106 files valid, 0 errors, 0 warnings) and `bun run typecheck`.
+
+### 2026-11-15 22:15 · T-G62 · Crew Flaws Implementation
+- Did: Added in-game `flaw` bark categories across all 9 crew members triggered when flaw bites, cured by tagging out:
+  - ashwath.json: flaw (MERGE CONFLICT) - "Merge conflict! I'm blocked!", "Rebase hell... need tag!", "Head detached! Tag me out!"
+  - sayam.json: flaw (I DON'T DO MANUAL WORK / WINDED) - "Manual labour? I'm winded!", "Too much cardio! Tag in, bhai!", "Need my desk! I'm exhausted!"
+  - mansukh.json: flaw (CLIENT FEEDBACK) - "Client feedback?! My eyes!", "'Make logo bigger'?! I'm sick!", "More revisions?! Tag me out!"
+  - manya.json: flaw (HANGRY) - "PEHLE KHANA! I'm starving!", "Brain empty, need snacks NOW!", "LOW BLOOD SUGAR! Tag in!"
+  - sehaj.json: flaw (GYM WEIGHT) - "Catwalk creaking! Too heavy!", "Leg day was a mistake!", "Floor giving way! Tag me out!"
+  - brahmansh.json: flaw (TILTED) - "Dropped frame! I'M TILTED!", "Audio desync! Brain exploding!", "That cut was trash! I'm done!"
+  - tushar.json: flaw (MONKEYS) - "Monkeys! NOT MONKEYS!", "I HATE MONKEYS! Get me out!", "Why is it always primates?!"
+  - manvi.json: flaw (TOO NICE) - "Aww, don't hurt them!", "Can we talk it out instead?", "I can't hit them, they're sad!"
+  - mishthi.json: flaw (CREATIVE BLOCK) - "Blank canvas... nothing's coming!", "The cursor is mocking me!", "Total creative block! Tag in!"
+  - glossary.json: synced all crew "Known weakness: ..." entries to match their respective gameplay flaws.
+- Files: content/barks/ashwath.json, content/barks/sayam.json, content/barks/mansukh.json, content/barks/manya.json, content/barks/sehaj.json, content/barks/brahmansh.json, content/barks/tushar.json, content/barks/manvi.json, content/barks/mishthi.json, content/story/glossary.json, comms/log/gemini.md
+- Commit: a4d6538
+- Notes: All flaw barks strictly ≤ 40 characters. Validated with `bun run validate` (106 files valid, 0 errors, 0 warnings) and `bun run typecheck`.
+
+### 2026-11-15 22:33 · T-G63 · Achievements & Lost Footage for Manya and Couple Dynamic
+- Did: Implemented achievements and Lost Footage rework for Manya and the Mansukh ⇄ Manya couple:
+  - achievements.json: added entries for the 4 new IDs:
+    - happy-ending: "A Happy Ending" ("Trigger a Couple Move with Mansukh and Manya. Pure K-drama romance victory!")
+    - look-what-i-made: "LOOK WHAT I MADE!" ("Trap 4+ enemies inside a single page of Manya's enchanted journal.")
+    - pehle-khana: "PEHLE KHANA!" ("Feed cutting chai to Manya while her apocalyptic HANGRY mode is active.")
+    - bench-therapy: "Bench Therapy" ("Tag out a crew member while their in-game flaw is biting, 10 times.")
+    - paint-the-town: re-voiced to "Decorate the World" ("Recolor 50 blocks with Manya's FILL bucket. Pastel stickers and vibrant hues!")
+  - footage.json: updated tapes to match the new personas and retiring of money gags:
+    - ep2-3: "The Washi Tape Incident" ("Manya decorating the main server rack with pastel stickers while sobbing over a K-drama.")
+    - ep3-3: "Tang Mat Kar Tape" ("Mansukh baiting Manya with comic sans until 'tang mat kar', then saving it with samosas.")
+    - ep4-1: "Chad's Keynote Rehearsal" ("Chad rehearsing the turtleneck pause while Sayam pitches him on a zero-revenue metaverse.")
+- Files: content/story/achievements.json, content/story/footage.json, comms/log/gemini.md
+- Commit: 63384c0
+- Notes: Validated with `bun run validate` (106 files valid, 0 warnings, 0 errors) and `bun run typecheck`.
+
+
+
 
 

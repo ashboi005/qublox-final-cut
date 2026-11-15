@@ -11,6 +11,38 @@ The user's GitHub graph was flooded (175 commits in one day), so:
 Read `AGENTS.md` → `docs/roles/gemini.md` → `docs/narrative/BRIEF.md` → `docs/design/GDD.md` first.
 Tasks are small on purpose. Do one, run `bun run validate`, commit, log, then take the next `[OPEN]` one.
 
+**Approved (2026-11-15):** T-G61–T-G63 all landed clean (validate 0 warnings, EP2/EP4 playthroughs pass). No new tasks right now: the user wants to plan a bigger story (a real role for all 9 crew) with us first. Keep waiting for orders.
+
+## T-G61 · Manya voice pass: the Artificer `[DONE]` ✅
+Manya finally sent her persona. It's in BRIEF → Fixed facts → `manya`. **Warning from the user:** her sheet was AI-written and enormous (four power trees, "Legendary rarity", "Element: Imagination", four weapon forms, ten 10/10 stats). **Don't take it forward word for word.** Use the spirit: sweet, artsy, sentimental, a hopeless romantic, journal-obsessed, short-fused when overstimulated, and **hangry**. Keep it compressed and funny, like everyone else's.
+Her mechanics now (code, don't add powers): FILL (recolour), THE WORLD INSIDE MY JOURNAL (hold J: traps enemies in an illustrated page + a healing flower), SENTIMENTAL SOUL (chai and Lost Footage recharge her), flaw **HANGRY** (after a while on the field: hits harder but FILL is locked, "PEHLE KHANA!"). **New: Mansukh ⇄ Manya are a couple** (couple move, like Sehaj ⇄ Manvi).
+She **recorded** these, so they're canon and the game plays them (your text is the fallback): "LOOK WHAT I MADE!", "Tang mat kar.", "Don't irritate me.", "It's fine.", "PEHLE KHANA!", "I NEED MY SPACE.", "LAST WARNING.".
+1. `content/story/crew-voices.json` + `content/story/glossary.json` (`manya`): rewrite from the persona. Catchphrases list: canon only (BRIEF).
+2. `content/barks/manya.json`: rewrite every category in her voice (decorating, journals, stickers, K-dramas, happy endings, food). Add **`hangry`** (4+, the moment she snaps), **`journal`** (4+, opening the journal; "Let's make something beautiful." is canon), **`flaw`** (= hangry is fine to mirror), **`couple`** (4+, with Mansukh). Drop the old pure-colour-theory lines unless they still fit.
+3. `content/barks/mansukh.json`: add **`couple`** (4+, with Manya). Ragebait-boyfriend energy, PG.
+4. `content/story/versus.json`: refresh Manya's `intro`/`win` lines for her new voice (keep one aimed at each crew member); update Mansukh↔Manya lines for the couple.
+5. **Story, compressed:** in EP2 (`ep2-designers-join` and the EP2 scenes she's in) and anywhere else she speaks in EP2–EP4, re-voice **her lines only** to match. Give the couple one small sweet/roasty beat in `ep2-designers-join` (2–3 lines max). Note her arc in one short paragraph in `STORY_BIBLE.md`. Don't add scenes or rewrite other people's lines.
+bun run validate, one commit, one log entry.
+
+## T-G62 · Flaws: a `flaw` bark for everyone `[DONE]` ✅
+New system (BRIEF → Flaws, GDD → Flaws): every crew member has one flaw that bites in story mode and is cured by tagging them out. The game says a `flaw` bark when it triggers. Add a **`flaw`** category (3–5 lines, ≤40 chars) to **every** `content/barks/<id>.json` (Manya's is in T-G61):
+- ashwath MERGE CONFLICT (got hit right after a HACK; git jokes) · sayam I DON'T DO MANUAL WORK (WINDED after running; "bhai, ruko") · mansukh CLIENT FEEDBACK (an enemy shot = a client note: "make the logo bigger") · sehaj GYM WEIGHT (the catwalk gave way under the muscle; dry, few words) · brahmansh TILTED (annoyed and sloppy; don't reuse "kutti jaat lubaane", it's his recording) · tushar MONKEYS (`monkey` category already exists; just copy 3 of those into `flaw`) · manvi TOO NICE (won't land the final hit: "hawww, poor thing") · mishthi CREATIVE BLOCK (ran out of props to throw; deadpan drama).
+Also, in `glossary.json`, make each crew member's "Known weakness: …" fact (if they have one) match their flaw. bun run validate, one commit, one log entry.
+
+## T-G63 · Achievements + Lost Footage for the new Manya and the Mansukh ⇄ Manya couple `[DONE]` ✅
+The user asked to rework achievements and Lost Footage around Manya's new character and her relationship with Mansukh. Nobody has real progress yet, so renaming is safe. Ids are fixed by code; you write the text.
+1. `content/story/achievements.json`: add entries for the **4 new ids** (`bun run validate` warns until they exist):
+   - `happy-ending`: pull off the **Mansukh ⇄ Manya** couple move. (`couple-goals` is now Sehaj ⇄ Manvi only; keep or polish its text.)
+   - `look-what-i-made`: trap **4+ enemies in one** THE WORLD INSIDE MY JOURNAL page.
+   - `pehle-khana`: feed a **HANGRY** Manya a chai.
+   - `bench-therapy`: tag a crew member out **while their flaw is biting**, 10 times (winded Sayam, client-feedbacked Mansukh, tilted Brahmansh, blocked Mishthi, panicking Tushar, hangry Manya).
+   Also re-voice `paint-the-town` (still "recolour 50 blocks with FILL") to fit the new Manya. name ≤32, desc ≤80.
+2. `content/story/footage.json`, ids fixed, rewrite text only (title ≤32, caption ≤90):
+   - `ep2-3` (Manya's tape): replace the colour-theory gag with the new Manya (journal, stickers, decorating, K-dramas, hangry…).
+   - `ep3-3`: make it a **Mansukh ⇄ Manya couple** tape (e.g. he ragebaits her until "tang mat kar", then fixes it with food). Sweet, PG, roastable.
+   - Optional: `ep4-1` still has Sayam "trying to buy the stage"; Sayam's money gags were retired in T-G57, so swap that for something else.
+bun run validate (zero warnings), one commit, one log entry.
+
 ## Feedback on T-G40: approved ✅
 The recaps play at the start of each episode and land perfectly. "It actually worked." 👌
 

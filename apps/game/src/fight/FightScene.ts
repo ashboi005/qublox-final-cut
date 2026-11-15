@@ -55,6 +55,7 @@ export class FightScene extends Phaser.Scene {
   private last: FightState | null = null;
   private ended = false;
   private talkAt: [number, number] = [0, 0];
+  private lowSaid: [boolean, boolean] = [false, false];
   private comboText: Phaser.GameObjects.Text[] = [];
   private comboBadge: (Phaser.GameObjects.Image | null)[] = [];
   private prompt!: Phaser.GameObjects.Text;
@@ -150,6 +151,11 @@ export class FightScene extends Phaser.Scene {
           const d = (k: 0 | 1) => Math.abs(s.fighters[k].x / SUB - e.x);
           const victim: 0 | 1 = d(0) <= d(1) ? 0 : 1, attacker: 0 | 1 = victim === 0 ? 1 : 0;
           if (Math.random() < 0.5) this.talk(s, attacker, 'kill', 'kill', 0.35); else this.talk(s, victim, 'hurt', 'hit', 0.35);
+        }
+        // Under 30% HP for the first time this round: "things go south" (Ashwath's ghee khtm).
+        if (!e.blocked) for (const k of [0, 1] as const) {
+          const f = s.fighters[k];
+          if (!this.lowSaid[k] && f.hp > 0 && f.hp < MOVESETS[f.crew].hp * 0.3) { this.lowSaid[k] = true; this.talkAt[k] = 0; this.talk(s, k, 'low', 'hit', 0.5); }
         }
         wordPop(this, e.x, e.y, e.word, e.big);
         if (e.word === 'PARRY') this.cameras.main.flash(90, 140, 200, 255);
@@ -366,6 +372,7 @@ export class FightScene extends Phaser.Scene {
     } else this.prompt.setVisible(false);
     if (s.phase === 'intro' && s.phaseFrames === 89) {
       this.showBanner(`ROUND ${s.round}`);
+      this.lowSaid = [false, false];
       // Pre-fight taunts (Gemini's story/versus.json), round 1 only.
       const lines = (this.registry.get('content') as { story?: { versus?: { crew?: Record<string, { intro?: string[] }> } } } | undefined)?.story?.versus?.crew;
       if (s.round === 1 && lines) s.fighters.forEach((f, i) => {

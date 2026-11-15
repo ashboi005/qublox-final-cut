@@ -36,7 +36,7 @@
         "Has never worn a suit; considers leather jackets formal board attire.",
         "Can smooth-talk automated laser turrets into disabling their own firewalls.",
         "Spams 'bhai' an average of 42 times prior to making major strategic decisions.",
-        "Known weakness: Unskippable quarterly tax audits."
+        "Known weakness: Doing manual work (gets WINDED after 4s of cardio)."
       ],
       "threat": "Threat level: Charismatic overload"
     },
@@ -109,17 +109,24 @@
       "threat": "Threat level: S-Tier in STAN MODE"
     },
     "manya": {
-      "title": "Chief Chromatic Officer",
-      "tagline": "A single drop of corporate beige is an act of war against human creativity.",
-      "bio": "Radical colorist and graphic designer who treats greyscale palettes like a contagious biohazard. Patrols studio corridors armed with pressurized primary paint cannons, repainting corporate architecture in blinding neon magenta and bouncy yellow. Dreams of launching all desaturated linen smocks into deep orbit.",
-      "catchphrases": [],
-      "facts": [
-        "Carries emergency swatches of hot pink into executive meetings.",
-        "Classifies corporate #F5F5DC beige as a class-four hazardous material.",
-        "Can navigate pitch-black soundstages by chromatic resonance alone.",
-        "Known weakness: Uncalibrated sRGB office monitors."
+      "title": "Chief Artificer & Head of Aesthetics",
+      "tagline": "Wait, let me decorate this first. Touch my journal and you will face PEHLE KHANA.",
+      "bio": "Sweet, artsy, and deeply sentimental designer who manifests imagination into magic through her enchanted journal. A hopeless romantic obsessed with stationery, stickers, and K-drama happy endings. Sweet-tempered until overstimulated by interruptions or starved of lunch, at which point she enters an apocalyptic hangry state.",
+      "catchphrases": [
+        "Wait, let me decorate this first.",
+        "LOOK WHAT I MADE!",
+        "Tang mat kar.",
+        "PEHLE KHANA!",
+        "Let's make something beautiful.",
+        "And that's how you make a masterpiece."
       ],
-      "threat": "Threat level: Splat hazard"
+      "facts": [
+        "Keeps a strictly guarded journal sealed with magical washi tape.",
+        "Has cried tears of joy over four different K-drama season finales.",
+        "Palette: Lavender, dusty pink, cream, and radiant gold. Hates beige.",
+        "Known weakness: Late lunch deliveries (triggers extreme HANGRY mode)."
+      ],
+      "threat": "Threat level: Catastrophic when hangry"
     },
     "brahmansh": {
       "title": "Principal Timeline Surgeon & Chaos Lead",
@@ -151,8 +158,7 @@
       "facts": [
         "Can turn three paperclips and a broken fairy light into a gallery centerpiece.",
         "Files weekly HR incident reports regarding the studio's lack of dramatic aura.",
-        "Known weakness: Admitting she actually cares about anyone on the team.",
-        "Once held invulnerable indifference for so long that a sentry turret cried."
+        "Known weakness: CREATIVE BLOCK (runs out of props after six throws)."
       ],
       "threat": "Threat level: Dramatic sigh hazard"
     }

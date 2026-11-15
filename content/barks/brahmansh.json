@@ -69,6 +69,12 @@
       "Telegraphed from five frames away.",
       "Caught you mid keyframe!",
       "Editor's eye never misses."
+    ],
+    "flaw": [
+      "Tilted! Two hits in a row!",
+      "Dropping frames! Now I take more damage!",
+      "Tilted on the timeline! Tag me out!",
+      "Too sloppy! Need to cool off!"
     ]
   }
 }

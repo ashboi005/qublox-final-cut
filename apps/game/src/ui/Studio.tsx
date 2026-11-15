@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { CrewId } from '@qublox/shared';
-import { CREW, hex } from '@/game/crew';
+import { CREW, FLAWS, hex } from '@/game/crew';
 import type { Portraits } from './DialogueBox';
 
 /** The Studio: pick who comes along. `pick` slots are yours; `joiners` arrive during the episode. */
@@ -65,6 +65,7 @@ export function Studio({ episode, pool, pick, required = [], joiners, portraits,
               <span className="studio-name">{c.name}</span>
               <span className="studio-role">{c.role} · {c.className}</span>
               <span className="studio-ability">{c.abilityName}</span>
+              <span className="studio-flaw" title={FLAWS[c.flaw].text}>⚠ {FLAWS[c.flaw].name}</span>
               {on && <span className="studio-slot">{chosen.indexOf(id) + 1}</span>}
             </button>
           );

@@ -46,10 +46,24 @@
     },
     {
       "id": "manya",
-      "voice": "Vibrant, sharp-tongued color zealot. Speaks with electric energy and visceral physical disgust toward desaturation, greyscale, and corporate muted tones.",
-      "vocab": ["saturation", "hex", "gradient", "swatch", "tint", "vibrant", "palette", "bleach"],
-      "never": "A muted corporate beige palette actually conveys quiet luxury.",
-      "proposedCatchphrase": "Needs more saturation!"
+      "voice": "Sweet, artsy, sentimental, and a hopeless romantic obsessed with journals, stationery, stickers, and happy endings. Gentle until provoked or overstimulated, and gets extremely hangry ('PEHLE KHANA!') when food is delayed. Mansukh's partner; hates beige with a burning passion.",
+      "vocab": [
+        "look what i made",
+        "tang mat kar",
+        "don't irritate me",
+        "it's fine",
+        "pehle khana",
+        "i need my space",
+        "last warning",
+        "happy ending",
+        "let's make something beautiful",
+        "journal",
+        "stickers",
+        "decorating",
+        "masterpiece"
+      ],
+      "never": "I don't care about journals or stationery, I love skipping meals, and sad tragic endings without romance are superior.",
+      "proposedCatchphrase": null
     },
     {
       "id": "sehaj",

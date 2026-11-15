@@ -20,6 +20,8 @@ export interface EnemyWorld {
   shoot(x: number, y: number, vx: number, vy: number, texture: string): void;
   /** True while a dialogue scene is up: the world holds still. */
   held(): boolean;
+  /** Manvi's TOO NICE: while true, a hit can't finish an enemy off (it stays on 1 HP). */
+  mercy(): boolean;
 }
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -66,11 +68,15 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (this.scene.anims.exists(key)) this.play(key, true);
   }
 
+  /** Spared once by Manvi (only pops the word the first time). */
+  private spared = false;
+
   hit(damage: number, fromX: number) {
     if (!this.alive) return false;
     const now = this.scene.time.now;
     const dmg = Math.round(damage * (now < this.markedUntil ? 1.5 : 1));
     this.hp -= dmg;
+    if (this.hp <= 0 && this.world.mercy()) { this.hp = 1; if (!this.spared) { this.spared = true; wordPop(this.scene, this.x, this.y - this.height - 6, 'HAWWW, POOR THING'); } }
     const body = this.body as Phaser.Physics.Arcade.Body;
     const away = Math.sign(this.x - fromX) || 1;
     if (now >= this.frozenUntil) body.setVelocity(away * 120, this.stats.flying ? -30 : -110);
