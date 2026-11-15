@@ -111,8 +111,11 @@ def frame(who, anim, f):
         p.p([(24,9),(28,10),(30,13),(30,22),(32,28),(28,27),(27,20),(28,15)],8)
         p.l([(21,10),(18,13),(17,21),(18,25)],10)
         p.l([(25,11),(28,14),(29,24)],9)
-        p.r((24,17,28,19),6); p.l([(24,16),(28,16)],0)
-        p.r((27,17,28,19),0)
+        # Cast-wide 3/4 gaze: narrow far eye, two small dark pupils.
+        p.l([(20,16),(22,16)],0); p.r((20,17,22,18),6)
+        p.r((22,17,22,18),0)
+        p.l([(24,16),(27,16)],0); p.r((24,17,27,18),6)
+        p.r((26,17,26,18),0)
         p.l([(27,22),(29,21)],21)
     elif who=='sehaj':
         p.p([(16,18),(19,20),(23,21),(27,20),(30,21),(29,26),(25,28),(19,26),(16,23)],0)
@@ -124,8 +127,11 @@ def frame(who, anim, f):
         p.l([(16,12),(22,8),(28,12)],12)
         p.l([(15,15),(21,11),(28,16)],40)
         p.p([(19,14),(22,11),(24,14)],1,None)
-        p.l([(25,17),(29,17)],0); p.r((25,18,29,19),6)
-        p.r((28,18,29,19),0)
+        # Eyes sit strictly below the untouched dastar folds.
+        p.l([(19,17),(22,17)],0); p.r((20,18,22,19),6)
+        p.r((22,18,22,19),0)
+        p.l([(25,17),(29,17)],0); p.r((25,18,29,19),32)
+        p.r((25,18,28,19),6); p.r((27,18,27,19),0)
     elif who=='sayam':
         # Broad, irregular curl mass with a forward fringe; light stubble below.
         p.p([(15,21),(14,17),(12,14),(13,10),(12,8),(16,7),(17,4),(21,5),(24,3),(27,5),(30,5),(31,8),(33,10),(32,14),(29,16),(26,13),(23,15),(20,12),(18,17),(18,21)],0)
@@ -150,7 +156,11 @@ def frame(who, anim, f):
         p.r((20,17,22,17),19); p.r((27,17,29,17),19)
         p.r((23,18,23,19),0); p.r((29,18,29,19),0)
     if anim=='idle' and f==3:
-        p.l([(26,18),(29,18)],0)
+        if who in ('manvi','sehaj'):
+            for x,w in ((20,2),(25 if who=='sehaj' else 24,3)):
+                y=18 if who=='sehaj' else 17
+                p.r((x,y,x+w,y+1),32);p.l([(x,y+1),(x+w,y+1)],0)
+        else:p.l([(26,18),(29,18)],0)
     if anim=='beast' and f>=3: p.dy-=7
     hx,hy=32,31
     if anim=='attack': hx,hy=[(27,28),(25,24),(39,27),(38,29),(32,31)][f]
@@ -237,6 +247,11 @@ def frame(who, anim, f):
                 p.p([(12,7),(16,4),(24,3),(22,8),(15,10)],5,None)
                 p.l([(26,4),(24,8),(29,11),(32,10)],2)
                 # Rock sits above the intact turban; both readable as separate masses.
+                # The raised-arm torso pass overlaps the lowered face: restore
+                # its two eyes on top, without repainting any dastar/beard pixels.
+                eyes=Pen(im,p.dx,p.dy+7)
+                eyes.r((20,18,22,19),6);eyes.r((22,18,22,19),0)
+                eyes.r((25,18,28,19),6);eyes.r((27,18,27,19),0)
     if who=='ashwath':
         if anim in ('attack','idle','run','jump','fall','tagin'):
             p.r((hx-6,hy,hx+6,hy+6),0)

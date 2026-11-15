@@ -2,7 +2,7 @@
 Preserves every existing row except the two explicitly replaced Sayam moves.
 No loser likeness is baked into FX: runtime controls the actual losing fighter.
 """
-import json, math
+import json, math, sys
 from PIL import Image, ImageDraw
 from likeness import A,C,Pen,heart,frame as likeness_frame
 
@@ -216,13 +216,15 @@ def finisher(who,f):
             if f==18:p.star(79,29,6,4)
     return im
 
-def build():
+def build(crew_only=False):
     path=A/'manifest.json';m=json.loads(path.read_text())
     for who in CREW:
         entry=m['sprites'][who];base=Image.open(A/entry['file']).convert('RGBA')
         # Existing super row is replaced in place on subsequent runs.
         row=entry['anims'].get('super',{}).get('row',base.height//48)
-        sheet=Image.new('RGBA',(max(384,base.width),(row+1)*48));sheet.paste(base.crop((0,0,base.width,row*48)),(0,0))
+        # Preserve later rows (including block) when refreshing supers.
+        sheet=Image.new('RGBA',(max(384,base.width),max(base.height,(row+1)*48)));sheet.paste(base,(0,0))
+        sheet.paste((0,0,0,0),(0,row*48,sheet.width,(row+1)*48))
         if who=='sayam':
             for anim in ('attack','ability'):
                 meta=entry['anims'][anim];sheet.paste((0,0,0,0),(0,meta['row']*48,sheet.width,(meta['row']+1)*48))
@@ -230,10 +232,14 @@ def build():
         for f in range(8):sheet.paste(super_frame(who,f,base,entry),(f*48,row*48))
         entry['anims']['super']=dict(row=row,frames=8,fps=12,loop=False)
         sheet.save(A/entry['file'])
+        if crew_only:continue
         fx=Image.new('RGBA',(96*24,96))
         for f in range(24):fx.paste(finisher(who,f),(f*96,0))
         file=f'sprites/fx/finisher-{who}.png';(A/'sprites/fx').mkdir(exist_ok=True);fx.save(A/file)
         m['sprites']['finisher-'+who]=dict(file=file,frameWidth=96,frameHeight=96,anims={'play':dict(row=0,frames=24,fps=10,loop=False)})
+    if crew_only:
+        path.write_text(json.dumps(m,indent=2)+'\n')
+        return
     for key,size in [('fx-counter',(64,40)),('fx-combo',(80,20)),('fx-ko',(96,64)),('fx-parry',(32,32)),('bubble',(16,12)),('hype-speaker',(16,16))]:
         im=Image.new('RGBA',size);p=Pen(im);w,h=size
         if key=='bubble':
@@ -271,4 +277,4 @@ def build():
         e=m['sprites'][who];im=Image.open(A/e['file']);row=e['anims']['super']['row'];d.text((0,y*60),who,fill=C[6]);review.alpha_composite(im.crop((0,row*48,384,(row+1)*48)),(0,y*60+12))
     review.resize((768,1080),Image.Resampling.NEAREST).save(A.parents[3]/'tools/art/raw/versus-supers.png')
 
-if __name__=='__main__':build()
+if __name__=='__main__':build(crew_only='--crew-only' in sys.argv)

@@ -366,3 +366,6 @@ kbd { display: inline-block; min-width: 18px; padding: 1px 4px; margin-right: 2p
 .account-row { display: flex; gap: .6cqw; }
 .account-row input { flex: 1; }
 .account-actions { display: flex; gap: .6cqw; flex-wrap: wrap; }
+
+/* HD style test (?art=hd): the canvas renders at 1920×1080 and is scaled down smoothly; HD art isn't pixel art. */
+.art-hd .canvas-host canvas, .art-hd [style*="/assets/hd/"] { image-rendering: auto !important; }

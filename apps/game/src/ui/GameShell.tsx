@@ -17,6 +17,7 @@ import { Studio } from './Studio';
 import { Credits, type CreditLine } from './Credits';
 import { Achievements, type AchievementText, type TapeText } from './Achievements';
 import { useAccountSync } from './Account';
+import { HD } from '@/game/artMode';
 
 type Manifest = { portraits?: Portraits; images?: Record<string, { file: string }>; sprites?: SpriteSheets };
 type Content = { levels: Record<string, string>; songs?: Record<string, unknown>; story: { quips?: { taglines?: string[]; headlines?: Record<string, string[]>; bylines?: string[] }; credits?: { roll?: CreditLine[] }; achievements?: { achievements?: AchievementText[] }; footage?: { tapes?: TapeText[] }; versus?: { crew?: Partial<Record<CrewId, { win?: string[] }>> }; glossary?: unknown }; barks: Record<string, { barks?: Record<string, string[]> }> };
@@ -40,7 +41,12 @@ export default function GameShell({ level, party, direct }: { level: string; par
   useAccountSync(text => { setNotice(text); window.setTimeout(() => setNotice(n => (n === text ? null : n)), 5000); });
 
   useEffect(() => {
-    fetch('/assets/manifest.json').then(r => (r.ok ? r.json() : {})).then(m => setManifest(m as Manifest)).catch(() => {});
+    // HD style test (?art=hd): its portraits replace the pixel ones key by key; everything else stays.
+    const hd = HD ? fetch('/assets/manifest-hd.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})) as Promise<Manifest> : Promise.resolve({} as Manifest);
+    if (HD) document.documentElement.classList.add('art-hd');
+    Promise.all([fetch('/assets/manifest.json').then(r => (r.ok ? r.json() : {})) as Promise<Manifest>, hd])
+      .then(([m, h]) => setManifest({ ...m, portraits: { ...m.portraits, ...h.portraits } }))
+      .catch(() => {});
     fetch('/api/content').then(r => r.json()).then(c => setContent(c as Content)).catch(() => {});
   }, []);
 

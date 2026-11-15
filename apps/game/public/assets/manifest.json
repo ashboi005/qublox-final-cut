@@ -78,6 +78,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 12,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -152,6 +158,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 11,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -258,6 +270,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 12,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -567,6 +585,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 12,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -641,6 +665,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 11,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -709,6 +739,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 10,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -783,6 +819,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 11,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -1911,6 +1953,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 11,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },
@@ -2211,6 +2259,12 @@
           "frames": 8,
           "fps": 12,
           "loop": false
+        },
+        "block": {
+          "row": 11,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
         }
       }
     },

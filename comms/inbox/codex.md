@@ -23,6 +23,28 @@ All four are integrated, and they're the best sheets in the game:
 
 ---
 
+## T-A47 · STYLE TEST: clean vector comic (HD) for a small slice `[OPEN]` P0
+**Why:** the user feels the pixel art reads cheap next to the crisp UI (48 px crew, flat parallax, little room for likeness) and wants something **cleaner and more modern**. Before we redraw the whole game, prove a direction on a slice; the user compares old vs new **in the game** and decides. This is a test: don't touch any pixel asset or `manifest.json`.
+
+**The direction (yours to refine in a short `docs/art/HD_STYLE.md`):** *clean vector comic*. Think Castle Crashers / Brawlhalla crispness, pushed toward our retro-futurist brutalism × maximalism and comic-book energy:
+- **Bold ink outlines** (`#0f1014`): outer ≥ 6 px at HD size, inner detail ≥ 3 px, slightly heavier on the silhouette's underside.
+- **Flat fills + one hard-edged cel shadow** (light from top-left), an optional single highlight. No soft airbrush, and not the generic corporate-flat look (no gradient blobs or clip-art faces).
+- **Ben-Day / halftone dots** in big shadow areas and backgrounds, never on faces.
+- **Proportions:** keep the chunky, big-head read (~2.5–3 heads tall) so faces carry the likeness. Two-eye 3/4 faces with real brows and expressions. Likeness from `tools/art/raw/refs/` as before.
+- **Same people, same signatures:** Ashwath's orange glasses, beard and keyboard/laptop; Sayam's curly hair, glasses and speech bubble/hype-speaker kit. Keep the existing palette families (brand anchors stay); you can now use tints/shades between them.
+- **World:** real depth. Far layer lighter and less contrasty, near layer darker and crisp; machinery and cables with some light (CRT glow, rim light). Drained versions stay beige/grey and readable; saturated versions pop.
+- **Animate like a rig:** build each character from parts (head, hair/dastar, torso, upper/lower arms, hands, legs, props) and pose them per frame, with squash & stretch, follow-through and attack smears. More frames are welcome (idle 8, run 8–10, attack 6–8); fps is yours.
+
+**Contract:** see the new **"HD" section at the end of `docs/art/ART_SPEC.md`** (`manifest-hd.json`, files under `assets/hd/`, everything at **4×**: crew frames 192×192 with feet at (96,191), tiles 64×64 on the same atlas indices, parallax 1920×1080 per layer, portraits 256×256). `bun run validate` checks it. Scripts go in `tools/art/hd/` and must regenerate the PNGs.
+
+**The slice:**
+1. `ashwath` and `sayam` sheets with rows: `idle`, `run`, `jump`, `fall`, `attack` (with `hitFrame`), `ability`, `hurt`, `block`, `super`. Missing anims fall back to the nearest HD one; no need for the others yet.
+2. Portraits for both: `neutral`, `smug`, `panic` (3 emotions).
+3. **Render Farm district:** the `render-farm` tileset (same index map as `docs/art/tiles-render-farm.md`) + all six parallax layers (`bg-render-farm-{far,mid,near}-{drained,saturated}`). That covers EP1's rooms and a VERSUS stage.
+
+**Check it:** ✅ **`?art=hd` is wired (2026-11-15).** The canvas renders at 1920×1080 with a 4× camera, so your 4× art lands on the exact pixel-art footprint; HD keys replace pixel keys one by one, missing crew rows alias to the nearest HD row (ko→hurt, tagin→idle, specials→ability), HD tiles draw on a ¼-scale layer, HD portraits replace pixel ones in dialogue/studio/glossary. F2 works in HD too. Look at `?art=hd&level=ep1-r03&party=ashwath,sayam` and a VERSUS match on Render Farm. Make a side-by-side contact sheet in `tools/art/raw/t-a47-compare.png`: old vs new for both crew (idle, run, attack, super), a portrait each, and one room screenshot. Log REVIEW with your toolchain and anything the contract got wrong (tell me, don't work around it).
+**If the user approves**, the full conversion follows in batches like T-A43. If not, we keep the pixel art and lose a day, not weeks.
+
 ## T-A22 → T-A32 `[DONE]`
 
 ## T-A34 · NEW CREW: Manvi `[DONE]` ✅ P0 (do this before T-A33)
@@ -129,7 +151,8 @@ Likeness: wavy dark hair swept up and back (a bit messy), **thin gold double-bri
 3. Register the `wildcard` row in `manifest.json`.
 </details>
 
-## T-A46 · Two-eyed faces for six crew + a `block` row for everyone `[OPEN]` P0 (**your only open task, and the last thing blocking launch.** It got skipped last round: T-A43 went ahead and the six faces are still single-eye profiles)
+## T-A46 · Two-eyed faces for six crew + a `block` row for everyone `[DONE] ✅`
+**Integrated (2026-11-15):** two-eye faces read right in story and VERSUS at game scale; all nine guard rows play when holding U (checked live for Sehaj, Mansukh, Manya, Brahmansh, Manvi, Mishthi). Full e2e, VERSUS online sync and fight sim are clean. Thanks: this was the last launch blocker. No open tasks; wait for orders.
 The user noticed that **Ashwath, Sayam and Tushar have two front-facing eyes** (the 3/4 view), but **Sehaj, Manvi, Mansukh, Manya, Brahmansh and Mishthi have a single big white side-profile eye**, which reads as weird next to the others. Make it consistent: redraw those six with the **same two-eye 3/4 face treatment as Ashwath/Sayam** (both eyes visible, the far one slightly narrower; small dark pupils, not a big white disc), on **every row of their sheets** (all anims, including super and the special rows). Don't change anything else about them: hair, outfits, props, silhouettes and likeness stay as they are. **The three dastars (Sehaj, Mansukh, Brahmansh) stay on, neat and unchanged in every frame.** Beards stay. Check their portraits match too (fix any portrait that's still profile-only if it clashes).
 Also add a **`block` row** to all nine sheets (3–4 frames, a guard pose: forearms/prop up in front, braced, can loop or hold the last frame). VERSUS now plays `block` by key when guarding (it used to wrongly play `run`; for now it falls back to `idle`). Blocking is U-only now, so this pose gets seen a lot.
 Re-run `tools/art/versus.py` after any base regeneration so the super rows survive. Log with a before/after contact sheet description. bun run validate.

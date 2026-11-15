@@ -1,8 +1,9 @@
 // Loads Astra's art from manifest.json and fills every gap with a generated placeholder,
 // so the game always runs whatever state the art is in.
 import * as Phaser from 'phaser';
-import { CREW_IDS, type Manifest, ManifestSchema } from '@qublox/shared';
+import { CREW_IDS, type HdManifest, HdManifestSchema, type Manifest, ManifestSchema } from '@qublox/shared';
 import { CREW } from '../crew';
+import { HD, shrinkTexture } from '../view';
 
 export type AnimInfo = { frames: number; fps: number; loop: boolean; hitFrame?: number };
 export type SpriteInfo = { frameWidth: number; frameHeight: number; anims: Record<string, AnimInfo>; placeholder: boolean };
@@ -18,7 +19,16 @@ const ASSET_ROOT = '/assets/';
 /** Phase 1 (preload): fetch the manifest. */
 export function preloadManifest(scene: Phaser.Scene) {
   scene.load.json('manifest', ASSET_ROOT + 'manifest.json');
+  if (HD) scene.load.json('manifest-hd', ASSET_ROOT + 'manifest-hd.json');
 }
+
+/** HD style test: the HD manifest (null when off or missing) and which texture keys came from it. */
+export let hd: HdManifest | null = null;
+const hdTextures = new Set<string>();
+/** Is this tileset texture HD (64 px tiles)? GameScene draws those on a ¼-scale layer. */
+export const isHdTexture = (key: string) => hdTextures.has(key);
+// Rows an HD sheet may skip in the style test, and what plays instead.
+const HD_FALLBACK: Record<string, string[]> = { ko: ['hurt'], tagin: ['idle'], walk: ['run'], crouch: ['block', 'idle'], panic: ['hurt'] };
 
 /** Phase 2: queue every file the manifest lists. Returns false if there's nothing to load. */
 export function queueManifestFiles(scene: Phaser.Scene): boolean {
@@ -31,13 +41,30 @@ export function queueManifestFiles(scene: Phaser.Scene): boolean {
     return false;
   }
   manifest = parsed.data;
-  for (const [key, s] of Object.entries(manifest.sprites)) {
-    scene.load.spritesheet(key, ASSET_ROOT + s.file, { frameWidth: s.frameWidth, frameHeight: s.frameHeight });
+  const hdRaw = HD ? scene.cache.json.get('manifest-hd') : null;
+  const hdParsed = hdRaw ? HdManifestSchema.safeParse(hdRaw) : null;
+  if (hdParsed && !hdParsed.success) console.warn('[art] manifest-hd.json is invalid, using pixel art:', hdParsed.error.issues.slice(0, 3));
+  hd = hdParsed?.success ? hdParsed.data : null;
+  // HD keys replace their pixel versions (same texture key); anything HD doesn't have stays pixel.
+  const sheet = (key: string, file: string, fw: number, fh: number) => scene.load.spritesheet(key, ASSET_ROOT + file, { frameWidth: fw, frameHeight: fh });
+  for (const [key, s] of Object.entries({ ...manifest.sprites, ...hd?.sprites })) {
+    const h = hd?.sprites[key];
+    if (h) { hdTextures.add(key); sheet(key, h.file, h.frameWidth, h.frameHeight); } else sheet(key, s.file, s.frameWidth, s.frameHeight);
   }
-  for (const [key, t] of Object.entries(manifest.tilesets)) scene.load.image(`tiles-${key}`, ASSET_ROOT + t.file);
-  for (const [key, im] of Object.entries(manifest.images)) scene.load.image(key, ASSET_ROOT + im.file);
-  for (const [key, p] of Object.entries(manifest.portraits)) {
-    scene.load.spritesheet(`portrait-${key}`, ASSET_ROOT + p.file, { frameWidth: p.size, frameHeight: p.size });
+  for (const [key, t] of Object.entries(manifest.tilesets)) {
+    const h = hd?.tilesets[key];
+    if (h) hdTextures.add(`tiles-${key}`);
+    scene.load.image(`tiles-${key}`, ASSET_ROOT + (h ?? t).file);
+  }
+  for (const [key, im] of Object.entries({ ...manifest.images, ...hd?.images })) {
+    const h = hd?.images[key];
+    if (h) hdTextures.add(key);
+    scene.load.image(key, ASSET_ROOT + (h ?? im).file);
+  }
+  for (const [key, p] of Object.entries({ ...manifest.portraits, ...hd?.portraits })) {
+    const h = hd?.portraits[key];
+    if (h) hdTextures.add(`portrait-${key}`);
+    sheet(`portrait-${key}`, (h ?? p).file, (h ?? p).size, (h ?? p).size);
   }
   return true;
 }
@@ -45,18 +72,30 @@ export function queueManifestFiles(scene: Phaser.Scene): boolean {
 /** Phase 3: build animations for real sprites, then placeholders for everything missing. */
 export function buildArt(scene: Phaser.Scene) {
   if (manifest) {
-    for (const [key, s] of Object.entries(manifest.sprites)) {
+    for (const [key, px] of Object.entries({ ...manifest.sprites, ...hd?.sprites })) {
       if (!scene.textures.exists(key)) continue; // failed to load: falls through to placeholder
+      const h = hdTextures.has(key) ? hd!.sprites[key]! : null;
+      const s = h ?? px;
       const src = scene.textures.get(key).getSourceImage() as HTMLImageElement;
       const cols = Math.max(1, Math.floor(src.width / s.frameWidth));
-      const info: SpriteInfo = { frameWidth: s.frameWidth, frameHeight: s.frameHeight, anims: {}, placeholder: false };
-      for (const [name, a] of Object.entries(s.anims)) {
+      const k = h ? hd!.scale : 1;
+      if (h) shrinkTexture(scene.textures.get(key), k);
+      const info: SpriteInfo = { frameWidth: s.frameWidth / k, frameHeight: s.frameHeight / k, anims: {}, placeholder: false };
+      const add = (name: string, a: { row: number; frames: number; fps: number; loop: boolean; hitFrame?: number }) => {
         const frames = Array.from({ length: a.frames }, (_, i) => a.row * cols + i);
         scene.anims.create({ key: animKey(key, name), frames: scene.anims.generateFrameNumbers(key, { frames }), frameRate: a.fps, repeat: a.loop ? -1 : 0 });
         info.anims[name] = { frames: a.frames, fps: a.fps, loop: a.loop, hitFrame: a.hitFrame };
+      };
+      for (const [name, a] of Object.entries(s.anims)) add(name, a);
+      // An HD sheet that skips rows the pixel sheet has: alias them to the closest HD row (specials → ability).
+      if (h) for (const name of Object.keys(manifest.sprites[key]?.anims ?? {})) {
+        if (h.anims[name]) continue;
+        const alt = [...(HD_FALLBACK[name] ?? []), 'ability', 'idle'].find(n => h.anims[n]);
+        if (alt) add(name, { ...h.anims[alt]!, loop: manifest.sprites[key]!.anims[name]!.loop });
       }
       SPRITES[key] = info;
     }
+    for (const key of hdTextures) if (!SPRITES[key] && !key.startsWith('tiles-') && scene.textures.exists(key)) shrinkTexture(scene.textures.get(key), hd!.scale);
   }
   deriveFromAtlas(scene);
   for (const id of CREW_IDS) if (!SPRITES[id]) makeCrewPlaceholder(scene, id, CREW[id].color, CREW[id].name[0]!);

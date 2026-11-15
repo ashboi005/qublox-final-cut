@@ -5,7 +5,7 @@ import { join, relative } from 'node:path';
 import type { z } from '../packages/shared/src/index.ts';
 import {
   BarksSchema, CastSchema, CREW_IDS, CREW_REQUIRED_ANIMS, CrewVoicesSchema, DialogueSchema,
-  ENEMY_REQUIRED_ANIMS, FlavorSchema, ManifestSchema, QuipsSchema, SfxSchema, SongSchema, AchievementsSchema, FootageSchema, VersusLinesSchema, GlossarySchema,
+  ENEMY_REQUIRED_ANIMS, FlavorSchema, ManifestSchema, HdManifestSchema, QuipsSchema, SfxSchema, SongSchema, AchievementsSchema, FootageSchema, VersusLinesSchema, GlossarySchema,
 } from '../packages/shared/src/index.ts';
 
 const ROOT = join(import.meta.dir, '..');
@@ -98,6 +98,48 @@ if (existsSync(manifestPath)) {
     if (missingCrew.length) warnings.push(`crew without sprites yet (placeholders used): ${missingCrew.join(', ')}`);
   }
 } else warnings.push('no apps/game/public/assets/manifest.json yet (all art is placeholder)');
+
+// HD style test (ART_SPEC § HD): 4× sizes, smooth edges allowed, no palette cap. Keys fall back to the pixel art.
+const hdPath = join(ASSETS, 'manifest-hd.json');
+if (existsSync(hdPath)) {
+  const m = check(HdManifestSchema, hdPath);
+  if (m) {
+    const fileOk = (key: string, file: string) => {
+      const p = join(ASSETS, file);
+      referenced.add(p);
+      if (!file.startsWith('hd/')) errors.push(`manifest-hd "${key}": files go under assets/hd/ (got ${file})`);
+      if (!existsSync(p)) { errors.push(`manifest-hd "${key}": file not found: ${file}`); return undefined; }
+      const s = pngSize(p);
+      if (!s) { errors.push(`manifest-hd "${key}": ${file} is not a PNG`); return undefined; }
+      if (s.colorType !== 6) warnings.push(`manifest-hd "${key}": ${file} should be RGBA`);
+      return s;
+    };
+    for (const [key, sp] of Object.entries(m.sprites)) {
+      const s = fileOk(key, sp.file);
+      const anims = Object.entries(sp.anims);
+      const maxFrames = Math.max(0, ...anims.map(([, a]) => a.frames));
+      const rows = Math.max(0, ...anims.map(([, a]) => a.row)) + 1;
+      if (s) {
+        if (s.w < maxFrames * sp.frameWidth) errors.push(`hd sprite "${key}": image is ${s.w}px wide but needs ≥ ${maxFrames}×${sp.frameWidth}`);
+        if (s.h !== rows * sp.frameHeight) errors.push(`hd sprite "${key}": image is ${s.h}px tall but ${rows} rows × ${sp.frameHeight} = ${rows * sp.frameHeight}`);
+      }
+      if ((CREW_IDS as readonly string[]).includes(key)) {
+        if (sp.frameWidth !== 192 || sp.frameHeight !== 192) errors.push(`hd crew sprite "${key}": frames must be 192×192`);
+        if (!sp.anims.idle) errors.push(`hd crew sprite "${key}": needs at least "idle"`);
+        if (sp.anims.attack && sp.anims.attack.hitFrame === undefined) errors.push(`hd crew sprite "${key}": attack needs a hitFrame`);
+      }
+    }
+    for (const [key, t] of Object.entries(m.tilesets)) {
+      const s = fileOk(key, t.file);
+      if (s && (s.w % 64 || s.h % 64)) errors.push(`hd tileset "${key}": ${s.w}×${s.h} is not a multiple of 64`);
+    }
+    for (const [key, im] of Object.entries(m.images)) fileOk(key, im.file);
+    for (const [key, p] of Object.entries(m.portraits)) {
+      const s = fileOk(key, p.file);
+      if (s && (s.h !== 256 || s.w !== 256 * p.emotions.length)) errors.push(`hd portrait "${key}": expected ${256 * p.emotions.length}×256, got ${s.w}×${s.h}`);
+    }
+  }
+}
 
 const palettePath = join(ASSETS, 'palette.hex');
 if (existsSync(palettePath)) {

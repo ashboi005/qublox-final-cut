@@ -1,11 +1,13 @@
 import * as Phaser from 'phaser';
 import { BootScene } from '../game/scenes/BootScene';
 import { FightScene, type FightBoot } from './FightScene';
+import { patchTextForHd, renderConfig } from '../game/view';
 
 /** A separate Phaser game for VERSUS: Boot (art + content) → FightScene. */
 export function createVersus(parent: HTMLElement, boot: FightBoot, stage: number) {
+  patchTextForHd();
   const game = new Phaser.Game({
-    type: Phaser.AUTO, parent, width: 480, height: 270, pixelArt: true, roundPixels: true, backgroundColor: '#0f1014',
+    type: Phaser.AUTO, parent, ...renderConfig(), backgroundColor: '#0f1014',
     input: { gamepad: true },
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
     scene: [BootScene, FightScene],

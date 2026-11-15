@@ -13,6 +13,7 @@ import { bark, FONT, shake, wordPop } from '../game/fx/juice';
 import { matchLine } from './lines';
 import { cpuInput } from './cpu';
 import { FightInput, P1_KEYS, P1_SOLO_KEYS, P2_KEYS } from './input';
+import { fixed, setupCamera, ZOOM } from '../game/view';
 
 /** Advances the match. Returns the state to draw plus the events produced since the last call. */
 export interface Driver {
@@ -64,6 +65,7 @@ export class FightScene extends Phaser.Scene {
   constructor() { super('fight'); }
 
   create() {
+    setupCamera(this.cameras.main, true);
     const boot = this.registry.get('fight') as FightBoot;
     this.driver = boot.driver; this.names = boot.names; this.ended = false; this.acc = 0;
     void loadVoices().then(() => { for (const id of Object.keys(CREW) as CrewId[]) preloadCrew(id); });
@@ -84,8 +86,8 @@ export class FightScene extends Phaser.Scene {
       this.shadows.push(this.add.ellipse(0, FLOOR_Y + 1, 40, 8, 0x000000, 0.35).setDepth(5));
       this.fighters.push(this.add.sprite(0, 0, 'ashwath').setOrigin(0.5, 1).setScale(2).setDepth(10 + i));
     }
-    this.hud = this.add.graphics().setDepth(50).setScrollFactor(0);
-    const txt = (x: number, y: number, size: number, ox = 0) => this.add.text(x, y, '', { fontFamily: FONT, fontSize: `${size}px`, color: '#f2f1ec' }).setOrigin(ox, 0).setDepth(51).setScrollFactor(0);
+    this.hud = fixed(this.add.graphics().setDepth(50));
+    const txt = (x: number, y: number, size: number, ox = 0) => fixed(this.add.text(x, y, '', { fontFamily: FONT, fontSize: `${size}px`, color: '#f2f1ec' }).setOrigin(ox, 0).setDepth(51));
     this.hudText = [txt(12, 24, 8), txt(468, 24, 8, 1), txt(240, 8, 16, 0.5), txt(12, 228, 7), txt(468, 228, 7, 1)];
     this.banner = this.add.text(240, 110, '', { fontFamily: FONT, fontSize: '22px', color: '#fecb56', stroke: '#0f1014', strokeThickness: 6 }).setOrigin(0.5).setDepth(60).setAlpha(0);
     this.comboText = [0, 1].map(i => this.add.text(i === 0 ? 14 : 466, 70, '', { fontFamily: FONT, fontSize: '12px', color: '#fecb56', stroke: '#0f1014', strokeThickness: 4 }).setOrigin(i === 0 ? 0 : 1, 0).setDepth(55).setAlpha(0));
@@ -173,7 +175,7 @@ export class FightScene extends Phaser.Scene {
           this.tweens.add({ targets: ko, scale: 1.1, angle: 0, duration: 160, ease: 'Back.Out' });
           this.tweens.add({ targets: ko, alpha: 0, scale: 1.3, delay: 750, duration: 250, onComplete: () => ko.destroy() });
         }
-        { const cam = this.cameras.main, f = s.fighters[e.who]; cam.pan(f.x / SUB, f.y / SUB - 40, 160, Phaser.Math.Easing.Sine.Out); cam.zoomTo(1.6, 160, Phaser.Math.Easing.Sine.Out); this.time.delayedCall(700, () => { cam.zoomTo(1, 300, Phaser.Math.Easing.Sine.InOut); cam.pan(240, 135, 300, Phaser.Math.Easing.Sine.InOut); }); }
+        { const cam = this.cameras.main, f = s.fighters[e.who]; cam.pan(f.x / SUB, f.y / SUB - 40, 160, Phaser.Math.Easing.Sine.Out); cam.zoomTo(1.6 * ZOOM, 160, Phaser.Math.Easing.Sine.Out); this.time.delayedCall(700, () => { cam.zoomTo(ZOOM, 300, Phaser.Math.Easing.Sine.InOut); cam.pan(240, 135, 300, Phaser.Math.Easing.Sine.InOut); }); }
         this.talkAt = [0, 0];
         this.talk(s, e.who, 'ko', 'ko', 0.8);
         this.time.delayedCall(700, () => { this.talkAt = [0, 0]; this.talk(s, e.who === 0 ? 1 : 0, 'kill', 'kill', 0.9); });
@@ -201,10 +203,10 @@ export class FightScene extends Phaser.Scene {
     this.tweens.add({ targets: bars[0], y: 14, duration: 250 }); this.tweens.add({ targets: bars[1], y: 256, duration: 250 });
     const dim = this.add.rectangle(240, 135, 480, 270, 0x000000, 0).setDepth(3);
     this.tweens.add({ targets: dim, fillAlpha: 0.55, duration: 300 });
-    const card = this.add.text(240, 70, `FINAL CUT\n${name}`, { fontFamily: FONT, fontSize: '16px', color: hex(color), align: 'center', stroke: '#0f1014', strokeThickness: 6 }).setOrigin(0.5).setDepth(71).setScrollFactor(0).setScale(0.4).setAlpha(0);
+    const card = this.add.text(240, 70, `FINAL CUT\n${name}`, { fontFamily: FONT, fontSize: '16px', color: hex(color), align: 'center', stroke: '#0f1014', strokeThickness: 6 }).setOrigin(0.5).setDepth(71).setScale(0.4).setAlpha(0); fixed(card);
     this.tweens.killTweensOf(this.banner); this.banner.setAlpha(0);   // "FINAL CUT IT!" is done; the title card takes over
     this.tweens.add({ targets: card, scale: 1, alpha: 1, duration: 260, ease: 'Back.Out' });
-    cam.pan(lx, ly - 40, 400, Phaser.Math.Easing.Sine.Out); cam.zoomTo(1.35, 400, Phaser.Math.Easing.Sine.Out);
+    cam.pan(lx, ly - 40, 400, Phaser.Math.Easing.Sine.Out); cam.zoomTo(1.35 * ZOOM, 400, Phaser.Math.Easing.Sine.Out);
     synth.sfx('style-rankup');
     const key = `finisher-${crew}`;
     const sheet = this.textures.exists(key) && this.anims.exists(animKey(key, 'play'));
@@ -212,7 +214,7 @@ export class FightScene extends Phaser.Scene {
     let closed = false;
     const done = () => {
       if (closed) return; closed = true;
-      this.time.delayedCall(250, () => { cam.zoomTo(1, 300); cam.pan(240, 135, 300); this.tweens.add({ targets: [...bars, dim, card], alpha: 0, duration: 300, onComplete: () => [...bars, dim, card].forEach(o => o.destroy()) }); });
+      this.time.delayedCall(250, () => { cam.zoomTo(ZOOM, 300); cam.pan(240, 135, 300); this.tweens.add({ targets: [...bars, dim, card], alpha: 0, duration: 300, onComplete: () => [...bars, dim, card].forEach(o => o.destroy()) }); });
     };
     if (sheet) {
       const art = this.add.sprite(lx, ly, key).setOrigin(0.5, 1).setScale(2).setDepth(40).play(animKey(key, 'play'));

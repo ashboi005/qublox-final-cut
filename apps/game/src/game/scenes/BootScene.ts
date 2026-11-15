@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { buildArt, preloadManifest, queueManifestFiles } from '../assets/art';
 import { FONT } from '../fx/juice';
+import { setupCamera } from '../view';
 import type { GameContent } from './GameScene';
 import type { CrewId } from '@qublox/shared';
 
@@ -10,6 +11,7 @@ export class BootScene extends Phaser.Scene {
   constructor() { super('boot'); }
 
   preload() {
+    setupCamera(this.cameras.main, true);
     this.add.text(240, 135, 'LOADING SIGNAL…', { fontFamily: FONT, fontSize: '10px', color: '#f2f1ec' }).setOrigin(0.5);
     preloadManifest(this);
     this.load.json('content', '/api/content');

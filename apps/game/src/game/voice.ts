@@ -9,6 +9,17 @@ type Index = Partial<Record<CrewId, Record<string, VoiceClip>>>;
 
 /** Which recorded line answers which moment. Slugs are the clip file names (from the user's labels). */
 const CUES: Partial<Record<CrewId, Partial<Record<VoiceCue, string[]>>>> = {
+  ashwath: {
+    kill: ['khel-khtm', 'ghee-khtm'],         // "game over" (and its ghee-flavoured cousin)
+    clear: ['khel-khtm', 'ghee-khtm'],
+    win: ['khel-khtm', 'ghee-khtm'],
+    special: ['ts-pmo-sm-gng-icl-ong-fr'],     // INFO DUMP: a four-second rant is the psychic damage
+    ability: ['oye-pagal'],                    // HACK: "oye pagal" at whatever he just took over
+    hurt: ['oye-pagal'],
+    ko: ['ts-pmo-sm-gng-icl-ong-fr'],
+    tagin: ['dost'],
+    intro: ['dost', 'oye-pagal'],
+  },
   brahmansh: {
     kill: ['parlaug-bire'],                 // "parlok, bire": sending them off
     clear: ['gg-thaa'],                     // room / boss cleared
@@ -36,6 +47,7 @@ const CUES: Partial<Record<CrewId, Partial<Record<VoiceCue, string[]>>>> = {
 };
 /** Captions for clips whose label isn't the words spoken. */
 const CAPTIONS: Record<string, string> = {
+  'ashwath/oye-pagal': 'Oyee pagalll!',   // his catchphrase as the glossary spells it
   'sehaj/random-weird-laugh': '*weird laugh*',
   'sehaj/ferr-khende-bohota-galla-kad-da': 'Fir khende bohota galla kad da',
 };

@@ -109,3 +109,21 @@ tools/art/raw/    raw generations (gitignored)
 - If you generate with an image model, generate large, then **downscale with nearest-neighbour onto the grid, snap to the palette, and clean up by hand or by script**. Raw generator output is never final.
 - You can also draw pixel art **in code** (a script that writes PNGs from arrays). For small sprites it's often more consistent.
 - Check your work in the game: `bun run dev`, then press `F2` for the sprite viewer, which shows every manifest sprite and animation.
+
+## HD (style test: clean vector comic)
+
+A candidate replacement for the pixel style, being trialled on a small slice before anyone commits to it (T-A47). It lives **next to** the pixel art and changes none of it. The game loads it with `?art=hd`; any key missing from the HD manifest falls back to the pixel version.
+
+| Rule | Value |
+|---|---|
+| ✔ Manifest | `apps/game/public/assets/manifest-hd.json`: same shape as `manifest.json` plus `"scale": 4`. Keys and anim names identical to the pixel ones. |
+| ✔ Files | under `apps/game/public/assets/hd/` (same sub-folders: `hd/sprites/characters/`, `hd/tiles/`, `hd/backgrounds/`, `hd/portraits/`) |
+| Scale | Everything is drawn at **4×** the game world. The game draws it at 1/4, so it lands on exactly the same footprint as the pixel asset. |
+| ✔ Character frame | **192×192**, feet on bottom-centre (96, 191). Body ~80–104 px wide, ~128–160 px tall: the same footprint as the 48×48 sprite, ×4. Same sheet layout (one row per anim, frames left to right). |
+| ✔ Tile | **64×64**, same atlas grid and tile indices as the pixel tileset (`docs/art/tiles-<name>.md`), so levels don't change |
+| Background | **1920×1080** per parallax layer, same keys (`bg-<district>-<far/mid/near>-<drained/saturated>`) |
+| ✔ Portrait | **256×256** per emotion, one row, same emotion order |
+| Edges | Smooth, anti-aliased edges and soft alpha on outlines are **wanted** (this is not pixel art). No palette cap, but the brand anchors and each district's colour families stay. |
+| Readability | The 1920-wide canvas is usually shown at about 0.5–0.7× on a laptop. **Outer outlines ≥ 6 px, inner detail lines ≥ 3 px**, or they vanish. |
+| ✔ Size | every PNG < 5 MB; aim for < 1.5 MB (quantise if needed) |
+| Source | Reproducible from scripts in `tools/art/hd/` (rigs, poses, render). Any toolchain that installs locally (Pillow with supersampling, pycairo, skia-python, an SVG renderer); note it in the log. |

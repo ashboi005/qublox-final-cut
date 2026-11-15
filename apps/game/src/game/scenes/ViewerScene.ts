@@ -4,6 +4,7 @@ import * as Phaser from 'phaser';
 import { animKey, manifestErrors, SPRITES } from '../assets/art';
 import { bus } from '../bus';
 import { FONT } from '../fx/juice';
+import { ZOOM } from '../view';
 
 export class ViewerScene extends Phaser.Scene {
   private zoom = 1;
@@ -14,7 +15,7 @@ export class ViewerScene extends Phaser.Scene {
   create() {
     bus.emit('viewer', { open: true });
     const z = this.zoom;
-    const cam = this.cameras.main.setBackgroundColor('#1b1c22').setZoom(z).setOrigin(0, 0);
+    const cam = this.cameras.main.setBackgroundColor('#1b1c22').setZoom(z * ZOOM).setOrigin(0, 0);
     const viewW = 480 / z;
     const label = (x: number, y: number, s: string, color = '#f2f1ec', size = 8) =>
       this.add.text(x, y, s, { fontFamily: FONT, fontSize: `${size}px`, color, resolution: 2 });

@@ -9,8 +9,16 @@ import { fight } from './fight';
 const PORT = Number(process.env.PORT ?? 8787);
 
 // Accounts, the leaderboard and saves need Postgres; VERSUS (WebSocket rooms) doesn't, so a missing DB isn't fatal.
+// The DB can come up after the server (e.g. both starting on a deploy), so keep retrying until it answers.
 let dbReady = false;
-try { await migrate(); await migrateAuth(); dbReady = true; } catch (e) { console.warn('[server] Postgres unavailable, accounts/leaderboard/saves disabled:', (e as Error).message); }
+async function connectDb(attempt = 1): Promise<void> {
+  try { await migrate(); await migrateAuth(); dbReady = true; if (attempt > 1) console.log('[server] Postgres connected'); }
+  catch (e) {
+    if (attempt === 1) console.warn('[server] Postgres unavailable (retrying every 5s), accounts/leaderboard/saves off until then:', (e as Error).message);
+    setTimeout(() => void connectDb(attempt + 1), 5000);
+  }
+}
+await connectDb();
 
 type Row = { id: number; player: string; episode: number; time_ms: number; style: number; kos: number; party: string[]; created_at: Date };
 const toApi = (r: Row): LeaderboardRow => ({

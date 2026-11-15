@@ -47,3 +47,40 @@ level data; Sayam's new attack/ability pixels contain neither. No UI layout chan
 
 Claude confirmed runtime choreography is retained. Sayam's five bubbles now read
 BHAI / NO CAP / SO BASICALLY / LE RE / HEAR ME OUT; no money references.
+
+## T-A46: faces and guarding
+
+Sehaj, Manvi, Mansukh, Manya, Brahmansh and Mishthi now use two visible
+3/4-view eyes with a narrower far eye and small dark pupils. This propagates
+through all standard/special rows and refreshed supers. Sehaj's lowered head
+in the last three `beast` frames restores the eyes after the raised-arm pass.
+The three dastars, beards and existing silhouettes remain unchanged. All nine
+portrait sheets already used two-eye expressions and remain unchanged.
+
+All nine crew have `block`: four 48×48 frames, 8 fps, looping. A planted,
+bent-knee stance and raised forearms/prop make it distinct from idle/run.
+Ashwath braces behind his keyboard; Sayam uses an open-palm guard; Tushar
+raises the clapperboard, with henna, bracelet and ring retained; Sehaj raises
+scissors; Manvi holds her mic; Mansukh uses his brush and keeps his headphones;
+Manya raises a paint tin; Brahmansh raises a blade; Mishthi holds a gilt frame.
+
+Rebuild crew bases with `tools/art/crew.py <IDs>`, then run
+`tools/art/versus.py --crew-only` and `tools/art/guards.py`. Use Python with
+Pillow. The crew-only option leaves approved finishers and fight FX untouched.
+Refreshing supers now preserves rows below `super`, including `block`.
+
+Review contacts are ignored files: `tools/art/raw/t-a46-faces.png` places
+before/after pairs for idle, run, ability and super across the six corrected
+crew; `t-a46-guards.png` shows every guard frame; `t-a46-beast.png` shows all
+six boulder-lift frames. Compared with the old single white profile eye, the
+pairs show two separated eye openings while keeping all headwear and hair.
+
+Validation: all 302 existing frames of the six corrected sheets compared
+against saved originals; changes restricted to the eye area (three rotated
+Manya KO frames checked for unchanged alpha and reviewed visually). Every old
+frame's alpha silhouette is identical. Ashwath/Sayam/Tushar old rows are
+byte-identical. Super+guard regeneration is byte-identical. Exact palette,
+binary-alpha and contract checks pass. F2 review covered the six faces and
+representative guards at 1×, plus Sehaj's guard and special rows at 2×. That
+2× check caught the lowered `beast` face overlap; its final fix was inspected
+in the native-pixel contact after browser mouse control became unavailable.

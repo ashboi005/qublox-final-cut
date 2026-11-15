@@ -43,6 +43,17 @@ export const ManifestSchema = z.object({
   portraits: z.record(kebab, z.object({ file: relPng, size: z.literal(64), emotions: z.array(z.enum(EMOTIONS)).min(1) })).default({}),
 });
 export type Manifest = z.infer<typeof ManifestSchema>;
+/** HD art (style test, docs/art/ART_SPEC.md § HD): drawn at 4× the 480×270 world; the game scales it by 1/scale.
+ *  Same keys/anims as manifest.json, so any key missing here falls back to the pixel art. */
+export const HdManifestSchema = z.object({
+  version: z.literal(1),
+  scale: z.literal(4),
+  sprites: z.record(kebab, SpriteSchema).default({}),
+  tilesets: z.record(kebab, z.object({ file: relPng, tileSize: z.literal(64), notes: z.string().optional() })).default({}),
+  images: z.record(kebab, z.object({ file: relPng, notes: z.string().optional() })).default({}),
+  portraits: z.record(kebab, z.object({ file: relPng, size: z.literal(256), emotions: z.array(z.enum(EMOTIONS)).min(1) })).default({}),
+});
+export type HdManifest = z.infer<typeof HdManifestSchema>;
 export type SpriteDef = z.infer<typeof SpriteSchema>;
 
 // ---------- Writing ----------

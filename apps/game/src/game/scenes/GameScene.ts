@@ -2,7 +2,8 @@ import * as Phaser from 'phaser';
 import { DialogueSchema, isCrewId, SfxSchema, SongSchema, TAPE_IDS, type CrewId } from '@qublox/shared';
 import { synth } from '../audio/synth';
 import { achievements } from '../achievements';
-import { animKey, TILE } from '../assets/art';
+import { animKey, isHdTexture, TILE } from '../assets/art';
+import { fixed, HD, setupCamera, ZOOM } from '../view';
 import { bus, type HudState } from '../bus';
 import { COUPLE_COOLDOWN_MS, CREW, DEFAULT_PARTY, hex, isNightOwlHour, MANSUKH_WORDS, MISHTHI_PROPS, SAYAM_WORDS, partnerOf, STAN_MS, WILDCARD_MS, type AbilityId } from '../crew';
 import { Avatar, PARTY_MAX } from '../entities/Avatar';
@@ -150,8 +151,15 @@ export class GameScene extends Phaser.Scene {
     this.layer = map.createLayer(0, ts, 0, 0) as Phaser.Tilemaps.TilemapLayer;
     this.layer.setCollision([...SOLID, TILE.HAZARD]);
     this.layer.forEachTile(t => { if (ONEWAY.has(t.index)) t.setCollision(false, false, true, false); });
+    if (isHdTexture(tilesKey)) {
+      // HD tiles are 64 px: draw them on their own ¼-scale layer; the 16 px layer stays for collisions only.
+      const vmap = this.make.tilemap({ data: tileData(this.level, TILE), tileWidth: T * ZOOM, tileHeight: T * ZOOM });
+      const vts = vmap.addTilesetImage('tiles', tilesKey, T * ZOOM, T * ZOOM, 0, 0)!;
+      vmap.createLayer(0, vts, 0, 0)!.setScale(1 / ZOOM).setDepth(this.layer.depth);
+      this.layer.setVisible(false);
+    }
     this.physics.world.setBounds(0, 0, W, H + 200);
-    this.cameras.main.setBounds(0, 0, W, H);
+    setupCamera(this.cameras.main).setBounds(0, 0, W, H);
 
     this.enemies = this.physics.add.group();
     this.shots = this.physics.add.group();
@@ -223,7 +231,7 @@ export class GameScene extends Phaser.Scene {
     this.avatar.on('jump', () => synth.sfx('jump'));
     this.avatar.on('taghop', () => { synth.sfx('jump'); fx(this, 'tag-in-burst', this.avatar.x, this.avatar.y - 10, 19); this.style.gain('taghop', 6, this.time.now); });
     this.avatar.on('land', (speed: number) => { synth.sfx('land'); if (speed > 260) fx(this, 'dust-puff', this.avatar.x, this.avatar.y - 6, 9); });
-    this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12, 0, 20).setDeadzone(40, 30).setRoundPixels(true);
+    this.cameras.main.startFollow(this.avatar, true, 0.12, 0.12, 0, 20).setDeadzone(40, 30).setRoundPixels(!HD);
     this.cameras.main.fadeIn(250, 15, 16, 20);
 
     // Physics wiring
@@ -608,7 +616,7 @@ export class GameScene extends Phaser.Scene {
   private infoDump() {
     const a = this.avatar;
     a.doAction(this.anims.exists(animKey('ashwath', 'info')) ? 'info' : 'ability', 600);
-    this.say('info', true);
+    if (!this.voice('special')) this.say('info', true);
     const raw = (this.content.barks.ashwath as { barks?: Record<string, unknown> } | undefined)?.barks?.jargon;
     const words = Array.isArray(raw) && raw.length ? raw as string[] : ['CAP THEOREM', 'EVENTUAL CONSISTENCY', 'JUST SHARD IT', 'KAFKA??', 'IT\'S ALL BLOCKS', 'IDEMPOTENT!', 'RACE CONDITION'];
     this.style.gain('ashwath:info', 14, this.time.now);
@@ -1144,7 +1152,7 @@ export class GameScene extends Phaser.Scene {
     }
     // The wash: BEIGE drains the screen; STYLE pushes it back.
     const amount = b.alive ? Phaser.Math.Clamp(0.6 - this.style.meter / 140, 0, 0.6) : 0;
-    if (!this.beigeWash) this.beigeWash = this.add.rectangle(0, 0, 480, 270, 0xf5f5dc).setOrigin(0).setScrollFactor(0).setDepth(35).setAlpha(0);
+    if (!this.beigeWash) this.beigeWash = fixed(this.add.rectangle(0, 0, 480, 270, 0xf5f5dc).setOrigin(0).setDepth(35).setAlpha(0));
     this.beigeWash.setAlpha(this.beigeWash.alpha + (amount * 0.55 - this.beigeWash.alpha) * 0.05);
     const rounded = Math.round(amount * 10) / 10;
     if (rounded !== this.lastBeigeEmit) { this.lastBeigeEmit = rounded; bus.emit('beige', { amount: rounded }); }
@@ -1623,7 +1631,7 @@ export class GameScene extends Phaser.Scene {
     if (!this.textures.exists(`${set}far-drained`)) return this.drawGreybox(W, H);
     for (const [name, factor, depth] of layers) {
       if (!this.textures.exists(`${set}${name}-drained`)) continue;
-      const make = (variant: string) => this.add.tileSprite(0, 0, 480, 270, `${set}${name}-${variant}`).setOrigin(0).setScrollFactor(0).setDepth(depth);
+      const make = (variant: string) => fixed(this.add.tileSprite(0, 0, 480, 270, `${set}${name}-${variant}`).setOrigin(0).setDepth(depth));
       const drained = make('drained');
       const saturated = make(this.textures.exists(`${set}${name}-saturated`) ? 'saturated' : 'drained').setAlpha(0).setDepth(depth + 1);
       this.bgLayers.push({ drained, saturated, factor });

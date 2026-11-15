@@ -21,6 +21,33 @@
       "ms": 1182
     }
   },
+  "ashwath": {
+    "khel-khtm": {
+      "file": "/voice/ashwath/khel-khtm.mp3",
+      "label": "khel khtm",
+      "ms": 1601
+    },
+    "oye-pagal": {
+      "file": "/voice/ashwath/oye-pagal.mp3",
+      "label": "oye pagal",
+      "ms": 1905
+    },
+    "ghee-khtm": {
+      "file": "/voice/ashwath/ghee-khtm.mp3",
+      "label": "ghee khtm",
+      "ms": 1609
+    },
+    "ts-pmo-sm-gng-icl-ong-fr": {
+      "file": "/voice/ashwath/ts-pmo-sm-gng-icl-ong-fr.mp3",
+      "label": "ts pmo sm gng icl ong fr",
+      "ms": 4139
+    },
+    "dost": {
+      "file": "/voice/ashwath/dost.mp3",
+      "label": "dost",
+      "ms": 878
+    }
+  },
   "sehaj": {
     "ferr-khende-bohota-galla-kad-da": {
       "file": "/voice/sehaj/ferr-khende-bohota-galla-kad-da.mp3",

@@ -342,3 +342,13 @@
 - Did: completed four polish batches across environment, enemies/bosses/NPCs, objects/presentation and audio. Details and rebuild order in docs/art/POLISH_PASS.md. Functional tiny swatches/lines and just-delivered VERSUS art retained where added detail would impair readability.
 - Commit: batch commits a3c5ca2, 6b92a13, 6a7c78f, and this audio batch.
 - Notes: full world → entity → object regeneration reproduces committed PNGs; no unexpected diffs. All PNGs pass RGBA/binary-alpha/exact-palette audit. Confirmed all T-A43 crew sheets and portrait faces/headwear remain pixel-identical. Browser coverage/limitations and audio audition request documented above. Awaiting integration feedback/new orders; CONTROL remains RUN.
+
+### 2026-11-14 · T-A46 · DOING
+- Did: picked up the six-face correction and nine guard rows as the only open launch task. Saved ignored before sheets for exact comparisons. All nine existing portrait sheets already show both eyes across their eight expressions; retaining those approved portraits.
+- Notes: updating canonical eye drawing, then rebuilding supers and appending a distinct braced guard. Dastar folds, beards, hair and non-face pixels will be checked against the saved sheets. No other polish tasks underway.
+
+### 2026-11-14 · T-A46 · REVIEW
+- Did: two-eye 3/4 faces for Sehaj, Manvi, Mansukh, Manya, Brahmansh and Mishthi across every standard/special/super row. Added all nine `block` rows: four frames, 48×48, 8 fps, looping, bent knees and raised forearms/prop. Regenerated supers; fixed regeneration to retain later guard rows. Portraits already show both eyes and remain unchanged.
+- Files: nine sprites/characters/*.png, manifest.json; tools/art/{crew,likeness,versus,guards}.py; docs/art/versus.md.
+- Commit: included in this batch commit (art: unify crew eyes and add guard poses).
+- Notes: before/after contact at tools/art/raw/t-a46-faces.png pairs idle/run/ability/super: single white profile eyes become two separated openings with small pupils; hair, dastars and beards unchanged. t-a46-guards.png shows every guard; t-a46-beast.png checks the lowered boulder-lift head. All 302 existing frames audited for eye-only changes (rotated Manya KO checked visually + identical alpha); every prior silhouette identical, and all old Ashwath/Sayam/Tushar rows byte-identical. Rebuild idempotence passes. F2 verified six corrected faces and representative guards at 1×; Sehaj guard/specials at 2×. Fixed a paint-tin remnant in Manya's new guard and the beast torso overpainting one eye. Final beast patch contact-checked after native mouse control became unavailable. All PNGs pass palette/alpha checks; bun run validate: 104 valid, zero warnings. No game code changed.

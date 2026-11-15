@@ -4,18 +4,16 @@ import { BootScene } from './scenes/BootScene';
 import { GameScene } from './scenes/GameScene';
 import { ViewerScene } from './scenes/ViewerScene';
 import { synth } from './audio/synth';
+import { patchTextForHd, renderConfig } from './view';
 
-export const VIEW_W = 480;
-export const VIEW_H = 270;
+export { VIEW_W, VIEW_H } from './view';
 
 export function createGame(parent: HTMLElement, opts: { level: string; party: CrewId[] }) {
+  patchTextForHd();
   const game = new Phaser.Game({
     type: Phaser.AUTO,
     parent,
-    width: VIEW_W,
-    height: VIEW_H,
-    pixelArt: true,
-    roundPixels: true,
+    ...renderConfig(),
     backgroundColor: '#0f1014',
     input: { gamepad: true },
     physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 900 }, tileBias: 20, debug: false } },
