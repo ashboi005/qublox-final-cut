@@ -7,6 +7,8 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 const R = {}; const logs = [];
 const open = async (b, tag) => {
   const p = await b.newPage(); await p.setViewport({ width: 1280, height: 800 });
+  // Gameplay checks run on pixel art (software rendering crawls at HD's 4× canvas); ART=hd to override, hd-qa.mjs covers HD.
+  await p.evaluateOnNewDocument(art => { try { localStorage.setItem('qublox-art', art); } catch {} }, process.env.ART ?? 'pixel');
   p.on('pageerror', e => logs.push(`${tag} PAGEERROR ${e.message}`));
   p.on('console', m => { if (m.type() === 'error' && !m.text().includes('GL Driver')) logs.push(`${tag} ${m.text()}`); });
   await p.goto(BASE + '/', { waitUntil: 'networkidle0' }); await wait(800);

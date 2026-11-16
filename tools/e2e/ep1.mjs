@@ -6,6 +6,8 @@ const out = process.argv[2] ?? 'tools/e2e/shots';
 mkdirSync(out, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'] });
 const page = await browser.newPage();
+// Gameplay checks run on pixel art (software rendering crawls at HD's 4× canvas); ART=hd to override, hd-qa.mjs covers HD.
+await page.evaluateOnNewDocument(art => { try { localStorage.setItem('qublox-art', art); } catch {} }, process.env.ART ?? 'pixel');
 await page.setViewport({ width: 1280, height: 800 });
 const logs = []; page.on('console', m => { if (['error', 'warning'].includes(m.type()) && !m.text().includes('GL Driver')) logs.push(m.text()); }); page.on('pageerror', e => logs.push('PAGEERROR ' + e.message));
 const wait = ms => new Promise(r => setTimeout(r, ms));

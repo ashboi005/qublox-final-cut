@@ -123,5 +123,27 @@
       "label": "random weird laugh",
       "ms": 953
     }
+  },
+  "mishthi": {
+    "behes-ki-ankh": {
+      "file": "/voice/mishthi/behes-ki-ankh.mp3",
+      "label": "behes ki ankh",
+      "ms": 1676
+    },
+    "oh-my-god-bhai": {
+      "file": "/voice/mishthi/oh-my-god-bhai.mp3",
+      "label": "oh my god bhai",
+      "ms": 1868
+    },
+    "tujhe-to-me-btati-hu": {
+      "file": "/voice/mishthi/tujhe-to-me-btati-hu.mp3",
+      "label": "tujhe to me btati hu",
+      "ms": 1585
+    },
+    "yaar-tang-mat-kr-bhai": {
+      "file": "/voice/mishthi/yaar-tang-mat-kr-bhai.mp3",
+      "label": "yaar tang mat kr bhai",
+      "ms": 1933
+    }
   }
 }

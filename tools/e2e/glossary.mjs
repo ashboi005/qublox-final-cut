@@ -3,6 +3,8 @@ import puppeteer from 'puppeteer-core';
 const BASE = process.env.GAME_URL ?? 'http://localhost:5173', OUT = process.env.SHOT_DIR ?? '/tmp';
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 const page = await browser.newPage();
+// Gameplay checks run on pixel art (software rendering crawls at HD's 4× canvas); ART=hd to override, hd-qa.mjs covers HD.
+await page.evaluateOnNewDocument(art => { try { localStorage.setItem('qublox-art', art); } catch {} }, process.env.ART ?? 'pixel');
 await page.setViewport({ width: 1280, height: 800 });
 const logs = []; page.on('pageerror', e => logs.push('PAGEERROR ' + e.message));
 const wait = ms => new Promise(r => setTimeout(r, ms));

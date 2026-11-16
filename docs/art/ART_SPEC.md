@@ -112,7 +112,7 @@ tools/art/raw/    raw generations (gitignored)
 
 ## HD (style test: clean vector comic)
 
-A candidate replacement for the pixel style, being trialled on a small slice before anyone commits to it (T-A47). It lives **next to** the pixel art and changes none of it. The game loads it with `?art=hd`; any key missing from the HD manifest falls back to the pixel version.
+The default look since 2026-11-16 (T-A47 trial → T-A49 full conversion). It lives **next to** the pixel art and changes none of it. Players switch with the **Art: Pixel | HD** toggle on the title screen (saved in localStorage; `?art=pixel` / `?art=hd` also work and are remembered); any key missing from the HD manifest falls back to the pixel version.
 
 | Rule | Value |
 |---|---|

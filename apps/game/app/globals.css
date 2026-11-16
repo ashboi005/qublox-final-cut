@@ -336,6 +336,11 @@ kbd { display: inline-block; min-width: 18px; padding: 1px 4px; margin-right: 2p
 
 /* Accounts: title-corner chip + the Crew ID panel (sign in / create account / signed in). */
 .account-chip { position: absolute; top: 1.6cqw; right: 1.8cqw; z-index: 3; display: inline-flex; align-items: center; gap: .6cqw; max-width: 26cqw; font: 400 1.05cqw var(--pixel); text-transform: uppercase; padding: .5cqw .9cqw; border: 2px solid var(--bone); background: rgba(15, 16, 20, .72); color: var(--bone); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.art-toggle { position: absolute; top: 1.6cqw; left: 1.8cqw; z-index: 3; display: inline-flex; align-items: stretch; font: 400 1.05cqw var(--pixel); text-transform: uppercase; border: 2px solid var(--bone); background: rgba(15, 16, 20, .72); color: var(--bone); }
+.art-toggle span { padding: .5cqw .7cqw; opacity: .7; }
+.art-toggle button { font: inherit; text-transform: inherit; padding: .5cqw .9cqw; border: 0; border-left: 2px solid var(--bone); background: transparent; color: var(--bone); cursor: pointer; }
+.art-toggle button.is-on { background: var(--bone); color: var(--ink); cursor: default; }
+.art-toggle button:not(.is-on):hover, .art-toggle button:focus-visible { background: rgba(240, 238, 230, .18); outline: none; }
 .account-chip:hover, .account-chip:focus-visible { background: var(--bone); color: var(--ink); outline: none; }
 .account-chip i { flex: none; width: .7cqw; height: .7cqw; background: var(--ok); box-shadow: 0 0 0 2px var(--ink); }
 .account { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: rgba(15, 16, 20, .84); }

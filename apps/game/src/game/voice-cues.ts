@@ -71,6 +71,19 @@ export const CUES: Partial<Record<CrewId, Partial<Record<VoiceCue, string[]>>>> 
     low: ['its-fine'],                                  // it is not fine
     ko: ['its-fine'],
   },
+  mishthi: {
+    intro: ['oh-my-god-bhai', 'tujhe-to-me-btati-hu'],
+    tagin: ['oh-my-god-bhai'],                          // her catchphrase: "Oh my god wtf bhai."
+    clear: ['oh-my-god-bhai'],
+    win: ['oh-my-god-bhai', 'tujhe-to-me-btati-hu'],
+    ability: ['tujhe-to-me-btati-hu'],                  // MASTERPIECE: "I'll show you"
+    kill: ['tujhe-to-me-btati-hu'],
+    special: ['yaar-tang-mat-kr-bhai'],                 // AS IF I CARE?: can't be bothered
+    hurt: ['yaar-tang-mat-kr-bhai', 'behes-ki-ankh'],
+    flaw: ['behes-ki-ankh'],                            // CREATIVE BLOCK
+    low: ['behes-ki-ankh'],
+    ko: ['behes-ki-ankh'],
+  },
 };
 
 /** Captions for clips whose file label isn't the words spoken. */
@@ -89,4 +102,8 @@ export const CAPTIONS: Record<string, string> = {
   'manya/tang-mat-kar': 'Tang mat kar.',
   'manya/i-need-my-space': 'I NEED MY SPACE.',
   'manya/its-fine': 'It’s fine.',
+  'mishthi/oh-my-god-bhai': 'Oh my god bhai!',
+  'mishthi/tujhe-to-me-btati-hu': 'Tujhe toh main batati hu!',
+  'mishthi/yaar-tang-mat-kr-bhai': 'Yaar, tang mat kar bhai.',
+  'mishthi/behes-ki-ankh': 'Behes ki ankh!',
 };

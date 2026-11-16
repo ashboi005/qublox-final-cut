@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ACHIEVEMENT_IDS, type CrewId } from '@qublox/shared';
+import { HD, setArtMode } from '@/game/artMode';
 import { nextEpisode } from '@/game/progress';
 import { AccountChip, AccountPanel } from './Account';
 import { Controls } from './Controls';
@@ -86,10 +87,25 @@ export function Title({ logo, background, taglines, episodes, onStory, onBoard, 
           </button>
         ))}
       </nav>
+      <ArtToggle />
       <AccountChip onOpen={() => setAccount(true)} />
       {account && <AccountPanel onClose={() => setAccount(false)} />}
       {controls && <Controls onClose={() => setControls(false)} />}
       <p className="title-foot">↑↓ choose · ENTER start · a Qublox production, Neo-Amritsar 2084</p>
+    </div>
+  );
+}
+
+/** Pixel ⇄ HD art switch (top-left of the title). Read after mount so server and client render the same first frame. */
+function ArtToggle() {
+  const [hd, setHd] = useState<boolean | null>(null);
+  useEffect(() => setHd(HD), []);
+  if (hd === null) return null;
+  return (
+    <div className="art-toggle" role="group" aria-label="Art style">
+      <span>Art</span>
+      <button type="button" aria-pressed={!hd} className={!hd ? 'is-on' : ''} onClick={() => hd && setArtMode(false)}>Pixel</button>
+      <button type="button" aria-pressed={hd} className={hd ? 'is-on' : ''} onClick={() => !hd && setArtMode(true)}>HD</button>
     </div>
   );
 }
