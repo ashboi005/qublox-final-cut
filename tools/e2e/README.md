@@ -11,3 +11,5 @@ bun run e2e            # all episodes   (or: node tools/e2e/ep2.mjs)
 
 `CHROME_PATH` overrides the Chrome binary (macOS default) and `GAME_URL` overrides the base URL.
 These are smoke tests for "does everything still work together", not balance tests.
+
+`hd-qa.mjs` loads 8 rooms across all five districts with `?art=hd`, saves screenshots to `tools/e2e/shots/` (or `SHOTS=…`), and lists page errors, failed requests and `[art]` warnings.

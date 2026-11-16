@@ -1655,6 +1655,768 @@
           "loop": true
         }
       }
+    },
+    "cash": {
+      "file": "hd/sprites/props/cash.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "money-bag": {
+      "file": "hd/sprites/props/money-bag.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "hit-spark": {
+      "file": "hd/fx/hit-spark.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "dust-puff": {
+      "file": "hd/fx/dust-puff.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "tag-in-burst": {
+      "file": "hd/fx/tag-in-burst.png",
+      "frameWidth": 256,
+      "frameHeight": 256,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 6,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "heal-sparkle": {
+      "file": "hd/fx/heal-sparkle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 4,
+          "fps": 16,
+          "loop": false
+        }
+      }
+    },
+    "chai": {
+      "file": "hd/sprites/props/chai.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "checkpoint": {
+      "file": "hd/sprites/props/checkpoint.png",
+      "frameWidth": 64,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "active": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "exit": {
+      "file": "hd/sprites/props/exit.png",
+      "frameWidth": 128,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 8,
+          "loop": true
+        },
+        "open": {
+          "row": 1,
+          "frames": 4,
+          "fps": 8,
+          "loop": false
+        }
+      }
+    },
+    "pen-anchor": {
+      "file": "hd/sprites/props/pen-anchor.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "paint-glob": {
+      "file": "hd/sprites/props/paint-glob.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 8,
+          "loop": true
+        }
+      }
+    },
+    "catwalk": {
+      "file": "hd/sprites/props/catwalk.png",
+      "frameWidth": 192,
+      "frameHeight": 64,
+      "anims": {
+        "intact": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        },
+        "crumble": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        },
+        "broken": {
+          "row": 2,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "server-crate": {
+      "file": "hd/sprites/props/server-crate.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        },
+        "fall": {
+          "row": 1,
+          "frames": 2,
+          "fps": 10,
+          "loop": true
+        },
+        "smash": {
+          "row": 2,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "steam-vent": {
+      "file": "hd/sprites/props/steam-vent.png",
+      "frameWidth": 64,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 10,
+          "loop": true
+        },
+        "burst": {
+          "row": 1,
+          "frames": 4,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "big-fan": {
+      "file": "hd/sprites/props/big-fan.png",
+      "frameWidth": 192,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 10,
+          "loop": true
+        },
+        "frozen": {
+          "row": 1,
+          "frames": 1,
+          "fps": 10,
+          "loop": true
+        }
+      }
+    },
+    "color-block": {
+      "file": "hd/sprites/props/color-block.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "red": {
+          "row": 0,
+          "frames": 1,
+          "fps": 6,
+          "loop": true
+        },
+        "blue": {
+          "row": 1,
+          "frames": 1,
+          "fps": 6,
+          "loop": true
+        },
+        "yellow": {
+          "row": 2,
+          "frames": 2,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "spotlight": {
+      "file": "hd/sprites/props/spotlight.png",
+      "frameWidth": 128,
+      "frameHeight": 256,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 7,
+          "loop": true
+        }
+      }
+    },
+    "boom-mic": {
+      "file": "hd/sprites/props/boom-mic.png",
+      "frameWidth": 128,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 7,
+          "loop": true
+        }
+      }
+    },
+    "echo": {
+      "file": "hd/sprites/props/echo.png",
+      "frameWidth": 64,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "rage-vent": {
+      "file": "hd/sprites/props/rage-vent.png",
+      "frameWidth": 96,
+      "frameHeight": 40,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 2,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "rage": {
+      "file": "hd/sprites/props/rage.png",
+      "frameWidth": 48,
+      "frameHeight": 48,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "clickbait": {
+      "file": "hd/sprites/props/clickbait.png",
+      "frameWidth": 56,
+      "frameHeight": 40,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "deleted-posts": {
+      "file": "hd/sprites/props/deleted-posts.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 9,
+          "loop": true
+        }
+      }
+    },
+    "tape": {
+      "file": "hd/sprites/props/tape.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
+    },
+    "decor-water-cooler": {
+      "file": "hd/sprites/decor/water-cooler.png",
+      "frameWidth": 96,
+      "frameHeight": 160,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-chai-crate": {
+      "file": "hd/sprites/decor/chai-crate.png",
+      "frameWidth": 128,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-mood-board": {
+      "file": "hd/sprites/decor/mood-board.png",
+      "frameWidth": 192,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-beanbag": {
+      "file": "hd/sprites/decor/beanbag.png",
+      "frameWidth": 128,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-server-rack": {
+      "file": "hd/sprites/decor/server-rack.png",
+      "frameWidth": 128,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-cable-spaghetti": {
+      "file": "hd/sprites/decor/cable-spaghetti.png",
+      "frameWidth": 192,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-warning-sign": {
+      "file": "hd/sprites/decor/warning-sign.png",
+      "frameWidth": 96,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-coolant-drum": {
+      "file": "hd/sprites/decor/coolant-drum.png",
+      "frameWidth": 96,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-c-stand": {
+      "file": "hd/sprites/decor/c-stand.png",
+      "frameWidth": 128,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-clapperboard": {
+      "file": "hd/sprites/decor/clapperboard.png",
+      "frameWidth": 96,
+      "frameHeight": 96,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-director-chair": {
+      "file": "hd/sprites/decor/director-chair.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-sandbag": {
+      "file": "hd/sprites/decor/sandbag.png",
+      "frameWidth": 128,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-ring-light": {
+      "file": "hd/sprites/decor/ring-light.png",
+      "frameWidth": 128,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-neon-heart": {
+      "file": "hd/sprites/decor/neon-heart.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-phone-tripod": {
+      "file": "hd/sprites/decor/phone-tripod.png",
+      "frameWidth": 96,
+      "frameHeight": 160,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-trending-arrow": {
+      "file": "hd/sprites/decor/trending-arrow.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-plastic-ficus": {
+      "file": "hd/sprites/decor/plastic-ficus.png",
+      "frameWidth": 128,
+      "frameHeight": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-motivational-poster": {
+      "file": "hd/sprites/decor/motivational-poster.png",
+      "frameWidth": 128,
+      "frameHeight": 160,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-standing-desk": {
+      "file": "hd/sprites/decor/standing-desk.png",
+      "frameWidth": 192,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "decor-beige-cubicle": {
+      "file": "hd/sprites/decor/beige-cubicle.png",
+      "frameWidth": 192,
+      "frameHeight": 128,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 1,
+          "fps": 4,
+          "loop": true
+        }
+      }
+    },
+    "finisher-ashwath": {
+      "file": "hd/sprites/fx/finisher-ashwath.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-sayam": {
+      "file": "hd/sprites/fx/finisher-sayam.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-tushar": {
+      "file": "hd/sprites/fx/finisher-tushar.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-sehaj": {
+      "file": "hd/sprites/fx/finisher-sehaj.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-manvi": {
+      "file": "hd/sprites/fx/finisher-manvi.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-mansukh": {
+      "file": "hd/sprites/fx/finisher-mansukh.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-manya": {
+      "file": "hd/sprites/fx/finisher-manya.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-brahmansh": {
+      "file": "hd/sprites/fx/finisher-brahmansh.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "finisher-mishthi": {
+      "file": "hd/sprites/fx/finisher-mishthi.png",
+      "frameWidth": 384,
+      "frameHeight": 384,
+      "anims": {
+        "play": {
+          "row": 0,
+          "frames": 24,
+          "fps": 10,
+          "loop": false
+        }
+      }
+    },
+    "journal-flower": {
+      "file": "hd/sprites/props/journal-flower.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "frames": 4,
+          "fps": 6,
+          "loop": true
+        }
+      }
     }
   },
   "portraits": {
@@ -1947,6 +2709,147 @@
     },
     "bg-templatr-near-saturated": {
       "file": "hd/backgrounds/bg-templatr-near-saturated.png"
+    },
+    "fx-clack": {
+      "file": "hd/fx/clack.png"
+    },
+    "fx-le-re": {
+      "file": "hd/fx/le-re.png"
+    },
+    "fx-cut": {
+      "file": "hd/fx/cut.png"
+    },
+    "fx-vajjj": {
+      "file": "hd/fx/vajjj.png"
+    },
+    "fx-pow": {
+      "file": "hd/fx/pow.png"
+    },
+    "fx-bonk": {
+      "file": "hd/fx/bonk.png"
+    },
+    "fx-bzzt": {
+      "file": "hd/fx/bzzt.png"
+    },
+    "color-block-red": {
+      "file": "hd/sprites/props/color-block-red.png"
+    },
+    "color-block-blue": {
+      "file": "hd/sprites/props/color-block-blue.png"
+    },
+    "color-block-yellow": {
+      "file": "hd/sprites/props/color-block-yellow.png"
+    },
+    "pen-line": {
+      "file": "hd/sprites/props/pen-line.png"
+    },
+    "logo": {
+      "file": "hd/logo.png"
+    },
+    "icon-ashwath": {
+      "file": "hd/icons/ashwath.png"
+    },
+    "icon-sayam": {
+      "file": "hd/icons/sayam.png"
+    },
+    "icon-tushar": {
+      "file": "hd/icons/tushar.png"
+    },
+    "icon-sehaj": {
+      "file": "hd/icons/sehaj.png"
+    },
+    "icon-mansukh": {
+      "file": "hd/icons/mansukh.png"
+    },
+    "icon-manya": {
+      "file": "hd/icons/manya.png"
+    },
+    "icon-brahmansh": {
+      "file": "hd/icons/brahmansh.png"
+    },
+    "icon-ability-hack": {
+      "file": "hd/icons/ability-hack.png"
+    },
+    "icon-ability-bribe": {
+      "file": "hd/icons/ability-bribe.png"
+    },
+    "icon-ability-pen": {
+      "file": "hd/icons/ability-pen.png"
+    },
+    "icon-ability-fill": {
+      "file": "hd/icons/ability-fill.png"
+    },
+    "icon-ability-ctrlz": {
+      "file": "hd/icons/ability-ctrlz.png"
+    },
+    "icon-ability-jumpcut": {
+      "file": "hd/icons/ability-jumpcut.png"
+    },
+    "icon-ability-cut": {
+      "file": "hd/icons/ability-cut.png"
+    },
+    "title-bg": {
+      "file": "hd/backgrounds/title-bg.png"
+    },
+    "green-screen": {
+      "file": "hd/sprites/props/green-screen.png"
+    },
+    "newspaper": {
+      "file": "hd/images/newspaper.png"
+    },
+    "fx-heart": {
+      "file": "hd/fx/heart.png"
+    },
+    "boulder": {
+      "file": "hd/sprites/props/boulder.png"
+    },
+    "cracked-wall": {
+      "file": "hd/sprites/props/cracked-wall.png"
+    },
+    "sprite-can": {
+      "file": "hd/sprites/props/sprite-can.png"
+    },
+    "telescope": {
+      "file": "hd/sprites/props/telescope.png"
+    },
+    "decor-trophy": {
+      "file": "hd/sprites/props/decor-trophy.png"
+    },
+    "lightstick": {
+      "file": "hd/sprites/props/lightstick.png"
+    },
+    "glossary-stamp": {
+      "file": "hd/images/glossary-stamp.png"
+    },
+    "prop": {
+      "file": "hd/sprites/props/prop.png"
+    },
+    "art-frame": {
+      "file": "hd/sprites/props/art-frame.png"
+    },
+    "fx-counter": {
+      "file": "hd/fx/fx-counter.png"
+    },
+    "fx-combo": {
+      "file": "hd/fx/fx-combo.png"
+    },
+    "fx-ko": {
+      "file": "hd/fx/fx-ko.png"
+    },
+    "fx-parry": {
+      "file": "hd/fx/fx-parry.png"
+    },
+    "bubble": {
+      "file": "hd/sprites/props/bubble.png"
+    },
+    "hype-speaker": {
+      "file": "hd/sprites/props/hype-speaker.png"
+    },
+    "icon-manvi": {
+      "file": "hd/icons/manvi.png"
+    },
+    "icon-mishthi": {
+      "file": "hd/icons/mishthi.png"
     }
   }
 }

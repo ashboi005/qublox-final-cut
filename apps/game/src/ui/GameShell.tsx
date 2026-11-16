@@ -47,11 +47,11 @@ export default function GameShell({ level, party, direct }: { level: string; par
   useEffect(() => { const q = new URLSearchParams(window.location.search); dlog('page', 'load', { path: window.location.pathname, api: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787', authError: q.get('error') ?? undefined }, q.get('error') ? 'warn' : 'info'); }, []);
 
   useEffect(() => {
-    // HD style test (?art=hd): its portraits replace the pixel ones key by key; everything else stays.
+    // HD art (?art=hd): its portraits and images (logo, title background, newspaper, icons) replace the pixel ones key by key.
     const hd = HD ? fetch('/assets/manifest-hd.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})) as Promise<Manifest> : Promise.resolve({} as Manifest);
     if (HD) document.documentElement.classList.add('art-hd');
     Promise.all([fetch('/assets/manifest.json').then(r => (r.ok ? r.json() : {})) as Promise<Manifest>, hd])
-      .then(([m, h]) => setManifest({ ...m, portraits: { ...m.portraits, ...h.portraits } }))
+      .then(([m, h]) => setManifest({ ...m, portraits: { ...m.portraits, ...h.portraits }, images: { ...m.images, ...h.images } }))
       .catch(() => {});
     fetch('/api/content').then(r => r.json()).then(c => setContent(c as Content)).catch(() => {});
   }, []);

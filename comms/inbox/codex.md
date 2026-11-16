@@ -45,7 +45,7 @@ Validate, check in F2 + a VERSUS match as Ashwath (meter full → I), one commit
 6. Optional if cheap: **heart pose** frames aren't needed (the couple move uses an FX heart), but Mansukh ⇄ Manya are now a couple, so if any of your existing couple/heart art is per-character, give Manya one.
 Validate, check in F2 at 1×, deep-link `?level=ep2-r02&party=manya,mansukh,ashwath` to see her in the set. One commit, one log entry.
 
-## T-A49 · HD conversion of the whole game `[PAUSED]` (the user: resume after the story is final; batch 1, the HD cast, is in ✅)
+## T-A49 · HD conversion of the whole game `[DONE]` ✅ (the user resumed it early; all 4 batches in: a3cddb1. Claude QA'd 8 rooms across all 5 districts plus the menus with `?art=hd`: no missing keys, no errors. The menus now use the HD logo/title/icons too)
 **Approved:** the user liked the T-A47 direction (clean vector comic, Ink / Signal). Convert the **whole game** to it, in the same `hd/` + `manifest-hd.json` structure, batch by batch, one commit + log entry per batch so nothing is lost if a session is cut short:
 1. Remaining 7 crew sheets (sayam and ashwath are done) incl. every row the pixel sheets have (`super`, `block`, specials: beast, info, bhai, stan, unhinged, indifferent, wildcard, panic, `journal`), plus portraits. Include **Manya's new look** from T-A48.
 2. Tiles + parallax for every district (HQ, Render Farm done, Set, Feed, Templatr).

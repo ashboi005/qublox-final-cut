@@ -369,7 +369,7 @@ kbd { display: inline-block; min-width: 18px; padding: 1px 4px; margin-right: 2p
 .account-actions { display: flex; gap: .6cqw; flex-wrap: wrap; }
 
 /* HD style test (?art=hd): the canvas renders at 1920×1080 and is scaled down smoothly; HD art isn't pixel art. */
-.art-hd .canvas-host canvas, .art-hd [style*="/assets/hd/"] { image-rendering: auto !important; }
+.art-hd .canvas-host canvas, .art-hd [style*="/assets/hd/"], .art-hd img[src*="/assets/hd/"] { image-rendering: auto !important; }
 
 /* Controls (Settings): key bindings for Story and VERSUS */
 .controls { position: absolute; inset: 0; z-index: 30; display: grid; place-items: center; background: rgba(15, 16, 20, .78); }

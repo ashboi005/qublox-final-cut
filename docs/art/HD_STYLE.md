@@ -60,3 +60,34 @@ remain attached in every state; BEAST lowers Sehaj's head beneath the boulder.
 Manya follows T-A48's floral outfit and journal. Tushar cycles clapper/laptop/
 camera/shades; Mansukh's lightstick stays an original heart-and-horns design.
 Review contacts: `tools/art/raw/t-a49-cast.png` and `t-a49-specials.png`.
+
+## Complete HD asset coverage (T-A49.4)
+
+The HD manifest now covers every pixel manifest key. The last batch adds props,
+pickups, set dressing, all nine finisher sheets, combat effects, word marks,
+ability icons, the title image, newspaper and glossary stamp. Chai, checkpoint,
+Lost Footage tape, journal flower, fan, boulder and soda can use native vector
+shapes; crew icons are derived from their HD portraits at each original icon's
+exact 4× dimensions. Remaining approved designs are reconstructed as smooth
+colour-region paths, preserving their silhouettes, lettering and choreography.
+They retain the original pixel-informed detail; they are not new bespoke rigs.
+
+Rebuild the **whole** HD set with:
+
+```sh
+tools/art/raw/hd-venv/bin/python tools/art/hd/build.py
+```
+
+The ignored local environment uses the versions pinned in
+`tools/art/hd/requirements.txt` (Pillow 12.3.0 and CairoSVG 2.9.1).
+Install that requirements file in a fresh environment to reproduce the art. `build.py --objects` refreshes
+only the final objects/effects batch. `check_coverage.py` checks all manifest
+keys, animation coverage, exact 4× image dimensions, RGBA and the 5 MB limit.
+The full builder includes cast, world, entities, objects and the native Claude
+sigil; it no longer replaces the manifest with the original trial slice.
+Pixel source files are read-only throughout this workflow.
+
+Review contacts are ignored local artifacts: `tools/art/raw/t-a49-objects.png`
+plus the earlier districts/entities contacts. Browser review of the completed
+conversion remains pending; asset coverage alone does not establish runtime
+correctness across every room and finisher.

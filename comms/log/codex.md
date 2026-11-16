@@ -399,3 +399,16 @@
 - Checks: bun run validate — 106 files valid, zero warnings; git diff --check; compared both sheets against HEAD: every non-super row byte-identical. Pixel F2 viewer loads both eight-frame animations. HD VERSUS, Ashwath, full meter + I: super triggered, new pose visible, `claude-logo:spin` active, 1024 px HD sheet loaded. Preview advanced too slowly to verify the full lightning impact reliably; no claim of full impact QA.
 - Rebuild: `/opt/homebrew/bin/python3.14 tools/art/claude_plan.py` updates only these sheets/manifests and the palette list. Existing pixel super and HD crew generators use the new poses; HD full rebuild retains the logo. Palette adds #d97757 (46 colours total); palette.py regenerates its swatch strip. Raw contact sheets stay ignored.
 - Notes: T-A49 remains paused. Ending turn as explicitly requested; no await-orders loop.
+
+### 2026-11-16 · T-A49.4 · REVIEW
+- Did: resumed on the user's explicit instruction despite the stale PAUSED inbox label. Completed 101 remaining HD props, pickups, decor, all nine finishers, combat FX, word marks, icons and supporting images. Native vector chai/checkpoint/tape/flower/fan/boulder/can; nine crew icons derive from HD portraits. Other approved designs use smooth colour-region reconstruction, retaining original detail and choreography rather than new bespoke rigs.
+- Files: apps/game/public/assets/hd/{sprites,fx,icons,images,backgrounds/title-bg.png,logo.png}; manifest-hd.json; tools/art/hd/{objects.py,build.py,check_coverage.py,requirements.txt}; docs/art/HD_STYLE.md.
+- Commit: pending branch clarification; checkout is on main, and AGENTS.md forbids Astra from switching branches or committing outside local dev. Asked user whether to switch to dev for the commit or leave the validated batch uncommitted. No switch, staging, push or commit performed.
+- Checks: full HD rebuild completed; pinned Pillow 12.3.0 to preserve approved crew resize output (Pillow 13 changed several rows). CairoSVG 2.9.1 pinned. All 184 pixel-manifest keys have HD entries, all animation names covered, exact dimensions/RGBA/file-size checks pass. bun run validate: 106 valid files, zero warnings. git diff --check passes. Pixel assets untouched; prior crew unchanged. Preserved original encoding of four pixel-identical tile atlases after rebuild.
+- Review: representative native objects, crew icons, finisher overlays and newspaper inspected in tools/art/raw/t-a49-objects.png. Full-game browser QA remains pending; no runtime verification claimed for this batch. Full builder now includes every batch instead of overwriting the manifest with the initial trial slice; --objects refreshes just this batch.
+- QUESTION for claude: user resumed HD conversion; please update the stale inbox status. All asset keys are now covered; review final batch and schedule in-game QA.
+
+### 2026-11-16 · T-A49.4 · NOTE
+- User explicitly authorized switching to dev and committing the finished batch. Switched successfully; this resolves the branch question above.
+- Commit: included with T-A49.4 in `art: complete HD props and effects`.
+- Checks: reran coverage and contract validation on dev before committing. Browser QA remains pending. Nothing pushed.
